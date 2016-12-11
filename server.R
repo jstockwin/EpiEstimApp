@@ -51,46 +51,54 @@ shinyServer(function(input, output) {
   })
    
   output$plot <- renderPlot({
-    serialIntervalDataFile <- input$serialIntervalData
-    casesPerDayDataFile <- input$casesPerDayData
-    
-    if (is.null(serialIntervalDataFile)) {
-      return(NULL)
-    }
-    
-    fit = get_fit()
-    
-    if (is.null(casesPerDayDataFile)) {
-      return(NULL)
-    }
-    
-    casesPerDayData <- read.csv(casesPerDayDataFile$datapath, 
-                                   header = input$header, sep = input$sep,
-                                quote = input$quote)
-    
-    ## Pre-process the casesPerDayData
-    
-    cases_dims <- dim(casesPerDayData)
-    if ((cases_dims[1] == 1 && cases_dims[2] > 1) || (cases_dims[1] == 2 && cases_dims[2] > 2)) {
-      # The data is transposed.
-      casesPerDayData <- t(casesPerDayData)
-      # Update cases_dims for next bit
+    withProgress(message = 'Processing...', value=0, {
+      serialIntervalDataFile <- input$serialIntervalData
+      casesPerDayDataFile <- input$casesPerDayData
+      
+      if (is.null(serialIntervalDataFile)) {
+        return(NULL)
+      }
+      
+      incProgress(1/10, detail = paste("Processing interval data, this may take several minutes..."))
+      
+      fit = get_fit()
+      
+      if (is.null(casesPerDayDataFile)) {
+        return(NULL)
+      }
+      
+      incProgress(1/2, detail = paste("Processing day data"))
+      
+      casesPerDayData <- read.csv(casesPerDayDataFile$datapath, 
+                                     header = input$header, sep = input$sep,
+                                  quote = input$quote)
+      
+      ## Pre-process the casesPerDayData
+      
       cases_dims <- dim(casesPerDayData)
-    }
-    
-    if (cases_dims[2] > 2) {
-      # Bad input
-      stop("casesPerDayData should only have one column, or one column and an index column")
-    } else if (cases_dims[2] == 1) {
-      # Add a time column first.
-      casesPerDayData <- cbind(seq.int(nrow(casesPerDayData)), casesPerDayData)
-    }
-    colnames(casesPerDayData) <- c("Time", "Cases")
-    casesPerDayData <- as.data.frame(casesPerDayData)
-    
-    ####  FEED INTO EPIESTIM
-    W <- input$W
-    EstimateR(casesPerDayData[,2], T.Start=1:(cases_dims[1] - W), T.End=(1+W):cases_dims[1], n2 = dim(fit@samples)[2], CDT = fit, plot=TRUE)
+      if ((cases_dims[1] == 1 && cases_dims[2] > 1) || (cases_dims[1] == 2 && cases_dims[2] > 2)) {
+        # The data is transposed.
+        casesPerDayData <- t(casesPerDayData)
+        # Update cases_dims for next bit
+        cases_dims <- dim(casesPerDayData)
+      }
+      
+      if (cases_dims[2] > 2) {
+        # Bad input
+        stop("casesPerDayData should only have one column, or one column and an index column")
+      } else if (cases_dims[2] == 1) {
+        # Add a time column first.
+        casesPerDayData <- cbind(seq.int(nrow(casesPerDayData)), casesPerDayData)
+      }
+      colnames(casesPerDayData) <- c("Time", "Cases")
+      casesPerDayData <- as.data.frame(casesPerDayData)
+      
+      ####  FEED INTO EPIESTIM
+      W <- input$W
+      incProgress(3/4, detail = paste("Plotting graphs..."))
+      EstimateR(casesPerDayData[,2], T.Start=1:(cases_dims[1] - W), T.End=(1+W):cases_dims[1], n2 = dim(fit@samples)[2], CDT = fit, plot=TRUE)
+      incProgress(1/10, detail = paste("Done"))
+    })
   })
   
 })
