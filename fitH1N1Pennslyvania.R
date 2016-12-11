@@ -13,19 +13,9 @@ source("DiscrSI.R")
 source("OverallInfectivity.R")
 source("stochasticSEIRModel3.R")
 
-serialIntervalData2 <-  read.csv("datasets/PennsylvaniaH1N12009SerialIntervalData.csv", header = FALSE)
+serialIntervalData <-  read.csv("datasets/PennsylvaniaH1N12009SerialIntervalData.csv", header = FALSE)
 
-serialIntervalData <- matrix(NA, nrow = 284, ncol = 5)
-
-for (row in 1:284) {
-  
-  serialIntervalData[row,1] <- serialIntervalData2[row, 1]
-  serialIntervalData[row,2] <- serialIntervalData2[row, 2]
-  serialIntervalData[row,3] <- serialIntervalData2[row, 3]
-  serialIntervalData[row,4] <- serialIntervalData2[row, 4] 
-  serialIntervalData[row,5] <- 0
-  
-}
+serialIntervalData[5] <- 0
 
 names <- c("EL", "ER", "SL", "SR", "type")
 colnames(serialIntervalData) <- names
@@ -43,12 +33,12 @@ serialIntervalData <- as.data.frame(serialIntervalData)
 #}
 
 # Only use 80 host pairs' interval data to estimate the serial interval
-fit <- dic.fit.mcmc(dat = serialIntervalData[1:284,], dist="G")
+fit <- dic.fit.mcmc(dat = serialIntervalData, dist="G")
 
 
 casesPerDayData <- read.csv("datasets/PennsylvaniaH1N12009FluData.csv", header = FALSE)
 casesPerDayData <- t(casesPerDayData)
-casesPerDayData <- cbind(1:31, casesPerDayData)
+casesPerDayData <- cbind(seq.int(nrow(casesPerDayData)), casesPerDayData)
 casesPerDayData <- as.data.frame(casesPerDayData)
 names <- c("Time", "Cases")
 colnames(casesPerDayData) <- names
