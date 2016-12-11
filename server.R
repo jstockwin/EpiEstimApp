@@ -6,14 +6,14 @@ library(EpiEstim)
 library(shiny)
 
 # Source necessary files
-source("dic.fit.R", local=TRUE)
-source("dic.fit.mcmc.R", local=TRUE)
-source("EstimateR.R", local=TRUE)
-source("coarse2estim.R", local=TRUE)
-source("EstimateRnew.R", local=TRUE)
-source("DiscrSI.R", local=TRUE)
-source("OverallInfectivity.R", local=TRUE)
-source("stochasticSEIRModel3.R", local=TRUE)
+source("src/dic.fit.R", local=TRUE)
+source("src/dic.fit.mcmc.R", local=TRUE)
+source("src/EstimateR.R", local=TRUE)
+source("src/coarse2estim.R", local=TRUE)
+source("src/EstimateRnew.R", local=TRUE)
+source("src/DiscrSI.R", local=TRUE)
+source("src/OverallInfectivity.R", local=TRUE)
+source("src/stochasticSEIRModel3.R", local=TRUE)
 
 # By default, the file size limit is 5MB. It can be changed by
 # setting this option. Here we'll raise limit to 9MB.
