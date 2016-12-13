@@ -14,6 +14,8 @@ shinyUI(fluidPage(
   titlePanel("Uploading Files"),
   sidebarLayout(
     sidebarPanel(
+      radioButtons('data', 'Choose your dataset',
+                   c('PennsylvaniaH1N12009', 'RotavirusEquador', 'Uploaded Data')),
       sliderInput('W', 'Choose a width:', min=1, max=10, value = 5),
       fileInput('serialIntervalData', 'Choose serialIntervalData file to upload',
                 accept = c(

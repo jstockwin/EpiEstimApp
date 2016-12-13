@@ -28,7 +28,7 @@ shinyServer(function(input, output) {
   # Calculating fit takes a long time. We'll make it reactive
   # so that it only updated when a new serialIntervalDataFile is supplied.
   
-  get_fit <- reactive({
+  get_uploaded_fit <- reactive({
 
     serialIntervalData <- read.csv(input$serialIntervalData$datapath, 
                                    header = input$header, sep = input$sep,
@@ -52,26 +52,44 @@ shinyServer(function(input, output) {
    
   output$plot <- renderPlot({
     withProgress(message = 'Processing...', value=0, {
-      serialIntervalDataFile <- input$serialIntervalData
-      casesPerDayDataFile <- input$casesPerDayData
       
-      if (is.null(serialIntervalDataFile)) {
+      
+      if (input$data == 'PennsylvaniaH1N12009') {
+        casesPerDayData <- read.table('datasets/PennsylvaniaH1N12009FluData.csv',
+                                      header = F, sep=',')
+        load('datasets/PennsylvaniaH1N12009_fit.RData')
+        fit <- pennsylvaniaH1N12009_fit
+      } else if (input$data == 'RotavirusEquador') {
+        casesPerDayData <- read.table('datasets/GermanyRotavirus1516.csv',
+                                      header = F, sep=',')
+        load('datasets/Rotavirus_fit.RData')
+        fit <- rotavirus_fit
+      } else if (input$data == 'Uploaded Data'){
+        serialIntervalDataFile <- input$serialIntervalData
+        casesPerDayDataFile <- input$casesPerDayData
+        
+        if (is.null(serialIntervalDataFile)) {
+          return(NULL)
+        }
+        
+        incProgress(1/10, detail = paste("Processing interval data, this may take several minutes..."))
+        
+        fit = get_uploaded_fit()
+        
+        if (is.null(casesPerDayDataFile)) {
+          return(NULL)
+        }
+        
+        casesPerDayData <- read.csv(casesPerDayDataFile$datapath, 
+                                    header = input$header, sep = input$sep,
+                                    quote = input$quote)
+      } else {
         return(NULL)
       }
       
-      incProgress(1/10, detail = paste("Processing interval data, this may take several minutes..."))
-      
-      fit = get_fit()
-      
-      if (is.null(casesPerDayDataFile)) {
-        return(NULL)
-      }
       
       incProgress(1/2, detail = paste("Processing day data"))
       
-      casesPerDayData <- read.csv(casesPerDayDataFile$datapath, 
-                                     header = input$header, sep = input$sep,
-                                  quote = input$quote)
       
       ## Pre-process the casesPerDayData
       
