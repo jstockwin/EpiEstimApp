@@ -47,7 +47,7 @@ shinyServer(function(input, output) {
     serialIntervalData <- as.data.frame(serialIntervalData)
     
     # Only use 80 host pairs' interval data to estimate the serial interval
-    return(dic.fit.mcmc(dat = serialIntervalData, dist="G"))
+    return(dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist))
   })
    
   output$plot <- renderPlot({
@@ -58,12 +58,12 @@ shinyServer(function(input, output) {
         casesPerDayData <- read.table('datasets/PennsylvaniaH1N12009FluData.csv',
                                       header = F, sep=',')
         load('datasets/PennsylvaniaH1N12009_fit.RData')
-        fit <- pennsylvaniaH1N12009_fit
+        fit <- get(paste('pennsylvaniaH1N12009_fit', input$SIDist, sep='_'))
       } else if (input$data == 'RotavirusGermany') {
         casesPerDayData <- read.table('datasets/GermanyRotavirus1516.csv',
                                       header = F, sep=',')
         load('datasets/Rotavirus_fit.RData')
-        fit <- rotavirus_fit
+        fit <- get(paste('rotavirus_fit', input$SIDist, sep='_'))
       } else if (input$data == 'Uploaded Data'){
         serialIntervalDataFile <- input$serialIntervalData
         casesPerDayDataFile <- input$casesPerDayData

@@ -16,6 +16,11 @@ shinyUI(fluidPage(
     sidebarPanel(
       radioButtons('data', 'Choose your dataset',
                    c('PennsylvaniaH1N12009', 'RotavirusGermany', 'Uploaded Data')),
+      radioButtons('SIDist', 'Choose your serial interval distribution',
+                   c('Gamma'='G',
+                     'Erlang' = 'E',
+                     'Weibull' = 'W',
+                     'Log-Normal' = 'L')),
       sliderInput('W', 'Choose a width:', min=1, max=20, value = 5),
       fileInput('serialIntervalData', 'Choose serialIntervalData file to upload',
                 accept = c(
