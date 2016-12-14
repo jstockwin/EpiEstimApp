@@ -16,7 +16,7 @@ shinyUI(fluidPage(
     sidebarPanel(
       radioButtons('data', 'Choose your dataset',
                    c('PennsylvaniaH1N12009', 'RotavirusEquador', 'Uploaded Data')),
-      sliderInput('W', 'Choose a width:', min=1, max=10, value = 5),
+      sliderInput('W', 'Choose a width:', min=1, max=20, value = 5),
       fileInput('serialIntervalData', 'Choose serialIntervalData file to upload',
                 accept = c(
                   'text/csv',
