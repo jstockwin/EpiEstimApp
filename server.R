@@ -59,7 +59,7 @@ shinyServer(function(input, output) {
                                       header = F, sep=',')
         load('datasets/PennsylvaniaH1N12009_fit.RData')
         fit <- pennsylvaniaH1N12009_fit
-      } else if (input$data == 'RotavirusEquador') {
+      } else if (input$data == 'RotavirusGermany') {
         casesPerDayData <- read.table('datasets/GermanyRotavirus1516.csv',
                                       header = F, sep=',')
         load('datasets/Rotavirus_fit.RData')
