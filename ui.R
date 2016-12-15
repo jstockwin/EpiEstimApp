@@ -18,6 +18,7 @@ shinyUI(fluidPage(
                    c('PennsylvaniaH1N12009', 'RotavirusGermany', 'Uploaded Data')),
       radioButtons('SIDist', 'Choose your serial interval distribution',
                    c('Gamma'='G',
+                     'Offset Gamma'='off1G',
                      'Erlang' = 'E',
                      'Weibull' = 'W',
                      'Log-Normal' = 'L')),
