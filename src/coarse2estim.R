@@ -18,17 +18,18 @@ coarse2estim <- function(object, n_samples=1000){
     # offset gamma distribution with shifted min and max value of max serial interval
     max_interval <- c(10^(-4), 1:ceiling(qgamma(0.999, shape=object@ests[1,1], scale=object@ests[2,1])))
     prob_matrix <- apply(samples, 1, function(x) dgamma(max_interval, shape=x[1], scale=x[2]))
-  }  else if (dist == "E"){
+  } else if (dist == "E"){
     # Erlang distribution
     max_interval <- c(10^(-4), 1:ceiling(qgamma(0.999, shape=object@ests[1,1], scale=object@ests[2,1])))
     prob_matrix <- apply(samples, 1, function(x) dgamma(max_interval, shape=x[1], scale=x[2]))
   }
   else if (dist == "W"){
-    max_interval <- c(10^(-4), 1:ceiling(qgamma(0.999, shape=object@ests[1,1], scale=object@ests[2,1])))
+    max_interval <- c(10^(-4), 1:ceiling(qweibull(0.999, shape=object@ests[1,1], scale=object@ests[2,1])))
     prob_matrix <- apply(samples, 1, function(x) dweibull(max_interval, shape=x[1], scale=x[2]))
     
   } else if (dist == "L"){
-    max_interval <- c(10^(-4), 1:ceiling(qgamma(0.999, shape=object@ests[1,1], scale=object@ests[2,1])))
+    #max_interval <- c(10^(-4), 1:ceiling(qgamma(0.999, shape=object@ests[1,1], scale=object@ests[2,1])))
+    max_interval <- c(10^(-4), 1:ceiling(qlnorm(0.999, meanlog=object@ests[1,1], sdlog=object@ests[2,1])))
     prob_matrix <- apply(samples, 1, function(x) dlnorm(max_interval, meanlog=x[1], sdlog=x[2]))
   } else {
     stop(sprintf("Distribtion (%s) not supported",dist))
