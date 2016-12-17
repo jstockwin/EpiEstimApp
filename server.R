@@ -49,11 +49,24 @@ shinyServer(function(input, output) {
       if (input$data == 'PennsylvaniaH1N12009') {
         casesPerDayData <- read.table('datasets/PennsylvaniaH1N12009FluData.csv',
                                       header = F, sep=',')
+        
+        # serialIntervalData included purely to do validation. The fit itself is saved.
+        serialIntervalData <- read.table('datasets/PennsylvaniaH1N12009SerialIntervalData.csv',
+                                      header = F, sep=',')
+        
         load('datasets/PennsylvaniaH1N12009_fit.RData')
         fit <- get(paste('pennsylvaniaH1N12009_fit', input$SIDist, sep='_'))
       } else if (input$data == 'RotavirusGermany') {
         casesPerDayData <- read.table('datasets/GermanyRotavirus1516.csv',
                                       header = F, sep=',')
+        # serialIntervalData included purely to do validation. The fit itself is saved.
+        serialIntervalData <- read.table('datasets/RotavirusEcuadorSIData3.csv',
+                                      header = F, sep=',')
+        # If the distribution is set to offset gamma, we should check this is reasonable.
+        if (input$SIDist == 'off1G' && any(serialIntervalData[4] - serialIntervalData[1] < 1)) {
+          stop('The chosen dataset has serial intervals which are definitely less than 1,
+             so a gamma distribution offset by 1 is not appropriate.')
+        }
         load('datasets/Rotavirus_fit.RData')
         fit <- get(paste('rotavirus_fit', input$SIDist, sep='_'))
       } else if (input$data == 'Uploaded Data'){
@@ -84,6 +97,8 @@ shinyServer(function(input, output) {
       
       # Process data (see utils.R)
       casesPerDayData <- processCasesPerDayData(casesPerDayData)
+      serialIntervalData <- processSerialIntervalData(serialIntervalData)
+
       
       ####  FEED INTO EPIESTIM
       W <- input$W
