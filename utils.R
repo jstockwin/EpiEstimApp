@@ -1,5 +1,4 @@
 processSerialIntervalData <- function (serialIntervalData) {
-  print(dim(serialIntervalData))
   num_cols = dim(serialIntervalData)[2]
   if (num_cols < 4 || num_cols > 5) {
     stop("serialIntervalData should have 4 or 5 columns")
