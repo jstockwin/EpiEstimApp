@@ -23,53 +23,15 @@ options(shiny.reactlog=TRUE)
 
 
 
-# Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-  
-  # Calculating fit takes a long time. We'll make it reactive
-  # so that it only updated when a new serialIntervalDataFile is supplied.
-  
-  get_uploaded_fit <- reactive({
-
-    serialIntervalData <- read.csv(input$serialIntervalData$datapath, 
-                                   header = input$header, sep = input$sep,
-                                   quote = input$quote)
-    
-    # Process the data (see function in utils.R)
-    serialIntervalData <- processSerialIntervalData(serialIntervalData)
-    
-    # Only use 80 host pairs' interval data to estimate the serial interval
-    return(dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist))
-  })
    
   output$plot <- renderPlot({
+    # Start a progress bar
     withProgress(message = 'Processing...', value=0, {
-      
-      
-      if (input$data == 'PennsylvaniaH1N12009') {
-        casesPerDayData <- read.table('datasets/PennsylvaniaH1N12009FluData.csv',
-                                      header = F, sep=',')
-        
-        # serialIntervalData included purely to do validation. The fit itself is saved.
-        serialIntervalData <- read.table('datasets/PennsylvaniaH1N12009SerialIntervalData.csv',
-                                      header = F, sep=',')
-        
-        load('datasets/PennsylvaniaH1N12009_fit.RData')
-        fit <- get(paste('pennsylvaniaH1N12009_fit', input$SIDist, sep='_'))
-      } else if (input$data == 'RotavirusGermany') {
-        casesPerDayData <- read.table('datasets/GermanyRotavirus1516.csv',
-                                      header = F, sep=',')
-        # serialIntervalData included purely to do validation. The fit itself is saved.
-        serialIntervalData <- read.table('datasets/RotavirusEcuadorSIData3.csv',
-                                      header = F, sep=',')
-        # If the distribution is set to offset gamma, we should check this is reasonable.
-        if (input$SIDist == 'off1G' && any(serialIntervalData[4] - serialIntervalData[1] < 1)) {
-          stop('The chosen dataset has serial intervals which are definitely less than 1,
-             so a gamma distribution offset by 1 is not appropriate.')
-        }
-        load('datasets/Rotavirus_fit.RData')
-        fit <- get(paste('rotavirus_fit', input$SIDist, sep='_'))
-      } else if (input$data == 'Uploaded Data'){
+      incProgress(1/100, detail = paste("Initialising..."))
+      # This if-else handles the special case of uploaded data slightly differently.
+      if (input$data == 'Uploaded Data'){
+        # Read the data
         serialIntervalDataFile <- input$serialIntervalData
         casesPerDayDataFile <- input$casesPerDayData
         
@@ -79,34 +41,69 @@ shinyServer(function(input, output) {
         
         incProgress(1/10, detail = paste("Processing interval data, this may take several minutes..."))
         
+        # Runs the reactive function defined below which will take a long time if the uploaded data
+        # is new or has changed, but will otherwise immediately complete allowing the thread to move on quickly
+        # if the data has not changed (helpful when e.g. changing the width, W, only).
         fit = get_uploaded_fit()
         
         if (is.null(casesPerDayDataFile)) {
           return(NULL)
         }
         
+        incProgress(1/2, detail = paste("Processing casesPerDayData"))
+        
+        # Load the casesPerDay data
         casesPerDayData <- read.csv(casesPerDayDataFile$datapath, 
                                     header = input$header, sep = input$sep,
                                     quote = input$quote)
+        # Process casesPerDay data (see utils.R)
+        casesPerDayData <- processCasesPerDayData(casesPerDayData)
       } else {
-        return(NULL)
+        # Load the data
+        incProgress(1/2, detail = paste("Loading the data"))
+        casesPerDayData <- getCasesPerDayData(input$data)
+        serialIntervalData <- getSerialIntervalData(input$data)
+        
+        # If the distribution is set to offset gamma, we should check this is reasonable.
+        if (input$SIDist == 'off1G' && any(serialIntervalData[4] - serialIntervalData[1] < 1)) {
+          stop('The chosen dataset has serial intervals which are definitely less than 1,
+             so a gamma distribution offset by 1 is not appropriate.')
+        }
+        # Get the MCMCFit (see utils.R)
+        fit <- getMCMCFit(input$data, input$SIDist)
+        
       }
       
-      
-      incProgress(1/2, detail = paste("Processing day data"))
-      
-      # Process data (see utils.R)
-      casesPerDayData <- processCasesPerDayData(casesPerDayData)
-      serialIntervalData <- processSerialIntervalData(serialIntervalData)
-
       
       ####  FEED INTO EPIESTIM
       W <- input$W
       length <- dim(casesPerDayData)[1]
       incProgress(3/4, detail = paste("Plotting graphs..."))
       EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(fit@samples)[2], CDT = fit, plot=TRUE)
-      incProgress(1/10, detail = paste("Done"))
-    })
-  })
+      incProgress(1, detail = paste("Done"))
+      
+    }) # End withProgress
+  }) # End output$plot
   
-})
+  # Calculating fit takes a long time. We'll make it reactive
+  # so that it only updated when a new serialIntervalDataFile is supplied.
+  get_uploaded_fit <- reactive({
+    
+    serialIntervalData <- read.csv(input$serialIntervalData$datapath, 
+                                   header = input$header, sep = input$sep,
+                                   quote = input$quote)
+    
+    # Process the data (see function in utils.R)
+    serialIntervalData <- processSerialIntervalData(serialIntervalData)
+    
+    # If the distribution is set to offset gamma, we should check this is reasonable.
+    if (input$SIDist == 'off1G' && any(serialIntervalData[4] - serialIntervalData[1] < 1)) {
+      stop('The chosen dataset has serial intervals which are definitely less than 1,
+             so a gamma distribution offset by 1 is not appropriate.')
+    }
+    
+    # Only use 80 host pairs' interval data to estimate the serial interval
+    return(dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist))
+  }) # End get_uploaded_fit
+  
+}) # End shinyServer
