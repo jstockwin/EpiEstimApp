@@ -5,8 +5,7 @@
 
 ####  To check...  Should offset gamma distribution start at 1 (i.e. make the first entry zero for that distribution)? YES.  Does estimateR take
 # max interval and prob matrix? NO - assumes [0:1:] as the serial intervals corresponding to prob matrix. If so, shouldn't prob matrix be normalised? YES
-# At the bottom of this code, an extra row of zeros is added to probMatrix... Why??  It shouldn't be there, instead it's just saying that the serial interval can't be 0 days...
-# There is no reason why this can't be the case is there?  If it is, it should simply overwrite the first entry
+# At the bottom of this code, an extra row of zeros is added to probMatrix... Why??  This is to ensure that the serial interval can't be 0 days, and so shifts the distribution over by 1.
 
 coarse2estim <- function(object, n_samples=1000){
 
