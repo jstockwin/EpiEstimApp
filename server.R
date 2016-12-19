@@ -123,6 +123,9 @@ shinyServer(function(input, output) {
           for (i in 1:max_its) {
             tryCatch({
               params = runif(n=2, min=0, max=i/10) # Assume params are small to start with
+              if (input$SIDist == 'E') {
+                params[1] = ceiling(params[1])
+              }
               return(dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist,
                                   init.pars = params))
               # We will only reach this point if the above failed, in which we should
