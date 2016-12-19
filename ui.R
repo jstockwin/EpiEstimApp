@@ -28,7 +28,8 @@ shinyUI(fluidPage(
         ignored if using the datasets provided by this application.'),
       tags$hr(),
       p('Below you can choose initial parameters for the MCMC fit of the uploaded data.
-        Leaving either of them blank results in default behaviour, which should work in most cases.'),
+        Leaving either of them blank results in default behaviour, which tries 1,000 random
+        parameters between 0 and 100 until it finds some that work.'),
       numericInput('param1', 'Choose the value of param1', min=0, value=''),
       numericInput('param2', 'Choose the value of param1', min=0, value=''),
       p('Below you can choose your csv files to upload. Please ensure the settings below these upload

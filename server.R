@@ -103,17 +103,49 @@ shinyServer(function(input, output) {
     }
     
     # Only use 80 host pairs' interval data to estimate the serial interval
-    print(input$param1)
     if (is.na(input$param1) || is.na(input$param1)) {
       # Default behaviour
-      fit <- dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist)
+      tryCatch({
+        # Try fit with default behaviour
+        return(dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist))
+      },
+      error = function (e) {
+        # If it fails, generate some random initial parameters are try
+        # the fit with these. Do this max_its times, then give up.
+        print('MCMC failed with default params. Trying randomised.')
+        print(e)
+        max_its = 1000
+        done = FALSE
+        withProgress(message='Trying to find good initial parameters',
+                     detail='When this stops moving, parameters have been found and MCMC is
+                     running. MCMC can take several minutes to run; there will be no progess output
+                     in this time.',{
+          for (i in 1:max_its) {
+            tryCatch({
+              params = runif(n=2, min=0, max=10/i) # Assume params are small to start with
+              return(dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist,
+                                  init.pars = params))
+              # We will only reach this point if the above failed, in which we should
+              # return immediately.
+              return(fit)
+            },
+            error = function (e){
+              # Do nothing. We just want the loop to continue.
+              incProgress(1/max_its, message = paste('Trying to find good initial parameters (', i, ' of ', max_its, ')', sep=''))
+              if (i == max_its) {
+                stop('MCMC failed to find good initial parameters. Try specifying some yourself.')
+              }
+            }) # end tryCatch
+          } # end for
+        }) # end with progress
+        
+      }) # end tryCatch
+      
     } else {
       # Use specified parameters
-      fit <- dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist,
-                          init.pars = c(input$param1, input$param2))
+      return(dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist,
+                          init.pars = c(input$param1, input$param2)))
     }
-    
-    return(fit)
   }) # End get_uploaded_fit
   
 }) # End shinyServer
