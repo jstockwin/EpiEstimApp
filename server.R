@@ -103,7 +103,17 @@ shinyServer(function(input, output) {
     }
     
     # Only use 80 host pairs' interval data to estimate the serial interval
-    return(dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist))
+    print(input$param1)
+    if (is.na(input$param1) || is.na(input$param1)) {
+      # Default behaviour
+      fit <- dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist)
+    } else {
+      # Use specified parameters
+      fit <- dic.fit.mcmc(dat = serialIntervalData, dist=input$SIDist,
+                          init.pars = c(input$param1, input$param2))
+    }
+    
+    return(fit)
   }) # End get_uploaded_fit
   
 }) # End shinyServer

@@ -23,6 +23,16 @@ shinyUI(fluidPage(
                      'Weibull' = 'W',
                      'Log-Normal' = 'L')),
       sliderInput('W', 'Choose a width:', min=1, max=20, value = 5),
+      h1('Uploaded data'),
+      p('The following settings are all regading the uploaded data set, and can be
+        ignored if using the datasets provided by this application.'),
+      tags$hr(),
+      p('Below you can choose initial parameters for the MCMC fit of the uploaded data.
+        Leaving either of them blank results in default behaviour, which should work in most cases.'),
+      numericInput('param1', 'Choose the value of param1', min=0, value=''),
+      numericInput('param2', 'Choose the value of param1', min=0, value=''),
+      p('Below you can choose your csv files to upload. Please ensure the settings below these upload
+        boxes are correct before uploading.'),
       fileInput('serialIntervalData', 'Choose serialIntervalData file to upload',
                 accept = c(
                   'text/csv',
