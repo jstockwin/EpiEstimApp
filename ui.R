@@ -116,7 +116,7 @@ shinyUI(bootstrapPage(
           // but pause for a little first to keep the R thread free
           i += 100/80
           output.innerText = "Running... " + Math.round(i) + "%";
-          setTimeout(Shiny.onInputChange("mydata", data), 1);
+          setTimeout(Shiny.onInputChange("mydata", data), 10);
         } else {
           // Else, stop.
           go.disabled = false;
