@@ -163,20 +163,20 @@ dic.fit.mcmc <- function(dat,
     colnames(est.pars) <- c("est","CIlow", "CIhigh")
     rownames(est.pars) <- c(par1.name,par2.name,paste0("p", 100*ptiles.appended))
     
-    #making the matrix with the actual estimates.
-    est.pars[1,] <- quantile(untrans.mcmcs[,1], c(0.5,0.025,0.975))
-    est.pars[2,] <- quantile(untrans.mcmcs[,2], c(0.5,0.025,0.975))
-    cis.ptiles <- t(apply(mcmc.quantiles,1,function(x) quantile(x,c(0.5,.025,.975))))
-    est.pars[3:nrow(est.pars),1:3] <- cis.ptiles
-    
-    ## finally get tbhe log-likelihood evaluated at the mean posterior for each parameter                            
-    ll <- -loglikhd(pars=dist.optim.transform(dist=dist,est.pars[1:2,1]),dat=data.frame(dat),dist=dist)                                
+    # #making the matrix with the actual estimates.
+    # est.pars[1,] <- quantile(untrans.mcmcs[,1], c(0.5,0.025,0.975))
+    # est.pars[2,] <- quantile(untrans.mcmcs[,2], c(0.5,0.025,0.975))
+    # cis.ptiles <- t(apply(mcmc.quantiles,1,function(x) quantile(x,c(0.5,.025,.975))))
+    # est.pars[3:nrow(est.pars),1:3] <- cis.ptiles
+    # 
+    # ## finally get tbhe log-likelihood evaluated at the mean posterior for each parameter                            
+    # ll <- -loglikhd(pars=dist.optim.transform(dist=dist,est.pars[1:2,1]),dat=data.frame(dat),dist=dist)                                
     
     rc <- new("cd.fit.mcmc",
-              ests=round(est.pars,3),
+              #ests=round(est.pars,3),
               conv = numeric(),
               MSG = "",
-              loglik=ll,
+              #loglik=ll,
               samples = data.frame(untrans.mcmcs),
               data=data.frame(dat),
               dist=dist,

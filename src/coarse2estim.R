@@ -7,13 +7,9 @@
 # max interval and prob matrix? NO - assumes [0:1:] as the serial intervals corresponding to prob matrix. If so, shouldn't prob matrix be normalised? YES
 # At the bottom of this code, an extra row of zeros is added to probMatrix... Why??  This is to ensure that the serial interval can't be 0 days, and so shifts the distribution over by 1.
 
-coarse2estim <- function(object, n_samples=1000){
+coarse2estim <- function(samples, dist, n_samples=1000){
 
-  samplesInput <- object@samples
-  distInput <- object@dist
-  
-  dist <- distInput
-  samples0 <- as.matrix(samplesInput)
+  samples0 <- as.matrix(samples)
   index <- sample(1:nrow(samples0), size= n_samples)
   samples <- samples0[index, ]
   
