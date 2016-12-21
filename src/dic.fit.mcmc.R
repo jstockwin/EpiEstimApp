@@ -103,6 +103,7 @@ dic.fit.mcmc <- function(dat,
                                verbose=verbose,
                                dist=dist,
                                logfun=TRUE, 
+                               seed = sample(1:1000000, 1),
                                ...),
       error=function(e){
         msg <<- e$message
