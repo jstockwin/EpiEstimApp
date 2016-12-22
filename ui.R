@@ -114,7 +114,7 @@ shinyUI(bootstrapPage(
         if (run) {
           // If we are still running, ping data straight back to client
           // but pause for a little first to keep the R thread free
-          i += 100/80
+          i += 1
           output.innerText = "Running... " + Math.round(i) + "%";
           setTimeout(Shiny.onInputChange("mydata", data), 10);
         } else {

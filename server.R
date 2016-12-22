@@ -125,11 +125,11 @@ shinyServer(function(input, output, session) {
     }
     if (is.null(input$mydata) || input$mydata == "NEW") {
       return(dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist,
-                                      init.pars = params, increment.size = 100))
+                                      init.pars = params, increment.size = 80))
     } else {
       current = as.data.frame(fromJSON(input$mydata))
       return(dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist,
-                                      current.samples = current, increment.size = 100))
+                                      current.samples = current, increment.size = 80))
     }
     
     
