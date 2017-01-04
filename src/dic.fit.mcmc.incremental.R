@@ -13,34 +13,29 @@ dic.fit.mcmc.incremental <- function (dat,
   
   if (is.null(current.samples)) {
     my.n.samples = min(increment.size, n.samples + burnin)
-    samples = dic.fit.mcmc(dat,
-                           prior.par1 = prior.par1,
-                           prior.par2 = prior.par2,
-                           init.pars = init.pars,
-                           ptiles = ptiles,
-                           verbose=verbose,#how often to print update
-                           burnin = 0,
-                           n.samples = my.n.samples,
-                           dist = dist,
-                           ...)@samples
-    return(samples)
+    my.init.pars = init.pars
   } else {
     current.sample.length = dim(current.samples)[1]
-    print(current.sample.length)
     my.n.samples = min(increment.size, n.samples + burnin - current.sample.length)
     init.par1 = current.samples[current.sample.length, 1]
     init.par2 = current.samples[current.sample.length, 2]
     my.init.pars = c(init.par1, init.par2)
-    samples = dic.fit.mcmc(dat,
-                           prior.par1 = prior.par1,
-                           prior.par2 = prior.par2,
-                           init.pars = my.init.pars,
-                           ptiles = ptiles,
-                           verbose=verbose,#how often to print update
-                           burnin = 0,
-                           n.samples = my.n.samples,
-                           dist = dist,
-                           ...)@samples
-    return(rbind(current.samples, samples))
   }
+
+
+  samples = dic.fit.mcmc(dat,
+                         prior.par1 = prior.par1,
+                         prior.par2 = prior.par2,
+                         init.pars = my.init.pars,
+                         ptiles = ptiles,
+                         verbose=verbose,#how often to print update
+                         burnin = 0,
+                         n.samples = my.n.samples,
+                         dist = dist,
+                         ...)@samples
+
+  
+  return(rbind(current.samples, samples))
+
+  
 }
