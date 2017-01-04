@@ -16,7 +16,7 @@ dic.fit.mcmc.incremental <- function (dat,
     samples = dic.fit.mcmc(dat,
                            prior.par1 = prior.par1,
                            prior.par2 = prior.par2,
-                           init.pars = my.init.pars,
+                           init.pars = init.pars,
                            ptiles = ptiles,
                            verbose=verbose,#how often to print update
                            burnin = 0,
