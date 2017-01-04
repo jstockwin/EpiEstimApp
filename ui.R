@@ -11,7 +11,19 @@ library(shiny)
 
 # Define UI for application that draws a histogram
 shinyUI(bootstrapPage(
-      column(4,
+      tags$head(
+        tags$link(rel = "stylesheet", type = "text/css", href="styles.css"),
+        tags$link(rel = "shortcut icon", type = "image/x-icon", href="favicon.ico")
+      ),
+      column(12,
+        HTML(
+          "
+          <h1>Transmissibility Estimator</h1>
+          <p>TODO: Description here</p>
+          "
+        )      
+      ),
+      column(4, id="menu",
       actionButton('go', label='Go'),
       actionButton('stop', label='Stop'),
       verbatimTextOutput('output'),
@@ -73,7 +85,7 @@ shinyUI(bootstrapPage(
       
     
       ),
-     column(8,
+     column(8, id="plot",
             plotOutput('plot')
             ),
     
