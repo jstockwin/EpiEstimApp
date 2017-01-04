@@ -7,8 +7,6 @@ library(shiny)
 library(rjson)
 
 # Source necessary files
-source("src/dic.fit.R", local=TRUE)
-source("src/dic.fit.mcmc.R", local=TRUE)
 source("src/dic.fit.mcmc.incremental.R", local=TRUE)
 source("src/EstimateR.R", local=TRUE)
 source("src/coarse2estim.R", local=TRUE)
