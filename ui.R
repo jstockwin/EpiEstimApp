@@ -100,7 +100,7 @@ shinyUI(bootstrapPage(
     output.innerText = "Initialising...";
     var i = 0;
     go.onclick = function() {
-      var i = 0;
+      i = 0;
       run = true;
       go.disabled = true;
       go.innerText = "Running";
