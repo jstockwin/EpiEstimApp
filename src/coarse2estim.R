@@ -14,79 +14,33 @@ coarse2estim <- function(samples, dist, n_samples=1000){
   samples <- samples0[index, ]
   
   ##  Probability matrix that will be used in EpiEstim based on which distribution is specified by the user
-  if (dist == "G"){
-    
-    # For each input parameter set, find the 99th percentile, and take the maximum of these as the maximum
+  if (dist == "G" | dist == "E"){
+  	# For each input parameter set, find the 99th percentile, and take the maximum of these as the maximum
     # serial interval that we need to consider
-    maxValue <- ceiling(qgamma(0.999, shape = samples[1,1], scale = samples[1,2]))
-    for (i in c(1:n_samples)) {
-      if (maxValue < ceiling(qgamma(0.999, shape = samples[i,1], scale = samples[i,2]))) {
-        maxValue <- ceiling(qgamma(0.999, shape = samples[i,1], scale = samples[i,2]))
-      }
-    }
-    
-    max_interval <- c(10^(-4), 1:maxValue)
-    prob_matrix <- apply(samples, 1, function(x) dgamma(max_interval, shape=x[1], scale=x[2]))
-    
+    maxValue <- max( sapply(1:n_samples, function(i) ceiling(qgamma(0.999, shape = samples[i,1], scale = samples[i,2])) ) )
+    max_interval <- 1:maxValue
+    prob_matrix <- apply(samples, 1, function(x) pgamma(max_interval+0.5, shape=x[1], scale=x[2]) - pgamma(max_interval-0.5, shape=x[1], scale=x[2]))
   } else if (dist == "off1G"){
-    
-    maxValue <- ceiling(qgamma(0.999, shape = samples[1,1], scale = samples[1,2])) + 1
-    for (i in c(1:n_samples)) {
-      if (maxValue < (ceiling(qgamma(0.999, shape = samples[i,1], scale = samples[i,2])) + 1)) {
-        maxValue <- (ceiling(qgamma(0.999, shape = samples[i,1], scale = samples[i,2])) + 1)
-      }
-    }
-    
     # offset gamma distribution with shifted min and max value of max serial interval
-    max_interval <- c(10^(-4), 1:maxValue)
-    prob_matrix <- apply(samples, 1, function(x) dgamma(max_interval - 1, shape=x[1], scale=x[2]))
-    
-    prob_matrix[1,] <- 0  # since 0 day serial interval is impossible with offset gamma distribution
-    
-  } else if (dist == "E"){
-    
-    maxValue <- ceiling(qgamma(0.999, shape = samples[1,1], scale = samples[1,2]))
-    for (i in c(1:n_samples)) {
-      if (maxValue < ceiling(qgamma(0.999, shape = samples[i,1], scale = samples[i,2]))) {
-        maxValue <- ceiling(qgamma(0.999, shape = samples[i,1], scale = samples[i,2]))
-      }
-    }
-    
-    # Erlang distribution
-    max_interval <- c(10^(-4), 1:maxValue)
-    prob_matrix <- apply(samples, 1, function(x) dgamma(max_interval, shape=x[1], scale=x[2]))
-    
-  }
-  else if (dist == "W"){
-    
-    maxValue <- ceiling(qweibull(0.999, shape = samples[1,1], scale = samples[1,2]))
-    for (i in c(1:n_samples)) {
-      if (maxValue < ceiling(qweibull(0.999, shape = samples[i,1], scale = samples[i,2]))) {
-        maxValue <- ceiling(qweibull(0.999, shape = samples[i,1], scale = samples[i,2]))
-      }
-    }
-
-    max_interval <- c(10^(-4), 1:maxValue)
-    prob_matrix <- apply(samples, 1, function(x) dweibull(max_interval, shape=x[1], scale=x[2]))
-    
+    maxValue <- max( sapply(1:n_samples, function(i) ceiling(qgamma(0.999, shape = samples[i,1], scale = samples[i,2])) ) )
+    max_interval <- 0:maxValue
+    prob_matrix <- apply(samples, 1, function(x) pgamma(max_interval+0.5, shape=x[1], scale=x[2]) - pgamma(max_interval-0.5, shape=x[1], scale=x[2]))
+  } else if (dist == "W"){
+  	maxValue <- max( sapply(1:n_samples, function(i) ceiling(qweibull(0.999, shape = samples[i,1], scale = samples[i,2])) ) )
+    max_interval <- 1:maxValue
+    prob_matrix <- apply(samples, 1, function(x) pweibull(max_interval+0.5, shape=x[1], scale=x[2]) - pweibull(max_interval-0.5, shape=x[1], scale=x[2]))
   } else if (dist == "L"){
-    
-    maxValue <- ceiling(qlnorm(0.999, meanlog = samples[1,1], sdlog = samples[1,2]))
-    for (i in c(1:n_samples)) {
-      if (maxValue < ceiling(qlnorm(0.999, meanlog = samples[i,1], sdlog = samples[i,2]))) {
-        maxValue <- ceiling(qlnorm(0.999, meanlog = samples[i,1], sdlog = samples[i,2]))
-      }
-    }
-    
-    #max_interval <- c(10^(-4), 1:ceiling(qgamma(0.999, shape=object@ests[1,1], scale=object@ests[2,1])))
-    max_interval <- c(10^(-4), 1:maxValue)
-    prob_matrix <- apply(samples, 1, function(x) dlnorm(max_interval, meanlog=x[1], sdlog=x[2]))
+  	maxValue <- max( sapply(1:n_samples, function(i) ceiling(qlnorm(0.999, meanlog = samples[i,1], sdlog = samples[i,2])) ) )
+    max_interval <- 1:maxValue
+    prob_matrix <- apply(samples, 1, function(x) plnorm(max_interval+0.5, meanlog=x[1], sdlog=x[2]) - plnorm(max_interval-0.5, meanlog=x[1], sdlog=x[2]))
   } else {
     stop(sprintf("Distribtion (%s) not supported",dist))
   }
+  # adding initial 0 for P(SI=0)
+  prob_matrix <- rbind(rep(0, n_samples), prob_matrix)
+  # renormalising
   prob_matrix <- apply(prob_matrix, 2, function(x) x/sum(x))
   
-  prob_matrix <- rbind(rep(0, ncol(prob_matrix)), prob_matrix)  # Do I really want this extra row of 0's?
   out <- list(prob_matrix = prob_matrix, dist = dist)
   
   return(out)
