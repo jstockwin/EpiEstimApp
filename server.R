@@ -5,6 +5,15 @@ library(MCMCpack)
 library(EpiEstim)
 library(shiny)
 library(rjson)
+library(ggplot2)
+library(graphics)
+library(grid)
+library(gridExtra)
+library(plotly)
+library(plyr)
+library(reshape2)
+library(stats)
+
 
 # Source necessary files
 source("src/dic.fit.mcmc.incremental.R", local=TRUE)
