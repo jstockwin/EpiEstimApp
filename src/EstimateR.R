@@ -3,8 +3,10 @@
 #########################################################################################################################
 
 EstimateR <- function(..., CDT = NULL, dist = NULL) {
-  if (!is.null(CDT) && !is.null(dist)) {
-    c2e <- coarse2estim(CDT, dist)
+  if (!is.null(CDT)) {
+    if (class(CDT)[1]!="cd.fit.mcmc")
+      warning("CDT needs to be defined as an object of the S4 class 'cd.fit.mcmc??")
+    c2e <- coarse2estim(CDT)
     EstimateR_new(..., method = c("NonParametricUncertainSI"),
                   SI.Dist.Matrix = c2e$prob_matrix)
   } else {

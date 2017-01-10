@@ -2,7 +2,8 @@ library(devtools)
 install_github("nickreich/coarseDataTools", ref = "hackout3")
 library(coarseDataTools)
 library(MCMCpack)
-#library(EpiEstim)
+install_github('annecori/EpiEstim')
+library(EpiEstim)
 library(shiny)
 library(rjson)
 library(ggplot2)
@@ -18,7 +19,6 @@ library(stats)
 # Source necessary files
 source("src/dic.fit.mcmc.incremental.R", local=TRUE)
 source("src/EstimateR.R", local=TRUE)
-source("src/coarse2estim.R", local=TRUE)
 source("src/EstimateRnew.R", local=TRUE)
 source("src/DiscrSI.R", local=TRUE)
 source("src/OverallInfectivity.R", local=TRUE)
@@ -57,14 +57,14 @@ shinyServer(function(input, output, session) {
           # if the data has not changed (helpful when e.g. changing the width, W, only).
           samples = get_uploaded_samples()
           
-          if (dim(samples)[1] < 8000) {
+          if (dim(samples@samples)[1] < 8000) {
             # We are not done. Check if client wants to stop
-            data <- toJSON(samples)
+            data <- toJSON(samples@samples)
             session$sendCustomMessage(type='pingToClient', data) 
             return()
           }
           
-          samples <- samples[3000:8000,] #Remove burnin
+          samples@samples <- samples@samples[3000:8000,] #Remove burnin
           
           if (is.null(casesPerDayDataFile)) {
             return(NULL)
@@ -87,7 +87,7 @@ shinyServer(function(input, output, session) {
              so a gamma distribution offset by 1 is not appropriate.')
           }
           # Get the MCMCFit (see utils.R)
-          samples <- getMCMCFit(input$data, input$SIDist)@samples
+          samples <- getMCMCFit(input$data, input$SIDist)
           
         }
         
@@ -95,7 +95,7 @@ shinyServer(function(input, output, session) {
         ####  FEED INTO EPIESTIM
         W <- input$W
         length <- dim(casesPerDayData)[1]
-        EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(samples)[2], CDT = samples, dist=input$SIDist, plot=TRUE)
+        EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(samples@samples)[2], CDT = samples, plot=TRUE)
         session$sendCustomMessage(type='done', "")
       }) # End Isolate
     },

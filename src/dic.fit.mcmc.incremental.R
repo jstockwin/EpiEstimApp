@@ -23,7 +23,7 @@ dic.fit.mcmc.incremental <- function (dat,
   }
 
 
-  samples = dic.fit.mcmc(dat,
+  fit = dic.fit.mcmc(dat,
                          prior.par1 = prior.par1,
                          prior.par2 = prior.par2,
                          init.pars = my.init.pars,
@@ -32,10 +32,12 @@ dic.fit.mcmc.incremental <- function (dat,
                          burnin = 0,
                          n.samples = my.n.samples,
                          dist = dist,
-                         ...)@samples
+                         ...)
+  
+  fit@samples = rbind(current.samples, fit@samples)
 
   
-  return(rbind(current.samples, samples))
+  return(fit)
 
   
 }
