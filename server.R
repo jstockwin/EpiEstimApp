@@ -17,10 +17,8 @@ library(stats)
 
 
 # Source necessary files
-source("src/dic.fit.mcmc.incremental.R", local=TRUE)
-source("src/DiscrSI.R", local=TRUE)
-source("src/OverallInfectivity.R", local=TRUE)
-source("src/stochasticSEIRModel3.R", local=TRUE)
+source("dic.fit.mcmc.incremental.R", local=TRUE)
+source("stochasticSEIRModel3.R", local=TRUE)
 source("utils.R", local=TRUE)
 
 # By default, the file size limit is 5MB. It can be changed by
