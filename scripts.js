@@ -54,7 +54,7 @@ $(document).ready(function() {
           run = false;
           next.disabled = false;
           prev.diabled = true;
-          prev.innerText = "Prev";
+          prev.innerText = "Previous";
           if (progress == 6) {
             next.innerText = "Go";
           } else {
