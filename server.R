@@ -32,7 +32,7 @@ shinyServer(function(input, output, session) {
    
   output$plot <- renderPlot({
     input$mydata
-    if (is.null(input$mydata)) {return}
+    if (is.null(input$mydata)) {return()}
     # Put everything in a dry catch, as we need to send the "DONE" message to the client
     # even if we exit with an error.
     tryCatch({
