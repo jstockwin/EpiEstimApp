@@ -170,8 +170,8 @@ shinyUI(bootstrapPage(
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'TRUE'",
                                # State 6.4
-                               numericInput('Mean.SI2', 'Mean.SI', value=1, min=1),
-                               numericInput('Std.SI2', 'Std.SI', value=0, min=0)
+                               numericInput('Mean.SI2', 'Mean.SI', value=2, min=1+1e-18),
+                               numericInput('Std.SI2', 'Std.SI', value=1, min=1e-18)
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE'",
                                # State 6.5
