@@ -37,83 +37,80 @@ shinyServer(function(input, output, session) {
       session$sendCustomMessage(type='done', "")
       return()
       }
-    # Put everything in a dry catch, as we need to send the "DONE" message to the client
+    # Put everything in a try catch, as we need to send the "DONE" message to the client
     # even if we exit with an error.
-    tryCatch({
-      if (!is.null(input$mydata) && input$mydata == "STOP") return()
+    #tryCatch({
+      if (input$mydata == "STOP") return()
       isolate({
-        # This if-else handles the special case of uploaded data slightly differently.
-        if (input$data == 'Uploaded Data'){
-          # Read the data
-          serialIntervalDataFile <- input$serialIntervalData
-          casesPerDayDataFile <- input$casesPerDayData
+        
+        # Work out which state we're in
+        SIState <- getSIState(input)
+        incidenceState <- getIncidenceState(input)
+       
+        #######################
+        ## Deal with SI Data ##
+        #######################
+        
+        if (SIState == 6.1) {
+          # Simply read the MCMC samples from the file. See getMCMCFit in utils.R 
+          MCMC <- getMCMCFit(input$SIDataset, input$SIDist)
           
-          if (is.null(serialIntervalDataFile)) {
-            return(NULL)
-          }
+        } else if (SIState == 6.2) {
+          # Uploaded data, need to run MCMC. Run the next 80 iterations.
+          MCMC = run_MCMC()
           
-          # Runs the reactive function defined below which will take a long time if the uploaded data
-          # is new or has changed, but will otherwise immediately complete allowing the thread to move on quickly
-          # if the data has not changed (helpful when e.g. changing the width, W, only).
-          samples = get_uploaded_samples()
-          
-          if (dim(samples@samples)[1] < 8000) {
+          if (dim(MCMC@samples)[1] < 8000) {
             # We are not done. Check if client wants to stop
-            data <- toJSON(samples@samples)
+            data <- toJSON(MCMC@samples)
             session$sendCustomMessage(type='pingToClient', data) 
             return()
           }
           
-          samples@samples <- samples@samples[3000:8000,] #Remove burnin
-          
-          if (is.null(casesPerDayDataFile)) {
-            return(NULL)
-          }
-          
-          # Load the casesPerDay data
-          casesPerDayData <- read.csv(casesPerDayDataFile$datapath, 
-                                      header = input$header, sep = input$sep,
-                                      quote = input$quote)
-          # Process casesPerDay data (see utils.R)
-          casesPerDayData <- processCasesPerDayData(casesPerDayData)
-        } else {
-          # Load the data
-          casesPerDayData <- getCasesPerDayData(input$data)
-          serialIntervalData <- getSerialIntervalData(input$data)
-          
-          # If the distribution is set to offset gamma, we should check this is reasonable.
-          if (input$SIDist == 'off1G' && any(serialIntervalData[4] - serialIntervalData[1] < 1)) {
-            stop('The chosen dataset has serial intervals which are definitely less than 1,
-             so a gamma distribution offset by 1 is not appropriate.')
-          }
-          # Get the MCMCFit (see utils.R)
-          samples <- getMCMCFit(input$data, input$SIDist)
-          
+          # If we reach here, we're done with MCMC
+          MCMC@samples <- MCMC@samples[3000:8000,] #Remove burnin
         }
         
         
+        # We should have some kind of output for the SI data. Now let's handle the incidence data.
+        
+        ####################
+        ## Incidence Data ##
+        ####################
+        
+        if (incidenceState == 2.1) {
+          # Handle uploaded data:
+          casesPerDayData <- read.csv(input$incidenceData$datapath, 
+                                      header = input$incidenceHeader, sep = input$incidenceSep,
+                                      quote = input$incidenceQuote)
+          # Process casesPerDay data (see utils.R)
+          casesPerDayData <- processCasesPerDayData(casesPerDayData)
+        } else if (incidenceState == 2.2) {
+          # Get preloaded data
+          casesPerDayData <- getCasesPerDayData(input$incidenceDataset)
+        }
+        
         ####  FEED INTO EPIESTIM
-        W <- input$W
+        W <- input$Width
         length <- dim(casesPerDayData)[1]
-        EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(samples@samples)[2], CDT = samples, plot=TRUE)
+        EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(MCMC@samples)[2], CDT = MCMC, plot=TRUE)
         session$sendCustomMessage(type='done', "")
       }) # End Isolate
-    },
-    error = function (e) {
-      # Send message to client that we're done.
-      session$sendCustomMessage(type='done', "")
-      stop(e)
-    }) # End tryCatch
+    #},
+    #error = function (e) {
+    #  # Send message to client that we're done.
+    ##  session$sendCustomMessage(type='done', "")
+    #  stop(e)
+    #}) # End tryCatch
     
   }) # End output$plot
   
   # Calculating fit takes a long time. We'll make it reactive
   # so that it only updated when a new serialIntervalDataFile is supplied.
-  get_uploaded_samples <- function(data) {
+  run_MCMC <- function() {
     
-    serialIntervalData <- read.csv(input$serialIntervalData$datapath, 
-                                   header = input$header, sep = input$sep,
-                                   quote = input$quote)
+    serialIntervalData <- read.csv(input$SIData$datapath, 
+                                   header = input$SIHeader, sep = input$SISep,
+                                   quote = input$SIQuote)
     
     # Process the data (see function in utils.R)
     serialIntervalData <- processSerialIntervalData(serialIntervalData)
@@ -143,3 +140,60 @@ shinyServer(function(input, output, session) {
   } # End get_uploaded_fit
   
 }) # End shinyServer
+
+
+getSIState <- function (input) {
+  if (input$SIPatientData) {
+    # State 4.1
+    if (input$SIDataType == 'preloaded') {
+      # State 5.1
+      if (!is.null(input$SIDataset) && !is.null(input$SIDist)) {
+        # State 6.1
+        return(6.1)
+      } else {
+        stop('Error: Invalid State (1). This should never happen, something went wrong.')
+      }
+    } else if (input$SIDataType == 'own') {
+      # State 5.2
+      if (!is.null(input$SIData) & !is.null(input$SIDist) & !is.null(input$param1) & !is.null(input$param2)) {
+        # State 6.2
+          return(6.2)
+      } else {
+        stop('Error: Invalid State (2). This should never happen, something went wrong.')
+      }
+    } else {
+      stop('Error: Invalid State (3). This should never happen, something went wrong.')
+    }
+  } else {
+    if (!is.null(input$SIPatientData)) {
+      # State 4.2
+      if (input$uncertainty) {
+        # State 5.3
+        # State 6.3
+        return(6.3)
+      } else {
+        # State 5.4
+        if (input$parametric) {
+          # State 6.4
+          return(6.4)
+        } else {
+          # State 6.5
+          return(6.5)
+        }
+      }
+    }
+  }
+  stop('Error: Invalid State (5). This should never happen, something went wrong.')
+}
+
+getIncidenceState <- function (input) {
+  if (input$incidenceDataType == 'own') {
+    # State 2.1
+    return(2.1)
+  } else if (input$incidenceDataType == 'preloaded') {
+    # State 2.2
+    return(2.2)
+  } else {
+    stop('Error: Invalid State (6). This should never happen, something went wrong.')
+  }
+}

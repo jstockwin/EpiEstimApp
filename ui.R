@@ -33,8 +33,8 @@ shinyUI(bootstrapPage(
                       h3('Step 1 of 6'),
                       h1('Indicence Data'),
                       radioButtons('incidenceDataType', 'Would you like to use your own data, or a pre-loaded data set?',
-                                   c('Own data' = 'own', 'Pre-loaded' = 'preloaded'))
-                      ),
+                                   c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
+             ),
              tags$div(id="2",
                       h3('Step 2 of 6'),
                       conditionalPanel("input.incidenceDataType == 'own'",
@@ -49,23 +49,24 @@ shinyUI(bootstrapPage(
                                          '.tsv'
                                        )
                              ),
-                             tags$hr(),
-                             checkboxInput('header', 'Header', FALSE),
-                             radioButtons('sep', 'Separator',
+                             checkboxInput('incidenceHeader', 'Header', FALSE),
+                             radioButtons('incidenceSep', 'Separator',
                                           c(Comma=',',
                                             Semicolon=';',
                                             Tab='\t'),
                                           ','),
-                             radioButtons('quote', 'Quote',
+                             radioButtons('incidenceQuote', 'Quote',
                                           c(None='',
                                             'Double Quote'='"',
                                             'Single Quote'="'"),
-                                          '"')
+                                          '"'),
+                             sliderInput('Width', 'Choose a width:', min=1, max=20, value = 5)
                       ),
                       conditionalPanel("input.incidenceDataType == 'preloaded'",
                              # State 2.2
-                             radioButtons('incidenceData', 'Choose your dataset',
-                                          c('PennsylvaniaH1N12009', 'RotavirusGermany'))   
+                             radioButtons('incidenceDataset', 'Choose your dataset',
+                                          c('PennsylvaniaH1N12009', 'RotavirusGermany')),
+                             sliderInput('Width', 'Choose a width:', min=1, max=20, value = 5)
                        )
              ),
              tags$div(id="3",
@@ -81,7 +82,7 @@ shinyUI(bootstrapPage(
                       conditionalPanel("input.SIPatientData == 'TRUE'",
                             # State 4.1
                             radioButtons('SIDataType', 'Would you like to use your own data, or a pre-loaded data set?',
-                                         c('Own data' = 'own', 'Pre-loaded' = 'preloaded'))
+                                         c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE'", 
                            # State 4.2
@@ -93,7 +94,7 @@ shinyUI(bootstrapPage(
                       h3('Step 5 of 6'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'preloaded'",
                             # State 5.1
-                            radioButtons('SIData', 'Choose your dataset',
+                            radioButtons('SIDataset', 'Choose your dataset',
                                          c('PennsylvaniaH1N12009', 'RotavirusGermany'))
                        ),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own'",
@@ -107,7 +108,18 @@ shinyUI(bootstrapPage(
                                          '.csv',
                                          '.tsv'
                                        )
-                             )
+                             ),
+                             checkboxInput('SIHeader', 'Header', FALSE),
+                             radioButtons('SISep', 'Separator',
+                                          c(Comma=',',
+                                            Semicolon=';',
+                                            Tab='\t'),
+                                          ','),
+                             radioButtons('SIQuote', 'Quote',
+                                          c(None='',
+                                            'Double Quote'='"',
+                                            'Single Quote'="'"),
+                                          '"')
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'TRUE'",
                               # State 5.3
@@ -128,8 +140,7 @@ shinyUI(bootstrapPage(
                                             'Offset Gamma'='off1G',
                                             'Erlang' = 'E',
                                             'Weibull' = 'W',
-                                            'Log-Normal' = 'L')),
-                             sliderInput('SIWidth', 'Choose a width:', min=1, max=20, value = 5)
+                                            'Log-Normal' = 'L'))
                       ),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own'",
                               # State 6.2
@@ -139,7 +150,6 @@ shinyUI(bootstrapPage(
                                              'Erlang' = 'E',
                                              'Weibull' = 'W',
                                              'Log-Normal' = 'L')),
-                              sliderInput('SIWidth', 'Choose a width:', min=1, max=20, value = 5),
                               numericInput('param1', 'Choose the value of param1', min=0, value=''),
                               numericInput('param2', 'Choose the value of param1', min=0, value='')
                       ),

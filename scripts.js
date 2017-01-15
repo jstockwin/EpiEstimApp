@@ -44,6 +44,8 @@ $(document).ready(function() {
         prev.innerText = "Stopping";
         prev.disabled = true;
         run = false;
+        // The following does nothing, but will reset mydata, which is the trigger
+        // for running the code in server.R.
         Shiny.onInputChange("mydata", "STOP");
       } else {
         progress += -1;
