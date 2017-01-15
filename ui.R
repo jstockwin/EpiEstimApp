@@ -123,7 +123,10 @@ shinyUI(bootstrapPage(
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'TRUE'",
                               # State 5.3
-                              p('You are in state 5.3, which is TODO')
+                              numericInput('n1', 'n1', min=2, value=2),
+                              p('positive integer giving the size of the sample of pairs (Mean SI (serial interval), Std SI) to be drawn'),
+                              numericInput('n2', 'n2', min=2, value=2),
+                              p('positive integer giving the size of the sample drawn from each posterior distribution conditional to a pair (Mean SI, Std SI)')
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE'",
                              # State 5.4
@@ -155,15 +158,49 @@ shinyUI(bootstrapPage(
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'TRUE'",
                                # State 6.3
-                               p('You are in state 6.3, which is TODO')
+                               numericInput('Mean.SI', 'Mean.SI', value=2, min=1),
+                               numericInput('Std.Mean.SI', 'Std.Mean.SI', min=0, value=1),
+                               numericInput('Min.Mean.SI', 'Min.Mean.SI', min=1, value=1),
+                               numericInput('Max.Mean.SI', 'Max.Mean.SI', value=3, min=1),
+                               numericInput('Std.SI', 'Std.SI', value=2, min=1),
+                               numericInput('Std.Std.SI', 'Std.Std.SI', min=0, value=1),
+                               numericInput('Min.Std.SI', 'Min.Std.SI', value=1, min=1),
+                               numericInput('Max.Std.SI', 'Max.Std.SI', value=3, min=1)
+                               
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'TRUE'",
                                # State 6.4
-                               p('You are in state 6.4, which is TODO')
+                               numericInput('Mean.SI2', 'Mean.SI', value=1, min=1),
+                               numericInput('Std.SI2', 'Std.SI', value=0, min=0)
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE'",
                                # State 6.5
-                               p('You are in state 6.5, which is TODO')
+                               radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
+                                            c('Flu1918'=1, 'Flu2009'=2, 'Measles1861'=3,
+                                              'SARS2003'=4, 'Smallpox1972'=5, 'Uploaded Data')),
+                               conditionalPanel("input.SIDistrDataset == 'Uploaded Data'",
+                                                fileInput('SIDistrData', 'Choose serialIntervalData file to upload',
+                                                          accept = c(
+                                                            'text/csv',
+                                                            'text/comma-separated-values',
+                                                            'text/tab-separated-values',
+                                                            'text/plain',
+                                                            '.csv',
+                                                            '.tsv'
+                                                          )
+                                                ),
+                                                checkboxInput('SIDistrHeader', 'Header', FALSE),
+                                                radioButtons('SIDistrSep', 'Separator',
+                                                             c(Comma=',',
+                                                               Semicolon=';',
+                                                               Tab='\t'),
+                                                             ','),
+                                                radioButtons('SIDistrQuote', 'Quote',
+                                                             c(None='',
+                                                               'Double Quote'='"',
+                                                               'Single Quote'="'"),
+                                                             '"')
+                                )
                       )
              ),
              tags$div(id="control",

@@ -32,7 +32,10 @@ $(document).ready(function() {
           next.innerText = "Running";
           prev.disabled = false;
           prev.innerText = "Stop";
-          Shiny.onInputChange("mydata", "NEW");
+          // The randomness in the following ensures that mydata really has changed. 
+          // TODO: If mydata is the result of and MCMC fit and the data hasn't been changed, 
+          // then we should try and keep mydata as-is, since then it'll not have to re-run mcmc.
+          Shiny.onInputChange("mydata", "NEW" + Math.random());
           output.innerText = "Running... 0%";
       } else {
           progress += 1;

@@ -15,6 +15,13 @@ library(plyr)
 library(reshape2)
 library(stats)
 
+data(Measles1861)
+data(Flu1918)
+data(Smallpox1972)
+data(SARS2003)
+data(Flu2009)
+alldatasets <- list(Measles1861,Flu1918,Smallpox1972,SARS2003,Flu2009)
+
 
 # Source necessary files
 source("dic.fit.mcmc.incremental.R", local=TRUE)
@@ -39,39 +46,13 @@ shinyServer(function(input, output, session) {
       }
     # Put everything in a try catch, as we need to send the "DONE" message to the client
     # even if we exit with an error.
-    #tryCatch({
+    tryCatch({
       if (input$mydata == "STOP") return()
       isolate({
         
         # Work out which state we're in
         SIState <- getSIState(input)
         incidenceState <- getIncidenceState(input)
-       
-        #######################
-        ## Deal with SI Data ##
-        #######################
-        
-        if (SIState == 6.1) {
-          # Simply read the MCMC samples from the file. See getMCMCFit in utils.R 
-          MCMC <- getMCMCFit(input$SIDataset, input$SIDist)
-          
-        } else if (SIState == 6.2) {
-          # Uploaded data, need to run MCMC. Run the next 80 iterations.
-          MCMC = run_MCMC()
-          
-          if (dim(MCMC@samples)[1] < 8000) {
-            # We are not done. Check if client wants to stop
-            data <- toJSON(MCMC@samples)
-            session$sendCustomMessage(type='pingToClient', data) 
-            return()
-          }
-          
-          # If we reach here, we're done with MCMC
-          MCMC@samples <- MCMC@samples[3000:8000,] #Remove burnin
-        }
-        
-        
-        # We should have some kind of output for the SI data. Now let's handle the incidence data.
         
         ####################
         ## Incidence Data ##
@@ -88,19 +69,81 @@ shinyServer(function(input, output, session) {
           # Get preloaded data
           casesPerDayData <- getCasesPerDayData(input$incidenceDataset)
         }
+       
+        #######################
+        ## Deal with SI Data ##
+        #######################
         
-        ####  FEED INTO EPIESTIM
-        W <- input$Width
-        length <- dim(casesPerDayData)[1]
-        EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(MCMC@samples)[2], CDT = MCMC, plot=TRUE)
-        session$sendCustomMessage(type='done', "")
+        if (SIState == 6.1) {
+          # "NonParametricUncertainSI"
+          # Simply read the MCMC samples from the file. See getMCMCFit in utils.R 
+          MCMC <- getMCMCFit(input$SIDataset, input$SIDist)
+          ####  FEED INTO EPIESTIM
+          W <- input$Width
+          length <- dim(casesPerDayData)[1]
+          EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(MCMC@samples)[2], CDT = MCMC, plot=TRUE)
+          session$sendCustomMessage(type='done', "")
+          
+        } else if (SIState == 6.2) {
+          # "NonParametricUncertainSI"
+          # Uploaded data, need to run MCMC. Run the next 80 iterations.
+          MCMC = run_MCMC()
+          
+          if (dim(MCMC@samples)[1] < 8000) {
+            # We are not done. Check if client wants to stop
+            data <- toJSON(MCMC@samples)
+            session$sendCustomMessage(type='pingToClient', data) 
+            return()
+          }
+          
+          # If we reach here, we're done with MCMC
+          MCMC@samples <- MCMC@samples[3000:8000,] #Remove burnin
+          ####  FEED INTO EPIESTIM
+          W <- input$Width
+          length <- dim(casesPerDayData)[1]
+          EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(MCMC@samples)[2], CDT = MCMC, plot=TRUE)
+          session$sendCustomMessage(type='done', "")
+        } else if (SIState == 6.3) {
+          # "UncertainSI"
+          ####  FEED INTO EPIESTIM
+          W <- input$Width
+          length <- dim(casesPerDayData)[1]
+          EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
+                    Mean.SI=input$Mean.SI, Std.SI=input$Std.SI,
+                    Std.Mean.SI=input$Std.Mean.SI, Min.Mean.SI=input$Min.Mean.SI, Max.Mean.SI=input$Max.Mean.SI, 
+                    Std.Std.SI=input$Std.Std.SI, Min.Std.SI=input$Min.Std.SI, Max.Std.SI=input$Max.Std.SI, plot=TRUE)
+          session$sendCustomMessage(type='done', "")
+        } else if (SIState == 6.4) {
+          # "ParametricSI"
+          ####  FEED INTO EPIESTIM
+          W <- input$Width
+          length <- dim(casesPerDayData)[1]
+          EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
+                    method="ParametricSI", plot=TRUE)
+          session$sendCustomMessage(type='done', "")
+        } else if (SIState == 6.5) {
+          # "NonParametricSI"
+          ####  FEED INTO EPIESTIM
+          W <- input$Width
+          length <- dim(casesPerDayData)[1]
+          if (input$SIDistrDataset == 'Uploaded Data') {
+            SI.Distr = read.csv(input$SIDistrData$datapath, 
+                                header = input$SIDistrHeader, sep = input$SIDistrSep,
+                                quote = input$SIDistrQuote)
+          } else {
+            SI.Distr = alldatasets[[as.numeric(input$SIDistrDataset)]]$SI.Distr
+          }
+          
+          EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
+          session$sendCustomMessage(type='done', "")
+        }
       }) # End Isolate
-    #},
-    #error = function (e) {
-    #  # Send message to client that we're done.
-    ##  session$sendCustomMessage(type='done', "")
-    #  stop(e)
-    #}) # End tryCatch
+    },
+    error = function (e) {
+      # Send message to client that we're done.
+      session$sendCustomMessage(type='done', "")
+      stop(e)
+    }) # End tryCatch
     
   }) # End output$plot
   
