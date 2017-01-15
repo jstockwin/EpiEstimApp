@@ -22,17 +22,20 @@ getSerialIntervalData <- function (data) {
 }
 
 
-# The following function takes the string from input$data and uses it to pull in the casesPerDayData
+# The following function takes the string from input$data and uses it to pull in the incidenceData
 # It is this function which should be edited if any of the cases per day file names change.
-getCasesPerDayData <- function (data) {
-  if (data == 'PennsylvaniaH1N12009') {
-    casesPerDayData <- read.table('datasets/PennsylvaniaH1N12009FluData.csv',
+getIncidenceData <- function (data, alldatasets) {
+  if (data %in% names(alldatasets)) {
+    dat <- alldatasets[[data]]$Incidence
+    return(processIncidenceData(dat))
+  } else  if (data == 'PennsylvaniaH1N12009') {
+    incidenceData <- read.table('datasets/PennsylvaniaH1N12009FluData.csv',
                                   header = F, sep=',')
-    return(processCasesPerDayData(casesPerDayData))
+    return(processIncidenceData(incidenceData))
   } else if (data == 'RotavirusGermany') {
-    casesPerDayData <- read.table('datasets/GermanyRotavirus1516.csv',
+    incidenceData <- read.table('datasets/GermanyRotavirus1516.csv',
                                   header = F, sep=',')
-    return(processCasesPerDayData(casesPerDayData))
+    return(processIncidenceData(incidenceData))
   } else {
     return(NULL)
   }
@@ -54,6 +57,7 @@ getMCMCFit <- function (data, SIDist) {
 
 
 processSerialIntervalData <- function (serialIntervalData) {
+  serialIntervalData <- as.data.frame(serialIntervalData)
   num_cols = dim(serialIntervalData)[2]
   if (num_cols < 4 || num_cols > 5) {
     stop("serialIntervalData should have 4 or 5 columns")
@@ -67,22 +71,23 @@ processSerialIntervalData <- function (serialIntervalData) {
   serialIntervalData <- as.data.frame(serialIntervalData)
 }
 
-processCasesPerDayData <- function (casesPerDayData) {
-  cases_dims <- dim(casesPerDayData)
+processIncidenceData <- function (incidenceData) {
+  incidenceData <- as.data.frame(incidenceData)
+  cases_dims <- dim(incidenceData)
   if ((cases_dims[1] == 1 && cases_dims[2] > 1) || (cases_dims[1] == 2 && cases_dims[2] > 2)) {
     # The data is transposed.
-    casesPerDayData <- t(casesPerDayData)
+    incidenceData <- t(incidenceData)
     # Update cases_dims for next bit
-    cases_dims <- dim(casesPerDayData)
+    cases_dims <- dim(incidenceData)
   }
   
   if (cases_dims[2] > 2) {
     # Bad input
-    stop("casesPerDayData should only have one column, or one column and an index column")
+    stop("incidenceData should only have one column, or one column and an index column")
   } else if (cases_dims[2] == 1) {
     # Add a time column first.
-    casesPerDayData <- cbind(seq.int(nrow(casesPerDayData)), casesPerDayData)
+    incidenceData <- cbind(seq.int(nrow(incidenceData)), incidenceData)
   }
-  colnames(casesPerDayData) <- c("Time", "Cases")
-  casesPerDayData <- as.data.frame(casesPerDayData)
+  colnames(incidenceData) <- c("Time", "Cases")
+  incidenceData <- as.data.frame(incidenceData)
 }

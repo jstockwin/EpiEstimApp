@@ -20,7 +20,11 @@ data(Flu1918)
 data(Smallpox1972)
 data(SARS2003)
 data(Flu2009)
-alldatasets <- list(Measles1861,Flu1918,Smallpox1972,SARS2003,Flu2009)
+alldatasets <- list('Measles1861' = Measles1861,
+                    'Flu1918' = Flu1918,
+                    'Smallpox1972' = Smallpox1972,
+                    'SARS2003' = SARS2003,
+                    'Flu2009' = Flu2009)
 
 
 # Source necessary files
@@ -60,14 +64,14 @@ shinyServer(function(input, output, session) {
         
         if (incidenceState == 2.1) {
           # Handle uploaded data:
-          casesPerDayData <- read.csv(input$incidenceData$datapath, 
+          IncidenceData <- read.csv(input$incidenceData$datapath, 
                                       header = input$incidenceHeader, sep = input$incidenceSep,
                                       quote = input$incidenceQuote)
-          # Process casesPerDay data (see utils.R)
-          casesPerDayData <- processCasesPerDayData(casesPerDayData)
+          # Process Incidence data (see utils.R)
+          IncidenceData <- processIncidenceData(IncidenceData)
         } else if (incidenceState == 2.2) {
           # Get preloaded data
-          casesPerDayData <- getCasesPerDayData(input$incidenceDataset)
+          IncidenceData <- getIncidenceData(input$incidenceDataset, alldatasets)
         }
        
         #######################
@@ -80,8 +84,8 @@ shinyServer(function(input, output, session) {
           MCMC <- getMCMCFit(input$SIDataset, input$SIDist)
           ####  FEED INTO EPIESTIM
           W <- input$Width
-          length <- dim(casesPerDayData)[1]
-          EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(MCMC@samples)[2], CDT = MCMC, plot=TRUE)
+          length <- dim(IncidenceData)[1]
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(MCMC@samples)[2], CDT = MCMC, plot=TRUE)
           session$sendCustomMessage(type='done', "")
           
         } else if (SIState == 6.2) {
@@ -100,15 +104,15 @@ shinyServer(function(input, output, session) {
           MCMC@samples <- MCMC@samples[3000:8000,] #Remove burnin
           ####  FEED INTO EPIESTIM
           W <- input$Width
-          length <- dim(casesPerDayData)[1]
-          EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(MCMC@samples)[2], CDT = MCMC, plot=TRUE)
+          length <- dim(IncidenceData)[1]
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(MCMC@samples)[2], CDT = MCMC, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 6.3) {
           # "UncertainSI"
           ####  FEED INTO EPIESTIM
           W <- input$Width
-          length <- dim(casesPerDayData)[1]
-          EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
+          length <- dim(IncidenceData)[1]
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
                     Mean.SI=input$Mean.SI, Std.SI=input$Std.SI,
                     Std.Mean.SI=input$Std.Mean.SI, Min.Mean.SI=input$Min.Mean.SI, Max.Mean.SI=input$Max.Mean.SI, 
                     Std.Std.SI=input$Std.Std.SI, Min.Std.SI=input$Min.Std.SI, Max.Std.SI=input$Max.Std.SI, plot=TRUE)
@@ -117,24 +121,24 @@ shinyServer(function(input, output, session) {
           # "ParametricSI"
           ####  FEED INTO EPIESTIM
           W <- input$Width
-          length <- dim(casesPerDayData)[1]
-          EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
+          length <- dim(IncidenceData)[1]
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
                     method="ParametricSI", plot=TRUE)
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 6.5) {
           # "NonParametricSI"
           ####  FEED INTO EPIESTIM
           W <- input$Width
-          length <- dim(casesPerDayData)[1]
+          length <- dim(IncidenceData)[1]
           if (input$SIDistrDataset == 'Uploaded Data') {
             SI.Distr = read.csv(input$SIDistrData$datapath, 
                                 header = input$SIDistrHeader, sep = input$SIDistrSep,
                                 quote = input$SIDistrQuote)
           } else {
-            SI.Distr = alldatasets[[as.numeric(input$SIDistrDataset)]]$SI.Distr
+            SI.Distr = alldatasets[[input$SIDistrDataset]]$SI.Distr
           }
           
-          EstimateR(casesPerDayData[,2], T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         }
       }) # End Isolate

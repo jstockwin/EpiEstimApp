@@ -65,7 +65,8 @@ shinyUI(bootstrapPage(
                       conditionalPanel("input.incidenceDataType == 'preloaded'",
                              # State 2.2
                              radioButtons('incidenceDataset', 'Choose your dataset',
-                                          c('PennsylvaniaH1N12009', 'RotavirusGermany')),
+                                          c('PennsylvaniaH1N12009', 'RotavirusGermany',
+                                            'Flu1918', 'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972')),
                              sliderInput('Width', 'Choose a width:', min=1, max=20, value = 5)
                        )
              ),
@@ -176,8 +177,8 @@ shinyUI(bootstrapPage(
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE'",
                                # State 6.5
                                radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
-                                            c('Flu1918'=1, 'Flu2009'=2, 'Measles1861'=3,
-                                              'SARS2003'=4, 'Smallpox1972'=5, 'Uploaded Data')),
+                                            c('Flu1918', 'Flu2009', 'Measles1861',
+                                              'SARS2003', 'Smallpox1972', 'Uploaded Data')),
                                conditionalPanel("input.SIDistrDataset == 'Uploaded Data'",
                                                 fileInput('SIDistrData', 'Choose serialIntervalData file to upload',
                                                           accept = c(
