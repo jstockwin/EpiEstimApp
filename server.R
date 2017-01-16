@@ -42,16 +42,16 @@ options(shiny.reactlog=TRUE)
 shinyServer(function(input, output, session) {
    
   output$plot <- renderPlot({
-    input$mydata
-    if (is.null(input$mydata)) {
+    input$status
+    if (is.null(input$status) || input$status == "STOP") {
       # Tell client we're 'done' to say we're ready.
       session$sendCustomMessage(type='done', "")
       return()
-      }
+    }
+
     # Put everything in a try catch, as we need to send the "DONE" message to the client
     # even if we exit with an error.
     tryCatch({
-      if (input$mydata == "STOP") return()
       isolate({
         
         # Work out which state we're in
@@ -85,6 +85,7 @@ shinyServer(function(input, output, session) {
           ####  FEED INTO EPIESTIM
           W <- input$Width
           length <- dim(IncidenceData)[1]
+          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(MCMC@samples)[2], CDT = MCMC, plot=TRUE)
           session$sendCustomMessage(type='done', "")
           
@@ -92,19 +93,23 @@ shinyServer(function(input, output, session) {
           # "NonParametricUncertainSI"
           # Uploaded data, need to run MCMC. Run the next 80 iterations.
           MCMC = run_MCMC()
-          
-          if (dim(MCMC@samples)[1] < 8000) {
-            # We are not done. Check if client wants to stop
-            data <- toJSON(MCMC@samples)
-            session$sendCustomMessage(type='pingToClient', data) 
-            return()
-          }
+          tryCatch({
+            # Trycatch becase ==FALSE fails if MCMC is actually an MCMC fit...
+            if (MCMC == FALSE) {
+              # run_MCMC has pinged data back to the client. We should return here, and instead handle the incoming data.
+              return(NULL)
+            }
+          }, error = function (e) {# Ignore the error.
+            })
+
+          # else we actually have an MCMC fit.
           
           # If we reach here, we're done with MCMC
           MCMC@samples <- MCMC@samples[3000:8000,] #Remove burnin
           ####  FEED INTO EPIESTIM
           W <- input$Width
           length <- dim(IncidenceData)[1]
+          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(MCMC@samples)[2], CDT = MCMC, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 6.3) {
@@ -112,6 +117,7 @@ shinyServer(function(input, output, session) {
           ####  FEED INTO EPIESTIM
           W <- input$Width
           length <- dim(IncidenceData)[1]
+          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
                     Mean.SI=input$Mean.SI, Std.SI=input$Std.SI,
                     Std.Mean.SI=input$Std.Mean.SI, Min.Mean.SI=input$Min.Mean.SI, Max.Mean.SI=input$Max.Mean.SI, 
@@ -122,6 +128,7 @@ shinyServer(function(input, output, session) {
           ####  FEED INTO EPIESTIM
           W <- input$Width
           length <- dim(IncidenceData)[1]
+          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
                     method="ParametricSI", plot=TRUE)
           session$sendCustomMessage(type='done', "")
@@ -137,7 +144,7 @@ shinyServer(function(input, output, session) {
           } else {
             SI.Distr = alldatasets[[input$SIDistrDataset]]$SI.Distr
           }
-          
+          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         }
@@ -145,6 +152,7 @@ shinyServer(function(input, output, session) {
     },
     error = function (e) {
       # Send message to client that we're done.
+      session$sendCustomMessage(type='updateStatus', "ERROR")
       session$sendCustomMessage(type='done', "")
       stop(e)
     }) # End tryCatch
@@ -154,7 +162,7 @@ shinyServer(function(input, output, session) {
   # Calculating fit takes a long time. We'll make it reactive
   # so that it only updated when a new serialIntervalDataFile is supplied.
   run_MCMC <- function() {
-    
+
     serialIntervalData <- read.csv(input$SIData$datapath, 
                                    header = input$SIHeader, sep = input$SISep,
                                    quote = input$SIQuote)
@@ -163,30 +171,109 @@ shinyServer(function(input, output, session) {
     serialIntervalData <- processSerialIntervalData(serialIntervalData)
     
     # If the distribution is set to offset gamma, we should check this is reasonable.
-    if (input$SIDist == 'off1G' && any(serialIntervalData[4] - serialIntervalData[1] < 1)) {
+    if (input$SIDist2 == 'off1G' && any(serialIntervalData[4] - serialIntervalData[1] < 1)) {
       stop('The chosen dataset has serial intervals which are definitely less than 1,
              so a gamma distribution offset by 1 is not appropriate.')
     }
     
-    # Only use 80 host pairs' interval data to estimate the serial interval
     if (is.na(input$param1) || is.na(input$param1)) {
       params = c(1,1)
     } else {
       params = c(input$param1, input$param2)
     }
+    
     if (is.null(input$mydata) || input$mydata == "NEW") {
-      return(dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist,
-                                      init.pars = params, increment.size = 80))
+      # New run requested
+      # Update the client about the current state for which MCMC is being ran for:
+      session$sendCustomMessage(type='setMCMCInfo', paste('["', paste(URLencode(input$SIData$datapath), input$SIDist2, input$param1, input$param2, sep='","'), '"]', sep=''))
+      
+      
+
+      session$sendCustomMessage(type='updateStatus', "Running MCMC... 0%")
+      MCMC = dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist2,
+                                      init.pars = params, increment.size = 80)
+      # We're not yet done, so ping data back to client to check if we should continue
+      data <- toJSON(MCMC@samples)
+      session$sendCustomMessage(type='pingToClient', data) 
+      return(FALSE)
     } else {
+      # We have samples from the client, which are from a previous (potentially partial) run.
+      
+      dataChanged = checkIfSIDataUpdated(input)
+      
+      if (dataChanged) {
+        # Tell the client to try again with mydata = "NEW", meaning MCMC will start again in the above code.
+        session$sendCustomMessage(type='pingToClient', "NEW") 
+        return(FALSE)
+      }
+      # If this code has reached then the inputs haven't changed and we should either
+      # continue running MCMC or, if we've got a full set of data, simply return the
+      # MCMC object for that data.
+      
       current = as.data.frame(fromJSON(input$mydata))
-      return(dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist,
-                                      current.samples = current, increment.size = 80))
+      session$sendCustomMessage(type='updateStatus', paste('Running MCMC... ', round(dim(current)[1]*100/8000), '%', sep=''))
+  
+      if(dim(current)[1] < 8000) {
+        # A partial run has been completed. Let's continue.
+
+        MCMC = dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist2,
+                                 current.samples = current, increment.size = 80)
+        data <- toJSON(MCMC@samples)
+        session$sendCustomMessage(type='pingToClient', data)
+        return(FALSE)
+        
+      } else {
+        # A full set of data has been provided for the correct inputs.
+        # This will only happen on a re-run.
+
+
+        # We'd like to just use current, but it needs to be in an MCMC object.
+        # We'll simply add another few iterations onto the end to get the MCMC object around it. 
+        #
+        # TODO ACORI is going to update estimateR/coarse2estim to take samples as an argument rather
+        # than MCMC. This will mean we don't have to do this, as we can just return(current) here.
+        MCMC = dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist2,
+                                        current.samples = current, increment.size = 2, n.samples = dim(current)[1] - 3000 + 2)
+        session$sendCustomMessage(type='updateStatus', "MCMC Finished. Processing...")
+        return(MCMC)
+      }
+      
+      
     }
     
     
   } # End get_uploaded_fit
   
 }) # End shinyServer
+
+
+checkIfSIDataUpdated <- function (input) {
+  if(is.null(input$oldSIDatapath)) {
+    return (TRUE)
+  }
+  
+  if (is.na(input$param1) && input$oldParam1 != "NA") {
+    # param1 is now NA and wasn't before. Something has changed.
+    return(TRUE)
+  }
+  if (is.na(input$param2) && input$oldParam2 != "NA") {
+    # param2 is now NA and wasn't before. Something has changed.
+    return(TRUE)
+  }
+  if (!is.na(input$param1) && input$param1 != input$oldParam1) {
+    # param1 is not NA, but has changed.
+    return(TRUE)
+  }
+  if (!is.na(input$param2) && input$param2 != input$oldParam2) {
+    # param2 is not NA, but has changed.
+    return(TRUE)
+  }
+  if (URLencode(input$SIData$datapath) != input$oldSIDatapath || input$SIDist2 != input$oldSIDist) {
+    # The inputs have changed since MCMC was last run, so we can't keep the old fit.
+    return(TRUE)
+  }
+  return(FALSE)
+}
 
 
 getSIState <- function (input) {

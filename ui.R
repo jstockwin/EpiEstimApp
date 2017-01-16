@@ -148,7 +148,7 @@ shinyUI(bootstrapPage(
                       ),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own'",
                               # State 6.2
-                              radioButtons('SIDist', 'Choose your serial interval distribution',
+                              radioButtons('SIDist2', 'Choose your serial interval distribution',
                                            c('Gamma'='G',
                                              'Offset Gamma'='off1G',
                                              'Erlang' = 'E',
