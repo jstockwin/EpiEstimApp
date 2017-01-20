@@ -43,13 +43,13 @@ getIncidenceData <- function (data, alldatasets) {
 
 # The following function takes the string from input$data, and the distirbution from input$SIDist and returns
 # the saved fit. It should be updated if any of the file names for the exported fits change.
-getMCMCFit <- function (data, SIDist) {
+getSISamples <- function (data, SIDist) {
   if (data == 'PennsylvaniaH1N12009') {
-    load('datasets/PennsylvaniaH1N12009_fit.RData')
-    fit <- get(paste('pennsylvaniaH1N12009_fit', SIDist, sep='_'))
+    load('datasets/PennsylvaniaH1N12009_si_samples.RData')
+    samples <- get(paste('pennsylvaniaH1N12009_samples', SIDist, sep='_'))
   } else if (data == 'RotavirusGermany') {
-    load('datasets/Rotavirus_fit.RData')
-    fit <- get(paste('rotavirus_fit', SIDist, sep='_'))
+    load('datasets/Rotavirus_si_samples.RData')
+    samples <- get(paste('rotavirus_samples', SIDist, sep='_'))
   } else {
     return(NULL)
   }
