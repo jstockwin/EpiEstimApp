@@ -86,7 +86,7 @@ shinyServer(function(input, output, session) {
           W <- input$Width
           length <- dim(IncidenceData)[1]
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(SI.Sample)[2], method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
           
         } else if (SIState == 6.2) {
@@ -113,7 +113,7 @@ shinyServer(function(input, output, session) {
           session$sendCustomMessage(type='updateStatus', "Running coarse2estim")
           SI.Sample = coarse2estim(samples=mcmc_samples, dist=input$SIDist2)$SI.Sample
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = dim(SI.Sample)[2], method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 6.3) {
           # "UncertainSI"
