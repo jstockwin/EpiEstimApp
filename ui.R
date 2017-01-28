@@ -136,6 +136,7 @@ shinyUI(bootstrapPage(
                       )
              ),
              tags$div(id="6",
+                      tags$div(id='final'),
                       h3('Step 6 of 6'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'preloaded'",
                              # State 6.1

@@ -15,9 +15,9 @@ $(document).ready(function() {
       document.getElementById(6).hidden = true;
       document.getElementById(i).hidden = false;
       
-      if (i==6) {
+      if ($('#final:visible').length > 0) {
         next.innerText = "Go";
-      } else if (i == 5) {
+      } else {
         next.innerText = "Next";
       }
     };
@@ -30,7 +30,7 @@ $(document).ready(function() {
     var progress = 1;
     next.onclick = function() {
 
-      if (progress == 6) {
+      if ($('#final:visible').length > 0) {
           run = true;
           next.disabled = true;
           next.innerText = "Running";
@@ -44,7 +44,7 @@ $(document).ready(function() {
       }
     };
     prev.onclick = function() {
-      if (progress == 6 && run) {
+      if ($('#final:visible').length > 0 && run) {
         prev.innerText = "Stopping";
         prev.disabled = true;
         run = false;
