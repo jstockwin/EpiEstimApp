@@ -61,7 +61,7 @@ $(document).ready(function() {
           next.disabled = false;
           prev.disabled = false;
           prev.innerText = "Previous";
-          if (progress == 6) {
+          if ($('#final:visible').length > 0) {
             next.innerText = "Go";
           } else {
             next.innerText = "Next";
