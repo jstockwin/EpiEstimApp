@@ -100,27 +100,8 @@ shinyUI(bootstrapPage(
                        ),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own'",
                              # State 5.2
-                             fileInput('SIData', 'Choose serialIntervalData file to upload',
-                                       accept = c(
-                                         'text/csv',
-                                         'text/comma-separated-values',
-                                         'text/tab-separated-values',
-                                         'text/plain',
-                                         '.csv',
-                                         '.tsv'
-                                       )
-                             ),
-                             checkboxInput('SIHeader', 'Header', FALSE),
-                             radioButtons('SISep', 'Separator',
-                                          c(Comma=',',
-                                            Semicolon=';',
-                                            Tab='\t'),
-                                          ','),
-                             radioButtons('SIQuote', 'Quote',
-                                          c(None='',
-                                            'Double Quote'='"',
-                                            'Single Quote'="'"),
-                                          '"')
+                             radioButtons('SIFrom', 'Do you have data or MCMC samples to upload?',
+                                          c('Data'='data', 'MCMC Samples'='sample'))
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'TRUE'",
                               # State 5.3
@@ -156,34 +137,84 @@ shinyUI(bootstrapPage(
                                             'Weibull' = 'W',
                                             'Log-Normal' = 'L'))
                       ),
-                      conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own'",
-                              # State 6.2
+                      conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own' & input.SIFrom == 'data'",
+                               # State 6.2
+                               
+                               fileInput('SIData', 'Choose serialIntervalData file to upload',
+                                         accept = c(
+                                           'text/csv',
+                                           'text/comma-separated-values',
+                                           'text/tab-separated-values',
+                                           'text/plain',
+                                           '.csv',
+                                           '.tsv'
+                                         )
+                               ),
+                               checkboxInput('SIHeader', 'Header', FALSE),
+                               radioButtons('SISep', 'Separator',
+                                            c(Comma=',',
+                                              Semicolon=';',
+                                              Tab='\t'),
+                                            ','),
+                               radioButtons('SIQuote', 'Quote',
+                                            c(None='',
+                                              'Double Quote'='"',
+                                              'Single Quote'="'"),
+                                            '"')
+                       ),
+                      conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own' & input.SIFrom == 'sample'",
+                              # State 6.3
                               tags$div(class='final'),
-                              radioButtons('SIDist2', 'Choose your serial interval distribution',
-                                           c('Gamma'='G',
-                                             'Offset Gamma'='off1G',
-                                             'Erlang' = 'E',
-                                             'Weibull' = 'W',
-                                             'Log-Normal' = 'L')),
-                              numericInput('param1', 'Choose the value of param1', min=0, value=''),
-                              numericInput('param2', 'Choose the value of param1', min=0, value='')
+                              fileInput('SISampleData', 'Choose serialIntervalData file to upload',
+                                        accept = c(
+                                          'text/csv',
+                                          'text/comma-separated-values',
+                                          'text/tab-separated-values',
+                                          'text/plain',
+                                          '.csv',
+                                          '.tsv'
+                                        )
+                              ),
+                              checkboxInput('SISampleHeader', 'Header', FALSE),
+                              radioButtons('SISep', 'Separator',
+                                           c(Comma=',',
+                                             Semicolon=';',
+                                             Tab='\t'),
+                                           ','),
+                              radioButtons('SISampleQuote', 'Quote',
+                                           c(None='',
+                                             'Double Quote'='"',
+                                             'Single Quote'="'"),
+                                           '"')
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'TRUE'",
-                               # State 6.3
+                               # State 6.4
                                tags$div(class='final'),
                                numericInput('Mean.SI2', 'Mean.SI', value=2, min=1+1e-18),
                                numericInput('Std.SI2', 'Std.SI', value=1, min=1e-18)
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE'",
-                               # State 6.4
+                               # State 6.5
                                radioButtons('SIDistrDataType', 'Would you like to use your own data, or a pre-loaded data set?',
                                             c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
 
                       )
              ),
              tags$div(id="7",
+                      conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own' & input.SIFrom == 'data'",
+                            # State 7.1
+                            tags$div(class='final'),
+                            radioButtons('SIDist2', 'Choose your serial interval distribution',
+                                         c('Gamma'='G',
+                                           'Offset Gamma'='off1G',
+                                           'Erlang' = 'E',
+                                           'Weibull' = 'W',
+                                           'Log-Normal' = 'L')),
+                            numericInput('param1', 'Choose the value of param1', min=0, value=''),
+                            numericInput('param2', 'Choose the value of param1', min=0, value='')
+                      ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE' & input.SIDistrDataType == 'own'",
-                          # State 7.1    
+                          # State 7.2    
                           tags$div(class='final'),
                           fileInput('SIDistrData', 'Choose serialIntervalData file to upload',
                                     accept = c(
@@ -208,7 +239,7 @@ shinyUI(bootstrapPage(
                                        '"')
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE' & input.SIDistrDataType == 'preloaded'",
-                          # State 7.2
+                          # State 7.3
                           tags$div(class='final'),
                           radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
                                        c('Flu1918', 'Flu2009', 'Measles1861',

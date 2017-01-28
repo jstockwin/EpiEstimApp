@@ -95,9 +95,33 @@ shinyServer(function(input, output, session) {
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
-          
-        } else if (SIState == 6.2) {
-          # "NonParametricUncertainSI"
+
+        } else if (SIState == 5.3) {
+          # "UncertainSI"
+          ####  FEED INTO EPIESTIM
+          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
+                    Mean.SI=input$Mean.SI, Std.SI=input$Std.SI,
+                    Std.Mean.SI=input$Std.Mean.SI, Min.Mean.SI=input$Min.Mean.SI, Max.Mean.SI=input$Max.Mean.SI, 
+                    Std.Std.SI=input$Std.Std.SI, Min.Std.SI=input$Min.Std.SI, Max.Std.SI=input$Max.Std.SI, plot=TRUE)
+          session$sendCustomMessage(type='done', "")
+        } else if (SIState == 6.3) {
+          # "SIFromSample"
+          SI.Sample = read.csv(input$SISampleData$datapath, 
+                               header = input$SISampleHeader, sep = input$SISampleSep,
+                               quote = input$SISampleQuote)
+          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          session$sendCustomMessage(type='done', "")
+        } else if (SIState == 6.4) {
+          # "ParametricSI"
+          ####  FEED INTO EPIESTIM
+          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
+                    method="ParametricSI", plot=TRUE)
+          session$sendCustomMessage(type='done', "")
+        } else if (SIState == 7.1) {
+          # MCMC then SIFromSample (equiv to SIFromData)
           # Uploaded data, need to run MCMC. Run the next 80 iterations.
           mcmc_samples = run_MCMC()
           tryCatch({
@@ -109,7 +133,7 @@ shinyServer(function(input, output, session) {
           }, error = function (e) {# Ignore the error.
           }, warning = function (e) {#ignore the warning.
           })
-
+          
           # else we actually have an MCMC fit.
           
           # If we reach here, we're done with MCMC
@@ -120,24 +144,8 @@ shinyServer(function(input, output, session) {
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
-        } else if (SIState == 5.3) {
-          # "UncertainSI"
-          ####  FEED INTO EPIESTIM
-          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
-                    Mean.SI=input$Mean.SI, Std.SI=input$Std.SI,
-                    Std.Mean.SI=input$Std.Mean.SI, Min.Mean.SI=input$Min.Mean.SI, Max.Mean.SI=input$Max.Mean.SI, 
-                    Std.Std.SI=input$Std.Std.SI, Min.Std.SI=input$Min.Std.SI, Max.Std.SI=input$Max.Std.SI, plot=TRUE)
-          session$sendCustomMessage(type='done', "")
-        } else if (SIState == 6.3) {
-          # "ParametricSI"
-          ####  FEED INTO EPIESTIM
-          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
-                    method="ParametricSI", plot=TRUE)
-          session$sendCustomMessage(type='done', "")
-        } else if (SIState == 7.1) {
-          # State 7.1
+        } else if (SIState == 7.2) {
+          # State 7.2
           # "NonParametricSI (Uploaded data)"
           SI.Distr = read.csv(input$SIDistrData$datapath, 
                               header = input$SIDistrHeader, sep = input$SIDistrSep,
@@ -145,8 +153,8 @@ shinyServer(function(input, output, session) {
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
           session$sendCustomMessage(type='done', "")
-        } else if (SIState == 7.2) {
-          # State 7.2
+        } else if (SIState == 7.3) {
+          # State 7.3
           # "NonParametricSI (Preloaded data)"
           SI.Distr = alldatasets[[input$SIDistrDataset]]$SI.Distr
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
@@ -283,15 +291,23 @@ getSIState <- function (input) {
       }
     } else if (input$SIDataType == 'own') {
       # State 5.2
-      if (!is.null(input$SIData) & !is.null(input$SIDist) & !is.null(input$param1) & !is.null(input$param2)) {
+      if (input$SIFrom == 'data') {
         # State 6.2
-          return(6.2)
+        if (!is.null(input$SIData) & !is.null(input$SIDist2) & !is.null(input$param1) & !is.null(input$param2)) {
+          # State 7.1
+          return(7.1)
+        } else {
+          stop('Error: Invalid State (2). This should never happen, something went wrong.')
+        }
+      } else if (input$SIFrom == 'sample') {
+        # State 6.3
+        return(6.3)
       } else {
-        stop('Error: Invalid State (2). This should never happen, something went wrong.')
+        stop('Error: Invalid State (3). This should never happen, something went wrong.')
       }
-    } else {
-      stop('Error: Invalid State (3). This should never happen, something went wrong.')
-    }
+      
+
+    } 
   } else {
     if (!is.null(input$SIPatientData)) {
       # State 4.2
@@ -301,16 +317,16 @@ getSIState <- function (input) {
       } else {
         # State 5.4
         if (input$parametric) {
-          # State 6.3
-          return(6.3)
-        } else {
           # State 6.4
+          return(6.4)
+        } else {
+          # State 6.5
           if (input$SIDistrDataType == 'own') {
-            # State 7.1
-            return(7.1)
-          } else if (input$SIDistrDataType == 'preloaded') {
             # State 7.2
             return(7.2)
+          } else if (input$SIDistrDataType == 'preloaded') {
+            # State 7.3
+            return(7.3)
           } else {
             stop('Error: Invalid state (7.?). This should never happen, something went wrong.')
           }
