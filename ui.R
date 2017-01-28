@@ -30,13 +30,11 @@ shinyUI(bootstrapPage(
                       verbatimTextOutput('output')
                       ),
              tags$div(id="1",
-                      h3('Step 1 of 6'),
                       h1('Indicence Data'),
                       radioButtons('incidenceDataType', 'Would you like to use your own data, or a pre-loaded data set?',
                                    c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
              ),
              tags$div(id="2",
-                      h3('Step 2 of 6'),
                       conditionalPanel("input.incidenceDataType == 'own'",
                              # State 2.1
                              fileInput('incidenceData', 'Choose incidence data file to upload',
@@ -72,13 +70,11 @@ shinyUI(bootstrapPage(
              ),
              tags$div(id="3",
                       # State 3.1
-                      h3('Step 3 of 6'),
                       h1('Serial Interval Data'),
                       radioButtons('SIPatientData', 'Do you have Serial Inteval Patient Data?',
                                    c('Yes'='TRUE', 'No'='FALSE'))
              ),
              tags$div(id="4",
-                      h3('Step 4 of 6'),
                       h1('Serial Interval Data'),
                       conditionalPanel("input.SIPatientData == 'TRUE'",
                             # State 4.1
@@ -92,7 +88,6 @@ shinyUI(bootstrapPage(
                        )
              ),
              tags$div(id="5",
-                      h3('Step 5 of 6'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'preloaded'",
                             # State 5.1
                             radioButtons('SIDataset', 'Choose your dataset',
@@ -126,7 +121,6 @@ shinyUI(bootstrapPage(
                       )
              ),
              tags$div(id="6",
-                      h3('Step 6 of 6'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'preloaded'",
                              # State 6.1
                              tags$div(class='final'),
