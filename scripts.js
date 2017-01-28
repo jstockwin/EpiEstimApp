@@ -31,6 +31,10 @@ $(document).ready(function() {
     var progress = 1;
     next.onclick = function() {
       var final = $('.final:visible').length > 0;
+      if ($('.progress-bar:visible').html() === "") {
+        alert("You don't appear to have uploaded any data. Please try again before continuing");
+        return null;
+      }
       if (final) {
           run = true;
           next.disabled = true;
