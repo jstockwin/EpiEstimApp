@@ -31,8 +31,6 @@ $(document).ready(function() {
     var progress = 1;
     next.onclick = function() {
       var final = $('.final:visible').length > 0;
-      console.log(final);
-      console.log(progress);
       if (final) {
           run = true;
           next.disabled = true;
