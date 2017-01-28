@@ -60,14 +60,14 @@ shinyUI(bootstrapPage(
                                             'Double Quote'='"',
                                             'Single Quote'="'"),
                                           '"'),
-                             sliderInput('Width', 'Choose a width:', min=1, max=20, value = 5)
+                             sliderInput('uploadedWidth', 'Choose a width:', min=1, max=20, value = 5)
                       ),
                       conditionalPanel("input.incidenceDataType == 'preloaded'",
                              # State 2.2
                              radioButtons('incidenceDataset', 'Choose your dataset',
                                           c('PennsylvaniaH1N12009', 'RotavirusGermany',
                                             'Flu1918', 'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972')),
-                             sliderInput('Width', 'Choose a width:', min=1, max=20, value = 5)
+                             sliderInput('width', 'Choose a width:', min=1, max=20, value = 5)
                        )
              ),
              tags$div(id="3",
@@ -124,10 +124,19 @@ shinyUI(bootstrapPage(
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'TRUE'",
                               # State 5.3
-                              numericInput('n1', 'n1', min=2, value=2),
+                              tags$div(class='final'),
+                              numericInput('n1', 'n1', min=2, value=50),
                               p('positive integer giving the size of the sample of pairs (Mean SI (serial interval), Std SI) to be drawn'),
-                              numericInput('n2', 'n2', min=2, value=2),
-                              p('positive integer giving the size of the sample drawn from each posterior distribution conditional to a pair (Mean SI, Std SI)')
+                              numericInput('n2', 'n2', min=2, value=50),
+                              p('positive integer giving the size of the sample drawn from each posterior distribution conditional to a pair (Mean SI, Std SI)'),
+                              numericInput('Mean.SI', 'Mean.SI', value=2, min=1),
+                              numericInput('Std.Mean.SI', 'Std.Mean.SI', min=0, value=1),
+                              numericInput('Min.Mean.SI', 'Min.Mean.SI', min=1, value=1),
+                              numericInput('Max.Mean.SI', 'Max.Mean.SI', value=3, min=1),
+                              numericInput('Std.SI', 'Std.SI', value=2, min=1),
+                              numericInput('Std.Std.SI', 'Std.Std.SI', min=0, value=1),
+                              numericInput('Min.Std.SI', 'Min.Std.SI', value=1, min=1),
+                              numericInput('Max.Std.SI', 'Max.Std.SI', value=3, min=1)
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE'",
                              # State 5.4
@@ -136,10 +145,10 @@ shinyUI(bootstrapPage(
                       )
              ),
              tags$div(id="6",
-                      tags$div(id='final'),
                       h3('Step 6 of 6'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'preloaded'",
                              # State 6.1
+                             tags$div(class='final'),
                              radioButtons('SIDist', 'Choose your serial interval distribution',
                                           c('Gamma'='G',
                                             'Offset Gamma'='off1G',
@@ -149,6 +158,7 @@ shinyUI(bootstrapPage(
                       ),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own'",
                               # State 6.2
+                              tags$div(class='final'),
                               radioButtons('SIDist2', 'Choose your serial interval distribution',
                                            c('Gamma'='G',
                                              'Offset Gamma'='off1G',
@@ -158,51 +168,51 @@ shinyUI(bootstrapPage(
                               numericInput('param1', 'Choose the value of param1', min=0, value=''),
                               numericInput('param2', 'Choose the value of param1', min=0, value='')
                       ),
-                      conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'TRUE'",
-                               # State 6.3
-                               numericInput('Mean.SI', 'Mean.SI', value=2, min=1),
-                               numericInput('Std.Mean.SI', 'Std.Mean.SI', min=0, value=1),
-                               numericInput('Min.Mean.SI', 'Min.Mean.SI', min=1, value=1),
-                               numericInput('Max.Mean.SI', 'Max.Mean.SI', value=3, min=1),
-                               numericInput('Std.SI', 'Std.SI', value=2, min=1),
-                               numericInput('Std.Std.SI', 'Std.Std.SI', min=0, value=1),
-                               numericInput('Min.Std.SI', 'Min.Std.SI', value=1, min=1),
-                               numericInput('Max.Std.SI', 'Max.Std.SI', value=3, min=1)
-                               
-                      ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'TRUE'",
-                               # State 6.4
+                               # State 6.3
+                               tags$div(class='final'),
                                numericInput('Mean.SI2', 'Mean.SI', value=2, min=1+1e-18),
                                numericInput('Std.SI2', 'Std.SI', value=1, min=1e-18)
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE'",
-                               # State 6.5
-                               radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
-                                            c('Flu1918', 'Flu2009', 'Measles1861',
-                                              'SARS2003', 'Smallpox1972', 'Uploaded Data')),
-                               conditionalPanel("input.SIDistrDataset == 'Uploaded Data'",
-                                                fileInput('SIDistrData', 'Choose serialIntervalData file to upload',
-                                                          accept = c(
-                                                            'text/csv',
-                                                            'text/comma-separated-values',
-                                                            'text/tab-separated-values',
-                                                            'text/plain',
-                                                            '.csv',
-                                                            '.tsv'
-                                                          )
-                                                ),
-                                                checkboxInput('SIDistrHeader', 'Header', FALSE),
-                                                radioButtons('SIDistrSep', 'Separator',
-                                                             c(Comma=',',
-                                                               Semicolon=';',
-                                                               Tab='\t'),
-                                                             ','),
-                                                radioButtons('SIDistrQuote', 'Quote',
-                                                             c(None='',
-                                                               'Double Quote'='"',
-                                                               'Single Quote'="'"),
-                                                             '"')
-                                )
+                               # State 6.4
+                               radioButtons('SIDistrDataType', 'Would you like to use your own data, or a pre-loaded data set?',
+                                            c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
+
+                      )
+             ),
+             tags$div(id="7",
+                      conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE' & input.SIDistrDataType == 'own'",
+                          # State 7.1    
+                          tags$div(class='final'),
+                          fileInput('SIDistrData', 'Choose serialIntervalData file to upload',
+                                    accept = c(
+                                      'text/csv',
+                                      'text/comma-separated-values',
+                                      'text/tab-separated-values',
+                                      'text/plain',
+                                      '.csv',
+                                      '.tsv'
+                                    )
+                          ),
+                          checkboxInput('SIDistrHeader', 'Header', FALSE),
+                          radioButtons('SIDistrSep', 'Separator',
+                                       c(Comma=',',
+                                         Semicolon=';',
+                                         Tab='\t'),
+                                       ','),
+                          radioButtons('SIDistrQuote', 'Quote',
+                                       c(None='',
+                                         'Double Quote'='"',
+                                         'Single Quote'="'"),
+                                       '"')
+                      ),
+                      conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE' & input.SIDistrDataType == 'preloaded'",
+                          # State 7.2
+                          tags$div(class='final'),
+                          radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
+                                       c('Flu1918', 'Flu2009', 'Measles1861',
+                                         'SARS2003', 'Smallpox1972'))
                       )
              ),
              tags$div(id="control",

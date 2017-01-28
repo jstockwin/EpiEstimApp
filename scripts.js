@@ -6,16 +6,17 @@ $(document).ready(function() {
           Shiny.onInputChange("status", "NEW" + Math.random());
     };
     setState = function (i) {
-      i = Math.min(6, Math.max(1, i));
+      i = Math.max(1, i);
       document.getElementById(1).hidden = true;
       document.getElementById(2).hidden = true;
       document.getElementById(3).hidden = true;
       document.getElementById(4).hidden = true;
       document.getElementById(5).hidden = true;
       document.getElementById(6).hidden = true;
+      document.getElementById(7).hidden = true;
       document.getElementById(i).hidden = false;
       
-      if ($('#final:visible').length > 0) {
+      if ($('.final:visible').length > 0) {
         next.innerText = "Go";
       } else {
         next.innerText = "Next";
@@ -29,8 +30,10 @@ $(document).ready(function() {
     setState(1);
     var progress = 1;
     next.onclick = function() {
-
-      if ($('#final:visible').length > 0) {
+      var final = $('.final:visible').length > 0;
+      console.log(final);
+      console.log(progress);
+      if (final) {
           run = true;
           next.disabled = true;
           next.innerText = "Running";
@@ -44,7 +47,7 @@ $(document).ready(function() {
       }
     };
     prev.onclick = function() {
-      if ($('#final:visible').length > 0 && run) {
+      if ($('.final:visible').length > 0 && run) {
         prev.innerText = "Stopping";
         prev.disabled = true;
         run = false;
@@ -61,7 +64,7 @@ $(document).ready(function() {
           next.disabled = false;
           prev.disabled = false;
           prev.innerText = "Previous";
-          if ($('#final:visible').length > 0) {
+          if ($('.final:visible').length > 0) {
             next.innerText = "Go";
           } else {
             next.innerText = "Next";

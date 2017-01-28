@@ -69,10 +69,19 @@ shinyServer(function(input, output, session) {
                                       quote = input$incidenceQuote)
           # Process Incidence data (see utils.R)
           IncidenceData <- processIncidenceData(IncidenceData)
+          
+          # Set width
+          W <- input$uploadedWidth
         } else if (incidenceState == 2.2) {
           # Get preloaded data
           IncidenceData <- getIncidenceData(input$incidenceDataset, alldatasets)
+          # Set width
+          W <- input$width
+        } else {
+          stop('Something went wrong. Invalid state (2.?)')
         }
+        
+        length <- dim(IncidenceData)[1]
        
         #######################
         ## Deal with SI Data ##
@@ -83,8 +92,6 @@ shinyServer(function(input, output, session) {
           # Simply read the MCMC samples from the file. See getMCMCFit in utils.R 
           SI.Sample <- getSISamples(input$SIDataset, input$SIDist)
           ####  FEED INTO EPIESTIM
-          W <- input$Width
-          length <- dim(IncidenceData)[1]
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
@@ -108,45 +115,40 @@ shinyServer(function(input, output, session) {
           # If we reach here, we're done with MCMC
           mcmc_samples <- mcmc_samples[3000:8000,] #Remove burnin
           ####  FEED INTO EPIESTIM
-          W <- input$Width
-          length <- dim(IncidenceData)[1]
           session$sendCustomMessage(type='updateStatus', "Running coarse2estim")
           SI.Sample = coarse2estim(samples=mcmc_samples, dist=input$SIDist2)$SI.Sample
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
-        } else if (SIState == 6.3) {
+        } else if (SIState == 5.3) {
           # "UncertainSI"
           ####  FEED INTO EPIESTIM
-          W <- input$Width
-          length <- dim(IncidenceData)[1]
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
                     Mean.SI=input$Mean.SI, Std.SI=input$Std.SI,
                     Std.Mean.SI=input$Std.Mean.SI, Min.Mean.SI=input$Min.Mean.SI, Max.Mean.SI=input$Max.Mean.SI, 
                     Std.Std.SI=input$Std.Std.SI, Min.Std.SI=input$Min.Std.SI, Max.Std.SI=input$Max.Std.SI, plot=TRUE)
           session$sendCustomMessage(type='done', "")
-        } else if (SIState == 6.4) {
+        } else if (SIState == 6.3) {
           # "ParametricSI"
           ####  FEED INTO EPIESTIM
-          W <- input$Width
-          length <- dim(IncidenceData)[1]
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
                     method="ParametricSI", plot=TRUE)
           session$sendCustomMessage(type='done', "")
-        } else if (SIState == 6.5) {
-          # "NonParametricSI"
-          ####  FEED INTO EPIESTIM
-          W <- input$Width
-          length <- dim(IncidenceData)[1]
-          if (input$SIDistrDataset == 'Uploaded Data') {
-            SI.Distr = read.csv(input$SIDistrData$datapath, 
-                                header = input$SIDistrHeader, sep = input$SIDistrSep,
-                                quote = input$SIDistrQuote)
-          } else {
-            SI.Distr = alldatasets[[input$SIDistrDataset]]$SI.Distr
-          }
+        } else if (SIState == 7.1) {
+          # State 7.1
+          # "NonParametricSI (Uploaded data)"
+          SI.Distr = read.csv(input$SIDistrData$datapath, 
+                              header = input$SIDistrHeader, sep = input$SIDistrSep,
+                              quote = input$SIDistrQuote)
+          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
+          session$sendCustomMessage(type='done', "")
+        } else if (SIState == 7.2) {
+          # State 7.2
+          # "NonParametricSI (Preloaded data)"
+          SI.Distr = alldatasets[[input$SIDistrDataset]]$SI.Distr
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
           session$sendCustomMessage(type='done', "")
@@ -295,16 +297,23 @@ getSIState <- function (input) {
       # State 4.2
       if (input$uncertainty) {
         # State 5.3
-        # State 6.3
-        return(6.3)
+        return(5.3)
       } else {
         # State 5.4
         if (input$parametric) {
-          # State 6.4
-          return(6.4)
+          # State 6.3
+          return(6.3)
         } else {
-          # State 6.5
-          return(6.5)
+          # State 6.4
+          if (input$SIDistrDataType == 'own') {
+            # State 7.1
+            return(7.1)
+          } else if (input$SIDistrDataType == 'preloaded') {
+            # State 7.2
+            return(7.2)
+          } else {
+            stop('Error: Invalid state (7.?). This should never happen, something went wrong.')
+          }
         }
       }
     }
@@ -320,6 +329,6 @@ getIncidenceState <- function (input) {
     # State 2.2
     return(2.2)
   } else {
-    stop('Error: Invalid State (6). This should never happen, something went wrong.')
+    stop('Error: Invalid State (2.?). This should never happen, something went wrong.')
   }
 }
