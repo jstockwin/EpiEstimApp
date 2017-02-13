@@ -111,7 +111,7 @@ shinyServer(function(input, output, session) {
                                header = input$SISampleHeader, sep = input$SISampleSep,
                                quote = input$SISampleQuote)
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n23, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 6.4) {
           # "ParametricSI"
@@ -137,12 +137,14 @@ shinyServer(function(input, output, session) {
           # else we actually have an MCMC fit.
           
           # If we reach here, we're done with MCMC
-          mcmc_samples <- mcmc_samples[3000:8000,] #Remove burnin
+          burnin = input$burnin
+          num.samples = burnin + input$n12*input$thin
+          mcmc_samples <- mcmc_samples[burnin:num.samples,] #Remove burnin and thin the samples
           ####  FEED INTO EPIESTIM
           session$sendCustomMessage(type='updateStatus', "Running coarse2estim")
-          SI.Sample = coarse2estim(samples=mcmc_samples, dist=input$SIDist2)$SI.Sample
+          SI.Sample = coarse2estim(samples=mcmc_samples, dist=input$SIDist2, thin=input$thin)$SI.Sample
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n22, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 7.2) {
           # State 7.2
@@ -200,11 +202,12 @@ shinyServer(function(input, output, session) {
       # Update the client about the current state for which MCMC is being ran for:
       session$sendCustomMessage(type='setMCMCInfo', paste('["', paste(URLencode(input$SIData$datapath), input$SIDist2, input$param1, input$param2, sep='","'), '"]', sep=''))
       
-      
+      total.samples.needed = input$burnin + input$n12 * input$thin
 
       session$sendCustomMessage(type='updateStatus', "Running MCMC... 0%")
       MCMC = dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist2,
-                                      init.pars = params, increment.size = 80)
+                                      init.pars = params, increment.size = 80,
+                                      burnin=0, n.samples=total.samples.needed)
       # We're not yet done, so ping data back to client to check if we should continue
       data <- toJSON(MCMC@samples)
       session$sendCustomMessage(type='pingToClient', data) 
@@ -223,14 +226,17 @@ shinyServer(function(input, output, session) {
       # continue running MCMC or, if we've got a full set of data, simply return the
       # samples for that data.
       
+      total.samples.needed = input$burnin + input$n12 * input$thin
+      
       current = as.data.frame(fromJSON(input$mydata))
-      session$sendCustomMessage(type='updateStatus', paste('Running MCMC... ', round(dim(current)[1]*100/8000), '%', sep=''))
+      session$sendCustomMessage(type='updateStatus', paste('Running MCMC... ', round(dim(current)[1]*100/total.samples.needed), '%', sep=''))
   
-      if(dim(current)[1] < 8000) {
+      if(dim(current)[1] < total.samples.needed) {
         # A partial run has been completed. Let's continue.
 
         mcmc_samples = dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist2,
-                                 current.samples = current, increment.size = 80)@samples
+                                 current.samples = current, increment.size = 80,
+                                 burnin=0, n.samples=total.samples.needed)@samples
         data <- toJSON(mcmc_samples)
         session$sendCustomMessage(type='pingToClient', data)
         return(FALSE)

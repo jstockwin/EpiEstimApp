@@ -179,7 +179,8 @@ shinyUI(bootstrapPage(
                                            c(None='',
                                              'Double Quote'='"',
                                              'Single Quote'="'"),
-                                           '"')
+                                           '"'),
+                              numericInput('n23', 'Choose n2', min=10, value=100)
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'TRUE'",
                                # State 6.4
@@ -204,8 +205,13 @@ shinyUI(bootstrapPage(
                                            'Erlang' = 'E',
                                            'Weibull' = 'W',
                                            'Log-Normal' = 'L')),
-                            numericInput('param1', 'Choose the value of param1', min=0, value=''),
-                            numericInput('param2', 'Choose the value of param1', min=0, value='')
+                            numericInput('n22', 'Choose n2', min=10, value=100),
+                            p('NOTE: MCMC will run burnin + n1*thin iterations. This is slow. Try to keep below 10,000 even for small dataset'),
+                            numericInput('n12', 'Choose the number of MCMC samples (n1)', min=10, value=500),
+                            numericInput('burnin', 'Choose the number of MCMC burnin samples', min=0, value=3000),
+                            numericInput('thin', 'Choose thin for MCMC, will run thin MCMC iterations for each sample', min=1, value=10),
+                            numericInput('param1', 'Choose the value of param1 (MCMC init.pars)', min=0, value=''),
+                            numericInput('param2', 'Choose the value of param1 (MCMC init.pars)', min=0, value='')
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE' & input.SIDistrDataType == 'own'",
                           # State 7.2    
