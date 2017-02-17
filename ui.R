@@ -21,7 +21,11 @@ shinyUI(bootstrapPage(
         HTML(
           "
           <h1>Transmissibility Estimator</h1>
-          <p>TODO: Description here</p>
+          <p>This application estimates disease transmissibility from incidence time series and
+ time-censored serial interval data.</p>
+          <p>The authors request users to cite the original publication (TODO: LINK) when referring to this
+tool, the format or results generated from it.</p>
+          <p>TODO: Insert citatation.</p>
           "
         )      
       ),
@@ -31,7 +35,7 @@ shinyUI(bootstrapPage(
                       ),
              tags$div(id="1",
                       h1('Indicence Data'),
-                      radioButtons('incidenceDataType', 'Would you like to use your own data, or a pre-loaded data set?',
+                      radioButtons('incidenceDataType', 'Do you want to use pre-loaded incidence time series data or upload your own?',
                                    c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
              ),
              tags$div(id="2",
@@ -58,14 +62,14 @@ shinyUI(bootstrapPage(
                                             'Double Quote'='"',
                                             'Single Quote'="'"),
                                           '"'),
-                             sliderInput('uploadedWidth', 'Choose a width:', min=1, max=20, value = 5)
+                             sliderInput('uploadedWidth', 'Choose a time interval window length over which to estimate transmissibility:', min=1, max=20, value = 5)
                       ),
                       conditionalPanel("input.incidenceDataType == 'preloaded'",
                              # State 2.2
                              radioButtons('incidenceDataset', 'Choose your dataset',
                                           c('PennsylvaniaH1N12009', 'RotavirusGermany',
                                             'Flu1918', 'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972')),
-                             sliderInput('width', 'Choose a width:', min=1, max=20, value = 5)
+                             sliderInput('width', 'Choose a time interval window length over which to estimate transmissibility:', min=1, max=20, value = 5)
                        )
              ),
              tags$div(id="3",
