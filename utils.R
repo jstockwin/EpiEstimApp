@@ -53,6 +53,7 @@ getSISamples <- function (data, SIDist) {
   } else {
     return(NULL)
   }
+  return(samples)
 }
 
 
@@ -69,6 +70,7 @@ processSerialIntervalData <- function (serialIntervalData) {
   names <- c("EL", "ER", "SL", "SR", "type")
   colnames(serialIntervalData) <- names
   serialIntervalData <- as.data.frame(serialIntervalData)
+  return(serialIntervalData)
 }
 
 processIncidenceData <- function (incidenceData) {
