@@ -31,6 +31,7 @@ alldatasets <- list('Measles1861' = Measles1861,
 source("dic.fit.mcmc.incremental.R", local=TRUE)
 source("stochasticSEIRModel3.R", local=TRUE)
 source("utils.R", local=TRUE)
+source("deleteme.R", local=TRUE)
 
 # By default, the file size limit is 5MB. It can be changed by
 # setting this option. Here we'll raise limit to 9MB.
@@ -62,7 +63,7 @@ shinyServer(function(input, output, session) {
         ## Incidence Data ##
         ####################
         
-        if (incidenceState == 2.1) {
+        if (incidenceState == 3.1) {
           # Handle uploaded data:
           IncidenceData <- read.csv(input$incidenceData$datapath, 
                                       header = input$incidenceHeader, sep = input$incidenceSep,
@@ -70,57 +71,70 @@ shinyServer(function(input, output, session) {
           # Process Incidence data (see utils.R)
           IncidenceData <- processIncidenceData(IncidenceData)
           
-          # Set width
-          W <- input$uploadedWidth
         } else if (incidenceState == 2.2) {
           # Get preloaded data
           IncidenceData <- getIncidenceData(input$incidenceDataset, alldatasets)
-          # Set width
-          W <- input$width
+
+        }else if (incidenceState == 4.1) {
+          IncidenceData <- read.csv(input$incidenceData$datapath, 
+                                    header = input$incidenceHeader, sep = input$incidenceSep,
+                                    quote = input$incidenceQuote)
+          
+          ImportedData <- read.csv(input$importedData$datapath,
+                                   header = input$importedHeader, sep = input$importedSep,
+                                   quote = input$importedQuote)
+          
+          # Process Incidence data (see utils.R)
+          IncidenceData <- processIncidenceData(IncidenceData, ImportedData)
+    
         } else {
           stop('Something went wrong. Invalid state (2.?)')
         }
         
         length <- dim(IncidenceData)[1]
+        
+        # Set width
+        W <- input$width
        
         #######################
         ## Deal with SI Data ##
         #######################
         
-        if (SIState == 6.1) {
+        if (SIState == 8.1) {
+          
           # "NonParametricUncertainSI"
           # Simply read the MCMC samples from the file. See getMCMCFit in utils.R 
           SI.Sample <- getSISamples(input$SIDataset, input$SIDist)
           ####  FEED INTO EPIESTIM
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
 
-        } else if (SIState == 5.3) {
+        } else if (SIState == 7.3) {
           # "UncertainSI"
           ####  FEED INTO EPIESTIM
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
+          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
                     Mean.SI=input$Mean.SI, Std.SI=input$Std.SI,
                     Std.Mean.SI=input$Std.Mean.SI, Min.Mean.SI=input$Min.Mean.SI, Max.Mean.SI=input$Max.Mean.SI, 
                     Std.Std.SI=input$Std.Std.SI, Min.Std.SI=input$Min.Std.SI, Max.Std.SI=input$Max.Std.SI, plot=TRUE)
           session$sendCustomMessage(type='done', "")
-        } else if (SIState == 6.3) {
+        } else if (SIState == 8.3) {
           # "SIFromSample"
           SI.Sample = read.csv(input$SISampleData$datapath, 
                                header = input$SISampleHeader, sep = input$SISampleSep,
                                quote = input$SISampleQuote)
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n23, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n23, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
-        } else if (SIState == 6.4) {
+        } else if (SIState == 8.4) {
           # "ParametricSI"
           ####  FEED INTO EPIESTIM
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
+          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
                     method="ParametricSI", plot=TRUE)
           session$sendCustomMessage(type='done', "")
-        } else if (SIState == 7.1) {
+        } else if (SIState == 9.1) {
           # MCMC then SIFromSample (equiv to SIFromData)
           # Uploaded data, need to run MCMC. Run the next 80 iterations.
           mcmc_samples = run_MCMC()
@@ -144,23 +158,23 @@ shinyServer(function(input, output, session) {
           session$sendCustomMessage(type='updateStatus', "Running coarse2estim")
           SI.Sample = coarse2estim(samples=mcmc_samples, dist=input$SIDist2, thin=input$thin)$SI.Sample
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n22, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n22, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
-        } else if (SIState == 7.2) {
+        } else if (SIState == 9.2) {
           # State 7.2
           # "NonParametricSI (Uploaded data)"
           SI.Distr = read.csv(input$SIDistrData$datapath, 
                               header = input$SIDistrHeader, sep = input$SIDistrSep,
                               quote = input$SIDistrQuote)
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
+          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
           session$sendCustomMessage(type='done', "")
-        } else if (SIState == 7.3) {
+        } else if (SIState == 9.3) {
           # State 7.3
           # "NonParametricSI (Preloaded data)"
           SI.Distr = alldatasets[[input$SIDistrDataset]]$SI.Distr
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData[,2], T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
+          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         }
       }) # End Isolate
@@ -286,28 +300,28 @@ checkIfSIDataUpdated <- function (input) {
 
 getSIState <- function (input) {
   if (input$SIPatientData) {
-    # State 4.1
+    # State 6.1
     if (input$SIDataType == 'preloaded') {
-      # State 5.1
+      # State 7.1
       if (!is.null(input$SIDataset) && !is.null(input$SIDist)) {
-        # State 6.1
-        return(6.1)
+        # State 8.1
+        return(8.1)
       } else {
         stop('Error: Invalid State (1). This should never happen, something went wrong.')
       }
     } else if (input$SIDataType == 'own') {
-      # State 5.2
+      # State 7.2
       if (input$SIFrom == 'data') {
-        # State 6.2
+        # State 8.2
         if (!is.null(input$SIData) & !is.null(input$SIDist2) & !is.null(input$param1) & !is.null(input$param2)) {
-          # State 7.1
-          return(7.1)
+          # State 9.1
+          return(9.1)
         } else {
           stop('Error: Invalid State (2). This should never happen, something went wrong.')
         }
       } else if (input$SIFrom == 'sample') {
-        # State 6.3
-        return(6.3)
+        # State 8.3
+        return(8.3)
       } else {
         stop('Error: Invalid State (3). This should never happen, something went wrong.')
       }
@@ -316,25 +330,25 @@ getSIState <- function (input) {
     } 
   } else {
     if (!is.null(input$SIPatientData)) {
-      # State 4.2
+      # State 6.2
       if (input$uncertainty) {
-        # State 5.3
-        return(5.3)
+        # State 7.3
+        return(7.3)
       } else {
-        # State 5.4
+        # State 7.4
         if (input$parametric) {
-          # State 6.4
-          return(6.4)
+          # State 8.4
+          return(8.4)
         } else {
-          # State 6.5
+          # State 8.5
           if (input$SIDistrDataType == 'own') {
-            # State 7.2
-            return(7.2)
+            # State 9.2
+            return(9.2)
           } else if (input$SIDistrDataType == 'preloaded') {
-            # State 7.3
-            return(7.3)
+            # State 9.3
+            return(9.3)
           } else {
-            stop('Error: Invalid state (7.?). This should never happen, something went wrong.')
+            stop('Error: Invalid state (9.?). This should never happen, something went wrong.')
           }
         }
       }
@@ -346,7 +360,13 @@ getSIState <- function (input) {
 getIncidenceState <- function (input) {
   if (input$incidenceDataType == 'own') {
     # State 2.1
-    return(2.1)
+    if (input$imported == 'TRUE') {
+      # State 4.1
+      return(4.1)
+    } else {
+      # State 3.1
+      return(3.1)
+    }
   } else if (input$incidenceDataType == 'preloaded') {
     # State 2.2
     return(2.2)

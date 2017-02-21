@@ -71,23 +71,42 @@ processSerialIntervalData <- function (serialIntervalData) {
   serialIntervalData <- as.data.frame(serialIntervalData)
 }
 
-processIncidenceData <- function (incidenceData) {
+processIncidenceData <- function (incidenceData, importedData=NULL) {
   incidenceData <- as.data.frame(incidenceData)
   cases_dims <- dim(incidenceData)
-  if ((cases_dims[1] == 1 && cases_dims[2] > 1) || (cases_dims[1] == 2 && cases_dims[2] > 2)) {
-    # The data is transposed.
+  if ((cases_dims[1] == 1 && cases_dims[2] > 1)) {
+    # The data is transposed (we want a column vector).
     incidenceData <- t(incidenceData)
     # Update cases_dims for next bit
     cases_dims <- dim(incidenceData)
   }
   
-  if (cases_dims[2] > 2) {
+  if (cases_dims[2] > 1) {
     # Bad input
-    stop("incidenceData should only have one column, or one column and an index column")
-  } else if (cases_dims[2] == 1) {
-    # Add a time column first.
-    incidenceData <- cbind(seq.int(nrow(incidenceData)), incidenceData)
+    stop("incidenceData should only have one column")
   }
-  colnames(incidenceData) <- c("Time", "Cases")
   incidenceData <- as.data.frame(incidenceData)
+  colnames(incidenceData) = "local"
+  if (!is.null(importedData)) {
+    importedData <- as.data.frame(importedData)
+    cases_dims <- dim(importedData)
+    if ((cases_dims[1] == 1 && cases_dims[2] > 1)) {
+      # The data is transposed (we want a column vector).
+      importedData <- t(importedData)
+      # Update cases_dims for next bit
+      cases_dims <- dim(importedData)
+    }
+    
+    if (cases_dims[2] > 1) {
+      # Bad input
+      stop("importedData should only have one column")
+    }
+    
+    incidenceData$imported = importedData[,1]
+    
+    # Currently the "local" column will be the total number of cases because of the way the app
+    # is asking for inputs. Correct for this. 
+    incidenceData$local = incidenceData$local - incidenceData$imported
+  }
+  return(incidenceData)
 }
