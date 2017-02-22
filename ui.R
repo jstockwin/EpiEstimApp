@@ -212,7 +212,7 @@ tool, the format or results generated from it.</p>
                                         )
                               ),
                               checkboxInput('SISampleHeader', 'Header', FALSE),
-                              radioButtons('SISep', 'Separator',
+                              radioButtons('SISampleSep', 'Separator',
                                            c(Comma=',',
                                              Semicolon=';',
                                              Tab='\t'),

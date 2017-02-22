@@ -120,9 +120,9 @@ shinyServer(function(input, output, session) {
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 8.3) {
           # "SIFromSample"
-          SI.Sample = read.csv(input$SISampleData$datapath, 
+          SI.Sample = processSISamples(read.csv(input$SISampleData$datapath, 
                                header = input$SISampleHeader, sep = input$SISampleSep,
-                               quote = input$SISampleQuote)
+                               quote = input$SISampleQuote))
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
           EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n23, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
