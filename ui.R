@@ -39,6 +39,7 @@ tool, the format or results generated from it.</p>
                                    c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
              ),
              tags$div(id="2",
+                      h1('Indicence Data'),
                       conditionalPanel("input.incidenceDataType == 'own'",
                              # State 2.1
                              fileInput('incidenceData', 'Choose incidence data file to upload',
@@ -62,14 +63,14 @@ tool, the format or results generated from it.</p>
                                             'Double Quote'='"',
                                             'Single Quote'="'"),
                                           '"'),
-                             sliderInput('uploadedWidth', 'Choose a time interval window length over which to estimate transmissibility:', min=1, max=20, value = 5)
+                             sliderInput('uploadedWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
                       ),
                       conditionalPanel("input.incidenceDataType == 'preloaded'",
                              # State 2.2
                              radioButtons('incidenceDataset', 'Choose your dataset',
                                           c('PennsylvaniaH1N12009', 'RotavirusGermany',
                                             'Flu1918', 'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972')),
-                             sliderInput('width', 'Choose a time interval window length over which to estimate transmissibility:', min=1, max=20, value = 5),
+                             sliderInput('width', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7),
                              tags$div(class='continue')
                        )
              ),
@@ -109,24 +110,25 @@ tool, the format or results generated from it.</p>
              ),
              tags$div(id="5",
                       # State 5.1
-                      h1('Serial Interval Data'),
-                      radioButtons('SIPatientData', 'Do you have Serial Inteval Patient Data?',
+                      h1('Serial Interval (SI) Input'),
+                      radioButtons('SIPatientData', 'Do you want to use exposure data to inform the SI?',
                                    c('Yes'='TRUE', 'No'='FALSE'))
              ),
              tags$div(id="6",
                       h1('Serial Interval Data'),
                       conditionalPanel("input.SIPatientData == 'TRUE'",
                             # State 6.1
-                            radioButtons('SIDataType', 'Would you like to use your own data, or a pre-loaded data set?',
+                            radioButtons('SIDataType', 'Would you like to use an external file containing the exposure data, or a pre-loaded dataset?',
                                          c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE'", 
                            # State 6.2
-                           radioButtons('uncertainty', 'Would you like to include uncertainty in your model?',
+                           radioButtons('uncertainty', 'Would you like to include SI uncertainty in your model?',
                                         c('Yes'='TRUE', 'No'='FALSE'))
                        )
              ),
              tags$div(id="7",
+                      h1('Serial Interval (SI) Input'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'preloaded'",
                             # State 7.1
                             radioButtons('SIDataset', 'Choose your dataset',
@@ -134,8 +136,8 @@ tool, the format or results generated from it.</p>
                        ),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own'",
                              # State 7.2
-                             radioButtons('SIFrom', 'Do you have data or MCMC samples to upload?',
-                                          c('Data'='data', 'MCMC Samples'='sample'))
+                            radioButtons('SIFrom', 'Do you have raw exposure data or a SI posterior sample to upload?',
+                                         c('Raw exposure data'='data', 'SI posterior sample'='sample'))
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'TRUE'",
                               # State 7.3
@@ -155,11 +157,12 @@ tool, the format or results generated from it.</p>
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE'",
                              # State 7.4
-                             radioButtons('parametric', 'Parametric on Non-Parametric?',
-                                          c('Parametric'='TRUE', 'Non-Parametric'='FALSE'))
+                            radioButtons('parametric', 'Parametric on Non-Parametric SI?',
+                                         c('Parametric'='TRUE', 'Non-Parametric'='FALSE'))
                       )
              ),
              tags$div(id="8",
+                      h1('Serial Interval (SI) Input'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'preloaded'",
                              # State 8.1
                              tags$div(class='final'),
@@ -219,7 +222,7 @@ tool, the format or results generated from it.</p>
                                              'Double Quote'='"',
                                              'Single Quote'="'"),
                                            '"'),
-                              numericInput('n23', 'Choose n2', min=10, value=100)
+                              numericInput('n23', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'TRUE'",
                                # State 8.4
@@ -229,12 +232,13 @@ tool, the format or results generated from it.</p>
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE'",
                                # State 8.5
-                               radioButtons('SIDistrDataType', 'Would you like to use your own data, or a pre-loaded data set?',
-                                            c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
+                              radioButtons('SIDistrDataType', 'Would you like to use an external file containing the SI distribution, or a pre-loaded SI distribution?',
+                                           c('Pre-loaded' = 'preloaded', 'External file' = 'own'))
 
                       )
              ),
              tags$div(id="9",
+                      h1('Serial Interval (SI) Input'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own' & input.SIFrom == 'data'",
                             # State 9.1
                             tags$div(class='final'),
@@ -244,13 +248,13 @@ tool, the format or results generated from it.</p>
                                            'Erlang' = 'E',
                                            'Weibull' = 'W',
                                            'Log-Normal' = 'L')),
-                            numericInput('n22', 'Choose n2', min=10, value=100),
                             p('NOTE: MCMC will run burnin + n1*thin iterations. This is slow. Try to keep below 10,000 even for small dataset'),
-                            numericInput('n12', 'Choose the number of MCMC samples (n1)', min=10, value=500),
-                            numericInput('burnin', 'Choose the number of MCMC burnin samples', min=0, value=3000),
-                            numericInput('thin', 'Choose thin for MCMC, will run thin MCMC iterations for each sample', min=1, value=10),
+                            numericInput('n12', 'Choose the posterior sample size (n1)', min=10, value=500),
+                            numericInput('burnin', 'Choose the number of iterations used as MCMC burnin', min=0, value=3000),
+                            numericInput('thin', 'Choose MCMC thin parameter (thin-1 out of thin iterations will be discarded to produce posterior sample)', min=1, value=10),
+                            numericInput('n22', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100),
                             numericInput('param1', 'Choose the value of param1 (MCMC init.pars)', min=0, value=''),
-                            numericInput('param2', 'Choose the value of param1 (MCMC init.pars)', min=0, value='')
+                            numericInput('param2', 'Choose the value of param2 (MCMC init.pars)', min=0, value='')
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE' & input.SIDistrDataType == 'own'",
                           # State 9.2    
