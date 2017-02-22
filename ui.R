@@ -77,7 +77,7 @@ tool, the format or results generated from it.</p>
              tags$div(id="3", 
                       # State 3.1
                       radioButtons('imported', "Do you have data about which cases are imported?",
-                                   c('Yes'='TRUE', 'No' = 'FALSE')),
+                                   c('No' = 'FALSE', 'Yes'='TRUE')),
                       conditionalPanel('input.imported == "FALSE"', 
                                        # If no, "Next" should continue to state 5.1
                                         tags$div(class='continue')
