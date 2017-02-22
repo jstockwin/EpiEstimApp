@@ -187,7 +187,7 @@ tool, the format or results generated from it.</p>
                                              'Double Quote'='"',
                                              'Single Quote'="'"),
                                            '"'),
-                              numericInput('n23', 'Choose n2', min=10, value=100)
+                              numericInput('n23', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'TRUE'",
                                # State 6.4
@@ -216,10 +216,10 @@ tool, the format or results generated from it.</p>
                             p('NOTE: MCMC will run burnin + n1*thin iterations. This is slow. Try to keep below 10,000 even for small dataset'),
                             numericInput('n12', 'Choose the posterior sample size (n1)', min=10, value=500),
                             numericInput('burnin', 'Choose the number of iterations used as MCMC burnin', min=0, value=3000),
-                            numericInput('thin', 'Choose MCMC thin parameter (will discard thin-1 out of thin iterations to produce posterior sample)', min=1, value=10),
+                            numericInput('thin', 'Choose MCMC thin parameter (thin-1 out of thin iterations will be discarded to produce posterior sample)', min=1, value=10),
                             numericInput('n22', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100),
                             numericInput('param1', 'Choose the value of param1 (MCMC init.pars)', min=0, value=''),
-                            numericInput('param2', 'Choose the value of param1 (MCMC init.pars)', min=0, value='')
+                            numericInput('param2', 'Choose the value of param2 (MCMC init.pars)', min=0, value='')
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE' & input.SIDistrDataType == 'own'",
                           # State 7.2    
