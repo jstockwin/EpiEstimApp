@@ -96,12 +96,17 @@ processIncidenceData <- function (incidenceData, importedData=NULL) {
       # The data is transposed (we want a column vector).
       importedData <- t(importedData)
       # Update cases_dims for next bit
-      cases_dims <- dim(importedData)
+      imported_dims <- dim(importedData)
     }
     
-    if (cases_dims[2] > 1) {
+    if (imported_dims[2] > 1) {
       # Bad input
       stop("importedData should only have one column")
+    }
+    
+    if (imported_dims[1] != cases_dims[1]) {
+      # Lengths don't match
+      stop("The 'all cases' and the 'imported' datasets are not of the same length")
     }
     
     incidenceData$imported = importedData[,1]
