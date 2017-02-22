@@ -14,6 +14,8 @@ $(document).ready(function() {
       document.getElementById(5).hidden = true;
       document.getElementById(6).hidden = true;
       document.getElementById(7).hidden = true;
+      document.getElementById(8).hidden = true;
+      document.getElementById(9).hidden = true;
       document.getElementById(i).hidden = false;
       
       if ($('.final:visible').length > 0) {
@@ -26,11 +28,13 @@ $(document).ready(function() {
     var next = document.getElementById("next");
     var prev = document.getElementById("prev");
     var output = document.getElementById("output");
+    var continuedState;
     output.innerText = "Initialising...";
     setState(1);
     var progress = 1;
     next.onclick = function() {
       var final = $('.final:visible').length > 0;
+      var cont = $('.continue:visible').length > 0;
       if ($('.progress-bar:visible').html() === "") {
         alert("You don't appear to have uploaded any data. Please try again before continuing");
         return null;
@@ -43,6 +47,13 @@ $(document).ready(function() {
           prev.innerText = "Stop";
           go();
           output.innerText = "Running...";
+      } else if (cont) {
+        // Cont. means we want to skip to state 5, as we're continuing
+        // from the incidence data section to the SI section early.
+        continuedState = progress;
+        progress = 5;
+        setState(progress);
+        
       } else {
           progress += 1;
           setState(progress);
@@ -57,7 +68,14 @@ $(document).ready(function() {
         // for running the code in server.R.
         Shiny.onInputChange("status", "STOP");
       } else {
-        progress += -1;
+        if (progress == 5) {
+          // We could have skipped to state 5 using continue.
+          // Instead of just going down by 1, we'll go to the continuedState
+          // which is the state we were in when a continue was triggered. 
+          progress = continuedState;
+        } else {
+          progress += -1;
+        }
         setState(progress);
       }
     };

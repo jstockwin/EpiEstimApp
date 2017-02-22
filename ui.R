@@ -70,42 +70,77 @@ tool, the format or results generated from it.</p>
                              radioButtons('incidenceDataset', 'Choose your dataset',
                                           c('PennsylvaniaH1N12009', 'RotavirusGermany',
                                             'Flu1918', 'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972')),
-                             sliderInput('width', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
+                             sliderInput('width', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7),
+                             tags$div(class='continue')
                        )
              ),
-             tags$div(id="3",
+             tags$div(id="3", 
                       # State 3.1
+                      radioButtons('imported', "Do you have data about which cases are imported?",
+                                   c('Yes'='TRUE', 'No' = 'FALSE')),
+                      conditionalPanel('input.imported == "FALSE"', 
+                                       # If no, "Next" should continue to state 5.1
+                                        tags$div(class='continue')
+                                       )
+             ),
+             tags$div(id="4",
+                      # State 4.1
+                      fileInput('importedData', 'Choose an imported data file to upload',
+                                accept = c(
+                                  'text/csv',
+                                  'text/comma-separated-values',
+                                  'text/tab-separated-values',
+                                  'text/plain',
+                                  '.csv',
+                                  '.tsv'
+                                )
+                      ),
+                      checkboxInput('importedHeader', 'Header', FALSE),
+                      radioButtons('importedSep', 'Separator',
+                                   c(Comma=',',
+                                     Semicolon=';',
+                                     Tab='\t'),
+                                   ','),
+                      radioButtons('importedQuote', 'Quote',
+                                   c(None='',
+                                     'Double Quote'='"',
+                                     'Single Quote'="'"),
+                                   '"'),
+                      tags$div(class="continue")
+             ),
+             tags$div(id="5",
+                      # State 5.1
                       h1('Serial Interval (SI) Input'),
                       radioButtons('SIPatientData', 'Do you want to use exposure data to inform the SI?',
                                    c('Yes'='TRUE', 'No'='FALSE'))
              ),
-             tags$div(id="4",
-                      h1('Serial Interval (SI) Input'),
+             tags$div(id="6",
+                      h1('Serial Interval Data'),
                       conditionalPanel("input.SIPatientData == 'TRUE'",
-                            # State 4.1
+                            # State 6.1
                             radioButtons('SIDataType', 'Would you like to use an external file containing the exposure data, or a pre-loaded dataset?',
                                          c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE'", 
-                           # State 4.2
+                           # State 6.2
                            radioButtons('uncertainty', 'Would you like to include SI uncertainty in your model?',
                                         c('Yes'='TRUE', 'No'='FALSE'))
                        )
              ),
-             tags$div(id="5",
+             tags$div(id="7",
                       h1('Serial Interval (SI) Input'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'preloaded'",
-                            # State 5.1
+                            # State 7.1
                             radioButtons('SIDataset', 'Choose your dataset',
                                          c('PennsylvaniaH1N12009', 'RotavirusGermany'))
                        ),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own'",
-                             # State 5.2
-                             radioButtons('SIFrom', 'Do you have raw exposure data or a SI posterior sample to upload?',
-                                          c('Raw exposure data'='data', 'SI posterior sample'='sample'))
+                             # State 7.2
+                            radioButtons('SIFrom', 'Do you have raw exposure data or a SI posterior sample to upload?',
+                                         c('Raw exposure data'='data', 'SI posterior sample'='sample'))
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'TRUE'",
-                              # State 5.3
+                              # State 7.3
                               tags$div(class='final'),
                               numericInput('n1', 'n1', min=2, value=50),
                               p('positive integer giving the size of the sample of pairs (Mean SI (serial interval), Std SI) to be drawn'),
@@ -121,15 +156,15 @@ tool, the format or results generated from it.</p>
                               numericInput('Max.Std.SI', 'Max.Std.SI', value=3, min=1)
                        ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE'",
-                             # State 5.4
-                             radioButtons('parametric', 'Parametric on Non-Parametric SI?',
-                                          c('Parametric'='TRUE', 'Non-Parametric'='FALSE'))
+                             # State 7.4
+                            radioButtons('parametric', 'Parametric on Non-Parametric SI?',
+                                         c('Parametric'='TRUE', 'Non-Parametric'='FALSE'))
                       )
              ),
-             tags$div(id="6",
+             tags$div(id="8",
                       h1('Serial Interval (SI) Input'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'preloaded'",
-                             # State 6.1
+                             # State 8.1
                              tags$div(class='final'),
                              radioButtons('SIDist', 'Choose your serial interval distribution',
                                           c('Gamma'='G',
@@ -139,7 +174,7 @@ tool, the format or results generated from it.</p>
                                             'Log-Normal' = 'L'))
                       ),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own' & input.SIFrom == 'data'",
-                               # State 6.2
+                               # State 8.2
                                
                                fileInput('SIData', 'Choose serialIntervalData file to upload',
                                          accept = c(
@@ -164,7 +199,7 @@ tool, the format or results generated from it.</p>
                                             '"')
                        ),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own' & input.SIFrom == 'sample'",
-                              # State 6.3
+                              # State 8.3
                               tags$div(class='final'),
                               fileInput('SISampleData', 'Choose serialIntervalData file to upload',
                                         accept = c(
@@ -190,22 +225,22 @@ tool, the format or results generated from it.</p>
                               numericInput('n23', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'TRUE'",
-                               # State 6.4
+                               # State 8.4
                                tags$div(class='final'),
                                numericInput('Mean.SI2', 'Mean.SI', value=2, min=1+1e-18),
                                numericInput('Std.SI2', 'Std.SI', value=1, min=1e-18)
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE'",
-                               # State 6.5
-                               radioButtons('SIDistrDataType', 'Would you like to use an external file containing the SI distribution, or a pre-loaded SI distribution?',
-                                            c('Pre-loaded' = 'preloaded', 'External file' = 'own'))
+                               # State 8.5
+                              radioButtons('SIDistrDataType', 'Would you like to use an external file containing the SI distribution, or a pre-loaded SI distribution?',
+                                           c('Pre-loaded' = 'preloaded', 'External file' = 'own'))
 
                       )
              ),
-             tags$div(id="7",
+             tags$div(id="9",
                       h1('Serial Interval (SI) Input'),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own' & input.SIFrom == 'data'",
-                            # State 7.1
+                            # State 9.1
                             tags$div(class='final'),
                             radioButtons('SIDist2', 'Choose your serial interval distribution',
                                          c('Gamma'='G',
@@ -222,7 +257,7 @@ tool, the format or results generated from it.</p>
                             numericInput('param2', 'Choose the value of param2 (MCMC init.pars)', min=0, value='')
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE' & input.SIDistrDataType == 'own'",
-                          # State 7.2    
+                          # State 9.2    
                           tags$div(class='final'),
                           fileInput('SIDistrData', 'Choose serialIntervalData file to upload',
                                     accept = c(
@@ -247,7 +282,7 @@ tool, the format or results generated from it.</p>
                                        '"')
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE' & input.SIDistrDataType == 'preloaded'",
-                          # State 7.3
+                          # State 9.3
                           tags$div(class='final'),
                           radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
                                        c('Flu1918', 'Flu2009', 'Measles1861',
