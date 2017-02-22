@@ -63,14 +63,14 @@ tool, the format or results generated from it.</p>
                                             'Double Quote'='"',
                                             'Single Quote'="'"),
                                           '"'),
-                             sliderInput('uploadedWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 5)
+                             sliderInput('uploadedWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
                       ),
                       conditionalPanel("input.incidenceDataType == 'preloaded'",
                              # State 2.2
                              radioButtons('incidenceDataset', 'Choose your dataset',
                                           c('PennsylvaniaH1N12009', 'RotavirusGermany',
                                             'Flu1918', 'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972')),
-                             sliderInput('width', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 5)
+                             sliderInput('width', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
                        )
              ),
              tags$div(id="3",
