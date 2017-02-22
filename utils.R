@@ -117,3 +117,9 @@ processIncidenceData <- function (incidenceData, importedData=NULL) {
   }
   return(incidenceData)
 }
+
+processSISamples <- function(SISample) {
+  # Turn to matrix
+  SISample <- as.matrix(SISample)
+  return(SISample)
+}# Could add more checks...
