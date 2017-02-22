@@ -76,7 +76,7 @@ tool, the format or results generated from it.</p>
              tags$div(id="3",
                       # State 3.1
                       h1('Serial Interval (SI) Input'),
-                      radioButtons('SIPatientData', 'Do you have Exposure Data to inform the SI?',
+                      radioButtons('SIPatientData', 'Do you want to use exposure data to inform the SI?',
                                    c('Yes'='TRUE', 'No'='FALSE'))
              ),
              tags$div(id="4",
