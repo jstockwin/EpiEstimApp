@@ -62,7 +62,7 @@ tool, the format or results generated from it.</p>
                                           c(None='',
                                             'Double Quote'='"',
                                             'Single Quote'="'"),
-                                          '"'),
+                                          ''),
                              sliderInput('uploadedWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
                       ),
                       conditionalPanel("input.incidenceDataType == 'preloaded'",
@@ -77,7 +77,7 @@ tool, the format or results generated from it.</p>
              tags$div(id="3", 
                       # State 3.1
                       radioButtons('imported', "Do you have data about which cases are imported?",
-                                   c('Yes'='TRUE', 'No' = 'FALSE')),
+                                   c('No' = 'FALSE', 'Yes'='TRUE')),
                       conditionalPanel('input.imported == "FALSE"', 
                                        # If no, "Next" should continue to state 5.1
                                         tags$div(class='continue')
@@ -105,14 +105,14 @@ tool, the format or results generated from it.</p>
                                    c(None='',
                                      'Double Quote'='"',
                                      'Single Quote'="'"),
-                                   '"'),
+                                   ''),
                       tags$div(class="continue")
              ),
              tags$div(id="5",
                       # State 5.1
                       h1('Serial Interval (SI) Input'),
                       radioButtons('SIPatientData', 'Do you want to use exposure data to inform the SI?',
-                                   c('Yes'='TRUE', 'No'='FALSE'))
+                                   c('No'='FALSE', 'Yes'='TRUE'))
              ),
              tags$div(id="6",
                       h1('Serial Interval Data'),
@@ -124,7 +124,7 @@ tool, the format or results generated from it.</p>
                       conditionalPanel("input.SIPatientData == 'FALSE'", 
                            # State 6.2
                            radioButtons('uncertainty', 'Would you like to include SI uncertainty in your model?',
-                                        c('Yes'='TRUE', 'No'='FALSE'))
+                                        c('No'='FALSE', 'Yes'='TRUE'))
                        )
              ),
              tags$div(id="7",
@@ -196,7 +196,7 @@ tool, the format or results generated from it.</p>
                                             c(None='',
                                               'Double Quote'='"',
                                               'Single Quote'="'"),
-                                            '"')
+                                            '')
                        ),
                       conditionalPanel("input.SIPatientData == 'TRUE' & input.SIDataType == 'own' & input.SIFrom == 'sample'",
                               # State 8.3
@@ -221,7 +221,7 @@ tool, the format or results generated from it.</p>
                                            c(None='',
                                              'Double Quote'='"',
                                              'Single Quote'="'"),
-                                           '"'),
+                                           ''),
                               numericInput('n23', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'TRUE'",
@@ -279,7 +279,7 @@ tool, the format or results generated from it.</p>
                                        c(None='',
                                          'Double Quote'='"',
                                          'Single Quote'="'"),
-                                       '"')
+                                       '')
                       ),
                       conditionalPanel("input.SIPatientData == 'FALSE' & input.uncertainty == 'FALSE' & input.parametric == 'FALSE' & input.SIDistrDataType == 'preloaded'",
                           # State 9.3
