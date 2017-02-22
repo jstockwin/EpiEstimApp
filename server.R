@@ -31,7 +31,6 @@ alldatasets <- list('Measles1861' = Measles1861,
 source("dic.fit.mcmc.incremental.R", local=TRUE)
 source("stochasticSEIRModel3.R", local=TRUE)
 source("utils.R", local=TRUE)
-source("deleteme.R", local=TRUE)
 
 # By default, the file size limit is 5MB. It can be changed by
 # setting this option. Here we'll raise limit to 9MB.
