@@ -41,7 +41,7 @@ options(shiny.reactlog=TRUE)
 
 shinyServer(function(input, output, session) {
    
-  output$plot <- renderPlot({
+  f <- function (input, output, session) {
     input$status
     if (is.null(input$status) || input$status == "STOP") {
       # Tell client we're 'done' to say we're ready.
@@ -106,14 +106,14 @@ shinyServer(function(input, output, session) {
           SI.Sample <- getSISamples(input$SIDataset, input$SIDist)
           ####  FEED INTO EPIESTIM
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          ER.out <- EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
 
         } else if (SIState == 7.3) {
           # "UncertainSI"
           ####  FEED INTO EPIESTIM
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
+          ER.out <- EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
                     Mean.SI=input$Mean.SI, Std.SI=input$Std.SI,
                     Std.Mean.SI=input$Std.Mean.SI, Min.Mean.SI=input$Min.Mean.SI, Max.Mean.SI=input$Max.Mean.SI, 
                     Std.Std.SI=input$Std.Std.SI, Min.Std.SI=input$Min.Std.SI, Max.Std.SI=input$Max.Std.SI, plot=TRUE)
@@ -124,13 +124,13 @@ shinyServer(function(input, output, session) {
                                header = input$SISampleHeader, sep = input$SISampleSep,
                                quote = input$SISampleQuote))
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n23, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          ER.out <- EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n23, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 8.4) {
           # "ParametricSI"
           ####  FEED INTO EPIESTIM
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
+          ER.out <- EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
                     method="ParametricSI", plot=TRUE)
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 9.1) {
@@ -157,7 +157,7 @@ shinyServer(function(input, output, session) {
           session$sendCustomMessage(type='updateStatus', "Running coarse2estim")
           SI.Sample = coarse2estim(samples=mcmc_samples, dist=input$SIDist2, thin=input$thin)$SI.Sample
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n22, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
+          ER.out <- EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n22, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 9.2) {
           # State 7.2
@@ -166,16 +166,17 @@ shinyServer(function(input, output, session) {
                               header = input$SIDistrHeader, sep = input$SIDistrSep,
                               quote = input$SIDistrQuote)
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
+          ER.out <- EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         } else if (SIState == 9.3) {
           # State 7.3
           # "NonParametricSI (Preloaded data)"
           SI.Distr = alldatasets[[input$SIDistrDataset]]$SI.Distr
           session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
+          ER.out <- EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
           session$sendCustomMessage(type='done', "")
         }
+        return(ER.out)
       }) # End Isolate
     },
     error = function (e) {
@@ -185,7 +186,12 @@ shinyServer(function(input, output, session) {
       stop(e)
     }) # End tryCatch
     
-  }) # End output$plot
+  } # End f
+  
+  output$plot <- renderPlot({
+      a <- f(input, output, session)
+      output$table <- renderTable(a$R)
+    })
   
   # Calculating fit takes a long time. We'll make it reactive
   # so that it only updated when a new serialIntervalDataFile is supplied.

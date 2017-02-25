@@ -296,7 +296,25 @@ tool, the format or results generated from it.</p>
     
       ),
      column(8, id="plot",
-            plotOutput('plot')
+            tabsetPanel(
+              tabPanel('Plots', 
+                  HTML('
+                     <a id="savePlot", class="btn btn-default shiny-download-link">
+                        <i class="fa fa-download"></i>
+                        Save image
+                     </a>
+                   '),
+                   plotOutput('plot')),
+              tabPanel('Table', 
+                       HTML('
+                         <a id="saveTable", class="btn btn-default shiny-download-link" download>
+                            <i class="fa fa-download"></i>
+                            Save table
+                         </a>
+                       '),
+                       tableOutput('table'))
+            )
+            
       )
     
   )
