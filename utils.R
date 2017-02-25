@@ -9,11 +9,11 @@
 # It is this function which should be edited if any of the serial inteval file names change.
 getSerialIntervalData <- function (data) {
   if (data == 'PennsylvaniaH1N12009') {
-    serialIntervalData <- read.table('datasets/PennsylvaniaH1N12009SerialIntervalData.csv',
+    serialIntervalData <- read.table('dataset/SerialIntervalDatas/PennsylvaniaH1N12009SerialIntervalData.csv',
                                   header = F, sep=',')
     return(processSerialIntervalData(serialIntervalData))
   } else if (data == 'RotavirusGermany') {
-    serialIntervalData <- read.table('datasets/RotavirusEcuadorSIData3.csv',
+    serialIntervalData <- read.table('datasets/SerialIntervalData/RotavirusEcuadorSIData.csv',
                                   header = F, sep=',')
     return(processSerialIntervalData(serialIntervalData))
   } else {
@@ -29,11 +29,11 @@ getIncidenceData <- function (data, alldatasets) {
     dat <- alldatasets[[data]]$Incidence
     return(processIncidenceData(dat))
   } else  if (data == 'PennsylvaniaH1N12009') {
-    incidenceData <- read.table('datasets/PennsylvaniaH1N12009FluData.csv',
+    incidenceData <- read.table('datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv',
                                   header = F, sep=',')
     return(processIncidenceData(incidenceData))
   } else if (data == 'RotavirusGermany') {
-    incidenceData <- read.table('datasets/GermanyRotavirus1516.csv',
+    incidenceData <- read.table('datasets/IncidenceData/GermanyRotavirus1516.csv',
                                   header = F, sep=',')
     return(processIncidenceData(incidenceData))
   } else {
@@ -45,11 +45,17 @@ getIncidenceData <- function (data, alldatasets) {
 # the saved fit. It should be updated if any of the file names for the exported fits change.
 getSISamples <- function (data, SIDist) {
   if (data == 'PennsylvaniaH1N12009') {
-    load('datasets/PennsylvaniaH1N12009_si_samples.RData')
-    samples <- get(paste('pennsylvaniaH1N12009_samples', SIDist, sep='_'))
+    samples <- read.table((paste('datasets/SIPosteriorSamples/pennsylvaniaH1N12009_SISamples_', SIDist, '.csv', sep='')),
+                          header=F, sep=',')
+    samples <- as.matrix(samples)
   } else if (data == 'RotavirusGermany') {
-    load('datasets/Rotavirus_si_samples.RData')
-    samples <- get(paste('rotavirus_samples', SIDist, sep='_'))
+    if (SIDist == "off1G") {
+      stop('The Rotavirus dataset has serial intervals which are definitely less than 1,
+             so a gamma distribution offset by 1 is not appropriate.')
+    }
+    samples <- read.table((paste('datasets/SIPosteriorSamples/rotavirus_SISamples_', SIDist, '.csv', sep='')),
+                          header=F, sep=',')
+    samples <- as.matrix(samples)
   } else {
     return(NULL)
   }
