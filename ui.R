@@ -296,7 +296,11 @@ tool, the format or results generated from it.</p>
     
       ),
      column(8, id="plot",
-            plotOutput('plot')
+            tabsetPanel(
+              tabPanel('Plots', downloadButton('savePlot', 'Save image'), plotOutput('plot')),
+              tabPanel('Table', downloadButton('saveTable', 'Save table'), tableOutput('table'))
+            )
+            
       )
     
   )
