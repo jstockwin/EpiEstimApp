@@ -115,7 +115,7 @@ tool, the format or results generated from it.</p>
                                    c('No'='FALSE', 'Yes'='TRUE'))
              ),
              tags$div(id="6",
-                      h1('Serial Interval Data'),
+                      h1('Serial Interval (SI) Input'),
                       conditionalPanel("input.SIPatientData == 'TRUE'",
                             # State 6.1
                             radioButtons('SIDataType', 'Would you like to use an external file containing the exposure data, or a pre-loaded dataset?',
