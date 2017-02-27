@@ -97,8 +97,8 @@ processIncidenceData <- function (incidenceData, importedData=NULL) {
   colnames(incidenceData) = "local"
   if (!is.null(importedData)) {
     importedData <- as.data.frame(importedData)
-    cases_dims <- dim(importedData)
-    if ((cases_dims[1] == 1 && cases_dims[2] > 1)) {
+    imported_dims <- dim(importedData)
+    if ((imported_dims[1] == 1 && imported_dims[2] > 1)) {
       # The data is transposed (we want a column vector).
       importedData <- t(importedData)
       # Update cases_dims for next bit
