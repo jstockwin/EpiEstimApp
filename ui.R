@@ -258,7 +258,10 @@ tool, the format or results generated from it.</p>
                                  <p>If you would like to use your own initialisation parameters for MCMC <a onClick="showMCMCParams()">click here</a>. Otherwise, a smart choice will be made by EpiEstim, which should work in most cases.</p>
                             '),
                             tags$div(id='MCMCInitialParams', style="display: none",
-                               p('For Gamma, Offset Gamma, Erlang and Weibul distributions, param1 is the same and param2 is the scale of the distribution. For Log-Normal, param1 and param2 are respectively the mean and standard deviation of the logarithm.'),
+                               p('For Gamma, Offset Gamma, Erlang and Weibull distributions, 
+                                      param1 is the shape and param2 is the scale of the distribution. 
+                                      For Log-Normal, param1 and param2 are respectively 
+                                      the mean and standard deviation of the logarithm.'),
                                numericInput('param1', 'Choose the value of param1', min=0, value=''),
                                numericInput('param2', 'Choose the value of param2', min=0, value='')
                             )
