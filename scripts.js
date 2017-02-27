@@ -138,3 +138,7 @@ $(document).ready(function() {
     });
     
 });
+
+showMCMCParams = function() {
+  document.getElementById('MCMCInitialParams').style.display='';
+};
