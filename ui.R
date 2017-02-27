@@ -17,9 +17,11 @@ shinyUI(bootstrapPage(
       ),
       # include the js code
       includeScript("scripts.js"),
+      includeScript("FileSaver.min.js"),
       column(12,
         HTML(
           "
+          <canvas id='canvas' style='display: none'>This is used for downloading images using javascript in Safari. It should not be visible.</canvas>
           <h1>Transmissibility Estimator</h1>
           <p>This application estimates disease transmissibility from incidence time series and
  time-censored serial interval data.</p>

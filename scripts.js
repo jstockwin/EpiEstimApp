@@ -139,10 +139,28 @@ $(document).ready(function() {
     
     // Download handling:
     
+    // In both cases, we'd like to use the html a[download] attribute.
+    // This is unsupported by IE, but IE give a workaround of navigator.msSaveBlob
+    // It is also unsupported by Safari, which provides no work around, so we insead
+    // do the following, which first draws the image to a html canvas, then uses FileSaver.js 
+    // to saveAs, which supports all browsers.
+    
     var saveImage = document.getElementById('savePlot');
     saveImage.onclick = function () {
-      saveImage.href=$('#plot img')[0].src;
-      saveImage.download = "Downloaded File";
+      var canvas = document.getElementById('canvas');
+      var context=canvas.getContext('2d');
+      var drawing = new Image();
+      var image = $('#plot img')[0]; // The actual graph which we want to download
+      drawing.src = image.src;
+      // Se the canvas to the correct size:
+      canvas.width = image.width;
+      canvas.height = image.height;
+      drawing.onload = function() {
+        context.drawImage(drawing, 0, 0, image.width, image.height);
+        canvas.toBlob(function(blob) {
+        saveAs(blob, "Transmissibility Estimator.png");
+      });
+      };
     };
     
     var saveTable = document.getElementById('saveTable');
@@ -179,20 +197,14 @@ function exportTableToCSV($table, filename) {
 
         }).get().join(tmpRowDelim)
             .split(tmpRowDelim).join(rowDelim)
-            .split(tmpColDelim).join(colDelim) + '"',
+            .split(tmpColDelim).join(colDelim) + '"';
 
 
 
         // Data URI
-        csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
 
-        if (window.navigator.msSaveBlob) { // IE 10+
-            //alert('IE' + csv);
-            window.navigator.msSaveOrOpenBlob(new Blob([csv], {type: "text/plain;charset=utf-8;"}), "csvname.csv");
-        } 
-        else {
-            $(this).attr({ 'download': filename, 'href': csvData, 'target': '_blank' }); 
-        }
+        var file = new File([csv], filename, {type: "data:application/csv;charset=utf-8"});
+        saveAs(file);
 }
 
 showMCMCParams = function() {
