@@ -18,6 +18,7 @@ shinyUI(bootstrapPage(
       # include the js code
       includeScript("scripts.js"),
       includeScript("FileSaver.min.js"),
+      includeScript("Blob.js"),
       column(12,
         HTML(
           "
