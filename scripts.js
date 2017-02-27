@@ -137,7 +137,6 @@ $(document).ready(function() {
       
     });
     
-    
     // Download handling:
     
     var saveImage = document.getElementById('savePlot');
@@ -195,3 +194,7 @@ function exportTableToCSV($table, filename) {
             $(this).attr({ 'download': filename, 'href': csvData, 'target': '_blank' }); 
         }
 }
+
+showMCMCParams = function() {
+  document.getElementById('MCMCInitialParams').style.display='';
+};

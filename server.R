@@ -211,7 +211,7 @@ shinyServer(function(input, output, session) {
     }
     
     if (is.na(input$param1) || is.na(input$param1)) {
-      params = c(1,1)
+      params = init_MCMC_params(serialIntervalData, input$SIDist2)
     } else {
       params = c(input$param1, input$param2)
     }
