@@ -149,10 +149,7 @@ shinyServer(function(input, output, session) {
           
           # else we actually have an MCMC fit.
           # We'll check MCMC converged here:
-          spl1 <- mcmc_samples[1:floor(nrow(mcmc_samples)/2),]
-          spl2 <- mcmc_samples[(floor(nrow(mcmc_samples)/2)+1):nrow(mcmc_samples),]
-          GRD <- gelman.diag(as.mcmc.list(list(as.mcmc(spl1), as.mcmc(spl2))))
-          if(any(GRD$psrf[,"Upper C.I."]>1.1)) {
+          if(!check_CDTsamples_convergence(mcmc_samples)) {
             warning("The Gelman-Rubin algorithm suggests the MCMC may not have converged within the number of iterations (MCMC.burnin + n1) specified.")
             
             ## This warning will not actually be displayed to the user. We'll do that in JavaScript instead.
