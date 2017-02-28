@@ -17,9 +17,13 @@ shinyUI(bootstrapPage(
       ),
       # include the js code
       includeScript("scripts.js"),
+      includeScript("FileSaver.min.js"),
+      includeScript("Blob.js"),
+      includeScript("canvas-toBlob.js"),
       column(12,
         HTML(
           "
+          <canvas id='canvas' style='display: none'>This is used for downloading images using javascript in Safari. It should not be visible.</canvas>
           <h1>Transmissibility Estimator</h1>
           <p>This application estimates disease transmissibility from incidence time series and
  time-censored serial interval data.</p>
@@ -307,7 +311,25 @@ tool, the format or results generated from it.</p>
     
       ),
      column(8, id="plot",
-            plotOutput('plot')
+            tabsetPanel(
+              tabPanel('Plots', 
+                  HTML('
+                     <a id="savePlot", class="btn btn-default shiny-download-link">
+                        <i class="fa fa-download"></i>
+                        Save image
+                     </a>
+                   '),
+                   plotOutput('plot')),
+              tabPanel('Table', 
+                       HTML('
+                         <a id="saveTable", class="btn btn-default shiny-download-link" download>
+                            <i class="fa fa-download"></i>
+                            Save table
+                         </a>
+                       '),
+                       tableOutput('table'))
+            )
+            
       )
     
   )

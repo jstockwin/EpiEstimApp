@@ -137,7 +137,75 @@ $(document).ready(function() {
       
     });
     
+    // Download handling:
+    
+    // In both cases, we'd like to use the html a[download] attribute.
+    // This is unsupported by IE, but IE give a workaround of navigator.msSaveBlob
+    // It is also unsupported by Safari, which provides no work around, so we insead
+    // do the following, which first draws the image to a html canvas, then uses FileSaver.js 
+    // to saveAs, which supports all browsers.
+    
+    var saveImage = document.getElementById('savePlot');
+    saveImage.onclick = function () {
+      var canvas = document.getElementById('canvas');
+      var context=canvas.getContext('2d');
+      var drawing = new Image();
+      var image = $('#plot img')[0]; // The actual graph which we want to download
+      drawing.src = image.src;
+      // Se the canvas to the correct size:
+      canvas.width = image.width;
+      canvas.height = image.height;
+      drawing.onload = function() {
+        context.drawImage(drawing, 0, 0, image.width, image.height);
+        canvas.toBlob(function(blob) {
+        saveAs(blob, "Transmissibility Estimator.png");
+      });
+      };
+    };
+    
+    var saveTable = document.getElementById('saveTable');
+    saveTable.onclick = function () {
+      exportTableToCSV.apply(this, [$('#table > table'), 'table.csv']);
+    };
 });
+
+
+
+function exportTableToCSV($table, filename) {
+
+    var $rows = $table.find('tr:has(td),tr:has(th)'),
+
+        // Temporary delimiter characters unlikely to be typed by keyboard
+        // This is to avoid accidentally splitting the actual contents
+        tmpColDelim = String.fromCharCode(11), // vertical tab character
+        tmpRowDelim = String.fromCharCode(0), // null character
+
+        // actual delimiter characters for CSV format
+        colDelim = '","',
+        rowDelim = '"\r\n"',
+
+        // Grab text from table into CSV formatted string
+        csv = '"' + $rows.map(function (i, row) {
+            var $row = $(row), $cols = $row.find('td,th');
+
+            return $cols.map(function (j, col) {
+                var $col = $(col), text = $col.text();
+
+                return text.replace(/"/g, '""'); // escape double quotes
+
+            }).get().join(tmpColDelim);
+
+        }).get().join(tmpRowDelim)
+            .split(tmpRowDelim).join(rowDelim)
+            .split(tmpColDelim).join(colDelim) + '"';
+
+
+
+        // Data URI
+
+        var file = new File([csv], filename, {type: "data:application/csv;charset=utf-8"});
+        saveAs(file);
+}
 
 showMCMCParams = function() {
   document.getElementById('MCMCInitialParams').style.display='';
