@@ -148,6 +148,13 @@ shinyServer(function(input, output, session) {
           })
           
           # else we actually have an MCMC fit.
+          # We'll check MCMC converged here:
+          if(!check_CDTsamples_convergence(mcmc_samples)) {
+            warning("The Gelman-Rubin algorithm suggests the MCMC may not have converged within the number of iterations (MCMC.burnin + n1) specified.")
+            
+            ## This warning will not actually be displayed to the user. We'll do that in JavaScript instead.
+            session$sendCustomMessage(type='popup', "The Gelman-Rubin algorithm suggests the MCMC may not have converged within the number of iterations (MCMC.burnin + n1) specified.")
+          }
           
           # If we reach here, we're done with MCMC
           burnin = input$burnin

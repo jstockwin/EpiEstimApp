@@ -137,6 +137,10 @@ $(document).ready(function() {
       
     });
     
+    Shiny.addCustomMessageHandler("popup", function(msg) {
+      alert(msg);
+    });
+    
 });
 
 showMCMCParams = function() {
