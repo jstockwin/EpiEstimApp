@@ -198,6 +198,10 @@ shinyServer(function(input, output, session) {
   # so that it only updated when a new serialIntervalDataFile is supplied.
   run_MCMC <- function() {
 
+    # variance covariance matrix to use for proposal distribution in MCMC
+    # currently a bit adhoc; null covariance which should be fine, and variance computed to have an OK acceptance rate; but may need to check this further
+    V <- diag(params)/25
+    
     serialIntervalData <- read.csv(input$SIData$datapath, 
                                    header = input$SIHeader, sep = input$SISep,
                                    quote = input$SIQuote)
@@ -227,7 +231,8 @@ shinyServer(function(input, output, session) {
       session$sendCustomMessage(type='updateStatus', "Running MCMC... 0%")
       MCMC = dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist2,
                                       init.pars = params, increment.size = 80,
-                                      burnin=0, n.samples=total.samples.needed)
+                                      burnin=0, n.samples=total.samples.needed, 
+                                      V=V)
       # We're not yet done, so ping data back to client to check if we should continue
       data <- toJSON(MCMC@samples)
       session$sendCustomMessage(type='pingToClient', data) 
@@ -256,7 +261,8 @@ shinyServer(function(input, output, session) {
 
         mcmc_samples = dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist2,
                                  current.samples = current, increment.size = 80,
-                                 burnin=0, n.samples=total.samples.needed)@samples
+                                 burnin=0, n.samples=total.samples.needed,
+                                 V=V)@samples
         data <- toJSON(mcmc_samples)
         session$sendCustomMessage(type='pingToClient', data)
         return(FALSE)
