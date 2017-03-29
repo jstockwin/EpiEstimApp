@@ -41,3 +41,69 @@ dic.fit.mcmc.incremental <- function (dat,
 
   
 }
+
+
+compute_V <- function(fun, theta.init, 
+                      tune = 1, logfun = TRUE, force.samp = FALSE, 
+                      optim.method = "BFGS", optim.lower = -Inf, optim.upper = Inf, 
+                      optim.control = list(fnscale = -1, trace = 0, REPORT = 10, 
+                                           maxit = 500), prior.par1=NULL, prior.par2=NULL, dat, dist, ...)
+{
+  theta.init.0 <- rep(NA, length(theta.init))
+  for (i in 1:length(theta.init)) {
+    theta.init.0[i] <- theta.init[i]
+  }
+  MCMCpack:::check.offset(list(...))
+  tune <- MCMCpack:::vector.tune(tune, length(theta.init.0))
+  userfun <- function(ttt) fun(ttt, ...)
+  my.env <- environment(fun = userfun)
+  if (logfun) {
+    maxfun <- fun
+  }else if (logfun == FALSE) {
+    maxfun <- function(ttt, ...) log(fun(ttt, ...))
+  }else {
+    cat("logfun not a logical value.\n")
+    stop("Respecifiy and call MCMCmetrop1R() again. \n", 
+         call. = FALSE)
+  }
+  opt.out <- optim(theta.init.0, maxfun, control = optim.control, 
+                   lower = optim.lower, upper = optim.upper, method = optim.method, 
+                   hessian = TRUE, prior.par1=prior.par1, prior.par2=prior.par2, dat=dat, dist=dist, ...)
+  if (opt.out$convergence != 0) {
+    warning("Mode and Hessian were not found with call to optim().\nSampling proceeded anyway. \n")
+  }
+  CC <- NULL
+  try(CC <- chol(-1 * opt.out$hessian), silent = TRUE)
+  hess.new <- opt.out$hessian
+  hess.flag <- 0
+  if (force.samp == TRUE) {
+    if (max(diag(opt.out$hessian) == 0)) {
+      for (i in 1:nrow(hess.new)) {
+        if (hess.new[i, i] == 0) {
+          hess.new[i, i] <- -1e-06
+        }
+      }
+    }
+    while (is.null(CC)) {
+      hess.flag <- 1
+      hess.new <- hess.new - diag(diag(0.01 * abs(opt.out$hessian)))
+      try(CC <- chol(-1 * hess.new), silent = TRUE)
+    }
+  }
+  else {
+    if (is.null(CC)) {
+      hess.flag <- 2
+    }
+  }
+  if (hess.flag == 1) {
+    warning("Hessian from call to optim() not negative definite.\nSampling proceeded after enforcing negative definiteness. \n")
+  }
+  if (hess.flag == 2) {
+    cat("Hessian from call to optim() not negative definite.\n")
+    cat("Sampling (as specified) cannot proceed.\n")
+    stop("Check data and fun() and call MCMCmetrop1R() again. \n", 
+         call. = FALSE)
+  }
+  V <- tune %*% solve(-1 * hess.new) %*% tune
+  return(V)
+}
