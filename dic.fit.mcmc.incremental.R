@@ -9,6 +9,7 @@ dic.fit.mcmc.incremental <- function (dat,
                                       burnin = 3000,
                                       n.samples = 5000,
                                       dist = "L",
+                                      seed = NULL,
                                       ...){
   
   if (is.null(current.samples)) {
@@ -28,8 +29,11 @@ dic.fit.mcmc.incremental <- function (dat,
   # will be the same sequence of 10 numbers each time, which will bias the result hugely. 
   # dic.fit.mcmc are thinking about solving this, see: https://github.com/nickreich/coarseDataTools/issues/45
   # For now we'll set the seed using the epoch time
-  t <- as.numeric(Sys.time())
-  seed <- 1e8 * (t - floor(t))
+  if (is.null(seed)) {
+    t <- as.numeric(Sys.time())
+    seed <- 1e8 * (t - floor(t))
+  }
+
 
 
   fit = dic.fit.mcmc(dat,
