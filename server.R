@@ -97,6 +97,8 @@ shinyServer(function(input, output, session) {
   
   # Clicking previous/next should increment the stateLevel
   observeEvent(input$nxt, {
+    # WARNING: You probably want to avoid much logic here. Most of it should be in handleState() which is reactive. 
+    # If Next is pressed twice without inputs changing, nothing will happen, but if anything you put here WILL get done.
     if (handleState()) {
       values$state = getNextState(values$state)
       values$status = "Ready"
@@ -127,7 +129,8 @@ shinyServer(function(input, output, session) {
   
   # Logic for when "go" is clicked.
   observeEvent(input$go, {
-    asyncData$epiEstimOutput <- NULL # Remove current plot
+    # WARNING: You probably want to avoid much logic here. Most of it should be in handleState() which is reactive. 
+    # If Next is pressed twice without inputs changing, nothing will happen, but if anything you put here WILL get done.
     tryCatch({
       if (handleState()) {
         startAsyncDataLoad("epiEstimOutput", future({
@@ -150,6 +153,9 @@ shinyServer(function(input, output, session) {
       }
     },
     error = function (e) {
+      show("prev")
+      hide("stop")
+      enable("go")
       handleError(values$state, e)
     })
   })
@@ -161,6 +167,9 @@ shinyServer(function(input, output, session) {
       p_R <- plots(asyncData$epiEstimOutput, what="R")
       gridExtra::grid.arrange(p_I,p_R,ncol=1)
       values$status <- "Ready"
+      show("prev")
+      hide("stop")
+      enable("go")
     }
   })
   
@@ -170,6 +179,13 @@ shinyServer(function(input, output, session) {
     # and should set all necessary variables.
     # The state will change only if handleState returns TRUE. 
     state <- values$state
+    if (state %in% finalStates) {
+      # Go (rather than next) was pressed.
+      show("stop")
+      disable("go")
+      hide("prev")
+      asyncData$epiEstimOutput <- NULL # Remove current plot
+    }
     values$error <- NULL
     session$sendCustomMessage(type="resetErrorBoxes", "")
     values$status = "Processing..."
@@ -381,6 +397,9 @@ shinyServer(function(input, output, session) {
     values$status <- "ERROR"
     cat("There was an error in state", state, "\n")
     cat(error$message, "\n")
+    enable("go")
+    hide("stop")
+    show("prev")
     switch(state,
            "2.1" = {
              if (error$message == "'file' must be a character string or connection") {
@@ -388,10 +407,28 @@ shinyServer(function(input, output, session) {
                values$error <- "Please upload a file!"
              }
            },
+           "8.1" = {
+             if (error$message == "The Rotavirus dataset has serial intervals which are definitely less than 1, so a gamma distribution offset by 1 is not appropriate."){
+               session$sendCustomMessage(type="errorBox", "SIDist")
+               values$error <- "Please use a different SI distribution, or change your dataset"
+             }
+           },
            info(error$message) # Fallback to JS alert
     )
     return()
   }
+  
+  session$onSessionEnded(function() {
+    checkAsyncDataBeingLoaded$suspend()
+  })
+  
+  observeEvent(input$stop, {
+    checkAsyncDataBeingLoaded$suspend()
+    hide("stop")
+    enable("go")
+    show("prev")
+    values$status <- "Ready"
+  })
   
 }) # End shinyServer
 

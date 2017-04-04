@@ -155,13 +155,15 @@ tool, the format or results generated from it.</p>
          )),
          hidden(div(id="8.1",
                     # State 8.1
-                    
-                    radioButtons('SIDist', 'Choose your serial interval distribution',
-                                 c('Gamma'='G',
-                                   'Offset Gamma'='off1G',
-                                   'Erlang' = 'E',
-                                   'Weibull' = 'W',
-                                   'Log-Normal' = 'L'))
+                    div(id="SIDistErrorBox", class="ErrorBox",
+                        radioButtons('SIDist', 'Choose your serial interval distribution',
+                                     c('Gamma'='G',
+                                       'Offset Gamma'='off1G',
+                                       'Erlang' = 'E',
+                                       'Weibull' = 'W',
+                                       'Log-Normal' = 'L'))
+                        )
+      
          )),
          hidden(div(id="8.2",
                     # State 8.2
@@ -287,6 +289,7 @@ tool, the format or results generated from it.</p>
                                    'SARS2003', 'Smallpox1972'))
          )),
          div(id="control",
+             hidden(actionButton('stop', label='Stop')),
              disabled(actionButton('prev', label='Previous')),
              disabled(actionButton('nxt', label='Next')),
              hidden(actionButton('go', label='Go')),
