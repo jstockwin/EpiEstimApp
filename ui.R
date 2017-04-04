@@ -35,8 +35,11 @@ tool, the format or results generated from it.</p>
          div(id="status",
              verbatimTextOutput('output')
          ),
+         div(id="titles",
+             div(id="incidenceTitle", h1('Incidence Data')),
+             hidden(div(id="SITitle", h1("Serial Interval (SI) Input")))
+          ),
          div(id="1.1",
-             h1('Incidence Data'),
              radioButtons('incidenceDataType', 'Do you want to use pre-loaded incidence time series data or upload your own?',
                           c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
          ),

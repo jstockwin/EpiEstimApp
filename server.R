@@ -99,10 +99,18 @@ shinyServer(function(input, output, session) {
     # If Next is pressed twice without inputs changing, nothing will happen, but if anything you put here WILL get done.
     if (handleState()) {
       values$state = getNextState(values$state)
+      if (values$state == "5.1") {
+        hide("incidenceTitle")
+        show("SITitle")
+      }
       values$status = "Ready"
     }
   })
   observeEvent(input$prev, {
+    if (values$state == "5.1") {
+      show("incidenceTitle")
+      hide("SITitle")
+    }
     values$state = getPrevState(values$state)
     values$error = NULL
     session$sendCustomMessage(type="resetErrorBoxes", "")
