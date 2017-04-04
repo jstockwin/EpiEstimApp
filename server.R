@@ -67,7 +67,7 @@ shinyServer(function(input, output, session) {
   enable("nxt") # Enable next button when initial load is done.
   
   asyncData <-
-    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL)
+    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL, V = NULL)
   asyncDataBeingLoaded <- list()
   
   # Initialise inputs for EpiEstim's EstimateR
@@ -140,33 +140,38 @@ shinyServer(function(input, output, session) {
       tryCatch({
         if (handleState()) {
           if (method=="SIFromData" && (is.null(mcmc_samples) || dim(mcmc_samples)[1] < total.samples.needed)) {
-            if (is.null(mcmc_samples)) {
-              values$status <- "Running MCMC (0%)"
+            if (is.null(V)) {
+              values$status <- "Computing V"
+              startAsyncDataLoad("V", future({
+                init.pars.trans <- coarseDataTools:::dist.optim.transform(dist=SI.parametricDistr, init.pars)
+                compute_V (fun = coarseDataTools:::mcmcpack.ll, theta.init = init.pars.trans,  
+                           tune = 1, logfun = TRUE, force.samp = FALSE, 
+                           optim.method = "BFGS", optim.lower = -Inf, optim.upper = Inf, 
+                           optim.control = list(fnscale = -1, trace = 0, REPORT = 10, 
+                                                maxit = 500), dat=SI.Data, dist=SI.parametricDistr)
+              }))
+              
             } else {
-              values$status <- paste("Running MCMC (", floor(100*dim(mcmc_samples)[1]/total.samples.needed), "%)", sep="")
+              if (is.null(mcmc_samples)) {
+                values$status <- "Running MCMC (0%)"
+              } else {
+                values$status <- paste("Running MCMC (", floor(100*dim(mcmc_samples)[1]/total.samples.needed), "%)", sep="")
+              }
+              startAsyncDataLoad("mcmc_samples", future({
+                ##########################
+                # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
+                # # (Make certain things globals)
+                EstimateR_func 
+                OverallInfectivity
+                process_SI.Data 
+                .Random.seed
+                dic.fit.mcmc
+                check_SI.Distr
+                # # End workaround
+                dic.fit.mcmc.incremental(dat=SI.Data, dist=SI.parametricDistr, current.samples=mcmc_samples,
+                                         init.pars = init.pars, burnin=0, n.samples=total.samples.needed, V=V)@samples
+              }))
             }
-            if (is.null(V)) { # TODO MAKE THIS ASYNC!!!
-              init.pars.trans <- coarseDataTools:::dist.optim.transform(dist=SI.parametricDistr, init.pars)
-              V <<- compute_V (fun = coarseDataTools:::mcmcpack.ll, theta.init = init.pars.trans,  
-                               tune = 1, logfun = TRUE, force.samp = FALSE, 
-                               optim.method = "BFGS", optim.lower = -Inf, optim.upper = Inf, 
-                               optim.control = list(fnscale = -1, trace = 0, REPORT = 10, 
-                                                    maxit = 500), dat=SI.Data, dist=SI.parametricDistr)
-            }
-            startAsyncDataLoad("mcmc_samples", future({
-              ##########################
-              # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
-              # # (Make certain things globals)
-              EstimateR_func 
-              OverallInfectivity
-              process_SI.Data 
-              .Random.seed
-              dic.fit.mcmc
-              check_SI.Distr
-              # # End workaround
-              dic.fit.mcmc.incremental(dat=SI.Data, dist=SI.parametricDistr, current.samples=mcmc_samples,
-                                       init.pars = init.pars, burnin=0, n.samples=total.samples.needed, V=V)@samples
-            }))
           } else {
             if (method=="SIFromData") {
               mcmc_samples <- asyncData$mcmc_samples
@@ -346,6 +351,7 @@ shinyServer(function(input, output, session) {
                thin <<- input$thin
                SI.parametricDistr <<- input$SIDist2
                mcmc_samples <<- asyncData$mcmc_samples
+               V <<- asyncData$V
                if (!is.na(input$param1) && !is.na(input$param1)) {
                  init.pars <<- c(input$param1, input$param2)
                } else {
@@ -516,6 +522,7 @@ shinyServer(function(input, output, session) {
     
     asyncData$mcmc_samples <<- NULL
     mcmc_samples <<- NULL
+    asyncData$V <<- NULL
     V <<- NULL
   })
   
