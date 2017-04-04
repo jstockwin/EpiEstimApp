@@ -31,14 +31,6 @@ alldatasets <- list('Measles1861' = Measles1861,
                     'Flu2009' = Flu2009)
 
 
-# Part of workaround below ref: https://github.com/HenrikBengtsson/future/issues/137
-# The below functions aren't in the workspace at all. We'll add them like this so
-# they can then be mentioned in the future to make them globals, so they can be used asyncronously.
-process_SI.Data <- EpiEstim:::process_SI.Data
-check_SI.Distr <- EpiEstim:::check_SI.Distr
-### end part of workaround
-
-
 # Source necessary files
 source("dic.fit.mcmc.incremental.R", local=TRUE)
 source("stochasticSEIRModel3.R", local=TRUE)
@@ -160,15 +152,6 @@ shinyServer(function(input, output, session) {
                 values$status <- paste("Running MCMC (", floor(100*dim(mcmc_samples)[1]/total.samples.needed), "%)", sep="")
               }
               startAsyncDataLoad("mcmc_samples", future({
-                ##########################
-                # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
-                # # (Make certain things globals)
-                EstimateR_func 
-                OverallInfectivity
-                process_SI.Data 
-                .Random.seed
-                check_SI.Distr
-                # # End workaround
                 dic.fit.mcmc.incremental(dat=SI.Data, dist=SI.parametricDistr, current.samples=mcmc_samples,
                                          init.pars = init.pars, burnin=0, n.samples=total.samples.needed, V=V)@samples
               }))
@@ -177,10 +160,6 @@ shinyServer(function(input, output, session) {
             if (method=="SIFromData") {
               # We have a full set of samples.
               mcmc_samples <- asyncData$mcmc_samples
-              # TODO CONVERGENCE CHECK!
-              
-              
-              
               mcmc_samples_small <- mcmc_samples[burnin:total.samples.needed,] #Remove burnin
               
               if (is.null(SI.Sample.From.Data)) {
@@ -205,31 +184,11 @@ shinyServer(function(input, output, session) {
                 }
                 values$status <- "Running EstimateR..."
                 startAsyncDataLoad("epiEstimOutput", future({
-                  ##########################
-                  # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
-                  # # (Make certain things globals)
-                  EstimateR_func 
-                  OverallInfectivity
-                  process_SI.Data 
-                  .Random.seed
-                  check_SI.Distr
-                  # # End workaround
-                  ##########################
                   EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data)
                 }))
               }
             } else {
               startAsyncDataLoad("epiEstimOutput", future({
-                ##########################
-                # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
-                # # (Make certain things globals)
-                EstimateR_func 
-                OverallInfectivity
-                process_SI.Data 
-                .Random.seed
-                check_SI.Distr
-                # # End workaround
-                ##########################
                 EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
                           Std.Mean.SI = Std.Mean.SI, Min.Mean.SI = Min.Mean.SI, Max.Mean.SI = Max.Mean.SI, Std.Std.SI = Std.Std.SI,
                           Min.Std.SI = Min.Std.SI, Max.Std.SI = Max.Std.SI, SI.Distr = SI.Distr, SI.Data = SI.Data, 
@@ -494,7 +453,7 @@ shinyServer(function(input, output, session) {
   }, suspended = TRUE) # checkAsyncDataBeingLoaded
   
   handleError <- function(state, error) {
-    stop(error) #Uncomment in dev for detailed stack trace etc
+    #stop(error) #Uncomment in dev for detailed stack trace etc
     values$status <- "ERROR"
     cat("There was an error in state", state, "\n")
     cat(error$message, "\n")

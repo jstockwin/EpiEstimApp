@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(shinyjs)
 
 # Define UI for application that draws a histogram
 shinyUI(bootstrapPage(

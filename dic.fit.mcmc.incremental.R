@@ -23,7 +23,7 @@ dic.fit.mcmc.incremental <- function (dat,
   }
 
 
-  fit = dic.fit.mcmc(dat,
+  fit = coarseDataTools::dic.fit.mcmc(dat,
                          prior.par1 = prior.par1,
                          prior.par2 = prior.par2,
                          init.pars = my.init.pars,
