@@ -67,7 +67,7 @@ shinyServer(function(input, output, session) {
   enable("nxt") # Enable next button when initial load is done.
   
   asyncData <-
-    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL, V = NULL, SI.Sample.From.Data = NULL)
+    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL, V = NULL, SI.Sample.From.Data = NULL, convergenceCheck = NULL)
   asyncDataBeingLoaded <- list()
   
   # Initialise inputs for EpiEstim's EstimateR
@@ -99,6 +99,7 @@ shinyServer(function(input, output, session) {
   V <- NULL
   thin <- NULL
   SI.Sample.From.Data <- NULL
+  convergenceCheck <- NULL
   
   # Clicking previous/next should increment the stateLevel
   observeEvent(input$nxt, {
@@ -174,8 +175,12 @@ shinyServer(function(input, output, session) {
             }
           } else {
             if (method=="SIFromData") {
+              # We have a full set of samples.
               mcmc_samples <- asyncData$mcmc_samples
               # TODO CONVERGENCE CHECK!
+              
+              
+              
               mcmc_samples_small <- mcmc_samples[burnin:total.samples.needed,] #Remove burnin
               
               if (is.null(SI.Sample.From.Data)) {
@@ -183,11 +188,21 @@ shinyServer(function(input, output, session) {
                 startAsyncDataLoad("SI.Sample.From.Data", future({
                     coarse2estim(samples=mcmc_samples_small, dist=SI.parametricDistr, thin=thin)$SI.Sample
                 }))
+              } else if (is.null(convergenceCheck)) {
+                values$status <- "Running the Gelman-Rubin convergence check"
+                startAsyncDataLoad("convergenceCheck", future({
+                  check_CDTsamples_convergence(mcmc_samples_small)
+                }))
               } else {
                 # Good to go!
                 # Run SIFromSample not SIFromData using SI.Sample.From.Data (which is the result of us running MCMC)
                 # The whole thing is equivalent to passing SI.Data to EstimateR(method="SIFromData"), but this way we
                 # get a progress bar.
+                if (!convergenceCheck) {
+                  # FYI: This works in browsers, but seems to stop everything when done in RStudio
+                  session$sendCustomMessage(type="alert", "Warning: The Gelan-Rubin algorithm suggests that MCMC may not have converged within the number of iterations sepcified (burnin + n1*thin).
+                       EstimateR will be called anyway, but you should investigate this issue.")
+                }
                 values$status <- "Running EstimateR..."
                 startAsyncDataLoad("epiEstimOutput", future({
                   ##########################
@@ -361,6 +376,7 @@ shinyServer(function(input, output, session) {
                mcmc_samples <<- asyncData$mcmc_samples
                SI.Sample.From.Data <<- asyncData$SI.Sample.From.Data
                V <<- asyncData$V
+               convergenceCheck <<- asyncData$convergenceCheck
                if (!is.na(input$param1) && !is.na(input$param1)) {
                  init.pars <<- c(input$param1, input$param2)
                } else {
@@ -535,6 +551,8 @@ shinyServer(function(input, output, session) {
     V <<- NULL
     asyncData$SI.Sample.From.Data <<- NULL
     SI.Sample.From.Data <<- NULL
+    asyncData$convergenceCheck <<- NULL
+    convergenceCheck <<- NULL
   })
   
 }) # End shinyServer

@@ -16,6 +16,8 @@ $(document).ready(function() {
       }
     }
   );
+  
+  Shiny.addCustomMessageHandler("alert",function (msg) {alert(msg);});
 });
 
 showMCMCParams = function() {
