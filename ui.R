@@ -70,8 +70,7 @@ tool, the format or results generated from it.</p>
                     radioButtons('incidenceDataset', 'Choose your dataset',
                                  c('PennsylvaniaH1N12009', 'RotavirusGermany',
                                    'Flu1918', 'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972')),
-                    sliderInput('width', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7),
-                    div(class='continue')
+                    sliderInput('incidenceWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
          )),
          hidden(div(id="3.1", 
                     # State 3.1
@@ -288,7 +287,7 @@ tool, the format or results generated from it.</p>
          )),
          div(id="control",
              disabled(actionButton('prev', label='Previous')),
-             actionButton('nxt', label='Next'),
+             disabled(actionButton('nxt', label='Next')),
              hidden(actionButton('go', label='Go'))
          )
          
