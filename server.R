@@ -57,9 +57,9 @@ finalStates = c("8.1", "9.1", "8.3", "7.3", "8.4", "9.2", "9.3")
 
 shinyServer(function(input, output, session) {
   # DEBUG
-  observe({
-    cat(values$state, "\n")
-  })
+  #observe({
+  #  cat(values$state, "\n")
+  #})
   
   
   # Initialise some reactive values
@@ -388,7 +388,7 @@ shinyServer(function(input, output, session) {
                values$error <- "Please upload a file!"
              }
            },
-           info(error$message)
+           info(error$message) # Fallback to JS alert
     )
     return()
   }

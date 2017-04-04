@@ -3,7 +3,6 @@ $(document).ready(function() {
   
   Shiny.addCustomMessageHandler("errorBox", 
     function (id) {
-      console.log("Error thrown for id " + id);
       box = document.getElementById(id + "ErrorBox");
       box.style = 'border-style: solid;';
     }
