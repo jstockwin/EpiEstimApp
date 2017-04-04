@@ -67,7 +67,7 @@ shinyServer(function(input, output, session) {
   enable("nxt") # Enable next button when initial load is done.
   
   asyncData <-
-    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL, V = NULL)
+    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL, V = NULL, SI.Sample.From.Data = NULL)
   asyncDataBeingLoaded <- list()
   
   # Initialise inputs for EpiEstim's EstimateR
@@ -98,6 +98,7 @@ shinyServer(function(input, output, session) {
   init.pars <- NULL
   V <- NULL
   thin <- NULL
+  SI.Sample.From.Data <- NULL
   
   # Clicking previous/next should increment the stateLevel
   observeEvent(input$nxt, {
@@ -165,7 +166,6 @@ shinyServer(function(input, output, session) {
                 OverallInfectivity
                 process_SI.Data 
                 .Random.seed
-                dic.fit.mcmc
                 check_SI.Distr
                 # # End workaround
                 dic.fit.mcmc.incremental(dat=SI.Data, dist=SI.parametricDistr, current.samples=mcmc_samples,
@@ -177,23 +177,32 @@ shinyServer(function(input, output, session) {
               mcmc_samples <- asyncData$mcmc_samples
               # TODO CONVERGENCE CHECK!
               mcmc_samples_small <- mcmc_samples[burnin:total.samples.needed,] #Remove burnin
-              # TODO ASYNC!
-              SI.Sample <<- coarse2estim(samples=mcmc_samples_small, dist=SI.parametricDistr, thin=thin)$SI.Sample
-              values$status <- "Running EstimateR..."
-              startAsyncDataLoad("epiEstimOutput", future({
-                ##########################
-                # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
-                # # (Make certain things globals)
-                EstimateR_func 
-                OverallInfectivity
-                process_SI.Data 
-                .Random.seed
-                dic.fit.mcmc
-                check_SI.Distr
-                # # End workaround
-                ##########################
-                EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample)
-              }))
+              
+              if (is.null(SI.Sample.From.Data)) {
+                values$status <- "Running coarse2estim"
+                startAsyncDataLoad("SI.Sample.From.Data", future({
+                    coarse2estim(samples=mcmc_samples_small, dist=SI.parametricDistr, thin=thin)$SI.Sample
+                }))
+              } else {
+                # Good to go!
+                # Run SIFromSample not SIFromData using SI.Sample.From.Data (which is the result of us running MCMC)
+                # The whole thing is equivalent to passing SI.Data to EstimateR(method="SIFromData"), but this way we
+                # get a progress bar.
+                values$status <- "Running EstimateR..."
+                startAsyncDataLoad("epiEstimOutput", future({
+                  ##########################
+                  # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
+                  # # (Make certain things globals)
+                  EstimateR_func 
+                  OverallInfectivity
+                  process_SI.Data 
+                  .Random.seed
+                  check_SI.Distr
+                  # # End workaround
+                  ##########################
+                  EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data)
+                }))
+              }
             } else {
               startAsyncDataLoad("epiEstimOutput", future({
                 ##########################
@@ -203,7 +212,6 @@ shinyServer(function(input, output, session) {
                 OverallInfectivity
                 process_SI.Data 
                 .Random.seed
-                dic.fit.mcmc
                 check_SI.Distr
                 # # End workaround
                 ##########################
@@ -351,6 +359,7 @@ shinyServer(function(input, output, session) {
                thin <<- input$thin
                SI.parametricDistr <<- input$SIDist2
                mcmc_samples <<- asyncData$mcmc_samples
+               SI.Sample.From.Data <<- asyncData$SI.Sample.From.Data
                V <<- asyncData$V
                if (!is.na(input$param1) && !is.na(input$param1)) {
                  init.pars <<- c(input$param1, input$param2)
@@ -524,6 +533,8 @@ shinyServer(function(input, output, session) {
     mcmc_samples <<- NULL
     asyncData$V <<- NULL
     V <<- NULL
+    asyncData$SI.Sample.From.Data <<- NULL
+    SI.Sample.From.Data <<- NULL
   })
   
 }) # End shinyServer
