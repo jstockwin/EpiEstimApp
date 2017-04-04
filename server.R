@@ -67,7 +67,7 @@ shinyServer(function(input, output, session) {
   enable("nxt") # Enable next button when initial load is done.
   
   asyncData <-
-    reactiveValues(epiEstimOutput = NULL)
+    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL)
   asyncDataBeingLoaded <- list()
   
   # Initialise inputs for EpiEstim's EstimateR
@@ -90,10 +90,14 @@ shinyServer(function(input, output, session) {
   SI.Distr = NULL
   SI.Data = NULL
   SI.parametricDistr = NULL
-  MCMC.control = list(init.pars = NULL, burnin = 3000, thin=10, seed = NULL)
+  burnin = 3000
   SI.Sample = NULL
   plot = FALSE
-  
+  total.samples.needed <- 1 # Will be overridden. Set to 1 so dim(mcmc_samples) < total.samples.needed initially
+  mcmc_samples <- NULL
+  init.pars <- NULL
+  V <- NULL
+  thin <- NULL
   
   # Clicking previous/next should increment the stateLevel
   observeEvent(input$nxt, {
@@ -128,37 +132,93 @@ shinyServer(function(input, output, session) {
   
   
   # Logic for when "go" is clicked.
-  observeEvent(input$go, {
-    # WARNING: You probably want to avoid much logic here. Most of it should be in handleState() which is reactive. 
-    # If Next is pressed twice without inputs changing, nothing will happen, but if anything you put here WILL get done.
-    tryCatch({
-      if (handleState()) {
-        startAsyncDataLoad("epiEstimOutput", future({
-          ##########################
-          # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
-          # # (Make certain things globals)
-          EstimateR_func 
-          OverallInfectivity
-          process_SI.Data 
-          .Random.seed
-          dic.fit.mcmc
-          check_SI.Distr
-          # # End workaround
-          ##########################
-          EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
-                    Std.Mean.SI = Std.Mean.SI, Min.Mean.SI = Min.Mean.SI, Max.Mean.SI = Max.Mean.SI, Std.Std.SI = Std.Std.SI,
-                    Min.Std.SI = Min.Std.SI, Max.Std.SI = Max.Std.SI, SI.Distr = SI.Distr, SI.Data = SI.Data, 
-                    SI.parametricDistr = SI.parametricDistr, MCMC.control = MCMC.control, SI.Sample = SI.Sample, plot = plot)
-        }))
-      }
-    },
-    error = function (e) {
-      show("prev")
-      hide("stop")
-      enable("go")
-      handleError(values$state, e)
-    })
-  })
+  observeEvent(input$go, {run()})
+  
+  run <- function() {
+      # WARNING: You probably want to avoid much logic here. Most of it should be in handleState() which is reactive. 
+      # If Next is pressed twice without inputs changing, nothing will happen, but if anything you put here WILL get done.
+      tryCatch({
+        if (handleState()) {
+          if (method=="SIFromData" && (is.null(mcmc_samples) || dim(mcmc_samples)[1] < total.samples.needed)) {
+            if (is.null(mcmc_samples)) {
+              values$status <- "Running MCMC (0%)"
+            } else {
+              values$status <- paste("Running MCMC (", floor(100*dim(mcmc_samples)[1]/total.samples.needed), "%)", sep="")
+            }
+            if (is.null(V)) { # TODO MAKE THIS ASYNC!!!
+              init.pars.trans <- coarseDataTools:::dist.optim.transform(dist=SI.parametricDistr, init.pars)
+              V <<- compute_V (fun = coarseDataTools:::mcmcpack.ll, theta.init = init.pars.trans,  
+                               tune = 1, logfun = TRUE, force.samp = FALSE, 
+                               optim.method = "BFGS", optim.lower = -Inf, optim.upper = Inf, 
+                               optim.control = list(fnscale = -1, trace = 0, REPORT = 10, 
+                                                    maxit = 500), dat=SI.Data, dist=SI.parametricDistr)
+            }
+            startAsyncDataLoad("mcmc_samples", future({
+              ##########################
+              # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
+              # # (Make certain things globals)
+              EstimateR_func 
+              OverallInfectivity
+              process_SI.Data 
+              .Random.seed
+              dic.fit.mcmc
+              check_SI.Distr
+              # # End workaround
+              dic.fit.mcmc.incremental(dat=SI.Data, dist=SI.parametricDistr, current.samples=mcmc_samples,
+                                       init.pars = init.pars, burnin=0, n.samples=total.samples.needed, V=V)@samples
+            }))
+          } else {
+            if (method=="SIFromData") {
+              mcmc_samples <- asyncData$mcmc_samples
+              # TODO CONVERGENCE CHECK!
+              mcmc_samples_small <- mcmc_samples[burnin:total.samples.needed,] #Remove burnin
+              # TODO ASYNC!
+              SI.Sample <<- coarse2estim(samples=mcmc_samples_small, dist=SI.parametricDistr, thin=thin)$SI.Sample
+              values$status <- "Running EstimateR..."
+              startAsyncDataLoad("epiEstimOutput", future({
+                ##########################
+                # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
+                # # (Make certain things globals)
+                EstimateR_func 
+                OverallInfectivity
+                process_SI.Data 
+                .Random.seed
+                dic.fit.mcmc
+                check_SI.Distr
+                # # End workaround
+                ##########################
+                EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample)
+              }))
+            } else {
+              startAsyncDataLoad("epiEstimOutput", future({
+                ##########################
+                # # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
+                # # (Make certain things globals)
+                EstimateR_func 
+                OverallInfectivity
+                process_SI.Data 
+                .Random.seed
+                dic.fit.mcmc
+                check_SI.Distr
+                # # End workaround
+                ##########################
+                EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
+                          Std.Mean.SI = Std.Mean.SI, Min.Mean.SI = Min.Mean.SI, Max.Mean.SI = Max.Mean.SI, Std.Std.SI = Std.Std.SI,
+                          Min.Std.SI = Min.Std.SI, Max.Std.SI = Max.Std.SI, SI.Distr = SI.Distr, SI.Data = SI.Data, 
+                          SI.Sample = SI.Sample, plot = plot)
+              }))
+            }
+          }
+          
+        }
+      },
+      error = function (e) {
+        show("prev")
+        hide("stop")
+        enable("go")
+        handleError(values$state, e)
+      })
+  }
   
   output$plot <- renderPlot({
     if (!is.null(asyncData$epiEstimOutput)) {
@@ -279,15 +339,18 @@ shinyServer(function(input, output, session) {
              },
              "8.5" = {TRUE},
              "9.1" = {
-               MCMC.control$burnin <<- input$burnin
-               MCMC.control$thin <<- input$thin
-               if (!is.na(input$param1) && !is.na(input$param1)) {
-                 MCMC.control$init.pars <<- c(input$param1, input$param2)
-               }
+               burnin <<- input$burnin
+               total.samples.needed <<- input$burnin + input$n12 * input$thin
                n1 <<- input$n12
                n2 <<- input$n22
+               thin <<- input$thin
                SI.parametricDistr <<- input$SIDist2
-               MCMC.control$seed <<- 1 # TODO: REMOVE THIS! There is an issue with EpiEstim's default behaviour right now.
+               mcmc_samples <<- asyncData$mcmc_samples
+               if (!is.na(input$param1) && !is.na(input$param1)) {
+                 init.pars <<- c(input$param1, input$param2)
+               } else {
+                 init.pars <<- init_MCMC_params(SI.Data, SI.parametricDistr)
+               }
                TRUE
              },
              "9.2" = {
@@ -379,6 +442,12 @@ shinyServer(function(input, output, session) {
         tryCatch({
           asyncData[[asyncDataName]] <<- value(asyncFutureObject)
           asyncDataBeingLoaded[[asyncDataName]] <<- NULL
+          
+          # If we've resolved something but asyncData$epiEstimOutput is not loaded then we've been
+          # incrementally running MCMC and are not done yet. We want to re-start stuff, so call run() again
+          if (is.null(asyncData$epiEstimOutput)) {
+            run()
+          }
         },
         error = function (e) {
           checkAsyncDataBeingLoaded$suspend() # Stop running, otherwise we'll throw the error every 1000ms.
@@ -394,6 +463,7 @@ shinyServer(function(input, output, session) {
   }, suspended = TRUE) # checkAsyncDataBeingLoaded
   
   handleError <- function(state, error) {
+    stop(error) #Uncomment in dev for detailed stack trace etc
     values$status <- "ERROR"
     cat("There was an error in state", state, "\n")
     cat(error$message, "\n")
@@ -428,6 +498,25 @@ shinyServer(function(input, output, session) {
     enable("go")
     show("prev")
     values$status <- "Ready"
+  })
+  
+  observe({
+    # This function removes the asyncData$mcmc_samples whenever the corresponding inputs change. 
+    input$SIData
+    input$SISep
+    input$SIHeader
+    input$SIQuote
+    input$SIDist2
+    input$param1
+    input$param2
+    input$n12
+    input$n22
+    input$burnin
+    input$thin
+    
+    asyncData$mcmc_samples <<- NULL
+    mcmc_samples <<- NULL
+    V <<- NULL
   })
   
 }) # End shinyServer

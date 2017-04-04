@@ -1,6 +1,6 @@
 dic.fit.mcmc.incremental <- function (dat,
                                       current.samples=NULL,#current progress
-                                      increment.size = 10,
+                                      increment.size = 80,
                                       prior.par1 = NULL,
                                       prior.par2 = NULL,
                                       init.pars = c(1,1),
