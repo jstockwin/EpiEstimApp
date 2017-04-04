@@ -15,6 +15,9 @@ library(plotly)
 library(plyr)
 library(reshape2)
 library(stats)
+library(future)
+
+plan(multiprocess)
 
 data(Measles1861)
 data(Flu1918)
@@ -49,7 +52,13 @@ shinyServer(function(input, output, session) {
   values <- reactiveValues(state="1.1", status="Ready", epiEstimOutput = NULL)
   enable("nxt") # Enable next button when initial load is done.
   
+  asyncData <-
+    reactiveValues(epiEstimOutput = NULL)
+  asyncDataBeingLoaded <- list()
+  
   # Initialise inputs for EpiEstim's EstimateR
+  ## TODO - if we make these reactive, it might mean calling EstimateR twice without changing inputs
+  ## doesn't bother to run the second time, which might be nice?
   IncidenceData = NULL
   T.Start = NULL
   T.End = NULL
@@ -102,11 +111,13 @@ shinyServer(function(input, output, session) {
     #tryCatch({
       if (handleState()) {
         values$status = "Running"
-        values$epiEstimOutput <- EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
-                  Std.Mean.SI = Std.Mean.SI, Min.Mean.SI = Min.Mean.SI, Max.Mean.SI = Max.Mean.SI, Std.Std.SI = Std.Std.SI,
-                  Min.Std.SI = Min.Std.SI, Max.Std.SI = Max.Std.SI, SI.Distr = SI.Distr, SI.Data = SI.Data, 
-                  SI.parametricDistr = SI.parametricDistr, MCMC.control = MCMC.control, SI.Sample = SI.Sample, plot = plot)
-        values$status = "Done"
+        startAsyncDataLoad("epiEstimOutput", future({
+          EstimateR_func # Workaround ref: https://github.com/HenrikBengtsson/future/issues/137
+          EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
+                                                              Std.Mean.SI = Std.Mean.SI, Min.Mean.SI = Min.Mean.SI, Max.Mean.SI = Max.Mean.SI, Std.Std.SI = Std.Std.SI,
+                                                              Min.Std.SI = Min.Std.SI, Max.Std.SI = Max.Std.SI, SI.Distr = SI.Distr, SI.Data = SI.Data, 
+                                                              SI.parametricDistr = SI.parametricDistr, MCMC.control = MCMC.control, SI.Sample = SI.Sample, plot = plot)
+          }))
       }
     #},
     #error = function (e) {
@@ -118,10 +129,10 @@ shinyServer(function(input, output, session) {
   })
   
   output$plot <- renderPlot({
-    if (!is.null(values$epiEstimOutput)) {
-      p_I <- plots(values$epiEstimOutput, what="I")
+    if (!is.null(asyncData[["epiEstimOutput"]])) {
+      p_I <- plots(asyncData[["epiEstimOutput"]], what="I")
       #p_SI <- plots(values$epiEstimOutput, what="SI")
-      p_R <- plots(values$epiEstimOutput, what="R")
+      p_R <- plots(asyncData[["epiEstimOutput"]], what="R")
       gridExtra::grid.arrange(p_I,p_R,ncol=1)
     }
   })
@@ -232,5 +243,27 @@ shinyServer(function(input, output, session) {
            stop(sprintf("An error occurred in getPrevState(). Input '%s' was not recognised.", currentState))
     )
   }
+  
+  ### The following is to make everything as asyncronous as possible to prevent slow functions being blocking.
+  startAsyncDataLoad <- function(asyncDataName, futureObj) {
+    checkAsyncDataBeingLoaded$suspend()
+    asyncDataBeingLoaded[[asyncDataName]] <<- futureObj
+    checkAsyncDataBeingLoaded$resume()
+  } #end startAsyncDataLoad
+  
+  checkAsyncDataBeingLoaded <- observe({
+    invalidateLater(1000)
+    for (asyncDataName in names(asyncDataBeingLoaded)) {
+      asyncFutureObject <- asyncDataBeingLoaded[[asyncDataName]]
+      if (resolved(asyncFutureObject)) {
+        asyncData[[asyncDataName]] <<- value(asyncFutureObject)
+        asyncDataBeingLoaded[[asyncDataName]] <<- NULL
+      }
+    }#end loop over async data items being loaded
+    #if there are no more asynchronous data items being loaded then stop checking
+    if (length(asyncDataBeingLoaded) == 0) {
+      checkAsyncDataBeingLoaded$suspend()
+    }
+  }, suspended = TRUE) # checkAsyncDataBeingLoaded
   
 }) # End shinyServer
