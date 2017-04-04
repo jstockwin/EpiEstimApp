@@ -3,3 +3,12 @@
   border-radius: 5px;
   padding: 5px;
 }
+
+.ErrorBox {
+  border-radius: 5px;
+  border-color: red;
+}
+
+#error {
+  color: red;
+}

@@ -41,17 +41,18 @@ tool, the format or results generated from it.</p>
          ),
          hidden(div(id="2.1",
                     # State 2.1
-                    h1('Incidence Data'),
-                    fileInput('incidenceData', 'Choose incidence data file to upload',
-                              accept = c(
-                                'text/csv',
-                                'text/comma-separated-values',
-                                'text/tab-separated-values',
-                                'text/plain',
-                                '.csv',
-                                '.tsv'
-                              )
-                    ),
+                    div(id="incidenceDataErrorBox", class="ErrorBox",
+                        fileInput('incidenceData', 'Choose incidence data file to upload',
+                                  accept = c(
+                                    'text/csv',
+                                    'text/comma-separated-values',
+                                    'text/tab-separated-values',
+                                    'text/plain',
+                                    '.csv',
+                                    '.tsv'
+                                  )
+                        )
+                      ),
                     checkboxInput('incidenceHeader', 'Header', FALSE),
                     radioButtons('incidenceSep', 'Separator',
                                  c(Comma=',',
@@ -288,7 +289,8 @@ tool, the format or results generated from it.</p>
          div(id="control",
              disabled(actionButton('prev', label='Previous')),
              disabled(actionButton('nxt', label='Next')),
-             hidden(actionButton('go', label='Go'))
+             hidden(actionButton('go', label='Go')),
+             textOutput('error')
          )
          
   ),

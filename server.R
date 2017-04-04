@@ -56,8 +56,14 @@ allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.
 finalStates = c("8.1", "9.1", "8.3", "7.3", "8.4", "9.2", "9.3")
 
 shinyServer(function(input, output, session) {
+  # DEBUG
+  observe({
+    cat(values$state, "\n")
+  })
+  
+  
   # Initialise some reactive values
-  values <- reactiveValues(state="1.1", status="Ready", epiEstimOutput = NULL)
+  values <- reactiveValues(state="1.1", status="Ready", error = NULL)
   enable("nxt") # Enable next button when initial load is done.
   
   asyncData <-
@@ -91,7 +97,6 @@ shinyServer(function(input, output, session) {
   
   # Clicking previous/next should increment the stateLevel
   observeEvent(input$nxt, {
-    values$status = "Processing"
     if (handleState()) {
       values$state = getNextState(values$state)
       values$status = "Ready"
@@ -99,6 +104,8 @@ shinyServer(function(input, output, session) {
   })
   observeEvent(input$prev, {
     values$state = getPrevState(values$state)
+    values$error = NULL
+    session$sendCustomMessage(type="resetErrorBoxes", "")
   })
   
   # Whenever the state changes, toggle which fields are/are not visible.
@@ -114,11 +121,12 @@ shinyServer(function(input, output, session) {
   # Keep the output text to values$status
   output$output <- renderText({values$status})
   
+  output$error <- renderText({values$error})
+  
   
   
   # Logic for when "go" is clicked.
   observeEvent(input$go, {
-    values$status = "Running..."
     asyncData$epiEstimOutput <- NULL # Remove current plot
     tryCatch({
       if (handleState()) {
@@ -142,10 +150,7 @@ shinyServer(function(input, output, session) {
       }
     },
     error = function (e) {
-      ## TODO: Graciously handle as many expected errors as possible. 
-      ## Perhaps make a new function handleErrors(error, state)?
-      info(e$message) ## TODO: This is just a JS alert for now. Should be done better.
-      stop(e) # Debug only!
+      handleError(values$state, e)
     })
   })
   
@@ -161,10 +166,13 @@ shinyServer(function(input, output, session) {
   
   
   handleState <- reactive({
-    state <- values$state
     # Run when next is clicked. Should handle all validation and error checks for that state
     # and should set all necessary variables.
     # The state will change only if handleState returns TRUE. 
+    state <- values$state
+    values$error <- NULL
+    session$sendCustomMessage(type="resetErrorBoxes", "")
+    values$status = "Processing..."
     tryCatch({
       switch(state,
              "1.1" = {TRUE},
@@ -282,9 +290,7 @@ shinyServer(function(input, output, session) {
       )
     },
     error = function (e) {
-      ## TODO: Graciously handle as many expected errors as possible. 
-      ## Perhaps make a new function handleErrors(error, state)?
-      info(e$message) ## TODO: This is just a JS alert for now. Should be done better.
+      handleError(values$state, e)
       FALSE
     })
   })
@@ -359,13 +365,8 @@ shinyServer(function(input, output, session) {
           asyncDataBeingLoaded[[asyncDataName]] <<- NULL
         },
         error = function (e) {
-          # Note any errors in anything called asyncronously (most important stuff!) will error here, not
-          # when the async process is started.
-          ## TODO: Graciously handle as many expected errors as possible. 
-          ## Perhaps make a new function handleErrors(error, state)?
           checkAsyncDataBeingLoaded$suspend() # Stop running, otherwise we'll throw the error every 1000ms.
-          info(e$message) ## TODO: This is just a JS alert for now. Should be done better.
-          #stop(e) # Debug only!
+          handleError(values$state, e)
           FALSE
         })
       }
@@ -376,4 +377,21 @@ shinyServer(function(input, output, session) {
     }
   }, suspended = TRUE) # checkAsyncDataBeingLoaded
   
+  handleError <- function(state, error) {
+    values$status <- "ERROR"
+    cat("There was an error in state", state, "\n")
+    cat(error$message, "\n")
+    switch(state,
+           "2.1" = {
+             if (error$message == "'file' must be a character string or connection") {
+               session$sendCustomMessage(type="errorBox", "incidenceData")
+               values$error <- "Please upload a file!"
+             }
+           },
+           info(error$message)
+    )
+    return()
+  }
+  
 }) # End shinyServer
+
