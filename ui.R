@@ -162,10 +162,11 @@ tool, the format or results generated from it.</p>
                     div(id="SIDistErrorBox", class="ErrorBox",
                         radioButtons('SIDist', 'Choose your serial interval distribution',
                                      c('Gamma'='G',
-                                       'Offset Gamma'='off1G',
-                                       'Erlang' = 'E',
+                                       'Offset Gamma' = 'off1G',
                                        'Weibull' = 'W',
-                                       'Log-Normal' = 'L'))
+                                       'Offset Weibull' = 'off1W',
+                                       'Log-Normal' = 'L',
+                                       'Offset Log-Normal' = 'off1L'))
                         )
       
          )),
@@ -237,10 +238,11 @@ tool, the format or results generated from it.</p>
                     
                     radioButtons('SIDist2', 'Choose your serial interval distribution',
                                  c('Gamma'='G',
-                                   'Offset Gamma'='off1G',
-                                   'Erlang' = 'E',
+                                   'Offset Gamma' = 'off1G',
                                    'Weibull' = 'W',
-                                   'Log-Normal' = 'L')),
+                                   'Offset Weibull' = 'off1W',
+                                   'Log-Normal' = 'L',
+                                   'Offset Log-Normal' = 'off1L')),
                     p('NOTE: MCMC will run burnin + n1*thin iterations. This is slow. Try to keep below 10,000 even for small dataset'),
                     numericInput('n12', 'Choose the posterior sample size (n1)', min=10, value=500),
                     numericInput('burnin', 'Choose the number of iterations used as MCMC burnin', min=0, value=3000),
