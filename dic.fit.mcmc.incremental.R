@@ -1,6 +1,6 @@
 dic.fit.mcmc.incremental <- function (dat,
                                       current.samples=NULL,#current progress
-                                      increment.size = 10,
+                                      increment.size = 80,
                                       prior.par1 = NULL,
                                       prior.par2 = NULL,
                                       init.pars = c(1,1),
@@ -36,7 +36,7 @@ dic.fit.mcmc.incremental <- function (dat,
 
 
 
-  fit = dic.fit.mcmc(dat,
+  fit = coarseDataTools::dic.fit.mcmc(dat,
                          prior.par1 = prior.par1,
                          prior.par2 = prior.par2,
                          init.pars = my.init.pars,

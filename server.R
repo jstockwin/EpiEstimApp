@@ -5,6 +5,7 @@ library(MCMCpack)
 install_github('annecori/EpiEstim', ref = "hackout3")
 library(EpiEstim)
 library(shiny)
+library(shinyjs)
 library(rjson)
 library(ggplot2)
 library(graphics)
@@ -14,6 +15,9 @@ library(plotly)
 library(plyr)
 library(reshape2)
 library(stats)
+library(future)
+
+plan(multiprocess)
 
 data(Measles1861)
 data(Flu1918)
@@ -31,362 +35,492 @@ alldatasets <- list('Measles1861' = Measles1861,
 source("dic.fit.mcmc.incremental.R", local=TRUE)
 source("stochasticSEIRModel3.R", local=TRUE)
 source("utils.R", local=TRUE)
+#source("estimater.R", local=TRUE)
 
 # By default, the file size limit is 5MB. It can be changed by
 # setting this option. Here we'll raise limit to 9MB.
 options(shiny.maxRequestSize = 9*1024^2)
 options(shiny.reactlog=TRUE) 
 
+allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
+              "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
 
+finalStates = c("8.1", "9.1", "8.3", "7.3", "8.4", "9.2", "9.3")
 
 shinyServer(function(input, output, session) {
-   
-  output$plot <- renderPlot({
-    input$status
-    if (is.null(input$status) || input$status == "STOP") {
-      # Tell client we're 'done' to say we're ready.
-      session$sendCustomMessage(type='done', "")
-      return()
+  # DEBUG
+  #observe({
+  #  cat(values$state, "\n")
+  #})
+  
+  
+  # Initialise some reactive values
+  values <- reactiveValues(state="1.1", status="Ready", error = NULL)
+  enable("nxt") # Enable next button when initial load is done.
+  
+  asyncData <-
+    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL, V = NULL, SI.Sample.From.Data = NULL, convergenceCheck = NULL)
+  asyncDataBeingLoaded <- list()
+  
+  # Initialise inputs for EpiEstim's EstimateR
+  ## TODO - if we make these reactive, it might mean calling EstimateR twice without changing inputs
+  ## doesn't bother to run the second time, which might be nice?
+  IncidenceData = NULL
+  T.Start = NULL
+  T.End = NULL
+  method = NULL
+  n1 = NULL
+  n2 = 100
+  Mean.SI = NULL
+  Std.SI = NULL
+  Std.Mean.SI = NULL
+  Min.Mean.SI = NULL
+  Max.Mean.SI = NULL
+  Std.Std.SI = NULL
+  Min.Std.SI = NULL
+  Max.Std.SI = NULL
+  SI.Distr = NULL
+  SI.Data = NULL
+  SI.parametricDistr = NULL
+  burnin = 3000
+  SI.Sample = NULL
+  plot = FALSE
+  total.samples.needed <- 1 # Will be overridden. Set to 1 so dim(mcmc_samples) < total.samples.needed initially
+  mcmc_samples <- NULL
+  init.pars <- NULL
+  V <- NULL
+  thin <- NULL
+  SI.Sample.From.Data <- NULL
+  convergenceCheck <- NULL
+  
+  # Clicking previous/next should increment the stateLevel
+  observeEvent(input$nxt, {
+    # WARNING: You probably want to avoid much logic here. Most of it should be in handleState() which is reactive. 
+    # If Next is pressed twice without inputs changing, nothing will happen, but if anything you put here WILL get done.
+    if (handleState()) {
+      values$state = getNextState(values$state)
+      if (values$state == "5.1") {
+        hide("incidenceTitle")
+        show("SITitle")
+      }
+      values$status = "Ready"
     }
-
-    # Put everything in a try catch, as we need to send the "DONE" message to the client
-    # even if we exit with an error.
-    tryCatch({
-      isolate({
-        
-        # Work out which state we're in
-        SIState <- getSIState(input)
-        incidenceState <- getIncidenceState(input)
-        
-        ####################
-        ## Incidence Data ##
-        ####################
-        
-        if (incidenceState == 3.1) {
-          # Handle uploaded data:
-          IncidenceData <- read.csv(input$incidenceData$datapath, 
-                                      header = input$incidenceHeader, sep = input$incidenceSep,
-                                      quote = input$incidenceQuote)
-          # Process Incidence data (see utils.R)
-          IncidenceData <- processIncidenceData(IncidenceData)
-          
-        } else if (incidenceState == 2.2) {
-          # Get preloaded data
-          IncidenceData <- getIncidenceData(input$incidenceDataset, alldatasets)
-
-        }else if (incidenceState == 4.1) {
-          IncidenceData <- read.csv(input$incidenceData$datapath, 
-                                    header = input$incidenceHeader, sep = input$incidenceSep,
-                                    quote = input$incidenceQuote)
-          
-          ImportedData <- read.csv(input$importedData$datapath,
-                                   header = input$importedHeader, sep = input$importedSep,
-                                   quote = input$importedQuote)
-          
-          # Process Incidence data (see utils.R)
-          IncidenceData <- processIncidenceData(IncidenceData, ImportedData)
-    
-        } else {
-          stop('Something went wrong. Invalid state (2.?)')
-        }
-        
-        length <- dim(IncidenceData)[1]
-        
-        # Set width
-        W <- input$width
-       
-        #######################
-        ## Deal with SI Data ##
-        #######################
-        
-        if (SIState == 8.1) {
-          
-          # "NonParametricUncertainSI"
-          # Simply read the MCMC samples from the file. See getMCMCFit in utils.R 
-          SI.Sample <- getSISamples(input$SIDataset, input$SIDist)
-          ####  FEED INTO EPIESTIM
-          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = 100, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
-          session$sendCustomMessage(type='done', "")
-
-        } else if (SIState == 7.3) {
-          # "UncertainSI"
-          ####  FEED INTO EPIESTIM
-          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method="UncertainSI", n1=input$n1, n2=input$n2,
-                    Mean.SI=input$Mean.SI, Std.SI=input$Std.SI,
-                    Std.Mean.SI=input$Std.Mean.SI, Min.Mean.SI=input$Min.Mean.SI, Max.Mean.SI=input$Max.Mean.SI, 
-                    Std.Std.SI=input$Std.Std.SI, Min.Std.SI=input$Min.Std.SI, Max.Std.SI=input$Max.Std.SI, plot=TRUE)
-          session$sendCustomMessage(type='done', "")
-        } else if (SIState == 8.3) {
-          # "SIFromSample"
-          SI.Sample = processSISamples(read.csv(input$SISampleData$datapath, 
-                               header = input$SISampleHeader, sep = input$SISampleSep,
-                               quote = input$SISampleQuote))
-          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n23, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
-          session$sendCustomMessage(type='done', "")
-        } else if (SIState == 8.4) {
-          # "ParametricSI"
-          ####  FEED INTO EPIESTIM
-          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, Mean.SI=input$Mean.SI2, Std.SI=input$Std.SI2,
-                    method="ParametricSI", plot=TRUE)
-          session$sendCustomMessage(type='done', "")
-        } else if (SIState == 9.1) {
-          # MCMC then SIFromSample (equiv to SIFromData)
-          # Uploaded data, need to run MCMC. Run the next 80 iterations.
-          mcmc_samples = run_MCMC()
-          tryCatch({
-            # Trycatch becase ==FALSE fails if MCMC is actually an MCMC fit...
-            if (mcmc_samples == FALSE) {
-              # run_MCMC has pinged data back to the client. We should return here, and instead handle the incoming data.
-              return(NULL)
+  })
+  observeEvent(input$prev, {
+    if (values$state == "5.1") {
+      show("incidenceTitle")
+      hide("SITitle")
+    }
+    values$state = getPrevState(values$state)
+    values$error = NULL
+    session$sendCustomMessage(type="resetErrorBoxes", "")
+  })
+  
+  # Whenever the state changes, toggle which fields are/are not visible.
+  observe({
+    for (someState in allStates) {
+      toggle(someState, condition = someState == values$state)
+    }
+    toggle("nxt", condition = !(values$state %in% finalStates)) # Hide/show next button as appropriate
+    toggle("go", condition = values$state %in% finalStates) # Hide/show go button as appropriate
+    toggleState("prev", condition = !(values$state == "1.1")) # Disable/endable prev button as appropriate
+  })
+  
+  # Keep the output text to values$status
+  output$output <- renderText({values$status})
+  
+  output$error <- renderText({values$error})
+  
+  
+  
+  # Logic for when "go" is clicked.
+  observeEvent(input$go, {run()})
+  
+  run <- function() {
+      # WARNING: You probably want to avoid much logic here. Most of it should be in handleState() which is reactive. 
+      # If Next is pressed twice without inputs changing, nothing will happen, but if anything you put here WILL get done.
+      tryCatch({
+        if (handleState()) {
+          if (method=="SIFromData" && (is.null(mcmc_samples) || dim(mcmc_samples)[1] < total.samples.needed)) {
+            if (is.null(V)) {
+              values$status <- "Computing V"
+              startAsyncDataLoad("V", future({
+                init.pars.trans <- coarseDataTools:::dist.optim.transform(dist=SI.parametricDistr, init.pars)
+                compute_V (fun = coarseDataTools:::mcmcpack.ll, theta.init = init.pars.trans,  
+                           tune = 1, logfun = TRUE, force.samp = FALSE, 
+                           optim.method = "BFGS", optim.lower = -Inf, optim.upper = Inf, 
+                           optim.control = list(fnscale = -1, trace = 0, REPORT = 10, 
+                                                maxit = 500), dat=SI.Data, dist=SI.parametricDistr)
+              }))
+              
+            } else {
+              if (is.null(mcmc_samples)) {
+                values$status <- "Running MCMC (0%)"
+              } else {
+                values$status <- paste("Running MCMC (", floor(100*dim(mcmc_samples)[1]/total.samples.needed), "%)", sep="")
+              }
+              startAsyncDataLoad("mcmc_samples", future({
+                dic.fit.mcmc.incremental(dat=SI.Data, dist=SI.parametricDistr, current.samples=mcmc_samples,
+                                         init.pars = init.pars, burnin=0, n.samples=total.samples.needed, V=V)@samples
+              }))
             }
-          }, error = function (e) {# Ignore the error.
-          }, warning = function (e) {#ignore the warning.
-          })
-          
-          # else we actually have an MCMC fit.
-          # We'll check MCMC converged here:
-          if(!check_CDTsamples_convergence(mcmc_samples)) {
-            warning("The Gelman-Rubin algorithm suggests the MCMC may not have converged within the number of iterations (MCMC.burnin + n1) specified.")
-            
-            ## This warning will not actually be displayed to the user. We'll do that in JavaScript instead.
-            session$sendCustomMessage(type='popup', "The Gelman-Rubin algorithm suggests the MCMC may not have converged within the number of iterations (MCMC.burnin + n1) specified.")
+          } else {
+            if (method=="SIFromData") {
+              # We have a full set of samples.
+              mcmc_samples <- asyncData$mcmc_samples
+              mcmc_samples_small <- mcmc_samples[burnin:total.samples.needed,] #Remove burnin
+              
+              if (is.null(SI.Sample.From.Data)) {
+                values$status <- "Running coarse2estim"
+                startAsyncDataLoad("SI.Sample.From.Data", future({
+                    coarse2estim(samples=mcmc_samples_small, dist=SI.parametricDistr, thin=thin)$SI.Sample
+                }))
+              } else if (is.null(convergenceCheck)) {
+                values$status <- "Running the Gelman-Rubin convergence check"
+                startAsyncDataLoad("convergenceCheck", future({
+                  check_CDTsamples_convergence(mcmc_samples_small)
+                }))
+              } else {
+                # Good to go!
+                # Run SIFromSample not SIFromData using SI.Sample.From.Data (which is the result of us running MCMC)
+                # The whole thing is equivalent to passing SI.Data to EstimateR(method="SIFromData"), but this way we
+                # get a progress bar.
+                if (!convergenceCheck) {
+                  # FYI: This works in browsers, but seems to stop everything when done in RStudio
+                  session$sendCustomMessage(type="alert", "Warning: The Gelan-Rubin algorithm suggests that MCMC may not have converged within the number of iterations sepcified (burnin + n1*thin).
+                       EstimateR will be called anyway, but you should investigate this issue.")
+                }
+                values$status <- "Running EstimateR..."
+                startAsyncDataLoad("epiEstimOutput", future({
+                  EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data)
+                }))
+              }
+            } else {
+              startAsyncDataLoad("epiEstimOutput", future({
+                EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
+                          Std.Mean.SI = Std.Mean.SI, Min.Mean.SI = Min.Mean.SI, Max.Mean.SI = Max.Mean.SI, Std.Std.SI = Std.Std.SI,
+                          Min.Std.SI = Min.Std.SI, Max.Std.SI = Max.Std.SI, SI.Distr = SI.Distr, SI.Data = SI.Data, 
+                          SI.Sample = SI.Sample, plot = plot)
+              }))
+            }
           }
           
-          # If we reach here, we're done with MCMC
-          burnin = input$burnin
-          num.samples = burnin + input$n12*input$thin
-          mcmc_samples <- mcmc_samples[burnin:num.samples,] #Remove burnin and thin the samples
-          ####  FEED INTO EPIESTIM
-          session$sendCustomMessage(type='updateStatus', "Running coarse2estim")
-          SI.Sample = coarse2estim(samples=mcmc_samples, dist=input$SIDist2, thin=input$thin)$SI.Sample
-          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, n2 = input$n22, method="SIFromSample", SI.Sample = SI.Sample, plot=TRUE)
-          session$sendCustomMessage(type='done', "")
-        } else if (SIState == 9.2) {
-          # State 7.2
-          # "NonParametricSI (Uploaded data)"
-          SI.Distr = read.csv(input$SIDistrData$datapath, 
-                              header = input$SIDistrHeader, sep = input$SIDistrSep,
-                              quote = input$SIDistrQuote)
-          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
-          session$sendCustomMessage(type='done', "")
-        } else if (SIState == 9.3) {
-          # State 7.3
-          # "NonParametricSI (Preloaded data)"
-          SI.Distr = alldatasets[[input$SIDistrDataset]]$SI.Distr
-          session$sendCustomMessage(type='updateStatus', "Running EstimateR...")
-          EstimateR(IncidenceData, T.Start=1:(length - W), T.End=(1+W):length, method='NonParametricSI', SI.Distr=SI.Distr, plot=TRUE)
-          session$sendCustomMessage(type='done', "")
         }
-      }) # End Isolate
+      },
+      error = function (e) {
+        show("prev")
+        hide("stop")
+        enable("go")
+        handleError(values$state, e)
+      })
+  }
+  
+  output$plot <- renderPlot({
+    if (!is.null(asyncData$epiEstimOutput)) {
+      p_I <- plots(asyncData$epiEstimOutput, what="I")
+      p_SI <- plots(asyncData$epiEstimOutput, what="SI")
+      p_R <- plots(asyncData$epiEstimOutput, what="R")
+      gridExtra::grid.arrange(p_I,p_SI,p_R,ncol=1)
+      values$status <- "Ready"
+      show("prev")
+      hide("stop")
+      enable("go")
+    }
+  })
+  
+  
+  handleState <- reactive({
+    # Run when next is clicked. Should handle all validation and error checks for that state
+    # and should set all necessary variables.
+    # The state will change only if handleState returns TRUE. 
+    state <- values$state
+    if (state %in% finalStates) {
+      # Go (rather than next) was pressed.
+      show("stop")
+      disable("go")
+      hide("prev")
+      asyncData$epiEstimOutput <- NULL # Remove current plot
+    }
+    values$error <- NULL
+    session$sendCustomMessage(type="resetErrorBoxes", "")
+    values$status = "Processing..."
+    tryCatch({
+      switch(state,
+             "1.1" = {TRUE},
+             "2.1" = {
+               # Handle uploaded data:
+               IncidenceData <<- read.csv(input$incidenceData$datapath, 
+                                          header = input$incidenceHeader, sep = input$incidenceSep,
+                                          quote = input$incidenceQuote)
+               # Process Incidence data (see utils.R)
+               IncidenceData <<- processIncidenceData(IncidenceData)
+               
+               length <- dim(IncidenceData)[1]
+               W <- input$uploadedWidth
+               T.Start <<- 1:(length - W)
+               T.End <<- (1+W):length
+               TRUE
+             },
+             "2.2" = {
+               # Get preloaded data
+               IncidenceData <<- getIncidenceData(input$incidenceDataset, alldatasets)
+               
+               # Process Incidence data (see utils.R)
+               IncidenceData <<- processIncidenceData(IncidenceData)
+               
+               length <- dim(IncidenceData)[1]
+               W <- input$uploadedWidth
+               T.Start <<- 1:(length - W)
+               T.End <<- (1+W):length
+               TRUE
+             },
+             "3.1" = {TRUE},
+             "4.1" = {
+               ImportedData <- read.csv(input$importedData$datapath,
+                                        header = input$importedHeader, sep = input$importedSep,
+                                        quote = input$importedQuote)
+               # Process Incidence data (see utils.R) (IncidenceData will have been handled in state 2.1)
+               IncidenceData <- processIncidenceData(IncidenceData, ImportedData)
+               TRUE
+             },
+             "5.1" = {TRUE},
+             "6.1" = {TRUE},
+             "6.2" = {TRUE},
+             "7.1" = {TRUE},
+             "7.2" = {TRUE},
+             "7.3" = {
+               method <<- "UncertainSI"
+               n1 <<- input$n1
+               n2 <<- input$n2
+               Mean.SI <<- input$Mean.SI
+               Std.SI <<- input$Std.SI
+               Std.Mean.SI <<- input$Std.Mean.SI
+               Min.Mean.SI <<- input$Min.Mean.SI
+               Max.Mean.SI <<- input$Max.Mean.SI
+               Std.Std.SI <<- input$Std.Std.SI
+               Min.Std.SI <<- input$Min.Std.SI
+               Max.Std.SI <<- input$Max.Std.SI
+               TRUE
+             },
+             "7.4" = {TRUE},
+             "8.1" = {
+               # "SIFromSample"
+               # Simply read the MCMC samples from the file. See getMCMCFit in utils.R 
+               method <<- "SIFromSample"
+               SI.Sample <<- getSISamples(input$SIDataset, input$SIDist)
+               TRUE
+             },
+             "8.2" = {
+               method <<- "SIFromData"
+               serialIntervalData <- read.csv(input$SIData$datapath, 
+                                              header = input$SIHeader, sep = input$SISep,
+                                              quote = input$SIQuote)
+               # Process the data (see function in utils.R)
+               SI.Data <<- processSerialIntervalData(serialIntervalData)
+               TRUE
+             },
+             "8.3" = {
+               SI.Sample <<- processSISamples(read.csv(input$SISampleData$datapath, 
+                                                       header = input$SISampleHeader, sep = input$SISampleSep,
+                                                       quote = input$SISampleQuote))
+               n2 <<- input$n23
+               TRUE
+             },
+             "8.4" = {
+               Mean.SI <<- input$Mean.SI2
+               Std.SI <<- input$Std.SI2
+               method <<- "ParametricSI"
+               TRUE
+             },
+             "8.5" = {TRUE},
+             "9.1" = {
+               burnin <<- input$burnin
+               total.samples.needed <<- input$burnin + input$n12 * input$thin
+               n1 <<- input$n12
+               n2 <<- input$n22
+               thin <<- input$thin
+               SI.parametricDistr <<- input$SIDist2
+               mcmc_samples <<- asyncData$mcmc_samples
+               SI.Sample.From.Data <<- asyncData$SI.Sample.From.Data
+               V <<- asyncData$V
+               convergenceCheck <<- asyncData$convergenceCheck
+               if (!is.na(input$param1) && !is.na(input$param1)) {
+                 init.pars <<- c(input$param1, input$param2)
+               } else {
+                 init.pars <<- init_MCMC_params(SI.Data, SI.parametricDistr)
+               }
+               TRUE
+             },
+             "9.2" = {
+               method <<- "NonParametricSI"
+               SI.Distr <<- read.csv(input$SIDistrData$datapath, 
+                                     header = input$SIDistrHeader, sep = input$SIDistrSep,
+                                     quote = input$SIDistrQuote)
+               TRUE
+             },
+             "9.3" = {
+               method <<- "NonParametricSI"
+               SI.Distr <<- alldatasets[[input$SIDistrDataset]]$SI.Distr
+               TRUE
+             },
+             stop(sprintf("An error occurred in handleState(). Input '%s' was not recognised.", state))
+      )
     },
     error = function (e) {
-      # Send message to client that we're done.
-      session$sendCustomMessage(type='updateStatus', "ERROR")
-      session$sendCustomMessage(type='done', "")
-      stop(e)
-    }) # End tryCatch
-    
-  }) # End output$plot
+      handleError(values$state, e)
+      FALSE
+    })
+  })
   
-  # Calculating fit takes a long time. We'll make it reactive
-  # so that it only updated when a new serialIntervalDataFile is supplied.
-  run_MCMC <- function() {
-
-    serialIntervalData <- read.csv(input$SIData$datapath, 
-                                   header = input$SIHeader, sep = input$SISep,
-                                   quote = input$SIQuote)
-    
-    # Process the data (see function in utils.R)
-    serialIntervalData <- processSerialIntervalData(serialIntervalData)
-    
-    # If the distribution is set to offset gamma, we should check this is reasonable.
-    if (input$SIDist2 == 'off1G' && any(serialIntervalData[4] - serialIntervalData[1] < 1)) {
-      stop('The chosen dataset has serial intervals which are definitely less than 1,
-             so a gamma distribution offset by 1 is not appropriate.')
-    }
-    
-    if (is.na(input$param1) || is.na(input$param1)) {
-      params = init_MCMC_params(serialIntervalData, input$SIDist2)
-    } else {
-      params = c(input$param1, input$param2)
-    }
-    
-    # variance covariance matrix to use for proposal distribution in MCMC
-    init.pars.trans <- coarseDataTools:::dist.optim.transform(dist=input$SIDist2, params)
-    V <- compute_V (fun = coarseDataTools:::mcmcpack.ll, theta.init = init.pars.trans,  
-                    tune = 1, logfun = TRUE, force.samp = FALSE, 
-                    optim.method = "BFGS", optim.lower = -Inf, optim.upper = Inf, 
-                    optim.control = list(fnscale = -1, trace = 0, REPORT = 10, 
-                                         maxit = 500), dat=serialIntervalData, dist=input$SIDist2)
-    
-    if (is.null(input$mydata) || input$mydata == "NEW") {
-      # New run requested
-      # Update the client about the current state for which MCMC is being ran for:
-      session$sendCustomMessage(type='setMCMCInfo', paste('["', paste(URLencode(input$SIData$datapath), input$SIDist2, input$param1, input$param2, sep='","'), '"]', sep=''))
-      
-      total.samples.needed = input$burnin + input$n12 * input$thin
-      
-      session$sendCustomMessage(type='updateStatus', "Running MCMC... 0%")
-      MCMC = dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist2,
-                                      init.pars = params, increment.size = 80,
-                                      burnin=0, n.samples=total.samples.needed, 
-                                      V=V)
-      # We're not yet done, so ping data back to client to check if we should continue
-      data <- toJSON(MCMC@samples)
-      session$sendCustomMessage(type='pingToClient', data) 
-      return(FALSE)
-    } else {
-      # We have samples from the client, which are from a previous (potentially partial) run.
-      
-      dataChanged = checkIfSIDataUpdated(input)
-      
-      if (dataChanged) {
-        # Tell the client to try again with mydata = "NEW", meaning MCMC will start again in the above code.
-        session$sendCustomMessage(type='pingToClient', "NEW") 
-        return(FALSE)
-      }
-      # If this code has reached then the inputs haven't changed and we should either
-      # continue running MCMC or, if we've got a full set of data, simply return the
-      # samples for that data.
-      
-      total.samples.needed = input$burnin + input$n12 * input$thin
-      
-      current = as.data.frame(fromJSON(input$mydata))
-      session$sendCustomMessage(type='updateStatus', paste('Running MCMC... ', round(dim(current)[1]*100/total.samples.needed), '%', sep=''))
   
-      if(dim(current)[1] < total.samples.needed) {
-        # A partial run has been completed. Let's continue.
-
-        mcmc_samples = dic.fit.mcmc.incremental(dat = serialIntervalData, dist=input$SIDist2,
-                                 current.samples = current, increment.size = 80,
-                                 burnin=0, n.samples=total.samples.needed,
-                                 V=V)@samples
-        data <- toJSON(mcmc_samples)
-        session$sendCustomMessage(type='pingToClient', data)
-        return(FALSE)
-        
-      } else {
-        # A full set of data has been provided for the correct inputs, we are done. Return the data.
-        return(current)
+  # getNextState and getPrevState encode the logic in the decision tree. 
+  # See Decision Tree_Schematic.pdf in the root of this project.
+  getNextState <- function (currentState) {
+    switch(currentState,
+           "1.1" = {if (input$incidenceDataType == "own") "2.1" else "2.2"},     
+           "2.1" = {"3.1"},
+           "2.2" = {"5.1"},
+           "3.1" = {if (input$imported == "TRUE") "4.1" else "5.1"},
+           "4.1" = {"5.1"},
+           "5.1" = {if (input$SIPatientData == "TRUE") "6.1" else "6.2"},
+           "6.1" = {if (input$SIDataType == "preloaded") "7.1" else "7.2"},
+           "6.2" = {if (input$uncertainty == "TRUE") "7.3" else "7.4"},
+           "7.1" = {"8.1"},
+           "7.2" = {if (input$SIFrom == "data") "8.2" else "8.3"},
+           "7.4" = {if (input$parametric == "TRUE") "8.4" else "8.5"},
+           "8.2" = {"9.1"},
+           "8.5"= {if (input$SIDistrDataType == "own") "9.2" else "9.3"},
+           stop(sprintf("An error occurred in getNextState(). Input '%s' was not recognised.", currentState))
+    )
+  }
+  
+  getPrevState <- function (currentState) {
+    switch(currentState,
+           "2.1" = {"1.1"},
+           "2.2" = {"1.1"},
+           "3.1" = {"2.1"},
+           "4.1" = {"3.1"},
+           "5.1" = {
+             if (input$incidenceDataType == "own") {
+               if (input$imported == "TRUE") "4.1" else "3.1"
+             } else {
+               "2.2"
+             }
+           },
+           "6.1" = {"5.1"},
+           "6.2" = {"5.1"},
+           "7.1" = {"6.1"},
+           "7.2" = {"6.1"},
+           "7.3" = {"6.2"},
+           "7.4" = {"6.2"},
+           "8.1" = {"7.1"},
+           "8.2" = {"7.2"},
+           "8.3" = {"7.2"},
+           "8.4" = {"7.4"},
+           "8.5" = {"7.4"},
+           "9.1" = {"8.2"},
+           "9.2" = {"8.5"},
+           "9.3" = {"8.5"},
+           stop(sprintf("An error occurred in getPrevState(). Input '%s' was not recognised.", currentState))
+    )
+  }
+  
+  ### The following is to make everything as asyncronous as possible to prevent slow functions being blocking.
+  startAsyncDataLoad <- function(asyncDataName, futureObj) {
+    checkAsyncDataBeingLoaded$suspend()
+    asyncDataBeingLoaded[[asyncDataName]] <<- futureObj
+    checkAsyncDataBeingLoaded$resume()
+  } #end startAsyncDataLoad
+  
+  checkAsyncDataBeingLoaded <- observe({
+    invalidateLater(1000)
+    for (asyncDataName in names(asyncDataBeingLoaded)) {
+      asyncFutureObject <- asyncDataBeingLoaded[[asyncDataName]]
+      if (resolved(asyncFutureObject)) {
+        tryCatch({
+          asyncData[[asyncDataName]] <<- value(asyncFutureObject)
+          asyncDataBeingLoaded[[asyncDataName]] <<- NULL
+          
+          # If we've resolved something but asyncData$epiEstimOutput is not loaded then we've been
+          # incrementally running MCMC and are not done yet. We want to re-start stuff, so call run() again
+          if (is.null(asyncData$epiEstimOutput)) {
+            run()
+          }
+        },
+        error = function (e) {
+          checkAsyncDataBeingLoaded$suspend() # Stop running, otherwise we'll throw the error every 1000ms.
+          handleError(values$state, e)
+          FALSE
+        })
       }
-      
-      
+    }#end loop over async data items being loaded
+    #if there are no more asynchronous data items being loaded then stop checking
+    if (length(asyncDataBeingLoaded) == 0) {
+      checkAsyncDataBeingLoaded$suspend()
     }
+  }, suspended = TRUE) # checkAsyncDataBeingLoaded
+  
+  handleError <- function(state, error) {
+    #stop(error) #Uncomment in dev for detailed stack trace etc
+    values$status <- "ERROR"
+    cat("There was an error in state", state, "\n")
+    cat(error$message, "\n")
+    enable("go")
+    hide("stop")
+    show("prev")
+    switch(state,
+           "2.1" = {
+             if (error$message == "'file' must be a character string or connection") {
+               session$sendCustomMessage(type="errorBox", "incidenceData")
+               values$error <- "Please upload a file!"
+             }
+           },
+           "8.1" = {
+             if (error$message == "The Rotavirus dataset has serial intervals which are definitely less than 1, so a gamma distribution offset by 1 is not appropriate."){
+               session$sendCustomMessage(type="errorBox", "SIDist")
+               values$error <- "Please use a different SI distribution, or change your dataset"
+             }
+           },
+           info(error$message) # Fallback to JS alert
+    )
+    return()
+  }
+  
+  session$onSessionEnded(function() {
+    checkAsyncDataBeingLoaded$suspend()
+  })
+  
+  observeEvent(input$stop, {
+    checkAsyncDataBeingLoaded$suspend()
+    hide("stop")
+    enable("go")
+    show("prev")
+    values$status <- "Ready"
+  })
+  
+  observe({
+    # This function removes the asyncData$mcmc_samples whenever the corresponding inputs change. 
+    input$SIData
+    input$SISep
+    input$SIHeader
+    input$SIQuote
+    input$SIDist2
+    input$param1
+    input$param2
+    input$n12
+    input$n22
+    input$burnin
+    input$thin
     
-    
-  } # End get_uploaded_fit
+    asyncData$mcmc_samples <<- NULL
+    mcmc_samples <<- NULL
+    asyncData$V <<- NULL
+    V <<- NULL
+    asyncData$SI.Sample.From.Data <<- NULL
+    SI.Sample.From.Data <<- NULL
+    asyncData$convergenceCheck <<- NULL
+    convergenceCheck <<- NULL
+  })
   
 }) # End shinyServer
 
-
-checkIfSIDataUpdated <- function (input) {
-  if(is.null(input$oldSIDatapath)) {
-    return (TRUE)
-  }
-  
-  if (is.na(input$param1) && input$oldParam1 != "NA") {
-    # param1 is now NA and wasn't before. Something has changed.
-    return(TRUE)
-  }
-  if (is.na(input$param2) && input$oldParam2 != "NA") {
-    # param2 is now NA and wasn't before. Something has changed.
-    return(TRUE)
-  }
-  if (!is.na(input$param1) && input$param1 != input$oldParam1) {
-    # param1 is not NA, but has changed.
-    return(TRUE)
-  }
-  if (!is.na(input$param2) && input$param2 != input$oldParam2) {
-    # param2 is not NA, but has changed.
-    return(TRUE)
-  }
-  if (URLencode(input$SIData$datapath) != input$oldSIDatapath || input$SIDist2 != input$oldSIDist) {
-    # The inputs have changed since MCMC was last run, so we can't keep the old fit.
-    return(TRUE)
-  }
-  return(FALSE)
-}
-
-
-getSIState <- function (input) {
-  if (input$SIPatientData) {
-    # State 6.1
-    if (input$SIDataType == 'preloaded') {
-      # State 7.1
-      if (!is.null(input$SIDataset) && !is.null(input$SIDist)) {
-        # State 8.1
-        return(8.1)
-      } else {
-        stop('Error: Invalid State (1). This should never happen, something went wrong.')
-      }
-    } else if (input$SIDataType == 'own') {
-      # State 7.2
-      if (input$SIFrom == 'data') {
-        # State 8.2
-        if (!is.null(input$SIData) & !is.null(input$SIDist2) & !is.null(input$param1) & !is.null(input$param2)) {
-          # State 9.1
-          return(9.1)
-        } else {
-          stop('Error: Invalid State (2). This should never happen, something went wrong.')
-        }
-      } else if (input$SIFrom == 'sample') {
-        # State 8.3
-        return(8.3)
-      } else {
-        stop('Error: Invalid State (3). This should never happen, something went wrong.')
-      }
-      
-
-    } 
-  } else {
-    if (!is.null(input$SIPatientData)) {
-      # State 6.2
-      if (input$uncertainty) {
-        # State 7.3
-        return(7.3)
-      } else {
-        # State 7.4
-        if (input$parametric) {
-          # State 8.4
-          return(8.4)
-        } else {
-          # State 8.5
-          if (input$SIDistrDataType == 'own') {
-            # State 9.2
-            return(9.2)
-          } else if (input$SIDistrDataType == 'preloaded') {
-            # State 9.3
-            return(9.3)
-          } else {
-            stop('Error: Invalid state (9.?). This should never happen, something went wrong.')
-          }
-        }
-      }
-    }
-  }
-  stop('Error: Invalid State (5). This should never happen, something went wrong.')
-}
-
-getIncidenceState <- function (input) {
-  if (input$incidenceDataType == 'own') {
-    # State 2.1
-    if (input$imported == 'TRUE') {
-      # State 4.1
-      return(4.1)
-    } else {
-      # State 3.1
-      return(3.1)
-    }
-  } else if (input$incidenceDataType == 'preloaded') {
-    # State 2.2
-    return(2.2)
-  } else {
-    stop('Error: Invalid State (2.?). This should never happen, something went wrong.')
-  }
-}
