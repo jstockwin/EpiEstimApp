@@ -1,5 +1,5 @@
 library(devtools)
-install_github("nickreich/coarseDataTools", ref = "hackout3")
+install_github("robin-thompson/coarseDataTools", ref = "hackout3")
 library(coarseDataTools)
 library(MCMCpack)
 install_github('annecori/EpiEstim', ref = "hackout3")
@@ -472,12 +472,16 @@ shinyServer(function(input, output, session) {
              if (error$message == "'file' must be a character string or connection") {
                session$sendCustomMessage(type="errorBox", "incidenceData")
                values$error <- "Please upload a file!"
+             } else {
+               info(error$message)
              }
            },
            "8.1" = {
-             if (error$message == "The Rotavirus dataset has serial intervals which are definitely less than 1, so a gamma distribution offset by 1 is not appropriate."){
+             if (error$message == "The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate."){
                session$sendCustomMessage(type="errorBox", "SIDist")
-               values$error <- "Please use a different SI distribution, or change your dataset"
+               values$error <- "The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate. Please use a different SI distribution, or change your dataset"
+             } else {
+               info(error$message)
              }
            },
            info(error$message) # Fallback to JS alert

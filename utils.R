@@ -49,8 +49,8 @@ getSISamples <- function (data, SIDist) {
                           header=F, sep=',')
     samples <- as.matrix(samples)
   } else if (data == 'RotavirusGermany') {
-    if (SIDist == "off1G") {
-      stop('The Rotavirus dataset has serial intervals which are definitely less than 1, so a gamma distribution offset by 1 is not appropriate.')
+    if (SIDist %in% c("off1G", "off1W", "off1L")) {
+      stop('The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate.')
     }
     samples <- read.table((paste('datasets/SIPosteriorSamples/rotavirus_SISamples_', SIDist, '.csv', sep='')),
                           header=F, sep=',')
