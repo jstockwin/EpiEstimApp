@@ -265,8 +265,8 @@ shinyServer(function(input, output, session) {
                # Get preloaded data
                IncidenceData <<- getIncidenceData(input$incidenceDataset, alldatasets)
                
-               # Process Incidence data (see utils.R)
-               IncidenceData <<- processIncidenceData(IncidenceData)
+               # Process Incidence data (using EpiEstim)
+               IncidenceData <<- EpiEstim:::process_I(IncidenceData)
                
                length <- dim(IncidenceData)[1]
                W <- input$uploadedWidth
@@ -279,8 +279,19 @@ shinyServer(function(input, output, session) {
                ImportedData <- read.csv(input$importedData$datapath,
                                         header = input$importedHeader, sep = input$importedSep,
                                         quote = input$importedQuote)
-               # Process Incidence data (see utils.R) (IncidenceData will have been handled in state 2.1)
-               IncidenceData <- processIncidenceData(IncidenceData, ImportedData)
+               ImportedData <- as.data.frame(ImportedData)
+               if (dim(ImportedData)[1] != dim(IncidenceData)[1]) {
+                 # Lengths don't match
+                 stop("The 'all cases' and the 'imported' datasets are not of the same length")
+               }
+               IncidenceData$imported <- ImportedData[,1]
+               
+               # Currently the "local" column will be the total number of cases because of the way the app
+               # is asking for inputs. Correct for this. 
+               IncidenceData$local = IncidenceData$local - IncidenceData$imported
+               
+               # Process Incidence data (using EpiEstim)
+               IncidenceData <<- EpiEstim:::process_I(IncidenceData)
                TRUE
              },
              "5.1" = {TRUE},
@@ -316,11 +327,11 @@ shinyServer(function(input, output, session) {
                                               header = input$SIHeader, sep = input$SISep,
                                               quote = input$SIQuote)
                # Process the data (see function in utils.R)
-               SI.Data <<- processSerialIntervalData(serialIntervalData)
+               SI.Data <<- EpiEstim:::process_SI.Data(serialIntervalData)
                TRUE
              },
              "8.3" = {
-               SI.Sample <<- processSISamples(read.csv(input$SISampleData$datapath, 
+               SI.Sample <<- EpiEstim:::process_SI.Sample(read.csv(input$SISampleData$datapath, 
                                                        header = input$SISampleHeader, sep = input$SISampleSep,
                                                        quote = input$SISampleQuote))
                n2 <<- input$n23
