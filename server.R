@@ -1,5 +1,5 @@
 library(devtools)
-install_github("nickreich/coarseDataTools", ref = "hackout3")
+install_github("robin-thompson/coarseDataTools", ref = "hackout3")
 library(coarseDataTools)
 library(MCMCpack)
 install_github('annecori/EpiEstim', ref = "hackout3")
@@ -134,9 +134,13 @@ shinyServer(function(input, output, session) {
   
   
   # Logic for when "go" is clicked.
-  observeEvent(input$go, {run()})
+  observeEvent(input$go, {
+    # Clear the current EpiEstim data (will remove current plot)
+    asyncData$epiEstimOutput <- NULL
+    run()
+    })
   
-  run <- function() {
+  run <- function() { #TODO - can we make this async? Might be a bit more tricky...
       # WARNING: You probably want to avoid much logic here. Most of it should be in handleState() which is reactive. 
       # If Next is pressed twice without inputs changing, nothing will happen, but if anything you put here WILL get done.
       tryCatch({
@@ -229,7 +233,7 @@ shinyServer(function(input, output, session) {
   })
   
   
-  handleState <- reactive({
+  handleState <- function() {
     # Run when next is clicked. Should handle all validation and error checks for that state
     # and should set all necessary variables.
     # The state will change only if handleState returns TRUE. 
@@ -370,7 +374,7 @@ shinyServer(function(input, output, session) {
       handleError(values$state, e)
       FALSE
     })
-  })
+  } # End HandleState
   
   
   # getNextState and getPrevState encode the logic in the decision tree. 
