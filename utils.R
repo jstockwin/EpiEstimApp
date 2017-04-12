@@ -128,3 +128,27 @@ processSISamples <- function(SISample) {
   SISample <- as.matrix(SISample)
   return(SISample)
 }# Could add more checks...
+
+getMCMCProgress <- function(filename) {
+  tryCatch({
+    con <- file(filename, "r")
+    line = readLines(con) # Unfortunately we have to read the whole file as there are no line breaks printed...
+    close(con)
+    progress <- unlist(regmatches(line, gregexpr('iteration ?[0-9]+', line)))
+    
+    currentIteration <- as.numeric(gsub("iteration ", "", progress[length(progress)]))
+    if (length(currentIteration) == 0) {
+      currentIteration <- 0 # Fix weird bug where currentIteration = numeric(0) and breaks things.
+    }
+  },
+  error = function(e) {
+    # If no file is present, the above will error. This means no progress has been made.
+    currentIteration <- 0
+  },
+  warning= function(e) {
+    # If no file is present, the above will error. This means no progress has been made.
+    currentIteration <- 0
+  })
+  
+  return(currentIteration)
+}
