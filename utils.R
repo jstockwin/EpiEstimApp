@@ -49,8 +49,8 @@ getSISamples <- function (data, SIDist) {
                           header=F, sep=',')
     samples <- as.matrix(samples)
   } else if (data == 'RotavirusGermany') {
-    if (SIDist == "off1G") {
-      stop('The Rotavirus dataset has serial intervals which are definitely less than 1, so a gamma distribution offset by 1 is not appropriate.')
+    if (SIDist %in% c("off1G", "off1W", "off1L")) {
+      stop('The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate.')
     }
     samples <- read.table((paste('datasets/SIPosteriorSamples/rotavirus_SISamples_', SIDist, '.csv', sep='')),
                           header=F, sep=',')
@@ -60,3 +60,28 @@ getSISamples <- function (data, SIDist) {
   }
   return(samples)
 }
+
+getMCMCProgress <- function(filename) {
+  currentIteration <- 0
+  tryCatch({
+    con <- file(filename, "r")
+    line = readLines(con) # Unfortunately we have to read the whole file as there are no line breaks printed...
+    close(con)
+    progress <- unlist(regmatches(line, gregexpr('iteration ?[0-9]+', line)))
+    
+    currentIteration <- as.numeric(gsub("iteration ", "", progress[length(progress)]))
+    if (length(currentIteration) == 0) {
+      currentIteration <- 0 # Fix weird bug where currentIteration = numeric(0) and breaks things.
+    }
+  },
+  error = function(e) {
+    # If no file is present, the above will error. This means no progress has been made,
+    # so keep currentInteration at 0 (as initialised)
+  },
+  warning = function(e) {
+    # Ignore warnings about file not found
+  })
+  
+  return(currentIteration)
+}
+
