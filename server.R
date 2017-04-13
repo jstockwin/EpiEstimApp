@@ -203,10 +203,7 @@ shinyServer(function(input, output, session) {
   
   output$plot <- renderPlot({
     if (!is.null(asyncData$epiEstimOutput)) {
-      p_I <- plots(asyncData$epiEstimOutput, what="I")
-      p_SI <- plots(asyncData$epiEstimOutput, what="SI")
-      p_R <- plots(asyncData$epiEstimOutput, what="R")
-      gridExtra::grid.arrange(p_I,p_SI,p_R,ncol=1)
+      plots(asyncData$epiEstimOutput)
       values$status <- "Ready"
       show("prev")
       hide("stop")
