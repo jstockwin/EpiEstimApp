@@ -145,6 +145,9 @@ getMCMCProgress <- function(filename) {
   error = function(e) {
     # If no file is present, the above will error. This means no progress has been made,
     # so keep currentInteration at 0 (as initialised)
+  },
+  warning = function(e) {
+    # Ignore warnings about file not found
   })
   
   return(currentIteration)
