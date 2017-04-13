@@ -130,6 +130,7 @@ processSISamples <- function(SISample) {
 }# Could add more checks...
 
 getMCMCProgress <- function(filename) {
+  currentIteration <- 0
   tryCatch({
     con <- file(filename, "r")
     line = readLines(con) # Unfortunately we have to read the whole file as there are no line breaks printed...
@@ -142,12 +143,8 @@ getMCMCProgress <- function(filename) {
     }
   },
   error = function(e) {
-    # If no file is present, the above will error. This means no progress has been made.
-    currentIteration <- 0
-  },
-  warning= function(e) {
-    # If no file is present, the above will error. This means no progress has been made.
-    currentIteration <- 0
+    # If no file is present, the above will error. This means no progress has been made,
+    # so keep currentInteration at 0 (as initialised)
   })
   
   return(currentIteration)
