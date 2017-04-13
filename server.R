@@ -31,7 +31,6 @@ alldatasets <- list('Measles1861' = Measles1861,
 
 
 # Source necessary files
-source("dic.fit.mcmc.incremental.R", local=TRUE)
 source("stochasticSEIRModel3.R", local=TRUE)
 source("utils.R", local=TRUE)
 #source("estimater.R", local=TRUE)
@@ -54,11 +53,14 @@ shinyServer(function(input, output, session) {
   
   
   # Initialise some reactive values
+  t <- as.numeric(Sys.time())
+  id <- 1e8 * (t - floor(t))
+  id <- gsub("\\.", "-", as.character(id))
   values <- reactiveValues(state="1.1", status="Ready", error = NULL)
   enable("nxt") # Enable next button when initial load is done.
   
   asyncData <-
-    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL, V = NULL, SI.Sample.From.Data = NULL, convergenceCheck = NULL)
+    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL, SI.Sample.From.Data = NULL, convergenceCheck = NULL)
   asyncDataBeingLoaded <- list()
   
   # Initialise inputs for EpiEstim's EstimateR
@@ -87,7 +89,6 @@ shinyServer(function(input, output, session) {
   total.samples.needed <- 1 # Will be overridden. Set to 1 so dim(mcmc_samples) < total.samples.needed initially
   mcmc_samples <- NULL
   init.pars <- NULL
-  V <- NULL
   thin <- NULL
   SI.Sample.From.Data <- NULL
   convergenceCheck <- NULL
@@ -140,44 +141,30 @@ shinyServer(function(input, output, session) {
       # If Next is pressed twice without inputs changing, nothing will happen, but if anything you put here WILL get done.
       tryCatch({
         if (handleState()) {
-          if (method=="SIFromData" && (is.null(mcmc_samples) || dim(mcmc_samples)[1] < total.samples.needed)) {
-            if (is.null(V)) {
-              values$status <- "Computing V"
-              startAsyncDataLoad("V", future({
-                init.pars.trans <- coarseDataTools:::dist.optim.transform(dist=SI.parametricDistr, init.pars)
-                compute_V (fun = coarseDataTools:::mcmcpack.ll, theta.init = init.pars.trans,  
-                           tune = 1, logfun = TRUE, force.samp = FALSE, 
-                           optim.method = "BFGS", optim.lower = -Inf, optim.upper = Inf, 
-                           optim.control = list(fnscale = -1, trace = 0, REPORT = 10, 
-                                                maxit = 500), dat=SI.Data, dist=SI.parametricDistr)
-              }))
-              
-            } else {
-              if (is.null(mcmc_samples)) {
-                values$status <- "Running MCMC (0%)"
-              } else {
-                values$status <- paste("Running MCMC (", floor(100*dim(mcmc_samples)[1]/total.samples.needed), "%)", sep="")
-              }
-              startAsyncDataLoad("mcmc_samples", future({
-                dic.fit.mcmc.incremental(dat=SI.Data, dist=SI.parametricDistr, current.samples=mcmc_samples,
-                                         init.pars = init.pars, burnin=0, n.samples=total.samples.needed, V=V)@samples
-              }))
-            }
+          if (method=="SIFromData" && is.null(mcmc_samples)) {
+            values$status <- "Running MCMC (0%)"
+            startAsyncDataLoad("mcmc_samples", future({
+              capture.output(
+              samples <- dic.fit.mcmc(dat=SI.Data, dist=SI.parametricDistr, init.pars = init.pars, burnin=burnin, n.samples=n1*thin, 
+                           verbose=floor(total.samples.needed/100))@samples
+              , file=paste("progress/", id, "-progress.txt", sep=""))
+              file.remove(paste("progress/", id, "-progress.txt", sep=""))
+              return(samples)
+            }))
           } else {
             if (method=="SIFromData") {
               # We have a full set of samples.
               mcmc_samples <- asyncData$mcmc_samples
-              mcmc_samples_small <- mcmc_samples[burnin:total.samples.needed,] #Remove burnin
               
               if (is.null(SI.Sample.From.Data)) {
                 values$status <- "Running coarse2estim"
                 startAsyncDataLoad("SI.Sample.From.Data", future({
-                    coarse2estim(samples=mcmc_samples_small, dist=SI.parametricDistr, thin=thin)$SI.Sample
+                    coarse2estim(samples=mcmc_samples, dist=SI.parametricDistr, thin=thin)$SI.Sample
                 }))
               } else if (is.null(convergenceCheck)) {
                 values$status <- "Running the Gelman-Rubin convergence check"
                 startAsyncDataLoad("convergenceCheck", future({
-                  check_CDTsamples_convergence(mcmc_samples_small)
+                  check_CDTsamples_convergence(mcmc_samples)
                 }))
               } else {
                 # Good to go!
@@ -341,7 +328,6 @@ shinyServer(function(input, output, session) {
                SI.parametricDistr <<- input$SIDist2
                mcmc_samples <<- asyncData$mcmc_samples
                SI.Sample.From.Data <<- asyncData$SI.Sample.From.Data
-               V <<- asyncData$V
                convergenceCheck <<- asyncData$convergenceCheck
                if (!is.na(input$param1) && !is.na(input$param1)) {
                  init.pars <<- c(input$param1, input$param2)
@@ -457,6 +443,14 @@ shinyServer(function(input, output, session) {
     if (length(asyncDataBeingLoaded) == 0) {
       checkAsyncDataBeingLoaded$suspend()
     }
+    
+    # If MCMC is being run, we should check on progress.
+    if (method == "SIFromData") {
+      prog <- getMCMCProgress(paste("progress/", id, "-progress.txt", sep=""))
+      if (prog > 0 & prog < total.samples.needed) {
+        values$status <- paste("Running MCMC (", floor(100*prog/total.samples.needed), "%)", sep="")
+      }
+    }
   }, suspended = TRUE) # checkAsyncDataBeingLoaded
   
   handleError <- function(state, error) {
@@ -517,8 +511,6 @@ shinyServer(function(input, output, session) {
     
     asyncData$mcmc_samples <<- NULL
     mcmc_samples <<- NULL
-    asyncData$V <<- NULL
-    V <<- NULL
     asyncData$SI.Sample.From.Data <<- NULL
     SI.Sample.From.Data <<- NULL
     asyncData$convergenceCheck <<- NULL
