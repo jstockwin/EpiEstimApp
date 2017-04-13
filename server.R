@@ -253,7 +253,7 @@ shinyServer(function(input, output, session) {
                                           header = input$incidenceHeader, sep = input$incidenceSep,
                                           quote = input$incidenceQuote)
                # Process Incidence data (see utils.R)
-               IncidenceData <<- processIncidenceData(IncidenceData)
+               IncidenceData <<- EpiEstim:::process_I(IncidenceData)
                
                length <- dim(IncidenceData)[1]
                W <- input$uploadedWidth
