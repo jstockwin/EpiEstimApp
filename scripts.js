@@ -4,7 +4,8 @@ $(document).ready(function() {
   Shiny.addCustomMessageHandler("errorBox", 
     function (id) {
       box = document.getElementById(id + "ErrorBox");
-      box.style = 'border-style: solid;';
+      box.style.border = '3px solid red';
+      console.log(box.style);
     }
   );
   
@@ -12,7 +13,7 @@ $(document).ready(function() {
     function (unused) {
       boxes = document.getElementsByClassName("ErrorBox");
       for (var i=0; i<boxes.length; i++) {
-        boxes[i].style = "border-style: none;";
+        boxes[i].style.border = 'none';
       }
     }
   );

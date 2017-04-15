@@ -244,6 +244,10 @@ shinyServer(function(input, output, session) {
                
                length <- dim(IncidenceData)[1]
                W <- input$uploadedWidth
+               if (W >= length) {
+                 throwError("The width must be smaller than the length of your incidence data", "uploadedWidth")
+                 throwError("The width must be smaller than the length of your incidence data", "incidenceData")
+               }
                T.Start <<- 1:(length - W)
                T.End <<- (1+W):length
                TRUE
@@ -256,7 +260,11 @@ shinyServer(function(input, output, session) {
                IncidenceData <<- EpiEstim:::process_I(IncidenceData)
                
                length <- dim(IncidenceData)[1]
-               W <- input$uploadedWidth
+               W <- input$incidenceWidth
+               if (W >= length) {
+                 throwError("The width must be smaller than the length of your incidence data", "incidenceWidth")
+                 throwError("The width must be smaller than the length of your incidence data", "incidenceData")
+               }
                T.Start <<- 1:(length - W)
                T.End <<- (1+W):length
                TRUE
@@ -298,6 +306,9 @@ shinyServer(function(input, output, session) {
                Std.Std.SI <<- input$Std.Std.SI
                Min.Std.SI <<- input$Min.Std.SI
                Max.Std.SI <<- input$Max.Std.SI
+               if (is.null(n1) | n1 < 2 | !is.integer(n1)) {
+                 throwError("n1 must be an integer greater than or equal to 2", "n1")
+               }
                TRUE
              },
              "7.4" = {TRUE},
@@ -467,6 +478,11 @@ shinyServer(function(input, output, session) {
   
   handleError <- function(state, error) {
     #stop(error) #Uncomment in dev for detailed stack trace etc
+    if (error$message == "handled") {
+      # We've properly handled an error, and have used `stop("handled")` to stop the app. 
+      # Nothing should be done here in this case. 
+      return()
+    }
     values$status <- "ERROR"
     cat("There was an error in state", state, "\n")
     cat(error$message, "\n")
@@ -476,16 +492,14 @@ shinyServer(function(input, output, session) {
     switch(state,
            "2.1" = {
              if (error$message == "'file' must be a character string or connection") {
-               session$sendCustomMessage(type="errorBox", "incidenceData")
-               values$error <- "Please upload a file!"
+               throwError("Please upload a file", "incidenceData", FALSE)
              } else {
                info(error$message)
              }
            },
            "8.1" = {
              if (error$message == "The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate."){
-               session$sendCustomMessage(type="errorBox", "SIDist")
-               values$error <- "The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate. Please use a different SI distribution, or change your dataset"
+               throwError("The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate. Please use a different SI distribution, or change your dataset", "SIDist", FALSE)
              } else {
                info(error$message)
              }
@@ -493,6 +507,25 @@ shinyServer(function(input, output, session) {
            info(error$message) # Fallback to JS alert
     )
     return()
+  }
+  
+  throwError <- function(errorMessage, errorBoxName = NULL, error=TRUE) {
+    # Throws an error nicely. If you want to highlight a specific input in red, give the id
+    # of that input (found in ui.R) as errorBoxName. The errorMessage will be displayed 
+    # as some red text.
+    # The error argument should be set to false only by the handleError function above.
+    # Otherwise it should be set to true to stop execution (which will be happening inside a tryCatch)
+    if (!is.null(errorBoxName)) {
+      session$sendCustomMessage(type="errorBox", errorBoxName)
+    }
+    values$error <- errorMessage
+    enable("go")
+    hide("stop")
+    show("prev")
+    # Throw an error to actually stop the app, but say we've handled telling the client about the problem.
+    if (error) {
+      stop("handled")
+    }
   }
   
   session$onSessionEnded(function() {
