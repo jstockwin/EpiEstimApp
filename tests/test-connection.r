@@ -20,11 +20,11 @@ remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, browserName = rdBr
                           , extraCapabilities = extraCapabilities)
 remDr$open()
 
-appUrl="http://localhost:5991"
+appUrl="http://localhost:6000"
 test_that("can connect to app", {
 	remDr$navigate(appUrl)
 	appTitle <- remDr$getTitle()[[1]]
-	expect_equal(appTitle, "http://localhost:5991/")
+	expect_equal(appTitle, "http://localhost:6000/")
 })
 
 remDr$close()
