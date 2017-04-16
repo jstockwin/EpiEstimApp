@@ -9,10 +9,13 @@ env:
 cache:
   - packages
 
-install:
-  - Rscript -e "install.packages('devtools')"
-  - Rscript -e "devtools::install_github('johndharrison/semver')"
-  - Rscript -e "install.packages(c('shiny', 'RSelenium', 'testthat'))"
+r_github_packages:
+  - johndharrison/semver
+
+r_packages:
+  - shiny
+  - RSelenium
+  - testthat
 
 before_script:
   - R -e "shiny::runApp(port=6000)" &
