@@ -24,7 +24,7 @@ appUrl="http://localhost:5991"
 test_that("can connect to app", {
 	remDr$navigate(appUrl)
 	appTitle <- remDr$getTitle()[[1]]
-	expect_equal(appTitle, "Transmissibility Estimator")
+	expect_equal(appTitle, "http://localhost:5991/")
 })
 
 remDr$close()
