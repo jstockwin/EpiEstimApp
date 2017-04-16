@@ -9,6 +9,8 @@ cache:
   - packages
 
 install:
+  - Rscript -e "install.packages('devtools')"
+  - Rscript -e "devtools::install_github('johndharrison/semver')"
   - Rscript -e "install.packages(c('shiny', 'RSelenium', 'testthat'))"
 
 before_script:
