@@ -10,6 +10,10 @@ cache:
   - packages
 
 install:
+  - wget https://saucelabs.com/downloads/sc-4.4.5-linux.tar.gz
+  - tar zxf sc-4.4.5-linux.tar.gz
+  - sc-4.4.5-linux/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY --no-ssl-bump-domains "localhost" &
+  - export pid=$!
   - Rscript -e "install.packages(c('shiny', 'RSelenium', 'testthat', 'devtools', 'MCMCpack', 'shinyjs', 'ggplot2'))"
   - Rscript -e "install.packages(c('graphics', 'grid', 'gridExtra', 'plotly', 'plyr', 'reshape2', 'stats', 'future'))"
 
@@ -21,9 +25,8 @@ before_script:
 script:
   - Rscript -e "testthat::test_dir('tests', reporter='stop')"
 
-addons:
-  sauce_connect:
-    no_ssl_bump_domains: localhost
+after_script:
+  - kill $pid
 
 notifications:
   email: false

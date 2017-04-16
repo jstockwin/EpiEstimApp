@@ -12,8 +12,7 @@ rdBrowser <- "chrome"
 version <- "33"
 platform <- "OS X 10.9"
 extraCapabilities <- list(name = "RSelenium OS/Browsers vignette first example", username = user
-                          , accessKey = pass, tags = list("RSelenium-vignette", "OS/Browsers-vignette")
-			  , tunnelIdentifier = Sys.getenv("TRAVIS_JOB_NUMBER"), startConnect = FALSE)
+                          , accessKey = pass, tags = list("RSelenium-vignette", "OS/Browsers-vignette"))
 
 
 remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, browserName = rdBrowser
