@@ -14,8 +14,10 @@ install:
 
 before_script:
   - R -e "shiny::runApp(port=6000)" &
+  - sleep 10
+
 script:
-  - Rscript -e "testthat::test_dir('tests')"
+  - Rscript -e "testthat::test_dir('tests', reporter='stop')"
 
 addons:
   sauce_connect:
