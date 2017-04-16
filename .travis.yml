@@ -9,16 +9,8 @@ env:
 cache:
   - packages
 
-r_github_packages:
-  - johndharrison/semver
-
-r_packages:
-  - shiny
-  - RSelenium
-  - testthat
-
 install:
-  - echo "There is nothing to do here, but travis errors if we don't have an install block"
+  - Rscript -e "install.packages(c('shiny', 'RSelenium', 'testthat'))"
 
 before_script:
   - R -e "shiny::runApp(port=6000)" &
