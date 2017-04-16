@@ -18,9 +18,9 @@ install:
   - Rscript -e "install.packages(c('graphics', 'grid', 'gridExtra', 'plotly', 'plyr', 'reshape2', 'stats', 'future'))"
 
 before_script:
-  - R -e "shiny::runApp(port=6000)" &
+  - R -e "shiny::runApp(port=3000)" &
   - sleep 10
-  - curl "http://localhost:6000"
+  - curl "http://localhost:3000"
 
 script:
   - Rscript -e "testthat::test_dir('tests', reporter='stop')"

@@ -14,12 +14,12 @@ extraCapabilities <- list(name = "RSelenium OS/Browsers vignette first example",
 
 remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities)
 remDr$open()
-appUrl="http://localhost:6000"
+appUrl="http://localhost:3000"
 tryCatch({
 	test_that("can connect to app", {
 		remDr$navigate(appUrl)
 		appTitle <- remDr$getTitle()[[1]]
-		expect_equal(appTitle, "http://localhost:6000/")
+		expect_equal(appTitle, "http://localhost:3000/")
 	})
 },
 error = function(e) {
