@@ -27,6 +27,7 @@ script:
 
 after_script:
   - kill $pid
+  - sleep 30
 
 notifications:
   email: false
