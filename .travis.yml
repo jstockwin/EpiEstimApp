@@ -17,6 +17,9 @@ r_packages:
   - RSelenium
   - testthat
 
+install:
+  - echo "There is nothing to do here, but travis errors if we don't have an install block"
+
 before_script:
   - R -e "shiny::runApp(port=6000)" &
 script:
