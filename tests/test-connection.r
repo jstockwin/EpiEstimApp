@@ -20,7 +20,7 @@ remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, browserName = rdBr
                           , version = version, platform = platform
                           , extraCapabilities = extraCapabilities)
 remDr$open()
-
+Sys.sleep(120)
 appUrl="http://localhost:6000"
 test_that("can connect to app", {
 	remDr$navigate(appUrl)

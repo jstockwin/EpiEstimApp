@@ -17,7 +17,6 @@ before_script:
   - R -e "shiny::runApp(port=6000)" &
   - sleep 10
   - curl "http://localhost:6000"
-  - sleep 120
 
 script:
   - Rscript -e "testthat::test_dir('tests', reporter='stop')"
