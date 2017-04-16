@@ -12,7 +12,7 @@ install:
   - Rscript -e "install.packages(c('shiny', 'RSelenium', 'testthat'))"
 
 before_script:
-  - R -e "shiny::runApp(port=6000)"
+  - R -e "shiny::runApp(port=6000)" &
 script:
   - Rscript -e "testthat::test_dir('tests')"
 
