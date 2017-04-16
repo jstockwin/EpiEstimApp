@@ -18,7 +18,7 @@ appUrl="http://localhost:3000"
 tryCatch({
 	test_that("can connect to app", {
 		remDr$navigate(appUrl)
-		titleElem <- remDr$findElements("css selector", "#titles h1:visible")
+		titleElem <- remDr$findElements("id", "incidenceTitle")
 		title <- titleElem$getElementText()
 		expect_equal(title, "Incidence Data")
 	})
