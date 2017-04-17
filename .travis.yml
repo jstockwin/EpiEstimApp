@@ -25,7 +25,7 @@ before_script:
   - sleep 10
 
 script:
-  - R -e "source('testUtils.R'); runTests(browsers='fromEnv', platforms='fromEnv')"
+  - travis_retry R -e "source('testUtils.R'); runTests(browsers='fromEnv', platforms='fromEnv')"
   
 after_script:
   - cat out.txt
