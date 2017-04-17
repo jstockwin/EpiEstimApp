@@ -11,7 +11,7 @@ cache:
   
 install:
   - Rscript -e "install.packages(c('shiny', 'RSelenium', 'testthat', 'devtools', 'MCMCpack', 'shinyjs', 'ggplot2'))"
-  - Rscript -e "devtools::install_github(c('graphics', 'grid', 'gridExtra', 'plotly', 'plyr', 'reshape2', 'stats', 'future'))"
+  - Rscript -e "install.packages(c('graphics', 'grid', 'gridExtra', 'plotly', 'plyr', 'reshape2', 'stats', 'future'))"
   - Rscript -e "devtools::install_github('nickreich/coarseDataTools', ref = 'hackout3')"
 
 before_script:
