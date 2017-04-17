@@ -16,12 +16,15 @@ runTests <- function (browsers="all", platforms="all", update=FALSE) {
   if (any(platforms=="fromEnv")) {
     platforms[which(platforms=="fromEnv")] <- Sys.getenv("platform")
   }
-  for (i in 1:length(browsers)) {
+  numBrowsers <- length(browsers)
+  for (i in 1:numBrowsers) {
     browser <- browsers[i]
     platform <- platforms[i]
-    cat("Beggining tests (pass", i, " of ", length(browsers), ")\n")
-    cat("Browser: ", browser, "\n")
-    cat("platform: ", platform, "\n")
+    if (numBrowsers > 1) {
+      cat("Beggining tests (pass", i, " of ", numBrowsers, ")\n")
+      cat("Browser: ", browser, "\n")
+      cat("platform: ", platform, "\n")
+    }
     options(browser = browser, platform = platform, update = update)
     out<-testthat::test_dir('tests', reporter=c('summary', 'list', 'fail'));
     out
