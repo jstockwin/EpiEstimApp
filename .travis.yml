@@ -16,6 +16,7 @@ install:
   - wget https://saucelabs.com/downloads/sc-4.4.5-linux.tar.gz
   - tar zxf sc-4.4.5-linux.tar.gz
   - sc-4.4.5-linux/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY --no-ssl-bump-domains "localhost" &
+  - sleep 20
 
 before_script:
   - R -e "shiny::runApp(port=3000)" &
