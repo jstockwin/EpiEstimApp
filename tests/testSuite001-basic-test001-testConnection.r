@@ -1,4 +1,4 @@
-context("connection")
+context("Test Suite 1, Basic")
 
 library(RSelenium)
 library(testthat)
@@ -41,7 +41,7 @@ tryCatch({
   })
   
   test_that("screenshot matches", {
-    expect_true(screenshotCompare(remDr, "test-connection-initial.png", update, browser, platform))
+    expect_true(screenshotCompare(remDr, "1-basic001-initialScreenshot.png", update, browser, platform))
   })
 },
 error = function(e) {
