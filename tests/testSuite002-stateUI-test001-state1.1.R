@@ -1,8 +1,11 @@
-context("Test Suite 2, States")
+context("Test Suite 2 (State UI) ----------> State 1.1       ")
 
 library(RSelenium)
 library(testthat)
 source("../testUtils.R", local=TRUE)
+
+allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
+              "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
 
 # See utils.R. Set's up sauce connect on travis, or if the
 # sauceUsername and sauceAccessKey are set in R
@@ -40,6 +43,11 @@ tryCatch({
       }
     }
     expect_equal(status, "Ready")
+  })
+  
+  test_that("title should be 'Incidence Data'", {
+    webElem <- remDr$findElement(using="xpath", "//div[@id='titles']//h1")
+    expect_equal(webElem$getElementText()[[1]], "Incidence Data")
   })
   
   test_that("only state 1.1 should be displayed", {
@@ -86,6 +94,7 @@ tryCatch({
     expect_false(stopElem$isElementDisplayed()[[1]])
     expect_true(prevElem$isElementDisplayed()[[1]])
     expect_false(prevElem$isElementEnabled()[[1]])
+    expect_true(nxtElem$isElementDisplayed()[[1]])
     expect_true(nxtElem$isElementEnabled()[[1]])
     expect_false(goElem$isElementDisplayed()[[1]])
   })

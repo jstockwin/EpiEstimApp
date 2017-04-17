@@ -40,6 +40,7 @@ screenshotCompare <- function(remDr, filename, update, browserName, platform) {
     return(TRUE)
   } else if (!identical & update) {
     # Files are different, update the file
+    cat("\nUpdating screenshot: ", filenameExpected, "\n")
     remDr$screenshot(file=filenameExpected)
     return(TRUE)
   } else {

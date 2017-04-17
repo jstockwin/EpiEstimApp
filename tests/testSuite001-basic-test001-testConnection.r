@@ -1,8 +1,11 @@
-context("Test Suite 1, Basic")
+context("Test Suite 1 (Basic) -------------> Connection      ")
 
 library(RSelenium)
 library(testthat)
 source("../testUtils.R", local=TRUE)
+
+allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
+              "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
 
 # See utils.R. Set's up sauce connect on travis, or if the
 # sauceUsername and sauceAccessKey are set in R
