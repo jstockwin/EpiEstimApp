@@ -2,7 +2,7 @@ context("connection")
 
 library(RSelenium)
 library(testthat)
-source("../utils.R", local=TRUE)
+source("../testUtils.R", local=TRUE)
 
 # See utils.R. Set's up sauce connect on travis, or if the
 # sauceUsername and sauceAccessKey are set in R
@@ -35,6 +35,10 @@ tryCatch({
       }
     }
     expect_equal(status, "Ready")
+  })
+  
+  test_that("screenshot matches", {
+    expect_true(screenshotCompare(remDr, "test-connection-initial.png", update))
   })
 },
 error = function(e) {

@@ -20,7 +20,7 @@ before_script:
   - sleep 10
 
 script:
-  - R -e "out<-testthat::test_dir('tests', reporter=c('summary', 'list', 'fail')); out"
+  - R -e "source('testUtils.R'); runTests()"
   
 after_script:
   - cat out.txt
