@@ -3,8 +3,14 @@ language: r
 sudo: false
 
 env:
-  matrix:
+  global:
   - NOT_CRAN=true
+  matrix:
+  - browser=chrome platform="Windows 10"
+  - browser=firefox platform="Windows 10"
+  - browser=firefox platform=Linux
+  - browser=chrome platform=Linux
+  - browser=safari platform="maxOS 10.12"
 
 cache:
   - packages
