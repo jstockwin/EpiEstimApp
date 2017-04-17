@@ -7,14 +7,14 @@ runTests <- function (browsers="all", platforms="all", update=FALSE) {
   if (browsers=="all") {
     browsers <- buildMatrix$browserNames
   }
-  if (browsers=="fromEnv") {
-    browsers <- Sys.getenv("browser")
+  if (any(browsers=="fromEnv")) {
+    browsers[which(browsers=="fromEnv")] <- Sys.getenv("browser")
   }
   if (platforms=="all") {
     platforms <- buildMatrix$platforms
   }
-  if (platforms=="fromEnv") {
-    platforms <- Sys.getenv("platform")
+  if (any(platforms=="fromEnv")) {
+    platforms[which(platforms=="fromEnv")] <- Sys.getenv("platform")
   }
   for (i in 1:length(browsers)) {
     browser <- browsers[i]
@@ -33,7 +33,7 @@ screenshotCompare <- function(remDr, filename, update, browserName, platform) {
   # Take new screenshot
   filenameCurrent <- paste("../tests/current", browserName, platform, filename, sep="/")
   filenameExpected <- paste("../tests/expected", browserName, platform, filename, sep="/")
-  remDr$screenshot(file=)
+  remDr$screenshot(file=filenameCurrent)
   identical <- filesIdentical(filenameCurrent, filenameExpected)
   if (identical) {
     # Files are identical
