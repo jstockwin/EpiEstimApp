@@ -17,7 +17,6 @@ tryCatch({
 	})
   
   test_that("app is ready within 60 seconds", {
-    remDr$navigate(appUrl)
     initialising = TRUE
     tries=0
     while (initialising & tries < 60) {

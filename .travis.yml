@@ -13,11 +13,14 @@ install:
   - echo "There is nothing to do here, but we need the install bit for anything to run"
 
 before_script:
-  - R -e "shiny::runApp(port=3000)" &
+  - R -e "shiny::runApp(port=3000)" > out.txt 2>&1 &
   - sleep 10
 
 script:
   - R -e "testthat::test_dir('tests', reporter=c('summary', 'fail'))"
+  
+after_script:
+  - cat out.txt
 
 addons:
   sauce_connect:
