@@ -1,7 +1,6 @@
 dist: trusty
 language: r
 sudo: false
-
 env:
   global:
   - NOT_CRAN=true
@@ -10,29 +9,26 @@ env:
   - browser=firefox platform=windows
   - browser=firefox platform=linux
   - browser=chrome platform=linux
-
 cache:
-  - packages
-  
+- packages
 install:
-  - Rscript -e "if (!require('pacman')) install.packages('pacman')"
-  - Rscript -e "pacman::p_load('shiny', 'RSelenium', 'testthat', 'devtools', 'MCMCpack', 'shinyjs', 'ggplot2')"
-  - Rscript -e "pacman::p_load('graphics', 'grid', 'gridExtra', 'plotly', 'plyr', 'reshape2', 'stats', 'future')"
-  - Rscript -e "devtools::install_github('nickreich/coarseDataTools', ref = 'hackout3')"
-
+- Rscript -e "if (!require('pacman')) install.packages('pacman')"
+- Rscript -e "pacman::p_load('shiny', 'RSelenium', 'testthat', 'devtools', 'MCMCpack',
+  'shinyjs', 'ggplot2')"
+- Rscript -e "pacman::p_load('graphics', 'grid', 'gridExtra', 'plotly', 'plyr', 'reshape2',
+  'stats', 'future')"
+- Rscript -e "devtools::install_github('nickreich/coarseDataTools', ref = 'hackout3')"
 before_script:
-  - R -e "shiny::runApp(port=3000)" > out.txt 2>&1 &
-  - sleep 10
-
+- R -e "shiny::runApp(port=3000)" > out.txt 2>&1 &
+- sleep 10
 script:
-  - travis_retry R -e "source('testUtils.R'); runTests(browsers='fromEnv', platforms='fromEnv')"
-  
+- travis_retry R -e "source('testUtils.R'); runTests(browsers='fromEnv', platforms='fromEnv')"
 after_failure:
-  - cat out.txt
-
+- cat out.txt
 addons:
   sauce_connect:
     no_ssl_bump_domains: localhost
-
 notifications:
   email: false
+  slack:
+    secure: rZcqDaWRDad5ir+m6Z2We45qryJyVGf7DJlwlgnTRq890NH3G6Aw8K3TflJXEqxuvtCDJYXKqLvKrk0HMXrqQovyeBR4PEIiXh1F4qHLVYxIg6TBjwpS9EcX0gxCob5blXLnYtyAgPE4lY0tVmJtSUmdt+OjnJIa+fJxYOuhy4RyJaUvwRsPKsbL/Iea/cRrGFuLAXjc17cPNHLk/O7juZRjKFzUEW8Wc7mW/EkCMTxBY5jnGJ2qauKrWGKZbACll4XSJztSACPi0qPKTGcld/uEqXcaqKPMAhQEYkwnPtGHy3WdjzefvB7xUzSY2CKaTME6WklmbhcfNeNad6IJv5KWDA4G02FEVladeH9Yy0CuenZkZEOZtODU9qNf7pvSNMpCOL1/yYPTUvCjq+qrNufyVeFBS0h/VoIJFdAk7SNB25jH3G5eeGhmZoo6ImcpnLzgJ8Ej6GJ2xEoWuWuslPEqxc83NAaar2TNXCcsIBHGgs5CpzwGBWOnPHkBezoEGAWHd0aArzNKUlrp8fEvIFgM1IupUZJjMMDOSwsxlixsyqDn8Xw24/Oqi4+hDSTTT6LF5DO3GbRe6ZZBKuLyn+R8nu5X3l23ALqXFREnF97POuFzXcOrRjbQgpdUiYW10QrrH1WVgxd/4lO8sTmWYzFF2CnBIJ/Mm2PmG0Ul1Kw=
