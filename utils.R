@@ -97,8 +97,8 @@ prepSauceConnect <- function(name) {
   }
   
   if (!exists("sauceAccessKey")) {
-    if (Sys.getenv("SAUCE_USERNAME") != "") {
-      pass <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username
+    if (Sys.getenv("SAUCE_ACCESS_KEY") != "") {
+      pass <- Sys.getenv("SAUCE_ACCESS_KEY") # Your Sauce Labs access key
     } else {
       stop("You must provide an access key for saucelabs. Set the sauceAccessKey variable in R")
     }

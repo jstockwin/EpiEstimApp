@@ -4,7 +4,7 @@ library(RSelenium)
 library(testthat)
 source("../utils.R", local=TRUE)
 
-remDr <-prepSauceConnect("Running Rest Connection")
+remDr <-prepSauceConnect("Running Test Connection")
 
 remDr$open(silent=TRUE)
 appUrl="http://localhost:3000"
