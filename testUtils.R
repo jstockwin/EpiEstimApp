@@ -32,54 +32,6 @@ runTests <- function (browsers="all", platforms="all", update=FALSE) {
 }
 
 
-screenshotCompare <- function(remDr, filename, update, browserName, platform) {
-  # Take new screenshot
-  filenameCurrent <- paste("../tests/current", browserName, platform, filename, sep="/")
-  filenameExpected <- paste("../tests/expected", browserName, platform, filename, sep="/")
-  remDr$screenshot(file=filenameCurrent)
-  identical <- filesIdentical(filenameCurrent, filenameExpected)
-  if (identical) {
-    # Files are identical
-    return(TRUE)
-  } else if (!identical & update) {
-    # Files are different, update the file
-    cat("\nUpdating screenshot: ", filenameExpected, "\n")
-    remDr$screenshot(file=filenameExpected)
-    return(TRUE)
-  } else {
-    # Files are not the same, and we're not updating tests
-    return(FALSE)
-  }
-}
-
-
-filesIdentical <- function(filenameCurrent, filenameExpected) {
-  # Checks if the files are identical or not.
-  a <- file.path(filenameCurrent)
-  b <- file.path(filenameExpected)
-  
-  if (!file.exists(a)) {
-    message("File ", a, " not found.")
-    return(FALSE)
-  }
-  if (!file.exists(b)) {
-    message("File ", b, " not found.")
-    return(FALSE)
-  }
-  
-  # Fast path: if not the same size, return FALSE
-  a_size <- file.info(a)$size
-  b_size <- file.info(b)$size
-  if (!identical(a_size, b_size)) {
-    return(FALSE)
-  }
-  
-  a_content <- readBin(a, "raw", n = a_size)
-  b_content <- readBin(b, "raw", n = b_size)
-  return (identical(a_content, b_content))
-}
-
-
 getRemoteDriver <- function(name, browserName, platform) {
   # Set's up sauce connect on travis, or if the
   # sauceUsername and sauceAccessKey are set in R

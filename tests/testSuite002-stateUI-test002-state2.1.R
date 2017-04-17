@@ -3,6 +3,7 @@ context("Test Suite 2 (State UI) ----------> State 2.1       ")
 library(RSelenium)
 library(testthat)
 source("../testUtils.R", local=TRUE)
+source("functions.R", local=TRUE)
 
 allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
               "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
@@ -18,90 +19,67 @@ platform <- getOption("platform")
 remDr <-getRemoteDriver("Running Test Connection", browser, platform)
 
 remDr$open(silent=TRUE)
-appUrl="http://localhost:3000"
-remDr$navigate(appUrl)
 tryCatch({
   test_that("can connect to app", {
-    remDr$navigate(appUrl)
-    titleElem <- remDr$findElement(using="id", "incidenceTitle")
-    title <- titleElem$getElementText()[[1]]
-    expect_equal(title, "Incidence Data")
+    connectToApp(remDr)
   })
   
-  test_that("app is ready within 60 seconds", {
-    initialising = TRUE
-    tries=0
-    while (initialising & tries < 60) {
-      statusElem <- remDr$findElement(using="id", "output")
-      status <- statusElem$getElementText()[[1]]
-      if (status == "Initialising...") {
-        tries = tries + 1
-        Sys.sleep(1)
-      } else {
-        initialising = FALSE
-      }
-    }
-    expect_equal(status, "Ready")
+  test_that("app is ready within 10 seconds", {
+    waitForAppReady(remDr)
   })
   
   test_that("can naviagate to state 2.1", {
-    ownElem <- remDr$findElement(using="xpath", "//div[@id='incidenceDataType']//input[@value='own']")
+    ownElem <- findElem(remDr, "//div[@id='incidenceDataType']//input[@value='own']")
     ownElem$clickElement()
-    expect_true(ownElem$isElementSelected()[[1]])
+    expect_true(isSelected(ownElem))
     
-    nxtElem <- remDr$findElement(using="xpath", "//div[@id='control']/button[@id='nxt']")
+    nxtElem <- findElem(remDr, "//div[@id='control']/button[@id='nxt']")
     nxtElem$clickElement()
-    state2.1 <- remDr$findElement(using="xpath", "//div[@id='2.1']")
-    Sys.sleep(0.5) # Clicking next goes through sever, so is not instantaneous. 
-    # TODO: Maybe create a waitForElementDisplayed(timeout) function?
-    expect_true(state2.1$isElementDisplayed()[[1]])
+    state2.1 <- findElem(remDr, "//div[@id='2.1']")
+    waitForElemDisplayed(state2.1)
   })
   
   test_that("title should be 'Incidence Data'", {
-    webElem <- remDr$findElement(using="xpath", "//div[@id='titles']//h1")
-    expect_equal(webElem$getElementText()[[1]], "Incidence Data")
+    webElem <- findElem(remDr, "//div[@id='titles']//h1")
+    expect_equal(getText(webElem), "Incidence Data")
   })
   
   test_that("only state 2.1 is visible", {
-    for (state in setdiff(allStates, "2.1")) {
-      selector <- paste("//div[@id='", state, "']", sep="")
-      state <- remDr$findElement(using="xpath", selector)
-      expect_false(state$isElementDisplayed()[[1]])
-    }
+    checkDisplayedState(remDr, "2.1")
   })
   
   test_that("incidence data upload field displays properly", {
-    uploadLabel <- remDr$findElement(using="xpath", "//div[@id='2.1']//div[@id='incidenceDataErrorBox']/div/label[1]")
-    expect_equal(uploadLabel$getElementText()[[1]], "Choose incidence data file to upload")
+    uploadLabel <- findElem(remDr, "//div[@id='2.1']//div[@id='incidenceDataErrorBox']/div/label[1]")
+    expect_equal(getText(uploadLabel), "Choose incidence data file to upload")
     
-    uploadButton <- remDr$findElement(using="xpath", "//div[@id='2.1']//div[@id='incidenceDataErrorBox']/div/div[1]/label/span")
-    expect_equal(uploadButton$getElementText()[[1]], "Browse...")
+    uploadButton <- findElem(remDr, "//div[@id='2.1']//div[@id='incidenceDataErrorBox']/div/div[1]/label/span")
+    expect_equal(getText(uploadButton), "Browse...")
     
-    headerCheckbox <- remDr$findElement(using="xpath", "//div[@id='2.1']//div[@class='checkbox']/label/input")
-    expect_equal(headerCheckbox$getElementAttribute("type")[[1]], "checkbox")
+    headerCheckbox <- findElem(remDr, "//div[@id='2.1']//div[@class='checkbox']/label/input")
+    expect_equal(getAttribute(headerCheckbox, "type"), "checkbox")
     
-    seperatorLabel <- remDr$findElement(using="xpath", "//div[@id='2.1']//div[@id='incidenceSep']/label")
-    expect_equal(seperatorLabel$getElementText()[[1]], "Separator")
-    seperatorOptions <- remDr$findElements(using="xpath", "//div[@id='2.1']//div[@id='incidenceSep']/div/div")
+    seperatorLabel <- findElem(remDr, "//div[@id='2.1']//div[@id='incidenceSep']/label")
+    expect_equal(getText(seperatorLabel), "Separator")
+    seperatorOptions <- findElems(remDr, "//div[@id='2.1']//div[@id='incidenceSep']/div/div")
     expect_equal(length(seperatorOptions), 3)
-    expect_equal(seperatorOptions[[1]]$getElementText()[[1]], "Comma")
-    expect_equal(seperatorOptions[[2]]$getElementText()[[1]], "Semicolon")
-    expect_equal(seperatorOptions[[3]]$getElementText()[[1]], "Tab")
+    expect_equal(getText(seperatorOptions[[1]]), "Comma")
+    expect_equal(getText(seperatorOptions[[2]]), "Semicolon")
+    expect_equal(getText(seperatorOptions[[3]]), "Tab")
     
-    quoteLabel <- remDr$findElement(using="xpath", "//div[@id='2.1']//div[@id='incidenceQuote']/label")
-    expect_equal(quoteLabel$getElementText()[[1]], "Quote")
-    quoteOptions <- remDr$findElements(using="xpath", "//div[@id='2.1']//div[@id='incidenceQuote']/div/div")
+    quoteLabel <- findElem(remDr, "//div[@id='2.1']//div[@id='incidenceQuote']/label")
+    expect_equal(getText(quoteLabel), "Quote")
+    quoteOptions <- findElems(remDr, "//div[@id='2.1']//div[@id='incidenceQuote']/div/div")
     expect_equal(length(quoteOptions), 3)
-    expect_equal(quoteOptions[[1]]$getElementText()[[1]], "None")
-    expect_equal(quoteOptions[[2]]$getElementText()[[1]], "Double Quote")
-    expect_equal(quoteOptions[[3]]$getElementText()[[1]], "Single Quote")
+    expect_equal(getText(quoteOptions[[1]]), "None")
+    expect_equal(getText(quoteOptions[[2]]), "Double Quote")
+    expect_equal(getText(quoteOptions[[3]]), "Single Quote")
   })
   
   test_that("the width input displays correctly", {
-    widthLabel <- remDr$findElement(using="xpath", "//div[@id='2.1']//label[@for='uploadedWidth']")
+    widthLabel <- findElem(remDr, "//div[@id='2.1']//label[@for='uploadedWidth']")
     expect_equal(widthLabel$getElementText()[[1]], "Choose the width of the sliding time window for R estimation")
     
-    widthInput <- remDr$findElement(using="xpath", "//div[@id='2.1']//input[@id='uploadedWidth']")
+    widthInput <- findElem(remDr, "//div[@id='2.1']//input[@id='uploadedWidth']")
     expect_equal(widthInput$getElementAttribute("data-min")[[1]], "1")
     expect_equal(widthInput$getElementAttribute("data-max")[[1]], "20")
     expect_equal(widthInput$getElementAttribute("data-from")[[1]], "7")
@@ -109,10 +87,10 @@ tryCatch({
   })
   
   test_that("relevant control buttons are displayed", {
-    stopElem <- remDr$findElement(using="xpath", "//div[@id='control']/button[@id='stop']")
-    prevElem <- remDr$findElement(using="xpath", "//div[@id='control']/button[@id='prev']")
-    nxtElem <- remDr$findElement(using="xpath", "//div[@id='control']/button[@id='nxt']")
-    goElem <- remDr$findElement(using="xpath", "//div[@id='control']/button[@id='go']")
+    stopElem <- findElem(remDr, "//div[@id='control']/button[@id='stop']")
+    prevElem <- findElem(remDr, "//div[@id='control']/button[@id='prev']")
+    nxtElem <- findElem(remDr, "//div[@id='control']/button[@id='nxt']")
+    goElem <- findElem(remDr, "//div[@id='control']/button[@id='go']")
     
     expect_false(stopElem$isElementDisplayed()[[1]])
     expect_true(prevElem$isElementDisplayed()[[1]])
@@ -123,13 +101,13 @@ tryCatch({
   })
   
   test_that("no errors are displaying", {
-    errorElem <- remDr$findElement(using="xpath", "//div[@id='control']/div[@id='error']")
+    errorElem <- findElem(remDr, "//div[@id='control']/div[@id='error']")
     expect_true(errorElem$isElementDisplayed()[[1]])
     expect_equal(errorElem$getElementText()[[1]], "")
   })
   
   test_that("screenshot matches", {
-    expect_true(screenshotCompare(remDr, "2-state002-state2.1screenshot.png", update, browser, platform))
+    screenshotCompare(remDr, "2-state002-state2.1screenshot.png", update, browser, platform)
   })
 },
 error = function(e) {

@@ -3,6 +3,7 @@ context("Test Suite 1 (Basic) -------------> Connection      ")
 library(RSelenium)
 library(testthat)
 source("../testUtils.R", local=TRUE)
+source("functions.R", local=TRUE)
 
 allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
               "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
@@ -21,30 +22,15 @@ remDr$open(silent=TRUE)
 appUrl="http://localhost:3000"
 tryCatch({
 	test_that("can connect to app", {
-		remDr$navigate(appUrl)
-		titleElem <- remDr$findElement(using="id", "incidenceTitle")
-		title <- titleElem$getElementText()[[1]]
-		expect_equal(title, "Incidence Data")
+		connectToApp(remDr)
 	})
   
-  test_that("app is ready within 60 seconds", {
-    initialising = TRUE
-    tries=0
-    while (initialising & tries < 60) {
-      statusElem <- remDr$findElement(using="id", "output")
-      status <- statusElem$getElementText()[[1]]
-      if (status == "Initialising...") {
-        tries = tries + 1
-        Sys.sleep(1)
-      } else {
-        initialising = FALSE
-      }
-    }
-    expect_equal(status, "Ready")
+  test_that("app is ready within 10 seconds", {
+    waitForAppReady(remDr)
   })
   
   test_that("screenshot matches", {
-    expect_true(screenshotCompare(remDr, "1-basic001-initialScreenshot.png", update, browser, platform))
+    screenshotCompare(remDr, "1-basic001-initialScreenshot.png", update, browser, platform)
   })
 },
 error = function(e) {
