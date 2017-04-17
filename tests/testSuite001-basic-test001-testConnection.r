@@ -16,7 +16,7 @@ allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.
 update <- getOption("update")
 browser <- getOption("browser")
 platform <- getOption("platform")
-remDr <-getRemoteDriver("Running Test Connection", browser, platform)
+remDr <-getRemoteDriver("Test Suite 1 (Basic) -> Connection", browser, platform)
 
 remDr$open(silent=TRUE)
 appUrl="http://localhost:3000"

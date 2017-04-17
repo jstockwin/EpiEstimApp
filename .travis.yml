@@ -27,7 +27,7 @@ before_script:
 script:
   - travis_retry R -e "source('testUtils.R'); runTests(browsers='fromEnv', platforms='fromEnv')"
   
-after_script:
+after_failure:
   - cat out.txt
 
 addons:
