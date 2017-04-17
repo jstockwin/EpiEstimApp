@@ -103,7 +103,13 @@ getRemoteDriver <- function(name, browserName, platform) {
     pass <- sauceAccessKey
   }
   
-  if (sauceLabs) {
+  if (browser == "phantomjs") {
+    if (platform != "linux") {
+      stop("Please only use the linux platform for testing with phantomjs")
+    }
+    rD <- rsDriver(browser="phantomjs", verbose = FALSE)
+    remDr <- rD$client
+  } else if (sauceLabs) {
     port <- 4445 
     ip <- paste0(user, ':', pass, "@localhost")
     extraCapabilities <- list(name = name, username = user, accessKey = pass
@@ -111,7 +117,7 @@ getRemoteDriver <- function(name, browserName, platform) {
     remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities
                               , browserName = browserName, platform = platform)
   } else {
-    remDr <- remoteDriver$new(remoteServerAddr = "localhost", port = 4444)
+    remDr <- remoteDriver$new(remoteServerAddr = "localhost", port = 4444, browserName = browserName)
   }
   return(remDr)
 }

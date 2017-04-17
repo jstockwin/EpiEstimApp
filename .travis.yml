@@ -10,6 +10,7 @@ env:
   - browser=firefox platform=windows
   - browser=firefox platform=linux
   - browser=chrome platform=linux
+  - browser=phantomjs platform=linux
 
 cache:
   - packages
