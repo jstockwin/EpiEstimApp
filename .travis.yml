@@ -10,8 +10,9 @@ cache:
   - packages
   
 install:
-  - R -e "devtools::install_github('annecori/EpiEstim', ref = 'hackout3')"
-  - R -e "devtools::install_github('nickreich/coarseDataTools', ref = 'hackout3')"
+  - Rscript -e "install.packages('devtools')"
+  - Rscript -e "devtools::install_github('annecori/EpiEstim', ref = 'hackout3')"
+  - Rscript -e "devtools::install_github('nickreich/coarseDataTools', ref = 'hackout3')"
 
 before_script:
   - R -e "shiny::runApp(port=3000)" > out.txt 2>&1 &

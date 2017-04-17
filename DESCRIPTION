@@ -10,7 +10,6 @@ Imports:
     shiny,
     RSelenium,
     testthat,
-    devtools,
     MCMCpack,
     shinyjs,
     ggplot2,
