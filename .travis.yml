@@ -9,9 +9,6 @@ env:
 cache:
   - packages
 
-install:
-  - echo "There is nothing to do here, but we need the install bit for anything to run"
-
 before_script:
   - R -e "shiny::runApp(port=3000)" > out.txt 2>&1 &
   - sleep 10
@@ -28,24 +25,6 @@ addons:
 
 notifications:
   email: false
-
-r_packages:
-  - shiny
-  - RSelenium
-  - testthat
-  - devtools
-  - MCMCpack
-  - shinyjs
-  - ggplot2
-  - graphics
-  - grid
-  - gridExtra
-  - plotly
-  - plyr
-  - reshape2
-  - stats
-  - future
-  
 r_github_packages:
   - nickreich/coarseDataTools
-  - acori/EpiEstim
+  - acori/EpiEstim  
