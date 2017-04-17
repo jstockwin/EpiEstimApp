@@ -16,11 +16,11 @@ tryCatch({
 		expect_equal(title, "Incidence Data")
 	})
   
-  test_that("app is ready within 10 seconds", {
+  test_that("app is ready within 60 seconds", {
     remDr$navigate(appUrl)
     initialising = TRUE
     tries=0
-    while (initialising & tries < 10) {
+    while (initialising & tries < 60) {
       statusElem <- remDr$findElement(using="id", "output")
       status <- statusElem$getElementText()[[1]]
       if (status == "Initialising...") {
