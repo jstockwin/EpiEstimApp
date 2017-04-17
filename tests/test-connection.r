@@ -21,8 +21,7 @@ tryCatch({
 		remDr$navigate(appUrl)
 		titleElem <- remDr$findElement(using="id", "incidenceTitle")
 		title <- titleElem$getElementText()
-		str(title)
-		expect_equal(title, "Incidence Data")
+		expect_equal(title[[1]], "Incidence Data")
 	})
 },
 error = function(e) {
