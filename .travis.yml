@@ -18,7 +18,7 @@ before_script:
   - sleep 10
 
 script:
-  - Rscript -e "testthat::test_dir('tests', reporter='stop')"
+  - R -e "testthat::test_dir('tests', reporter='stop')"
 
 addons:
   sauce_connect: true

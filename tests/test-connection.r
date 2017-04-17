@@ -2,7 +2,6 @@ context("basic")
 
 library(RSelenium)
 library(testthat)
-library(methods)
 
 
 user <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username
