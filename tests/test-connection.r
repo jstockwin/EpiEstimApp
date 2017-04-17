@@ -20,6 +20,7 @@ tryCatch({
 	test_that("can connect to app", {
 		remDr$navigate(appUrl)
 		titleElem <- remDr$findElement(using="id", "incidenceTitle")
+		str(title)
 		title <- titleElem$getElementText()
 		expect_equal(title, "Incidence Data")
 	})
