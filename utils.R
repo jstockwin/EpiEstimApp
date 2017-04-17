@@ -85,12 +85,18 @@ getMCMCProgress <- function(filename) {
   return(currentIteration)
 }
 
-prepSauceConnect <- function(name) {
+getRemoteDriver <- function(name) {
+  # Set's up sauce connect on travis, or if the
+  # sauceUsername and sauceAccessKey are set in R
+  # Otherwise attempts to connect to a local selenium server on
+  # localhost:4444. Make sure you're running the app on
+  # port 3000 in a different process: `R -e "shiny::runApp(port=3000)`.
+  sauceLabs <- TRUE
   if (!exists("sauceUsername")) {
     if (Sys.getenv("SAUCE_USERNAME") != "") {
       user <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username
     } else {
-      stop("You must provide a username for saucelabs. Set the sauceUsername variable in R")
+      sauceLabs <- FALSE
     }
   } else {
     user <- sauceUsername
@@ -100,16 +106,19 @@ prepSauceConnect <- function(name) {
     if (Sys.getenv("SAUCE_ACCESS_KEY") != "") {
       pass <- Sys.getenv("SAUCE_ACCESS_KEY") # Your Sauce Labs access key
     } else {
-      stop("You must provide an access key for saucelabs. Set the sauceAccessKey variable in R")
+      sauceLabs <- FALSE
     }
   } else {
     pass <- sauceAccessKey
   }
-  
-  port <- 4445 
-  ip <- paste0(user, ':', pass, "@localhost")
-  extraCapabilities <- list(name = name, username = user, accessKey = pass
-                            , startConnect = FALSE, tunnelIdentifier = Sys.getenv("TRAVIS_JOB_NUMBER"))
-  remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities)
+  if (sauceLabs) {
+    port <- 4445 
+    ip <- paste0(user, ':', pass, "@localhost")
+    extraCapabilities <- list(name = name, username = user, accessKey = pass
+                              , startConnect = FALSE, tunnelIdentifier = Sys.getenv("TRAVIS_JOB_NUMBER"))
+    remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities)
+  } else {
+    remDr <- remoteDriver$new(remoteServerAddr = "localhost", port = 4444)
+  }
   return(remDr)
 }

@@ -4,7 +4,12 @@ library(RSelenium)
 library(testthat)
 source("../utils.R", local=TRUE)
 
-remDr <-prepSauceConnect("Running Test Connection")
+# See utils.R. Set's up sauce connect on travis, or if the
+# sauceUsername and sauceAccessKey are set in R
+# Otherwise attempts to connect to a local selenium server on
+# localhost:4444. Make sure you're running the app on
+# port 3000 in a different process: `R -e "shiny::runApp(port=3000)`.
+remDr <-getRemoteDriver("Running Test Connection")
 
 remDr$open(silent=TRUE)
 appUrl="http://localhost:3000"
