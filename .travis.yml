@@ -10,8 +10,7 @@ cache:
   - packages
 
 install:
-  - Rscript -e "install.packages(c('shiny', 'RSelenium', 'testthat', 'devtools', 'MCMCpack', 'shinyjs', 'ggplot2'))"
-  - Rscript -e "install.packages(c('graphics', 'grid', 'gridExtra', 'plotly', 'plyr', 'reshape2', 'stats', 'future'))"
+  - echo "There is nothing to do here, but we need the install bit for anything to run"
 
 before_script:
   - R -e "shiny::runApp(port=3000)" &
@@ -25,3 +24,20 @@ addons:
 
 notifications:
   email: false
+
+r_packages:
+  - shiny
+  - RSelenium
+  - testthat
+  - devtools
+  - MCMCpack
+  - shinyjs
+  - ggplot2
+  - graphics
+  - grid
+  - gridExtra
+  - plotly
+  - plyr
+  - reshape2
+  - stats
+  - future
