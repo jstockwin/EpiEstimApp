@@ -85,3 +85,31 @@ getMCMCProgress <- function(filename) {
   return(currentIteration)
 }
 
+prepSauceConnect <- function(name) {
+  if (!exists("sauceUsername")) {
+    if (Sys.getenv("SAUCE_USERNAME") != "") {
+      user <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username
+    } else {
+      stop("You must provide a username for saucelabs. Set the sauceUsername variable in R")
+    }
+  } else {
+    user <- sauceUsername
+  }
+  
+  if (!exists("sauceAccessKey")) {
+    if (Sys.getenv("SAUCE_USERNAME") != "") {
+      pass <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username
+    } else {
+      stop("You must provide an access key for saucelabs. Set the sauceAccessKey variable in R")
+    }
+  } else {
+    pass <- sauceAccessKey
+  }
+  
+  port <- 4445 
+  ip <- paste0(user, ':', pass, "@localhost")
+  extraCapabilities <- list(name = name, username = user, accessKey = pass
+                            , startConnect = FALSE, tunnelIdentifier = Sys.getenv("TRAVIS_JOB_NUMBER"))
+  remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities)
+  return(remDr)
+}
