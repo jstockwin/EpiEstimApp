@@ -1,4 +1,4 @@
-context("basic")
+context("connection")
 
 library(RSelenium)
 library(testthat)
@@ -12,9 +12,26 @@ tryCatch({
 	test_that("can connect to app", {
 		remDr$navigate(appUrl)
 		titleElem <- remDr$findElement(using="id", "incidenceTitle")
-		title <- titleElem$getElementText()
-		expect_equal(title[[1]], "Incidence Data")
+		title <- titleElem$getElementText()[[1]]
+		expect_equal(title, "Incidence Data")
 	})
+  
+  test_that("app is ready within 10 seconds", {
+    remDr$navigate(appUrl)
+    initialising = TRUE
+    tries=0
+    while (initialising & tries < 10) {
+      statusElem <- remDr$findElement(using="id", "output")
+      status <- statusElem$getElementText()[[1]]
+      if (status == "Initialising...") {
+        tries = tries + 1
+        Sys.sleep(1)
+      } else {
+        initialising = FALSE
+      }
+    }
+    expect_equal(status, "Ready")
+  })
 },
 error = function(e) {
 	remDr$close()
