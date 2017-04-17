@@ -17,7 +17,7 @@ before_script:
   - sleep 10
 
 script:
-  - R -e "testthat::test_dir('tests', reporter=c('summary', 'fail'))"
+  - R -e "out<-testthat::test_dir('tests', reporter=c('summary', 'list', 'fail')); out"
   
 after_script:
   - cat out.txt
