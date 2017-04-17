@@ -1,28 +1,46 @@
-runTests <- function () {
-  env <- testthat::test_env()
-  with(env, update <- FALSE)
-  out<-testthat::test_dir('tests', reporter=c('summary', 'list', 'fail'), env=env);
-  out
+buildMatrix <- list(
+  platforms=c("linux", "linux", "windows", "windows"),
+  browserNames=c("firefox", "chrome", "firefox", "chrome")
+)
+
+runTests <- function (browsers="all", platforms="all", update=FALSE) {
+  if (browsers=="all") {
+    browsers <- buildMatrix$browserNames
+  }
+  if (browsers=="fromEnv") {
+    browsers <- Sys.getenv("browser")
+  }
+  if (platforms=="all") {
+    platforms <- buildMatrix$platforms
+  }
+  if (platforms=="fromEnv") {
+    platforms <- Sys.getenv("platform")
+  }
+  for (i in 1:length(browsers)) {
+    browser <- browsers[i]
+    platform <- platforms[i]
+    cat("Beggining tests (pass", i, " of ", length(browsers), ")\n")
+    cat("Browser: ", browser, "\n")
+    cat("platform: ", platform, "\n")
+    options(browser = browser, platform = platform, update = update)
+    out<-testthat::test_dir('tests', reporter=c('summary', 'list', 'fail'));
+    out
+  }
 }
 
-updateTests <- function () {
-  env <- testthat::test_env()
-  with(env, update <- TRUE)
-  out<-testthat::test_dir('tests', reporter=c('summary', 'list', 'fail'), env=env);
-  out
-}
 
-
-screenshotCompare <- function(remDr, filename, update) {
+screenshotCompare <- function(remDr, filename, update, browserName, platform) {
   # Take new screenshot
-  remDr$screenshot(file=paste("../tests/current", filename, sep="/"))
-  identical <- filesIdentical(filename)
+  filenameCurrent <- paste("../tests/current", browserName, platform, filename, sep="/")
+  filenameExpected <- paste("../tests/expected", browserName, platform, filename, sep="/")
+  remDr$screenshot(file=)
+  identical <- filesIdentical(filenameCurrent, filenameExpected)
   if (identical) {
     # Files are identical
     return(TRUE)
   } else if (!identical & update) {
     # Files are different, update the file
-    remDr$screenshot(file=paste("../tests/expected", filename, sep="/"))
+    remDr$screenshot(file=filenameExpected)
     return(TRUE)
   } else {
     # Files are not the same, and we're not updating tests
@@ -31,10 +49,10 @@ screenshotCompare <- function(remDr, filename, update) {
 }
 
 
-filesIdentical <- function(filename) {
+filesIdentical <- function(filenameCurrent, filenameExpected) {
   # Checks if the files are identical or not.
-  a <- file.path("../tests/expected/", filename)
-  b <- file.path("../tests/current/", filename)
+  a <- file.path(filenameCurrent)
+  b <- file.path(filenameExpected)
   
   if (!file.exists(a)) {
     message("File ", a, " not found.")
@@ -58,7 +76,7 @@ filesIdentical <- function(filename) {
 }
 
 
-getRemoteDriver <- function(name) {
+getRemoteDriver <- function(name, browserName, platform) {
   # Set's up sauce connect on travis, or if the
   # sauceUsername and sauceAccessKey are set in R
   # Otherwise attempts to connect to a local selenium server on
@@ -84,12 +102,14 @@ getRemoteDriver <- function(name) {
   } else {
     pass <- sauceAccessKey
   }
+  
   if (sauceLabs) {
     port <- 4445 
     ip <- paste0(user, ':', pass, "@localhost")
     extraCapabilities <- list(name = name, username = user, accessKey = pass
                               , startConnect = FALSE, tunnelIdentifier = Sys.getenv("TRAVIS_JOB_NUMBER"))
-    remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities)
+    remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities
+                              , browserName = browserName, platform = platform)
   } else {
     remDr <- remoteDriver$new(remoteServerAddr = "localhost", port = 4444)
   }

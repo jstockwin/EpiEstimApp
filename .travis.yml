@@ -6,11 +6,11 @@ env:
   global:
   - NOT_CRAN=true
   matrix:
-  - browser=chrome platform="Windows 10"
-  - browser=firefox platform="Windows 10"
-  - browser=firefox platform=Linux
-  - browser=chrome platform=Linux
-  - browser=safari platform="maxOS 10.12"
+  - browser=chrome platform=windows
+  - browser=firefox platform=windows
+  - browser=firefox platform=linux
+  - browser=chrome platform=linux
+  - browser=safari platform=mac
 
 cache:
   - packages
@@ -26,7 +26,7 @@ before_script:
   - sleep 10
 
 script:
-  - R -e "source('testUtils.R'); runTests()"
+  - R -e "source('testUtils.R'); runTests(browsers='fromEnv', platforms='fromEnv')"
   
 after_script:
   - cat out.txt

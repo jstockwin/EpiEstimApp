@@ -9,7 +9,10 @@ source("../testUtils.R", local=TRUE)
 # Otherwise attempts to connect to a local selenium server on
 # localhost:4444. Make sure you're running the app on
 # port 3000 in a different process: `R -e "shiny::runApp(port=3000)`.
-remDr <-getRemoteDriver("Running Test Connection")
+update <- getOption("update")
+browser <- getOption("browser")
+platform <- getOption("platform")
+remDr <-getRemoteDriver("Running Test Connection", browser, platform)
 
 remDr$open(silent=TRUE)
 appUrl="http://localhost:3000"
@@ -38,7 +41,7 @@ tryCatch({
   })
   
   test_that("screenshot matches", {
-    expect_true(screenshotCompare(remDr, "test-connection-initial.png", update))
+    expect_true(screenshotCompare(remDr, "test-connection-initial.png", update, browser, platform))
   })
 },
 error = function(e) {
