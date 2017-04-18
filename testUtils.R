@@ -1,16 +1,16 @@
 buildMatrix <- list(
-  platforms=c("linux", "linux", "windows", "windows"),
+  platforms=c("linux", "linux", "Windows 10", "Windows 10"),
   browserNames=c("firefox", "chrome", "firefox", "chrome")
 )
 
 runTests <- function (browsers="all", platforms="all", update=FALSE) {
-  if (browsers=="all") {
+  if (any(browsers=="all")) {
     browsers <- buildMatrix$browserNames
   }
   if (any(browsers=="fromEnv")) {
     browsers[which(browsers=="fromEnv")] <- Sys.getenv("browser")
   }
-  if (platforms=="all") {
+  if (any(platforms=="all")) {
     platforms <- buildMatrix$platforms
   }
   if (any(platforms=="fromEnv")) {

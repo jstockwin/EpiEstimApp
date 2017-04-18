@@ -1,4 +1,4 @@
-context("Test Suite 2 (Error Reporting) ---> State 2.1       ")
+context("Test Suite 3 (Error Reporting) ---> State 2.1       ")
 
 library(RSelenium)
 library(testthat)
