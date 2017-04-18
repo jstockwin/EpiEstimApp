@@ -3,6 +3,7 @@
 
 
 library(RSelenium)
+library(png)
 
 allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
               "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
@@ -124,15 +125,14 @@ filesIdentical <- function(filenameCurrent, filenameExpected) {
     message("File ", b, " not found.")
     return(FALSE)
   }
+
+  a_content <- readPNG(a)
+  b_content <- readPNG(b)
   
-  # Fast path: if not the same size, return FALSE
-  a_size <- file.info(a)$size
-  b_size <- file.info(b)$size
-  if (!identical(a_size, b_size)) {
+  if (length(a_content) != length(b_content)) {
+    # Different number of pixels
     return(FALSE)
   }
   
-  a_content <- readBin(a, "raw", n = a_size)
-  b_content <- readBin(b, "raw", n = b_size)
   return (identical(a_content, b_content))
 }

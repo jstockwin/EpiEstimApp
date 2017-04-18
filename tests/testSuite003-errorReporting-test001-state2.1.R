@@ -3,7 +3,6 @@ context("Test Suite 3 (Error Reporting) ---> State 2.1       ")
 library(RSelenium)
 library(testthat)
 source("../testUtils.R", local=TRUE)
-source("functions.R", local=TRUE)
 
 allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
               "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
@@ -19,6 +18,7 @@ platform <- getOption("platform")
 remDr <-getRemoteDriver("Test Suite 3 (Error Reporting) -> State 1.1", browser, platform)
 
 remDr$open(silent=TRUE)
+remDr$setWindowSize(1000,700)
 tryCatch({
   test_that("can connect to app", {
     connectToApp(remDr)

@@ -14,7 +14,7 @@ cache:
 install:
 - Rscript -e "if (!require('pacman')) install.packages('pacman')"
 - Rscript -e "pacman::p_load('shiny', 'RSelenium', 'testthat', 'devtools', 'MCMCpack',
-  'shinyjs', 'ggplot2')"
+  'shinyjs', 'ggplot2', 'png')"
 - Rscript -e "pacman::p_load('graphics', 'grid', 'gridExtra', 'plotly', 'plyr', 'reshape2',
   'stats', 'future')"
 - Rscript -e "devtools::install_github('nickreich/coarseDataTools', ref = 'hackout3')"
