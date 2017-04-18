@@ -24,7 +24,7 @@ tryCatch({
     connectToApp(remDr)
   })
   
-  test_that("app is ready within 60 seconds", {
+  test_that("app is ready within 30 seconds", {
     waitForAppReady(remDr)
   })
   

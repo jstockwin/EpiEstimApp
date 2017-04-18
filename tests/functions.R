@@ -59,7 +59,7 @@ connectToApp <- function(remDr) {
   expect_equal(title, "Incidence Data")
 }
 
-waitForAppReady <- function(remDr, timeout=10) {
+waitForAppReady <- function(remDr, timeout=30) {
   # Waits for "Initialising..." to change to "Ready" for timeout seconds.
   initialising = TRUE
   tries=0
