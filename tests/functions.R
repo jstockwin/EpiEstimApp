@@ -131,8 +131,12 @@ filesIdentical <- function(filenameCurrent, filenameExpected) {
   
   if (length(a_content) != length(b_content)) {
     # Different number of pixels
+    cat("\nScreenshots have different numbers of pixels\n")
     return(FALSE)
   }
-  
-  return (identical(a_content, b_content))
+  status <- identical(a_content, b_content)
+  if (!status) {
+    cat("\nScreenshots are different by ", sum(a_content!=b_content), " pixels\n")
+  }
+  return (status)
 }
