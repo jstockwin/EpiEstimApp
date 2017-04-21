@@ -215,6 +215,24 @@ shinyServer(function(input, output, session) {
     }
   })
   
+  output$incidenceDataOutput <- renderTable({
+    if (!is.null(asyncData$epiEstimOutput)) {
+      asyncData$epiEstimOutput$I
+    }
+  })
+  
+  output$estimatedROutput <- renderTable({
+    if (!is.null(asyncData$epiEstimOutput)) {
+      asyncData$epiEstimOutput$R
+    }
+  })
+  
+  output$serialIntervalOutput <- renderTable({
+    if (!is.null(asyncData$epiEstimOutput)) {
+      asyncData$epiEstimOutput$SI.Distr
+    }
+  })
+  
   
   handleState <- function() {
     # Run when next is clicked. Should handle all validation and error checks for that state
@@ -251,7 +269,7 @@ shinyServer(function(input, output, session) {
              "2.2" = {
                # Get preloaded data
                IncidenceData <<- getIncidenceData(input$incidenceDataset, alldatasets)
-               
+
                # Process Incidence data (using EpiEstim)
                IncidenceData <<- EpiEstim:::process_I(IncidenceData)
                

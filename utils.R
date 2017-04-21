@@ -11,11 +11,11 @@ getSerialIntervalData <- function (data) {
   if (data == 'PennsylvaniaH1N12009') {
     serialIntervalData <- read.table('dataset/SerialIntervalDatas/PennsylvaniaH1N12009SerialIntervalData.csv',
                                   header = F, sep=',')
-    return(processSerialIntervalData(serialIntervalData))
+    return(serialIntervalData)
   } else if (data == 'RotavirusGermany') {
     serialIntervalData <- read.table('datasets/SerialIntervalData/RotavirusEcuadorSIData.csv',
                                   header = F, sep=',')
-    return(processSerialIntervalData(serialIntervalData))
+    return(serialIntervalData)
   } else {
     return(NULL)
   }
@@ -27,15 +27,15 @@ getSerialIntervalData <- function (data) {
 getIncidenceData <- function (data, alldatasets) {
   if (data %in% names(alldatasets)) {
     dat <- alldatasets[[data]]$Incidence
-    return(processIncidenceData(dat))
+    return(dat)
   } else  if (data == 'PennsylvaniaH1N12009') {
     incidenceData <- read.table('datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv',
                                   header = F, sep=',')
-    return(processIncidenceData(incidenceData))
+    return(incidenceData)
   } else if (data == 'RotavirusGermany') {
     incidenceData <- read.table('datasets/IncidenceData/GermanyRotavirus1516.csv',
                                   header = F, sep=',')
-    return(processIncidenceData(incidenceData))
+    return(incidenceData)
   } else {
     return(NULL)
   }

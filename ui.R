@@ -304,7 +304,12 @@ tool, the format or results generated from it.</p>
          
   ),
   column(8, id="plot",
-         plotOutput('plot')
+         tabsetPanel(
+           tabPanel("Plot", plotOutput("plot")),
+           tabPanel("Incidence", tableOutput("incidenceDataOutput")),
+           tabPanel("Estimated Reproduction Number", tableOutput("estimatedROutput")),
+           tabPanel("Serial Interval Distribution", tableOutput("serialIntervalOutput"))
+         )
   )
   
 )
