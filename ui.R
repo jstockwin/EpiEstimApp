@@ -305,10 +305,10 @@ tool, the format or results generated from it.</p>
   ),
   column(8, id="plot",
          tabsetPanel(
-           tabPanel("Plot", plotOutput("plot")),
-           tabPanel("Incidence", tableOutput("incidenceDataOutput")),
-           tabPanel("Estimated Reproduction Number", tableOutput("estimatedROutput")),
-           tabPanel("Serial Interval Distribution", tableOutput("serialIntervalOutput"))
+           tabPanel("Plot", downloadButton("savePlot", "Save Image"), plotOutput("plot")),
+           tabPanel("Incidence Data", downloadButton("saveIncidence", "Save Table"), tableOutput("incidenceDataOutput")),
+           tabPanel("Estimated Reproduction Number", downloadButton("saveR", "Save Table"), tableOutput("estimatedROutput")),
+           tabPanel("Serial Interval Distribution", downloadButton("saveSI", "Save Table"), tableOutput("serialIntervalOutput"))
          )
   )
   

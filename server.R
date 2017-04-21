@@ -215,12 +215,41 @@ shinyServer(function(input, output, session) {
     }
   })
   
+  output$savePlot <- downloadHandler(
+    filename = function() {"Plot.png"},
+    content = function(file) {
+      if (!is.null(asyncData$epiEstimOutput)){
+        png(file)
+        print(plots(asyncData$epiEstimOutput))
+        dev.off()
+      }
+    }
+  )
+  
   output$incidenceDataOutput <- renderTable({
     if (!is.null(asyncData$epiEstimOutput)) {
       asyncData$epiEstimOutput$I
     }
   })
   
+  output$saveIncidence <- downloadHandler(
+    filename = function() {"IncidenceData.csv"},
+    content = function(file) {
+      if(!is.null(asyncData$epiEstimOutput)) {
+        write.csv(asyncData$epiEstimOutput$I, file, row.names=F)
+      }
+    }
+  )
+  
+  output$saveSI <- downloadHandler(
+    filename = function() {"SerialIntervalEstimates.csv"},
+    content = function(file) {
+      if(!is.null(asyncData$epiEstimOutput)) {
+        write.csv(asyncData$epiEstimOutput$SI.Distr, file, row.names=F)
+      }
+    }
+  )
+
   output$estimatedROutput <- renderTable({
     if (!is.null(asyncData$epiEstimOutput)) {
       asyncData$epiEstimOutput$R
@@ -232,6 +261,15 @@ shinyServer(function(input, output, session) {
       asyncData$epiEstimOutput$SI.Distr
     }
   })
+  
+  output$saveR <- downloadHandler(
+    filename = function() {"EstimatedR.csv"},
+    content = function(file) {
+      if(!is.null(asyncData$epiEstimOutput)) {
+        write.csv(asyncData$epiEstimOutput$R, file, row.names=F)
+      }
+    }
+  )
   
   
   handleState <- function() {
