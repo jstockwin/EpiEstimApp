@@ -1,5 +1,5 @@
 library(devtools)
-install_github("robin-thompson/coarseDataTools", ref = "hackout3")
+install_github("nickreich/coarseDataTools", ref = "hackout3")
 library(coarseDataTools)
 library(MCMCpack)
 install_github('annecori/EpiEstim', ref = "hackout3")
@@ -31,7 +31,6 @@ alldatasets <- list('Measles1861' = Measles1861,
 
 
 # Source necessary files
-source("stochasticSEIRModel3.R", local=TRUE)
 source("utils.R", local=TRUE)
 #source("estimater.R", local=TRUE)
 

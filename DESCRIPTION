@@ -1,0 +1,30 @@
+Package: EpiEstimApp
+Title: EpiEstimApp: a package to add a graphical interface around EpiEstim,
+    which is a package to estimate time varying reproduction numbers from
+    epidemic curves
+Version: 0.0.0.9000
+Authors@R: person("Jake", "Stockwin", email = "jstockwin@gmail.com", role = c("cre"))
+Description: This package adds a graphic interface (using R Shiny) around the
+    EpiEstim package.
+BugReports: https://github.com/jstockwin/TransmissibilityEstimator/issues
+Depends: R (>= 3.3.2)
+Imports:
+    shiny,
+    RSelenium,
+    testthat,
+    MCMCpack,
+    shinyjs,
+    ggplot2,
+    graphics,
+    grid,
+    gridExtra,
+    plotly,
+    plyr,
+    reshape2,
+    stats,
+    future,
+    devtools
+License: GPL (>=2)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1.9000
