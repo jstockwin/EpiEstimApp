@@ -299,6 +299,10 @@ shinyServer(function(input, output, session) {
                
                length <- dim(IncidenceData)[1]
                W <- input$uploadedWidth
+               if (W >= length) {
+                 throwError("The width must be smaller than the length of your incidence data", "uploadedWidth")
+                 throwError("The width must be smaller than the length of your incidence data", "incidenceData")
+               }
                T.Start <<- 1:(length - W)
                T.End <<- (1+W):length
                TRUE
@@ -311,7 +315,11 @@ shinyServer(function(input, output, session) {
                IncidenceData <<- EpiEstim:::process_I(IncidenceData)
                
                length <- dim(IncidenceData)[1]
-               W <- input$uploadedWidth
+               W <- input$incidenceWidth
+               if (W >= length) {
+                 throwError("The width must be smaller than the length of your incidence data", "incidenceWidth", FALSE) # Don't stop until next one
+                 throwError("The width must be smaller than the length of your incidence data", "incidenceData")
+               }
                T.Start <<- 1:(length - W)
                T.End <<- (1+W):length
                TRUE
@@ -353,6 +361,52 @@ shinyServer(function(input, output, session) {
                Std.Std.SI <<- input$Std.Std.SI
                Min.Std.SI <<- input$Min.Std.SI
                Max.Std.SI <<- input$Max.Std.SI
+               if (is.null(n1) | n1 < 1 | !is.integer(n1)) {
+                 throwError("n1 must be an integer greater than or equal to 1", "n1")
+               }
+               if (is.null(n2) | n2 < 1 | !is.integer(n2)) {
+                 throwError("n2 must be an integer greater than or equal to 1", "n2")
+               }
+               if (is.null(Mean.SI) | Mean.SI < 0) {
+                 throwError("Mean.SI must be an greater than or equal to 0", "Mean.SI")
+               }
+               if (is.null(Min.Mean.SI) | Min.Mean.SI < 0) {
+                 throwError("Std.SI must be an greater than or equal to 0", "Min.Mean.SI")
+               }
+               if (is.null(Max.Mean.SI) | Max.Mean.SI < 0) {
+                 throwError("Std.SI must be an greater than or equal to 0", "Max.Mean.SI")
+               }
+               if (is.null(Std.Mean.SI) | Std.Mean.SI < 0) {
+                 throwError("Std.SI must be an greater than or equal to 0", "Std.Mean.SI")
+               }
+               if (Min.Mean.SI > Mean.SI) {
+                 throwError("Min.Mean.SI must be less than Mean.SI", "Min.Mean.SI", FALSE) # Don't stop until next one
+                 throwError("Min.Mean.SI must be less than Mean.SI", "Mean.SI")
+               }
+               if (Mean.SI > Max.Mean.SI) {
+                 throwError("Max.Mean.SI must be greater than Mean.SI", "Max.Mean.SI", FALSE) # Don't stop until next one
+                 throwError("Max.Mean.SI must be greater than Mean.SI", "Mean.SI")
+               }
+               if (is.null(Std.SI) | Std.SI < 0) {
+                 throwError("Std.SI must be an greater than or equal to 0", "Std.SI")
+               }
+               if (is.null(Min.Std.SI) | Min.Std.SI < 0) {
+                 throwError("Std.SI must be an greater than or equal to 0", "Min.Std.SI")
+               }
+               if (is.null(Max.Std.SI) | Max.Std.SI < 0) {
+                 throwError("Std.SI must be an greater than or equal to 0", "Max.Std.SI")
+               }
+               if (is.null(Std.Std.SI) | Std.Std.SI < 0) {
+                 throwError("Std.SI must be an greater than or equal to 0", "Std.Std.SI")
+               }
+               if (Min.Std.SI > Std.SI) {
+                 throwError("Min.Std.SI must be less than Std.SI", "Min.Std.SI", FALSE) # Don't stop until next one
+                 throwError("Min.Std.SI must be less than Std.SI", "Std.SI")
+               }
+               if (Std.SI > Max.Std.SI) {
+                 throwError("Max.Std.SI must be greater than Std.SI", "Max.Std.SI", FALSE) # Don't stop until next one
+                 throwError("Max.Std.SI must be greater than Std.SI", "Std.SI")
+               }
                TRUE
              },
              "7.4" = {TRUE},
@@ -377,12 +431,21 @@ shinyServer(function(input, output, session) {
                                                        header = input$SISampleHeader, sep = input$SISampleSep,
                                                        quote = input$SISampleQuote))
                n2 <<- input$n23
+               if (is.null(n2) | n2 < 1 | !is.integer(n2)) {
+                 throwError("n2 must be an integer greater than or equal to 1", "n23")
+               }
                TRUE
              },
              "8.4" = {
                Mean.SI <<- input$Mean.SI2
                Std.SI <<- input$Std.SI2
                method <<- "ParametricSI"
+               if (is.null(Mean.SI) | Mean.SI < 0) {
+                 throwError("Mean.SI must be an greater than or equal to 0", "Mean.SI2")
+               }
+               if (is.null(Std.SI) | Std.SI < 0) {
+                 throwError("Std.SI must be an greater than or equal to 0", "Std.SI2")
+               }
                TRUE
              },
              "8.5" = {TRUE},
@@ -400,6 +463,19 @@ shinyServer(function(input, output, session) {
                  init.pars <<- c(input$param1, input$param2)
                } else {
                  init.pars <<- init_MCMC_params(SI.Data, SI.parametricDistr)
+               }
+               
+               if (is.null(n1) | n1 < 1 | !is.integer(n1)) {
+                 throwError("n1 must be an integer greater than or equal to 1", "n12")
+               }
+               if (is.null(n2) | n2 < 1 | !is.integer(n2)) {
+                 throwError("n2 must be an integer greater than or equal to 1", "n22")
+               }
+               if (is.null(thin) | thin < 1 | !is.integer(thin)) {
+                 throwError("thin must be an integer greater than or equal to 1", "thin")
+               }
+               if (is.null(burnin) | burnin < 0 | !is.integer(burnin)) {
+                 throwError("burnin must be a non-negative integer", "burnin")
                }
                TRUE
              },
@@ -522,6 +598,11 @@ shinyServer(function(input, output, session) {
   
   handleError <- function(state, error) {
     #stop(error) #Uncomment in dev for detailed stack trace etc
+    if (error$message == "handled") {
+      # We've properly handled an error, and have used `stop("handled")` to stop the app. 
+      # Nothing should be done here in this case. 
+      return()
+    }
     values$status <- "ERROR"
     cat("There was an error in state", state, "\n")
     cat(error$message, "\n")
@@ -531,16 +612,14 @@ shinyServer(function(input, output, session) {
     switch(state,
            "2.1" = {
              if (error$message == "'file' must be a character string or connection") {
-               session$sendCustomMessage(type="errorBox", "incidenceData")
-               values$error <- "Please upload a file!"
+               throwError("Please upload a file", "incidenceData", FALSE)
              } else {
                info(error$message)
              }
            },
            "8.1" = {
              if (error$message == "The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate."){
-               session$sendCustomMessage(type="errorBox", "SIDist")
-               values$error <- "The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate. Please use a different SI distribution, or change your dataset"
+               throwError("The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate. Please use a different SI distribution, or change your dataset", "SIDist", FALSE)
              } else {
                info(error$message)
              }
@@ -548,6 +627,25 @@ shinyServer(function(input, output, session) {
            info(error$message) # Fallback to JS alert
     )
     return()
+  }
+  
+  throwError <- function(errorMessage, errorBoxName = NULL, error=TRUE) {
+    # Throws an error nicely. If you want to highlight a specific input in red, give the id
+    # of that input (found in ui.R) as errorBoxName. The errorMessage will be displayed 
+    # as some red text.
+    # The error argument should be set to false only by the handleError function above.
+    # Otherwise it should be set to true to stop execution (which will be happening inside a tryCatch)
+    if (!is.null(errorBoxName)) {
+      session$sendCustomMessage(type="errorBox", errorBoxName)
+    }
+    values$error <- errorMessage
+    enable("go")
+    hide("stop")
+    show("prev")
+    # Throw an error to actually stop the app, but say we've handled telling the client about the problem.
+    if (error) {
+      stop("handled")
+    }
   }
   
   session$onSessionEnded(function() {
