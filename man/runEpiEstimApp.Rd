@@ -4,15 +4,19 @@
 \alias{runEpiEstimApp}
 \title{Runs EpiEstimApp}
 \usage{
-runEpiEstimApp(port = 3000)
+runEpiEstimApp(port = 3000, ...)
 }
 \arguments{
 \item{port}{The port to run on. Defaults to 3000.}
+
+\item{...}{Additional arguments}
 }
 \description{
 This function runs EpiEstimApp
 }
 \examples{
+\dontrun{
 runEpiEstimApp()
+}
 }
 \keyword{run}
