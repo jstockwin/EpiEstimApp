@@ -2,7 +2,6 @@ dist: trusty
 language: r
 cache: packages
 r:
-  - oldrel
   - release
   - devel
 notifications:
