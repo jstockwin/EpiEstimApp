@@ -2,8 +2,9 @@ dist: trusty
 language: r
 cache: packages
 r:
-  - release
-  - devel
+- release
+- devel
 notifications:
   email: false
-
+  slack:
+    secure: dtLE+Wz+Oqu1/avdjm4uHQ/DQ6CfEM6LyGaWPdFnyVe+5JtXzeQhwJefp57UKwoNXACCIsuhha0lFFxz/rtLlvRTfRAln2PwwEqc6KTQH/PjP0v21BeFKOdAG+jkutzZM1l6KZQPu2eFDFP/qKraS3lHDSTcwhv1faxxD89oQkC/Y0pOFUgIa+giRB55Vu1UIMixLi9hSUFa+M6NJaO5OsVrmriLGZJi9G7jee2S3b80yUoW2qKRYZgM5uvJmdkW4iujUMNCQjOWP7Hz+DlarJPMNz3+BNs89RjHkJ5vxlQ+ttbdtyrzFxNVot+zhuoXQnYYtBnDPN6IjRT6JXRLpukgWVfl5JKGnTXK+BgFzPtE3cIXeNa6MUUUMNUt82JSH/g8OTG2xsxEeeMiDxahoubYMWcqow0sBMxleD0RN3/vbcKF/NPzifVK1RYUcAnZYwN2QQNuDYmyF0SthP6cT3d1JhgOdZbqkgkgMtpe/DF0qymaYuXfrdix21IMDI1Zvxuq9M7dofvvZi8hmyexIhQABdmr9Vop4zFaeXJsHTk3ao6qqfnjRwiqrthdH2DoBP84FXQGy8nwr/WqiyPXqHiiNRfORqWamDylKsdoijfWIXW7zI+kJnmMo4B9KEgZS9/974ZaW3RrFWliNYOsC5uPyy+7AKFzL0i2XXhdNIc=
