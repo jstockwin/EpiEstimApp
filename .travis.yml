@@ -4,6 +4,10 @@ cache: packages
 r:
 - release
 - devel
+after_install:
+- R -e "EpiEstimApp::runEpiEstimApp()" > out.txt 2>&1 &
+after_failure:
+- cat out.txt
 notifications:
   email: false
   slack:
