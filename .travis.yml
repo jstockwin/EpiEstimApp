@@ -4,7 +4,7 @@ cache: packages
 r:
 - release
 - devel
-after_install:
+before_script:
 - R -e "EpiEstimApp::runEpiEstimApp()" > out.txt 2>&1 &
 after_failure:
 - cat out.txt
