@@ -1,8 +1,5 @@
-library(devtools)
-install_github("nickreich/coarseDataTools", ref = "hackout3")
 library(coarseDataTools)
 library(MCMCpack)
-install_github('annecori/EpiEstim', ref = "hackout3")
 library(EpiEstim)
 library(shiny)
 library(shinyjs)

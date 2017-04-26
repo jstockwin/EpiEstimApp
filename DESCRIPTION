@@ -21,6 +21,9 @@ Imports:
     stats,
     future,
     devtools
+Remotes: 
+    annecori/EpiEstim@hackout3,
+    nickreich/coarseDataTools@hackout3
 Suggests:
     testthat,
     RSelenium
