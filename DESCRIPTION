@@ -7,7 +7,6 @@ Authors@R: person("Jake", "Stockwin", email = "jstockwin@gmail.com", role = c("c
 Description: This package adds a graphic interface (using R Shiny) around the
     EpiEstim package.
 BugReports: https://github.com/jstockwin/TransmissibilityEstimator/issues
-Depends: R (>= 3.3.2)
 Imports:
     shiny,
     MCMCpack,
