@@ -8,6 +8,8 @@ after_install:
 - R -e "EpiEstimApp::runEpiEstimApp()" > out.txt 2>&1 &
 after_failure:
 - cat out.txt
+addons:
+  sauce_connect: true
 notifications:
   email: false
   slack:
