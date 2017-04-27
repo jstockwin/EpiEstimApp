@@ -9,9 +9,6 @@ before_script:
 - R -e "devtools::install(); EpiEstimApp::runEpiEstimApp()" > out.txt 2>&1 &
 after_failure:
 - cat out.txt
-addons:
-  sauce_connect:
-    no_ssl_bump_domains: localhost
 notifications:
   email: false
   slack:

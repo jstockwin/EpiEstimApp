@@ -97,42 +97,8 @@ buildMatrix <- list(
 )
 
 getRemoteDriver <- function(name) {		
-  # Set's up sauce connect on travis, or if the		
-  # sauceUsername and sauceAccessKey are set in R		
-  # Otherwise attempts to connect to a local selenium server on		
-  # localhost:4444. Make sure you're running the app on		
-  # port 3000 in a different process: `R -e "shiny::runApp(port=3000)`.		
-  sauceLabs <- TRUE		
-  if (!exists("sauceUsername")) {		
-    if (Sys.getenv("SAUCE_USERNAME") != "") {		
-      user <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username		
-    } else {		
-      sauceLabs <- FALSE		
-    }		
-  } else {		
-    user <- sauceUsername		
-  }		
-  
-  if (!exists("sauceAccessKey")) {		
-    if (Sys.getenv("SAUCE_ACCESS_KEY") != "") {		
-      pass <- Sys.getenv("SAUCE_ACCESS_KEY") # Your Sauce Labs access key		
-    } else {		
-      sauceLabs <- FALSE		
-    }		
-  } else {		
-    pass <- sauceAccessKey		
-  }		
-  
-  if (sauceLabs) {		
-    port <- 4445 		
-    ip <- paste0(user, ':', pass, "@localhost")		
-    extraCapabilities <- list(name = name, username = user, accessKey = pass		
-                              , startConnect = FALSE, tunnelIdentifier = Sys.getenv("TRAVIS_JOB_NUMBER"))		
-    remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities		
-                              , browserName = "firefox", platform = "linux")		
-  } else {
-    rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, browser = "firefox")
+    # Sets up a phantomjs remote driver using rsDriver.
+    rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, browser = "phantomjs")
     remDr <- rDr$client
-  }		
   return(remDr)		
 } 
