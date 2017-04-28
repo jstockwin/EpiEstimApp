@@ -20,13 +20,15 @@ Imports:
     reshape2,
     stats,
     future,
-    devtools
+    devtools,
+    survival
 Remotes: 
     annecori/EpiEstim@hackout3,
     nickreich/coarseDataTools@hackout3
 Suggests:
     testthat,
-    RSelenium
+    RSelenium,
+    subprocess
 License: GPL (>=2)
 Encoding: UTF-8
 LazyData: true

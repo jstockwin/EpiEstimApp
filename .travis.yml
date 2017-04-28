@@ -5,10 +5,6 @@ cache:
 r:
 - release
 - devel
-before_script:
-- R -e "devtools::install(); EpiEstimApp::runEpiEstimApp()" > out.txt 2>&1 &
-after_failure:
-- cat out.txt
 notifications:
   email: false
   slack:
