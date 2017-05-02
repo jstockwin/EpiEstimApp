@@ -89,7 +89,9 @@ shinyServer(function(input, output, session) {
   SI.Sample.From.Data <- NULL
   convergenceCheck <- NULL
   seed <- 0
-  
+  Mean.Prior <- 5
+  Std.Prior <- 5
+
   # Clicking previous/next should increment the stateLevel
   observeEvent(input$nxt, {
     # WARNING: You probably want to avoid much logic here. Most of it should be in handleState() which is reactive. 
@@ -179,7 +181,8 @@ shinyServer(function(input, output, session) {
                 }
                 values$status <- "Running EstimateR..."
                 startAsyncDataLoad("epiEstimOutput", future({
-                  EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data, seed=seed)
+                  EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data, seed=seed,
+                            Mean.Prior=Mean.Prior, Std.Prior=Std.Prior)
                 }))
               }
             } else {
@@ -187,7 +190,7 @@ shinyServer(function(input, output, session) {
                 EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
                           Std.Mean.SI = Std.Mean.SI, Min.Mean.SI = Min.Mean.SI, Max.Mean.SI = Max.Mean.SI, Std.Std.SI = Std.Std.SI,
                           Min.Std.SI = Min.Std.SI, Max.Std.SI = Max.Std.SI, SI.Distr = SI.Distr, SI.Data = SI.Data, 
-                          SI.Sample = SI.Sample, plot = plot, seed=seed)
+                          SI.Sample = SI.Sample, plot = plot, seed=seed, Mean.Prior=Mean.Prior, Std.Prior=Std.Prior)
               }))
             }
           }
@@ -288,6 +291,8 @@ shinyServer(function(input, output, session) {
       switch(state,
              "1.1" = {
                seed <<- input$seed
+               Mean.Prior <<- input$Mean.Prior
+               Std.Prior <<- input$Std.Prior
                TRUE
              },
              "2.1" = {
