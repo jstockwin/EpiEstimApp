@@ -49,9 +49,15 @@ tool, the format or results generated from it.</p>
                         <p><a onclick="showAdvancedOptions()" href="#">Click here</a> to show advanced options</p>
                        '),
             div(id="AdvancedOptions", style="display: none",
-                numericInput("seed", value=NULL, min=0, label="Seed (leave blank for random)"),
-                numericInput("Mean.Prior", value=5, min=0, label="Prior Mean"),
-                numericInput("Std.Prior", value=5, min=0, label="Prior Standard Deviation")
+                div(id="seedErrorBox", class="ErrorBox",
+                    numericInput("seed", value=NULL, min=0, label="Seed (leave blank for random)")
+                ),
+                div(id="Mean.PriorErrorBox", class="ErrorBox",
+                    numericInput("Mean.Prior", value=5, min=0, label="Prior Mean")
+                ),
+                div(id="Std.PriorErrorBox", class="ErrorBox",
+                    numericInput("Std.Prior", value=5, min=0, label="Prior Standard Deviation")
+                )
             )
 
          ),

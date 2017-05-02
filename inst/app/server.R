@@ -297,8 +297,22 @@ shinyServer(function(input, output, session) {
                } else {
                  seed <<- input$seed
                }
+               # Actually set the seed now, to check it's valid and throw error
+               # if not
+               tryCatch({
+                 set.seed(seed)
+               },
+               error = function(e) {
+                  throwError("Invalid seed", "seed")
+               })
                Mean.Prior <<- input$Mean.Prior
+               if (Mean.Prior < 0) {
+                 throwError("Mean.Prior must be non-negative", "Mean.Prior")
+               }
                Std.Prior <<- input$Std.Prior
+               if (Std.Prior <=0) {
+                 throwError("Std.Prior must be positive", "Std.Prior")
+               }
                TRUE
              },
              "2.1" = {
