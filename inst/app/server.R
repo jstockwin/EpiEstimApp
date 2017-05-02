@@ -323,19 +323,22 @@ shinyServer(function(input, output, session) {
              },
              "3.1" = {TRUE},
              "4.1" = {
+               IncidenceData <<- read.csv(input$incidenceData$datapath, 
+                                          header = input$incidenceHeader, sep = input$incidenceSep,
+                                          quote = input$incidenceQuote)
                ImportedData <- read.csv(input$importedData$datapath,
                                         header = input$importedHeader, sep = input$importedSep,
                                         quote = input$importedQuote)
-               ImportedData <- as.data.frame(ImportedData)
                if (dim(ImportedData)[1] != dim(IncidenceData)[1]) {
                  # Lengths don't match
                  stop("The 'all cases' and the 'imported' datasets are not of the same length")
                }
-               IncidenceData$imported <- ImportedData[,1]
+               IncidenceData$imported <<- ImportedData[,1]
+               colnames(IncidenceData) <<- c("local", "imported")
                
                # Currently the "local" column will be the total number of cases because of the way the app
                # is asking for inputs. Correct for this. 
-               IncidenceData$local = IncidenceData$local - IncidenceData$imported
+               IncidenceData$local <<- IncidenceData$local - IncidenceData$imported
                
                # Process Incidence data (using EpiEstim)
                IncidenceData <<- EpiEstim:::process_I(IncidenceData)
