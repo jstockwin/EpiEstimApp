@@ -78,8 +78,8 @@ tool, the format or results generated from it.</p>
                     # State 2.2
                     div(id="incidenceDatasetErrorBox", class="ErrorBox",
                       radioButtons('incidenceDataset', 'Choose your dataset',
-                                   c('PennsylvaniaH1N12009', 'RotavirusGermany',
-                                     'Flu1918', 'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972'))
+                                   c('PennsylvaniaH1N12009', 'Flu1918',
+                                   'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972'))
                     ),
                     div(id="incidenceWidthErrorBox", class="ErrorBox",
                       sliderInput('incidenceWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
@@ -143,7 +143,7 @@ tool, the format or results generated from it.</p>
                     # State 7.1
                     div(id="SIDatasetErrorBox", class="ErrorBox",
                       radioButtons('SIDataset', 'Choose your dataset',
-                                   c('PennsylvaniaH1N12009', 'RotavirusGermany'))
+                                   c('PennsylvaniaH1N12009'))
                     )
          )),
          hidden(div(id="7.2",
