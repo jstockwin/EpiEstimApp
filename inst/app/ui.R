@@ -49,7 +49,7 @@ tool, the format or results generated from it.</p>
                         <p><a onclick="showAdvancedOptions()" href="#">Click here</a> to show advanced options</p>
                        '),
             div(id="AdvancedOptions", style="display: none",
-                numericInput("seed", value=0, min=0, label="Seed"),
+                numericInput("seed", value=NULL, min=0, label="Seed (leave blank for random)"),
                 numericInput("Mean.Prior", value=5, min=0, label="Prior Mean"),
                 numericInput("Std.Prior", value=5, min=0, label="Prior Standard Deviation")
             )

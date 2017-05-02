@@ -88,7 +88,7 @@ shinyServer(function(input, output, session) {
   thin <- NULL
   SI.Sample.From.Data <- NULL
   convergenceCheck <- NULL
-  seed <- 0
+  seed <- NULL
   Mean.Prior <- 5
   Std.Prior <- 5
 
@@ -184,7 +184,7 @@ shinyServer(function(input, output, session) {
                   EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data, seed=seed,
                             Mean.Prior=Mean.Prior, Std.Prior=Std.Prior)
                 }))
-              }
+             }
             } else {
               startAsyncDataLoad("epiEstimOutput", future({
                 EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
@@ -290,7 +290,13 @@ shinyServer(function(input, output, session) {
     tryCatch({
       switch(state,
              "1.1" = {
-               seed <<- input$seed
+               if (is.na(input$seed) | is.null(input$seed)) {
+                 # Set a random seed
+                 t <- as.numeric(Sys.time())
+                 seed <<- 1e8 * (t - floor(t))
+               } else {
+                 seed <<- input$seed
+               }
                Mean.Prior <<- input$Mean.Prior
                Std.Prior <<- input$Std.Prior
                TRUE
