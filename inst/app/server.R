@@ -224,7 +224,9 @@ shinyServer(function(input, output, session) {
   
   output$incidenceDataOutput <- renderTable({
     if (!is.null(asyncData$epiEstimOutput)) {
-      asyncData$epiEstimOutput$I
+        local <- asyncData$epiEstimOutput$I_local
+        imported <- asyncData$epiEstimOutput$I_imported
+        data.frame(local, imported)
     }
   })
   
@@ -232,7 +234,10 @@ shinyServer(function(input, output, session) {
     filename = function() {"IncidenceData.csv"},
     content = function(file) {
       if(!is.null(asyncData$epiEstimOutput)) {
-        write.csv(asyncData$epiEstimOutput$I, file, row.names=F)
+        local <- asyncData$epiEstimOutput$I_local
+        imported <- asyncData$epiEstimOutput$I_imported
+        dat <- data.frame(local, imported)
+        write.csv(dat, file, row.names=F)
       }
     }
   )
