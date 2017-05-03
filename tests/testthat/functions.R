@@ -98,7 +98,8 @@ buildMatrix <- list(
 
 getRemoteDriver <- function(name) {		
     # Sets up a phantomjs remote driver using rsDriver.
-    rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, browser = "phantomjs")
+    rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, browser = "phantomjs"
+                   , chromever = NULL, geckover = NULL)
     remDr <- rDr$client
   return(remDr)		
 } 
