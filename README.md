@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jstockwin/EpiEstimApp.svg?branch=master)](https://travis-ci.org/jstockwin/EpiEstimApp)
+
 # TransmissibilityEstimator
 
 This application estimates disease transmissibility from incidence time series and time-censored serial interval data. 
