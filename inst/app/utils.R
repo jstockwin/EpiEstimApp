@@ -12,10 +12,6 @@ getSerialIntervalData <- function (data) {
     serialIntervalData <- read.table('dataset/SerialIntervalDatas/PennsylvaniaH1N12009SerialIntervalData.csv',
                                   header = F, sep=',')
     return(serialIntervalData)
-  } else if (data == 'RotavirusGermany') {
-    serialIntervalData <- read.table('datasets/SerialIntervalData/RotavirusEcuadorSIData.csv',
-                                  header = F, sep=',')
-    return(serialIntervalData)
   } else {
     return(NULL)
   }
@@ -32,10 +28,6 @@ getIncidenceData <- function (data, alldatasets) {
     incidenceData <- read.table('datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv',
                                   header = F, sep=',')
     return(incidenceData)
-  } else if (data == 'RotavirusGermany') {
-    incidenceData <- read.table('datasets/IncidenceData/GermanyRotavirus1516.csv',
-                                  header = F, sep=',')
-    return(incidenceData)
   } else {
     return(NULL)
   }
@@ -46,13 +38,6 @@ getIncidenceData <- function (data, alldatasets) {
 getSISamples <- function (data, SIDist) {
   if (data == 'PennsylvaniaH1N12009') {
     samples <- read.table((paste('datasets/SIPosteriorSamples/pennsylvaniaH1N12009_SISamples_', SIDist, '.csv', sep='')),
-                          header=F, sep=',')
-    samples <- as.matrix(samples)
-  } else if (data == 'RotavirusGermany') {
-    if (SIDist %in% c("off1G", "off1W", "off1L")) {
-      stop('The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate.')
-    }
-    samples <- read.table((paste('datasets/SIPosteriorSamples/rotavirus_SISamples_', SIDist, '.csv', sep='')),
                           header=F, sep=',')
     samples <- as.matrix(samples)
   } else {
