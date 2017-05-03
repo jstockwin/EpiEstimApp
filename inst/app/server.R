@@ -88,7 +88,10 @@ shinyServer(function(input, output, session) {
   thin <- NULL
   SI.Sample.From.Data <- NULL
   convergenceCheck <- NULL
-  
+  seed <- NULL
+  Mean.Prior <- 5
+  Std.Prior <- 5
+
   # Clicking previous/next should increment the stateLevel
   observeEvent(input$nxt, {
     # WARNING: You probably want to avoid much logic here. Most of it should be in handleState() which is reactive. 
@@ -146,7 +149,7 @@ shinyServer(function(input, output, session) {
             startAsyncDataLoad("mcmc_samples", future({
               capture.output(
               samples <- dic.fit.mcmc(dat=SI.Data, dist=SI.parametricDistr, init.pars = init.pars, burnin=burnin, n.samples=n1*thin, 
-                           verbose=floor(total.samples.needed/100))@samples
+                           verbose=floor(total.samples.needed/100), seed=seed)@samples
               , file=paste("progress/", id, "-progress.txt", sep=""))
               file.remove(paste("progress/", id, "-progress.txt", sep=""))
               return(samples)
@@ -178,15 +181,16 @@ shinyServer(function(input, output, session) {
                 }
                 values$status <- "Running EstimateR..."
                 startAsyncDataLoad("epiEstimOutput", future({
-                  EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data)
+                  EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data, seed=seed,
+                            Mean.Prior=Mean.Prior, Std.Prior=Std.Prior)
                 }))
-              }
+             }
             } else {
               startAsyncDataLoad("epiEstimOutput", future({
                 EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
                           Std.Mean.SI = Std.Mean.SI, Min.Mean.SI = Min.Mean.SI, Max.Mean.SI = Max.Mean.SI, Std.Std.SI = Std.Std.SI,
                           Min.Std.SI = Min.Std.SI, Max.Std.SI = Max.Std.SI, SI.Distr = SI.Distr, SI.Data = SI.Data, 
-                          SI.Sample = SI.Sample, plot = plot)
+                          SI.Sample = SI.Sample, plot = plot, seed=seed, Mean.Prior=Mean.Prior, Std.Prior=Std.Prior)
               }))
             }
           }
@@ -290,7 +294,32 @@ shinyServer(function(input, output, session) {
     values$status = "Processing..."
     tryCatch({
       switch(state,
-             "1.1" = {TRUE},
+             "1.1" = {
+               if (is.na(input$seed) | is.null(input$seed)) {
+                 # Set a random seed
+                 t <- as.numeric(Sys.time())
+                 seed <<- 1e8 * (t - floor(t))
+               } else {
+                 seed <<- input$seed
+               }
+               # Actually set the seed now, to check it's valid and throw error
+               # if not
+               tryCatch({
+                 set.seed(seed)
+               },
+               error = function(e) {
+                  throwError("Invalid seed", "seed")
+               })
+               Mean.Prior <<- input$Mean.Prior
+               if (Mean.Prior < 0) {
+                 throwError("Mean.Prior must be non-negative", "Mean.Prior")
+               }
+               Std.Prior <<- input$Std.Prior
+               if (Std.Prior <=0) {
+                 throwError("Std.Prior must be positive", "Std.Prior")
+               }
+               TRUE
+             },
              "2.1" = {
                # Handle uploaded data:
                IncidenceData <<- read.csv(input$incidenceData$datapath, 

@@ -43,7 +43,23 @@ tool, the format or results generated from it.</p>
              div(id="incidenceDataTypeErrorBox", class="ErrorBox",
                radioButtons('incidenceDataType', 'Do you want to use pre-loaded incidence time series data or upload your own?',
                             c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
-             )
+             ),
+             tags$hr(),
+             HTML('
+                        <p><a onclick="showAdvancedOptions()" href="#">Click here</a> to show advanced options</p>
+                       '),
+            div(id="AdvancedOptions", style="display: none",
+                div(id="seedErrorBox", class="ErrorBox",
+                    numericInput("seed", value=NULL, min=0, label="Seed (leave blank for random)")
+                ),
+                div(id="Mean.PriorErrorBox", class="ErrorBox",
+                    numericInput("Mean.Prior", value=5, min=0, label="Prior Mean")
+                ),
+                div(id="Std.PriorErrorBox", class="ErrorBox",
+                    numericInput("Std.Prior", value=5, min=0, label="Prior Standard Deviation")
+                )
+            )
+
          ),
          hidden(div(id="2.1",
                     # State 2.1
