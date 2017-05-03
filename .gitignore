@@ -6,3 +6,5 @@
 .RData
 mcmc-progress/*
 *.swp
+*.log
+
