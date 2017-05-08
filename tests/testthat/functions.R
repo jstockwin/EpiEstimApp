@@ -7,14 +7,7 @@ library(RSelenium)
 allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
               "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
 appUrl="http://localhost:3000"
-
-xpaths <- list(
-               nextButton="//div[@id='control']/button[@id='nxt']",
-               prevButton="//div[@id='control']/button[@id='prev']",
-               stopButton="//div[@id='control']/button[@id='stop']",
-               goButton="//div[@id='control']/button[@id='go']",
-               errorMessage="//div[@id='control']/div[@id='error']"
-               )
+source("pageObjects.R", local=TRUE)
 
 findElem <- function(remDr, selector, using="xpath") {
   # Used instead of remDr$findElement(using="xpath", selector)
@@ -67,8 +60,7 @@ waitForElemDisplayed <- function(remDr, selector, timeout=10) {
 connectToApp <- function(remDr) {
   # Navigates to the app, checks the title appears.
   remDr$navigate(appUrl)
-  titleElem <- findElem(remDr, "//div[@id='incidenceTitle']")
-  title <- titleElem$getElementText()[[1]]
+  title <- getText(remDr, pages$common$selectors$incidenceTitle)
   expect_equal(title, "Incidence Data")
 }
 
@@ -77,8 +69,7 @@ waitForAppReady <- function(remDr, timeout=30) {
   initialising = TRUE
   tries=0
   while (initialising & tries < timeout) {
-    statusSelector <- "//div[@id='status']"
-    status <- getText(remDr, statusSelector)
+    status <- getText(remDr, pages$common$selectors$statusBar)
     if (status == "Initialising...") {
       tries = tries + 1
       Sys.sleep(1)
@@ -91,7 +82,7 @@ waitForAppReady <- function(remDr, timeout=30) {
 
 checkDisplayedState <- function(remDr, expectedState) {
   # Checks that only expectedState is displayed.
-  
+
   # Expected state should be displayed
   selector <- paste("//div[@id='", expectedState, "']", sep="")
   expect_true(isDisplayed(remDr, selector))

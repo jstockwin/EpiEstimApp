@@ -23,10 +23,10 @@ tryCatch({
 
   test_that("incidence data type buttons are displaying correctly", {
     # Check the div is displaying
-    expect_true(isDisplayed(remDr, "//div[@id='incidenceDataType']"))
+    expect_true(isDisplayed(remDr, pages$state1.1$selectors$incidenceDataType))
     # Check the label is correct
-    expect_true(isDisplayed(remDr, "//div[@id='incidenceDataType']"))
-    expect_equal(getText(remDr, "//div[@id='incidenceDataType']/label"),
+    expect_true(isDisplayed(remDr, pages$state1.1$selectors$incidenceDataTypeLabel))
+    expect_equal(getText(remDr, pages$state1.1$selectors$incidenceDataTypeLabel),
                  "Do you want to use pre-loaded incidence time series data or upload your own?")
     # Check the first radio input button (pre-loaded option)
     selector <- "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][1]"
@@ -39,17 +39,17 @@ tryCatch({
   })
 
   test_that("relevant control buttons are displayed", {
-    expect_false(isDisplayed(remDr, xpaths$stopButton))
-    expect_true(isDisplayed(remDr, xpaths$prevButton))
-    expect_false(isEnabled(remDr, xpaths$prevButton))
-    expect_true(isDisplayed(remDr, xpaths$nextButton))
-    expect_true(isEnabled(remDr, xpaths$nextButton))
-    expect_false(isDisplayed(remDr, xpaths$goButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
+    expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))
+    expect_false(isEnabled(remDr, pages$common$selectors$prevButton))
+    expect_true(isDisplayed(remDr, pages$common$selectors$nextButton))
+    expect_true(isEnabled(remDr, pages$common$selectors$nextButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$goButton))
   })
 
   test_that("no errors are displaying", {
-    expect_true(isDisplayed(remDr, xpaths$errorMessage))
-    expect_equal(getText(remDr, xpaths$errorMessage), "")
+    expect_true(isDisplayed(remDr, pages$common$selectors$errorMessage))
+    expect_equal(getText(remDr, pages$common$selectors$errorMessage), "")
   })
 },
 error = function(e) {
