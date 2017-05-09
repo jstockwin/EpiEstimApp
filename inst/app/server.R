@@ -334,7 +334,7 @@ shinyServer(function(input, output, session) {
                  throwError("The width must be smaller than the length of your incidence data", "uploadedWidth")
                  throwError("The width must be smaller than the length of your incidence data", "incidenceData")
                }
-               T.Start <<- 1:(length - W)
+               T.Start <<- 2:(length - W + 1)
                T.End <<- (1+W):length
                TRUE
              },
@@ -351,7 +351,7 @@ shinyServer(function(input, output, session) {
                  throwError("The width must be smaller than the length of your incidence data", "incidenceWidth", FALSE) # Don't stop until next one
                  throwError("The width must be smaller than the length of your incidence data", "incidenceData")
                }
-               T.Start <<- 1:(length - W)
+               T.Start <<- 2:(length - W + 1)
                T.End <<- (1+W):length
                TRUE
              },
