@@ -18,7 +18,7 @@ process_write(handle, "devtools::install_github('nickreich/coarseDataTools', ref
 process_write(handle, "devtools::install_github('annecori/EpiEstim', ref='hackout3')\n")
 process_write(handle, "EpiEstimApp::runEpiEstimApp()\n")
 cat("Giving app time to start...\n")
-Sys.sleep(10)
+Sys.sleep(30)
 cat("Running tests\n")
 tryCatch({
     test_check("EpiEstimApp")
