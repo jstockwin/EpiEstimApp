@@ -88,7 +88,8 @@ shinyServer(function(input, output, session) {
   thin <- NULL
   SI.Sample.From.Data <- NULL
   convergenceCheck <- NULL
-  seed <- NULL
+  requestedSeed <- NULL
+  requestedMCMCSeed <- NULL
   Mean.Prior <- 5
   Std.Prior <- 5
 
@@ -144,12 +145,31 @@ shinyServer(function(input, output, session) {
       # If Next is pressed twice without inputs changing, nothing will happen, but if anything you put here WILL get done.
       tryCatch({
         if (handleState()) {
+          # The following sets a seed randomly if no seed was requested.
+          # We're using the "requested" seed to ensure that if no seed is
+          # requested then a NEW random seed is chosen on EACH run.
+          if (is.null(requestedSeed) | is.na(requestedSeed)) {
+              t <- as.numeric(Sys.time())
+              seed <- 1e8 * (t - floor(t))
+          } else {
+              seed <- requestedSeed
+          }
+
           if (method=="SIFromData" && is.null(mcmc_samples)) {
             values$status <- "Running MCMC (0%)"
             startAsyncDataLoad("mcmc_samples", future({
+              # The following sets a seed randomly if no seed was requested.
+              # We're using the "requested" seed to ensure that if no seed is
+              # requested then a NEW random seed is chosen on EACH run.
+              if (is.null(requestedMCMCSeed) | is.na(requestedMCMCSeed)) {
+                  t <- as.numeric(Sys.time())
+                  MCMCSeed <- 1e8 * (t - floor(t))
+              } else {
+                  MCMCSeed <- requestedMCMCSeed
+              }
               capture.output(
               samples <- dic.fit.mcmc(dat=SI.Data, dist=SI.parametricDistr, init.pars = init.pars, burnin=burnin, n.samples=n1*thin, 
-                           verbose=floor(total.samples.needed/100), seed=seed)@samples
+                           verbose=floor(total.samples.needed/100), seed=MCMCSeed)@samples
               , file=paste("progress/", id, "-progress.txt", sep=""))
               file.remove(paste("progress/", id, "-progress.txt", sep=""))
               return(samples)
@@ -309,29 +329,6 @@ shinyServer(function(input, output, session) {
     tryCatch({
       switch(state,
              "1.1" = {
-               if (is.na(input$seed) | is.null(input$seed)) {
-                 # Set a random seed
-                 t <- as.numeric(Sys.time())
-                 seed <<- 1e8 * (t - floor(t))
-               } else {
-                 seed <<- input$seed
-               }
-               # Actually set the seed now, to check it's valid and throw error
-               # if not
-               tryCatch({
-                 set.seed(seed)
-               },
-               error = function(e) {
-                  throwError("Invalid seed", "seed")
-               })
-               Mean.Prior <<- input$Mean.Prior
-               if (Mean.Prior < 0) {
-                 throwError("Mean.Prior must be non-negative", "Mean.Prior")
-               }
-               Std.Prior <<- input$Std.Prior
-               if (Std.Prior <=0) {
-                 throwError("Std.Prior must be positive", "Std.Prior")
-               }
                TRUE
              },
              "2.1" = {
@@ -341,7 +338,6 @@ shinyServer(function(input, output, session) {
                                           quote = input$incidenceQuote)
                # Process Incidence data (see utils.R)
                IncidenceData <<- EpiEstim:::process_I(IncidenceData)
-               
                length <- dim(IncidenceData)[1]
                W <- input$uploadedWidth
                if (W >= length) {
@@ -350,6 +346,15 @@ shinyServer(function(input, output, session) {
                }
                T.Start <<- 2:(length - W + 1)
                T.End <<- (1+W):length
+
+               Mean.Prior <<- input$uploadedMeanPrior
+               if (Mean.Prior < 0) {
+                 throwError("Prior mean must be non-negative", "uploadedMeanPrior")
+               }
+               Std.Prior <<- input$uploadedStdPrior
+               if (Std.Prior <=0) {
+                 throwError("Prior standard deviation must be positive", "uploadedStdPrior")
+               }
                TRUE
              },
              "2.2" = {
@@ -367,6 +372,15 @@ shinyServer(function(input, output, session) {
                }
                T.Start <<- 2:(length - W + 1)
                T.End <<- (1+W):length
+
+               Mean.Prior <<- input$incidenceMeanPrior
+               if (Mean.Prior < 0) {
+                 throwError("Prior mean must be non-negative", "incidenceMeanPrior")
+               }
+               Std.Prior <<- input$incidenceStdPrior
+               if (Std.Prior <=0) {
+                 throwError("Prior standard deviation must be positive", "incidenceStdPrior")
+               }
                TRUE
              },
              "3.1" = {TRUE},
@@ -455,6 +469,17 @@ shinyServer(function(input, output, session) {
                  throwError("Max.Std.SI must be greater than Std.SI", "Max.Std.SI", FALSE) # Don't stop until next one
                  throwError("Max.Std.SI must be greater than Std.SI", "Std.SI")
                }
+
+               requestedSeed <<- input$uncertainSeed
+               if (!is.null(requestedSeed) & !is.na(requestedSeed)) {
+                   # Actually set the seed now, to check it's valid
+                   tryCatch({
+                       set.seed(requestedSeed)
+                   },
+                   error = function(e) {
+                       throwError("Invalid seed", "uncertainSeed")
+                   })
+               }
                TRUE
              },
              "7.4" = {TRUE},
@@ -472,6 +497,17 @@ shinyServer(function(input, output, session) {
                                               quote = input$SIQuote)
                # Process the data (see function in utils.R)
                SI.Data <<- EpiEstim:::process_SI.Data(serialIntervalData)
+
+               requestedSeed <<- input$uploadedSISeed
+               if (!is.null(requestedSeed) & !is.na(requestedSeed)) {
+                   # Actually set the seed now, to check it's valid
+                   tryCatch({
+                       set.seed(requestedSeed)
+                   },
+                   error = function(e) {
+                       throwError("Invalid seed", "uploadedSISeed")
+                   })
+               }
                TRUE
              },
              "8.3" = {
@@ -481,6 +517,16 @@ shinyServer(function(input, output, session) {
                n2 <<- input$n23
                if (is.null(n2) | n2 < 1 | !is.integer(n2)) {
                  throwError("n2 must be an integer greater than or equal to 1", "n23")
+               }
+               requestedSeed <<- input$SISampleSeed
+               if (!is.null(requestedSeed) & !is.na(requestedSeed)) {
+                   # Actually set the seed now, to check it's valid
+                   tryCatch({
+                       set.seed(requestedSeed)
+                   },
+                   error = function(e) {
+                       throwError("Invalid seed", "SISampleSeed")
+                   })
                }
                TRUE
              },
@@ -512,7 +558,7 @@ shinyServer(function(input, output, session) {
                } else {
                  init.pars <<- init_MCMC_params(SI.Data, SI.parametricDistr)
                }
-               
+
                if (is.null(n1) | n1 < 1 | !is.integer(n1)) {
                  throwError("n1 must be an integer greater than or equal to 1", "n12")
                }
@@ -524,6 +570,17 @@ shinyServer(function(input, output, session) {
                }
                if (is.null(burnin) | burnin < 0 | !is.integer(burnin)) {
                  throwError("burnin must be a non-negative integer", "burnin")
+               }
+
+               requestedMCMCSeed <<- input$MCMCSeed
+               if (!is.null(requestedMCMCSeed) & !is.na(requestedMCMCSeed)) {
+                   # Actually set the seed now, to check it's valid
+                   tryCatch({
+                       set.seed(requestedMCMCSeed)
+                   },
+                   error = function(e) {
+                       throwError("Invalid seed", "MCMCSeed")
+                   })
                }
                TRUE
              },

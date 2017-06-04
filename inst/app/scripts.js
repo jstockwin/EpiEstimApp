@@ -24,6 +24,3 @@ showMCMCParams = function() {
   document.getElementById('MCMCInitialParams').style.display='';
 };
 
-showAdvancedOptions = function() {
-    document.getElementById('AdvancedOptions').style.display='';
-}
