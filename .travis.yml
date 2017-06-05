@@ -4,7 +4,6 @@ cache:
 - packages
 r:
 - release
-- devel
 notifications:
   email: false
   slack:
