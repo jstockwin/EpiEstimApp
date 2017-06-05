@@ -230,6 +230,10 @@ shinyServer(function(input, output, session) {
     if (!is.null(asyncData$epiEstimOutput)) {
         local <- asyncData$epiEstimOutput$I_local
         imported <- asyncData$epiEstimOutput$I_imported
+        values$status <- "Ready"
+        show("prev")
+        hide("stop")
+        enable("go")
         data.frame(local, imported)
     }
   })
@@ -258,12 +262,22 @@ shinyServer(function(input, output, session) {
   output$estimatedROutput <- renderTable({
     if (!is.null(asyncData$epiEstimOutput)) {
       asyncData$epiEstimOutput$R
+      values$status <- "Ready"
+      show("prev")
+      hide("stop")
+      enable("go")
+      data.frame(local, imported)
     }
   })
   
   output$serialIntervalOutput <- renderTable({
     if (!is.null(asyncData$epiEstimOutput)) {
       asyncData$epiEstimOutput$SI.Distr
+      values$status <- "Ready"
+      show("prev")
+      hide("stop")
+      enable("go")
+      data.frame(local, imported)
     }
   })
   
