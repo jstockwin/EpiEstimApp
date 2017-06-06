@@ -543,7 +543,30 @@ shinyServer(function(input, output, session) {
                if (is.null(burnin) | burnin < 0 | !is.integer(burnin)) {
                  throwError("burnin must be a non-negative integer", "burnin")
                }
-               TRUE
+
+               # MCMC LIMITING:
+               # We don't want too many of our cores invested in running MCMC.
+               # If all cores are in use, the app will lock up for ALL USERS.
+               # To deal with this, we will limit the number of cores used for
+               # MCMC.
+               cores <- future::availableCores()
+               currentMCMC <- length(list.files(path=mcmcPidFolder))
+               if (currentMCMC >= ceiling(cores/2)) {
+                 alert(paste("ERROR: SERVER BUSY\n",
+                      "Unfortunately the maximum number of MCMC processes are",
+                      "already running on this server. This is probably because",
+                      "other users are also running MCMC. Please try again later.\n",
+                      "Alternatively, please install EpiEstimApp on your computer",
+                      "and run your own instance.", sep=""))
+                 values$status <- "SERVER BUSY"
+                 hide("stop")
+                 enable("go")
+                 show("prev")
+                 enable("prev")
+                 FALSE
+               } else {
+                 TRUE
+               }
              },
              "9.2" = {
                method <<- "NonParametricSI"
@@ -655,7 +678,7 @@ shinyServer(function(input, output, session) {
     
     # If MCMC is being run, we should check on progress.
     if (method == "SIFromData") {
-      prog <- getMCMCProgress(paste("progress/", id, "-progress.txt", sep=""))
+      prog <- getMCMCProgress(progressFile)
       if (prog > 0 & prog < total.samples.needed) {
         values$status <- paste("Running MCMC (", floor(100*prog/total.samples.needed), "%)", sep="")
       }
