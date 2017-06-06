@@ -41,6 +41,16 @@ allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.
 
 finalStates = c("8.1", "9.1", "8.3", "7.3", "8.4", "9.2", "9.3")
 
+# If the app has crashed we may be left with MCMC progress files, which would
+# throw off our counts of how many MCMC processes are running. 
+# To be sure this doesn't happen, we will clear the repsective folders
+# when this happens.
+mcmcProgressFolder <- "mcmc-progress/progress/"
+mcmcPidFolder <- "mcmc-progress/pid/"
+
+file.remove(paste(mcmcProgressFolder, list.files(path=mcmcProgressFolder), sep=""))
+file.remove(paste(mcmcPidFolder, list.files(path=mcmcPidFolder), sep=""))
+
 shinyServer(function(input, output, session) {
   # DEBUG
   #observe({
@@ -52,6 +62,8 @@ shinyServer(function(input, output, session) {
   t <- as.numeric(Sys.time())
   id <- 1e8 * (t - floor(t))
   id <- gsub("\\.", "-", as.character(id))
+  progressFile <- paste(mcmcProgressFolder, id, "-progress.txt", sep="")
+  pidFile <- paste(mcmcPidFolder, id, "-pid.txt", sep="")
   values <- reactiveValues(state="1.1", status="Ready", error = NULL)
   enable("nxt") # Enable next button when initial load is done.
   
@@ -147,11 +159,17 @@ shinyServer(function(input, output, session) {
           if (method=="SIFromData" && is.null(mcmc_samples)) {
             values$status <- "Running MCMC (0%)"
             startAsyncDataLoad("mcmc_samples", future({
+              if (.Platform$OS.type == "unix") {
+                write(Sys.getpid(), file=pidFile)
+              }
               capture.output(
               samples <- dic.fit.mcmc(dat=SI.Data, dist=SI.parametricDistr, init.pars = init.pars, burnin=burnin, n.samples=n1*thin, 
                            verbose=floor(total.samples.needed/100), seed=seed)@samples
-              , file=paste("progress/", id, "-progress.txt", sep=""))
-              file.remove(paste("progress/", id, "-progress.txt", sep=""))
+              , file=progressFile)
+              file.remove(progressFile)
+              if (.Platform$OS.type == "unix") {
+                file.remove(pidFile)
+              }
               return(samples)
             }))
           } else {
@@ -702,6 +720,15 @@ shinyServer(function(input, output, session) {
   
   observeEvent(input$stop, {
     checkAsyncDataBeingLoaded$suspend()
+    if(file.exists(pidFile)) {
+      # MCMC is running (on unix), kill it.
+      pid <- read.csv(pidFile, header=FALSE)
+      tools::pskill(pid)
+      file.remove(pidFile)
+    }
+    if(file.exists(progressFile)) {
+      file.remove(progressFile)
+    }
     hide("stop")
     enable("go")
     show("prev")

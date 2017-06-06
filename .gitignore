@@ -4,4 +4,4 @@
 .Rproj.user
 .Rhistory
 .RData
-progress/*
+mcmc-progress/*
