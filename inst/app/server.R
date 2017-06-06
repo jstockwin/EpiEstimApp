@@ -490,6 +490,16 @@ shinyServer(function(input, output, session) {
                                               quote = input$SIQuote)
                # Process the data (see function in utils.R)
                SI.Data <<- EpiEstim:::process_SI.Data(serialIntervalData)
+               # Throw a warning about MCMC locking up app if only 1 core
+               if (future::availableCores() == 1) {
+                 alert(paste("WARNING:\n", "Your machine only has 1 core",
+                             "available for EpiEstimApp to use. This means",
+                             "that we cannot run MCMC in a separate process",
+                             "which will cause the app to lock up while you run",
+                             "MCMC. You may still run MCMC, however the app will",
+                             "become completely unresponsive while MCMC is running,",
+                             "which may take quite some time.", sep=""))
+               }
                TRUE
              },
              "8.3" = {
