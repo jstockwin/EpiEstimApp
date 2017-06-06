@@ -539,6 +539,7 @@ shinyServer(function(input, output, session) {
                              "MCMC. You may still run MCMC, however the app will",
                              "become completely unresponsive while MCMC is running,",
                              "which may take quite some time.", sep=""))
+               }
                TRUE
              },
              "8.3" = {
