@@ -43,23 +43,7 @@ tool, the format or results generated from it.</p>
              div(id="incidenceDataTypeErrorBox", class="ErrorBox",
                radioButtons('incidenceDataType', 'Do you want to use pre-loaded incidence time series data or upload your own?',
                             c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
-             ),
-             tags$hr(),
-             HTML('
-                        <p><a onclick="showAdvancedOptions()" href="#">Click here</a> to show advanced options</p>
-                       '),
-            div(id="AdvancedOptions", style="display: none",
-                div(id="seedErrorBox", class="ErrorBox",
-                    numericInput("seed", value=NULL, min=0, label="Seed (leave blank for random)")
-                ),
-                div(id="Mean.PriorErrorBox", class="ErrorBox",
-                    numericInput("Mean.Prior", value=5, min=0, label="Prior Mean")
-                ),
-                div(id="Std.PriorErrorBox", class="ErrorBox",
-                    numericInput("Std.Prior", value=5, min=0, label="Prior Standard Deviation")
-                )
-            )
-
+             )
          ),
          hidden(div(id="2.1",
                     # State 2.1
@@ -88,6 +72,12 @@ tool, the format or results generated from it.</p>
                                  ''),
                     div(id="uploadedWidthErrorBox", class="ErrorBox",
                       sliderInput('uploadedWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
+                    ),
+                    div(id="uploadedMeanPriorErrorBox", class="ErrorBox",
+                        numericInput("uploadedMeanPrior", "Choose the prior for the mean", value=5, min=0)
+                    ),
+                    div(id="uploadedStdPriorErrorBox", class="ErrorBox",
+                        numericInput("uploadedStdPrior", "Choose the prior for the standard deviation", value=5, min=0)
                     )
          )),
          hidden(div(id="2.2",
@@ -99,6 +89,12 @@ tool, the format or results generated from it.</p>
                     ),
                     div(id="incidenceWidthErrorBox", class="ErrorBox",
                       sliderInput('incidenceWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
+                    ),
+                    div(id="incidenceMeanPriorErrorBox", class="ErrorBox",
+                        numericInput("incidenceMeanPrior", "Choose the prior for the mean", value=5, min=0)
+                    ),
+                    div(id="incidenceStdPriorErrorBox", class="ErrorBox",
+                        numericInput("incidenceStdPrior", "Choose the prior for the standard deviation", value=5, min=0)
                     )
          )),
          hidden(div(id="3.1", 
@@ -202,6 +198,9 @@ tool, the format or results generated from it.</p>
                     ),
                     div(id="Max.Std.SIErrorBox", class="ErrorBox",
                       numericInput('Max.Std.SI', 'Max.Std.SI', value=3, min=1)
+                    ),
+                    div(id="uncertainSeedErrorBox", class="ErrorBox",
+                        numericInput("uncertainSeed", "Set a seed to be used by EpiEstim. A random one will be chosen this is left blank", value=NULL)
                     )
          )),
          hidden(div(id="7.4",
@@ -248,7 +247,10 @@ tool, the format or results generated from it.</p>
                                  c(None='',
                                    'Double Quote'='"',
                                    'Single Quote'="'"),
-                                 '')
+                                 ''),
+                    div(id="uploadedSISeedErrorBox", class="ErrorBox",
+                        numericInput("uploadedSISeed", "Set a seed to be used by EpiEstim. A random one will be chosen this is left blank", value=NULL)
+                    )
          )),
          hidden(div(id="8.3",
                     # State 8.3
@@ -277,6 +279,9 @@ tool, the format or results generated from it.</p>
                                  ''),
                     div(id="n23ErrorBox", class="ErrorBox",
                       numericInput('n23', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
+                    ),
+                    div(id="SISampleSeedErrorBox", class="ErrorBox",
+                        numericInput("SISampleSeed", "Set a seed to be used by EpiEstim. A random one will be chosen this is left blank", value=NULL)
                     )
          )),
          hidden(div(id="8.4",
@@ -320,7 +325,9 @@ tool, the format or results generated from it.</p>
                     div(id="n22ErrorBox", class="ErrorBox",
                       numericInput('n22', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
                     ),
-                    tags$hr(),
+                    div(id="MCMCSeedErrorBox", class="ErrorBox",
+                        numericInput("MCMCSeed", "Set a seed to be used by EpiEstim. A random one will be chosen this is left blank", value=NULL)
+                    ),
                     HTML('
                                  <p>If you would like to use your own initialisation parameters for MCMC <a onClick="showMCMCParams()">click here</a>. Otherwise, a smart choice will be made by EpiEstim, which should work in most cases.</p>
                             '),
@@ -336,7 +343,6 @@ tool, the format or results generated from it.</p>
                           numericInput('param2', 'Choose the value of param2', min=0, value='')
                         )
                     )
-                    
          )),
          hidden(div(id="9.2",
                     # State 9.2    
