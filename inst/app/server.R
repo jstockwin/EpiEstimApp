@@ -716,6 +716,15 @@ shinyServer(function(input, output, session) {
   
   session$onSessionEnded(function() {
     checkAsyncDataBeingLoaded$suspend()
+    if(file.exists(pidFile)) {
+      # MCMC is running (on unix), kill it.
+      pid <- read.csv(pidFile, header=FALSE)
+      tools::pskill(pid)
+      file.remove(pidFile)
+    }
+    if(file.exists(progressFile)) {
+      file.remove(progressFile)
+    }
   })
   
   observeEvent(input$stop, {
