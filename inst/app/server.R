@@ -41,6 +41,20 @@ allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.
 
 finalStates = c("8.1", "9.1", "8.3", "7.3", "8.4", "9.2", "9.3")
 
+# If the app has crashed we may be left with MCMC progress files, which would
+# throw off our counts of how many MCMC processes are running. 
+# To be sure this doesn't happen, we will clear the repsective folders
+# when this happens.
+mcmcProgressFolder <- "mcmc-progress/progress/"
+mcmcPidFolder <- "mcmc-progress/pid/"
+
+if (length(list.files(path=mcmcProgressFolder)) > 0) {
+  file.remove(paste(mcmcProgressFolder, list.files(path=mcmcProgressFolder), sep=""))
+}
+if (length(list.files(path=mcmcPidFolder)) > 0) {
+  file.remove(paste(mcmcPidFolder, list.files(path=mcmcPidFolder), sep=""))
+}
+
 shinyServer(function(input, output, session) {
   # DEBUG
   #observe({
@@ -52,6 +66,8 @@ shinyServer(function(input, output, session) {
   t <- as.numeric(Sys.time())
   id <- 1e8 * (t - floor(t))
   id <- gsub("\\.", "-", as.character(id))
+  progressFile <- paste(mcmcProgressFolder, id, "-progress.txt", sep="")
+  pidFile <- paste(mcmcPidFolder, id, "-pid.txt", sep="")
   values <- reactiveValues(state="1.1", status="Ready", error = NULL)
   enable("nxt") # Enable next button when initial load is done.
   
@@ -167,11 +183,17 @@ shinyServer(function(input, output, session) {
               } else {
                   MCMCSeed <- requestedMCMCSeed
               }
+              if (.Platform$OS.type == "unix") {
+                write(Sys.getpid(), file=pidFile)
+              }
               capture.output(
               samples <- dic.fit.mcmc(dat=SI.Data, dist=SI.parametricDistr, init.pars = init.pars, burnin=burnin, n.samples=n1*thin, 
                            verbose=floor(total.samples.needed/100), seed=MCMCSeed)@samples
-              , file=paste("progress/", id, "-progress.txt", sep=""))
-              file.remove(paste("progress/", id, "-progress.txt", sep=""))
+              , file=progressFile)
+              file.remove(progressFile)
+              if (.Platform$OS.type == "unix") {
+                file.remove(pidFile)
+              }
               return(samples)
             }))
           } else {
@@ -497,7 +519,6 @@ shinyServer(function(input, output, session) {
                                               quote = input$SIQuote)
                # Process the data (see function in utils.R)
                SI.Data <<- EpiEstim:::process_SI.Data(serialIntervalData)
-
                requestedSeed <<- input$uploadedSISeed
                if (!is.null(requestedSeed) & !is.na(requestedSeed)) {
                    # Actually set the seed now, to check it's valid
@@ -507,6 +528,17 @@ shinyServer(function(input, output, session) {
                    error = function(e) {
                        throwError("Invalid seed", "uploadedSISeed")
                    })
+
+               }
+               # Throw a warning about MCMC locking up app if only 1 core
+               if (future::availableCores() == 1) {
+                 alert(paste("WARNING:\n", "Your machine only has 1 core",
+                             "available for EpiEstimApp to use. This means",
+                             "that we cannot run MCMC in a separate process",
+                             "which will cause the app to lock up while you run",
+                             "MCMC. You may still run MCMC, however the app will",
+                             "become completely unresponsive while MCMC is running,",
+                             "which may take quite some time.", sep=""))
                }
                TRUE
              },
@@ -572,7 +604,7 @@ shinyServer(function(input, output, session) {
                  throwError("burnin must be a non-negative integer", "burnin")
                }
 
-               requestedMCMCSeed <<- input$MCMCSeed
+              requestedMCMCSeed <<- input$MCMCSeed
                if (!is.null(requestedMCMCSeed) & !is.na(requestedMCMCSeed)) {
                    # Actually set the seed now, to check it's valid
                    tryCatch({
@@ -582,7 +614,29 @@ shinyServer(function(input, output, session) {
                        throwError("Invalid seed", "MCMCSeed")
                    })
                }
-               TRUE
+               # MCMC LIMITING:
+               # We don't want too many of our cores invested in running MCMC.
+               # If all cores are in use, the app will lock up for ALL USERS.
+               # To deal with this, we will limit the number of cores used for
+               # MCMC.
+               cores <- future::availableCores()
+               currentMCMC <- length(list.files(path=mcmcPidFolder))
+               if (currentMCMC >= ceiling(cores/2)) {
+                 alert(paste("ERROR: SERVER BUSY\n",
+                      "Unfortunately the maximum number of MCMC processes are",
+                      "already running on this server. This is probably because",
+                      "other users are also running MCMC. Please try again later.\n",
+                      "Alternatively, please install EpiEstimApp on your computer",
+                      "and run your own instance.", sep=""))
+                 values$status <- "SERVER BUSY"
+                 hide("stop")
+                 enable("go")
+                 show("prev")
+                 enable("prev")
+                 FALSE
+               } else {
+                 TRUE
+               }
              },
              "9.2" = {
                method <<- "NonParametricSI"
@@ -694,7 +748,7 @@ shinyServer(function(input, output, session) {
     
     # If MCMC is being run, we should check on progress.
     if (method == "SIFromData") {
-      prog <- getMCMCProgress(paste("progress/", id, "-progress.txt", sep=""))
+      prog <- getMCMCProgress(progressFile)
       if (prog > 0 & prog < total.samples.needed) {
         values$status <- paste("Running MCMC (", floor(100*prog/total.samples.needed), "%)", sep="")
       }
@@ -755,10 +809,28 @@ shinyServer(function(input, output, session) {
   
   session$onSessionEnded(function() {
     checkAsyncDataBeingLoaded$suspend()
+    if(file.exists(pidFile)) {
+      # MCMC is running (on unix), kill it.
+      pid <- read.csv(pidFile, header=FALSE)
+      tools::pskill(pid)
+      file.remove(pidFile)
+    }
+    if(file.exists(progressFile)) {
+      file.remove(progressFile)
+    }
   })
   
   observeEvent(input$stop, {
     checkAsyncDataBeingLoaded$suspend()
+    if(file.exists(pidFile)) {
+      # MCMC is running (on unix), kill it.
+      pid <- read.csv(pidFile, header=FALSE)
+      tools::pskill(pid)
+      file.remove(pidFile)
+    }
+    if(file.exists(progressFile)) {
+      file.remove(progressFile)
+    }
     hide("stop")
     enable("go")
     show("prev")
