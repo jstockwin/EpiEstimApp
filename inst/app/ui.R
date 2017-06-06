@@ -9,9 +9,10 @@
 
 library(shiny)
 library(shinyjs)
+library(shinythemes)
 
 # Define UI for application that draws a histogram
-shinyUI(bootstrapPage(
+shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href="styles.css"),
     tags$link(rel = "shortcut icon", type = "image/x-icon", href="favicon.ico")
