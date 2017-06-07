@@ -303,23 +303,21 @@ shinyServer(function(input, output, session) {
 
   output$estimatedROutput <- renderTable({
     if (!is.null(asyncData$epiEstimOutput)) {
-      asyncData$epiEstimOutput$R
       values$status <- "Ready"
       show("prev")
       hide("stop")
       enable("go")
-      data.frame(local, imported)
+      asyncData$epiEstimOutput$R
     }
   })
   
   output$serialIntervalOutput <- renderTable({
     if (!is.null(asyncData$epiEstimOutput)) {
-      asyncData$epiEstimOutput$SI.Distr
       values$status <- "Ready"
       show("prev")
       hide("stop")
       enable("go")
-      data.frame(local, imported)
+      asyncData$epiEstimOutput$SI.Distr
     }
   })
   
