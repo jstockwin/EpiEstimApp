@@ -3,7 +3,10 @@
 
 
 library(RSelenium)
+library(RSauceLabs)
 
+SLAccount <- account(user = Sys.getenv("SAUCE_USERNAME"),
+                     password = Sys.getenv("SAUCE_ACCESS_KEY"))
 allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
               "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
 appUrl="http://localhost:3000"
@@ -170,7 +173,9 @@ navigateToState <- function(remDr, state) {
                # first to fix this?
                setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
                path <- paste(appDir, "/datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv", sep="")
-               sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput, path)
+               uploadFile(SLAccount, path)
+               sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
+                        "PennsylvaniaH1N12009FluData.csv")
              }
              clickNext(remDr)
            } else {

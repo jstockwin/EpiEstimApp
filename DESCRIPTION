@@ -25,7 +25,8 @@ Imports:
     survival
 Remotes:
     annecori/EpiEstim@hackout3,
-    nickreich/coarseDataTools@hackout3
+    nickreich/coarseDataTools@hackout3,
+    johndharrison/RSauceLabs
 Suggests:
     testthat,
     RSelenium,
