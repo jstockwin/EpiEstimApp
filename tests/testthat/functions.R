@@ -173,9 +173,9 @@ navigateToState <- function(remDr, state) {
                # first to fix this?
                setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
                path <- paste(appDir, "/datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv", sep="")
-               uploadFile(SLAccount, path)
+               uploadFile(SLAccount, file=path)
                sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
-                        "PennsylvaniaH1N12009FluData.csv")
+                        "sauce-storage:PennsylvaniaH1N12009FluData.csv")
              }
              clickNext(remDr)
            } else {
