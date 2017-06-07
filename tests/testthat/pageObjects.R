@@ -31,6 +31,45 @@ pages <- list(
             preloadedDataLabel = "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][1]//span",
             ownDataLabel = "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][2]//span"
         )
+    ),
+    state2.1 = list(
+        selectors = list(
+            incidenceDataUploadLabel="//div[@id='incidenceDataErrorBox']/div/label",
+            incidenceDataUploadBrowse="//div[@id='incidenceDataErrorBox']//span",
+            incidenceDataUploadInput="//input[@id='incidenceData']",
+            incidenceDataUploadText="//div[@id='incidenceDataErrorBox']//input[@type='text']",
+            incidenceHeaderButton="//input[@id='incidenceHeader']",
+            incidenceSepLabel="//div[@id='incidenceSep']/label",
+            incidenceSepCommaButton="//div[@id='incidenceSep']//div[@class='radio'][1]//input",
+            incidenceSepCommaLabel="//div[@id='incidenceSep']//div[@class='radio'][1]//span",
+            incidenceSepSemiButton="//div[@id='incidenceSep']//div[@class='radio'][2]//input",
+            incidenceSepSemiLabel="//div[@id='incidenceSep']//div[@class='radio'][2]//span",
+            incidenceSepTabButton="//div[@id='incidenceSep']//div[@class='radio'][3]//input",
+            incidenceSepTabLabel="//div[@id='incidenceSep']//div[@class='radio'][3]//span",
+            incidenceQuoteLabel="//div[@id='incidenceQuote']/label",
+            incidenceQuoteNoneButton="//div[@id='incidenceQuote']//div[@class='radio'][1]//input",
+            incidenceQuoteNoneLabel="//div[@id='incidenceQuote']//div[@class='radio'][1]//span",
+            incidenceQuoteDoubleButton="//div[@id='incidenceQuote']//div[@class='radio'][2]//input",
+            incidenceQuoteDoubleLabel="//div[@id='incidenceQuote']//div[@class='radio'][2]//span",
+            incidenceQuoteSingleButton="//div[@id='incidenceQuote']//div[@class='radio'][3]//input",
+            incidenceQuoteSingleLabel="//div[@id='incidenceQuote']//div[@class='radio'][3]//span",
+            uploadedWidthLabel="//label[@for='uploadedWidth']",
+            uploadedWidthInput="//input[@id='uploadedWidth']",
+            meanPriorLabel="//label[@for='uploadedMeanPrior']",
+            meanPriorInput="//input[@id='uploadedMeanPrior']",
+            stdPriorLabel="//label[@for='uploadedStdPrior']",
+            stdPriorInput="//input[@id='uploadedStdPrior']"
+        )
+    ),
+    state3.1 = list(
+        selectors = list(
+            imported="//div[@id='imported']",
+            importedLabel="//div[@id='imported']/label",
+            importedNoLabel="//div[@id='imported']//div[@class='radio'][1]//span",
+            importedNoButton="//div[@id='imported']//div[@class='radio'][1]//input",
+            importedYesLabel="//div[@id='imported']//div[@class='radio'][2]//span",
+            importedYesButton="//div[@id='imported']//div[@class='radio'][2]//input"
+        )
     )
 
 )

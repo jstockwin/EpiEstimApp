@@ -40,9 +40,35 @@ isEnabled <- function(remDr, selector) {
   return(webElem$isElementEnabled()[[1]])
 }
 
-isSelected <- function(selector) {
+isSelected <- function(remDr, selector) {
   webElem <- findElem(remDr, selector)
   return(webElem$isElementSelected()[[1]])
+}
+
+sendKeys <- function(remDr, selector, keys) {
+  webElem <- findElem(remDr, selector)
+  webElem$sendKeysToElement(list(keys))
+}
+
+click <- function(remDr, selector) {
+  webElem <- findElem(remDr, selector)
+  webElem$clickElement()
+}
+
+clickNext <- function(remDr) {
+  click(remDr, pages$common$selectors$nextButton)
+}
+
+clickPrev <- function(remDr) {
+  click(remDr, pages$common$selectors$prevButton)
+}
+
+clickGo <- function(remDr) {
+  click(remDr, pages$common$selectors$prevButton)
+}
+
+clickStop <- function(remDr) {
+  click(remDr, pages$common$selectors$stopButton)
 }
 
 waitForElemDisplayed <- function(remDr, selector, timeout=10) {
@@ -91,6 +117,59 @@ checkDisplayedState <- function(remDr, expectedState) {
     selector <- paste("//div[@id='", state, "']", sep="")
     expect_false(isDisplayed(remDr, selector))
   }
+}
+
+getDisplayedState <- function(remDr) {
+  # Returns the currently displayed state
+  for (state in allStates) {
+    selector <- paste("//div[@id='", state, "']", sep="")
+    if (isDisplayed(remDr, selector)) {
+        return(state)
+    }
+  }
+}
+
+waitForStateDisplayed <- function(remDr, state) {
+    selector <- paste("//div[@id='", state, "']", sep="")
+    waitForElemDisplayed(remDr, selector)
+}
+
+navigateToState <- function(remDr, state) {
+  # Navigate to state
+  currentState <- getDisplayedState(remDr)
+  switch(state,
+         "1.1" = {
+           count <- 0
+           while (getDisplayedState(remDr) != "1.1") {
+             clickPrev(remDr)
+             if (count > 20) break
+           }
+         },
+         "2.1" = {
+           if (currentState=="1.1") {
+             click(remDr, pages$state1.1$selectors$ownDataButton)
+             clickNext(remDr)
+           } else {
+             navigateToState(remDr, "1.1")
+             navigateToState(remDr, "2.1")
+           }
+         },
+         "3.1" = {
+           if (currentState=="2.1") {
+             # We won't be able to move on unless we upload a
+             # file...
+             if (getAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "value") == "") {
+               path <- normalizePath("../../inst/app/datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv")
+               sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput, path)
+             }
+             clickNext(remDr)
+           } else {
+             navigateToState(remDr, "2.1")
+             navigateToState(remDr, "3.1")
+           }
+         }
+  )
+  waitForStateDisplayed(remDr, state)
 }
 
 buildMatrix <- list(
