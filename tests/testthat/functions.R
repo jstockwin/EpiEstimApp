@@ -31,6 +31,11 @@ getAttribute <- function(remDr, selector, attr) {
   return(webElem$getElementAttribute(attr)[[1]])
 }
 
+setAttribute <- function(remDr, selector, attr, value) {
+    webElem <- findElem(remDr, selector)
+    webElem$setElementAttribute(attr, value)
+}
+
 isDisplayed <- function(remDr, selector) {
   webElem <- findElem(remDr, selector)
   return(webElem$isElementDisplayed()[[1]])
@@ -160,6 +165,10 @@ navigateToState <- function(remDr, state) {
              # We won't be able to move on unless we upload a
              # file...
              if (getAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "value") == "") {
+               # SAUCELABS gives an error about interacting with an element
+               # which is not currently visible. Explicitly show the element
+               # first to fix this?
+               setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
                path <- paste(appDir, "/datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv", sep="")
                sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput, path)
              }
