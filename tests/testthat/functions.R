@@ -180,7 +180,7 @@ buildMatrix <- list(
 
 getRemDrivers <- function(name) {
   sauceLabs <- TRUE
-      browser = "firefox"
+      browserName = "firefox"
       platform = "linux"
       user <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username
       pass <- Sys.getenv("SAUCE_ACCESS_KEY") # Your Sauce Labs access key
