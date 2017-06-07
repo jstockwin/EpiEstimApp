@@ -173,9 +173,10 @@ navigateToState <- function(remDr, state) {
                # first to fix this?
                setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
                path <- paste(appDir, "/datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv", sep="")
-               uploadFile(SLAccount, file=path)
+               sauceLabsHome <- myUpload(remDr, path)
+               sauceLabsPath <- paste0(sauceLabsHome, substring(path, 6), sep="") # substring removes additional home/ 
                sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
-                        "sauce-storage:PennsylvaniaH1N12009FluData.csv")
+                        sauceLabsPath)
              }
              clickNext(remDr)
            } else {
@@ -223,3 +224,38 @@ closeRemDrivers <- function(remDr, rDr) {
       # Ignore errors when rDr is null
     })
 }
+
+myUpload <- function(remDr, myfile){
+  tmpfile <- tempfile(fileext = ".zip")
+  # zip file
+  zip(tmpfile, myfile)
+  # base64 encode
+  zz <- file(tmpfile, "rb")
+  ar <- readBin(tmpfile, "raw", file.info(tmpfile)$size)
+  encFile <- caTools::base64encode(ar)
+  close(zz)
+  qpath <- sprintf("%s/session/%s/file", remDr$serverURL, 
+                   remDr$sessionInfo[["id"]])
+  res <- queryRD(qpath, "POST", qdata = list(file = encFile))
+  # return result from server
+  httr::content(res, simplifyVector = FALSE)$value
+}
+
+# The following functions is used in the above FileUpload function
+# and are taken from:
+# https://github.com/ropensci/RSelenium/blob/539660780454c321822b37e4c39a321a34528b0d/R/errorHandler.R
+# See https://github.com/ropensci/RSelenium/issues/130
+
+# TODO: Error handling/status code checking etc
+queryRD = 
+        function(ipAddr, method = "GET", qdata = NULL){
+          "A method to communicate with the remote server implementing the 
+          JSON wire protocol."
+        getUC.params <- 
+          list(url = ipAddr, verb = method, body = qdata, encode = "json")
+        res <- tryCatch(
+          {do.call(httr::VERB, getUC.params)}, 
+          error = function(e){e}
+        )
+res}
+
