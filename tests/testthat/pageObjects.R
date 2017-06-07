@@ -25,7 +25,11 @@ pages <- list(
     state1.1 = list(
         selectors = list(
             incidenceDataType="//div[@id='incidenceDataType']",
-            incidenceDataTypeLabel="//div[@id='incidenceDataType']/label"
+            incidenceDataTypeLabel="//div[@id='incidenceDataType']/label",
+            preloadedDataButton = "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][1]//input",
+            ownDataButton = "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][2]//input",
+            preloadedDataLabel = "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][1]//span",
+            ownDataLabel = "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][2]//span"
         )
     )
 

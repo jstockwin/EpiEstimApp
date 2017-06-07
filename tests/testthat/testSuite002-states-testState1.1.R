@@ -29,13 +29,11 @@ tryCatch({
     expect_equal(getText(remDr, pages$state1.1$selectors$incidenceDataTypeLabel),
                  "Do you want to use pre-loaded incidence time series data or upload your own?")
     # Check the first radio input button (pre-loaded option)
-    selector <- "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][1]"
-    expect_equal(getAttribute(remDr, paste(selector, "//input", sep=""), "value"), "preloaded")
-    expect_equal(getText(remDr, paste(selector, "//span", sep="")), "Pre-loaded")
+    expect_equal(getAttribute(remDr, pages$state1.1$selectors$preloadedDataButton, "value"), "preloaded")
+    expect_equal(getText(remDr, pages$state1.1$selectors$preloadedDataLabel), "Pre-loaded")
     # Check the second radio input button (own data option)
-    selector <- "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][2]"
-    expect_equal(getAttribute(remDr, paste(selector, "//input", sep=""), "value"), "own")
-    expect_equal(getText(remDr, paste(selector, "//span", sep="")), "Own data")
+    expect_equal(getAttribute(remDr, pages$state1.1$selectors$ownDataButton, "value"), "own")
+    expect_equal(getText(remDr, pages$state1.1$selectors$ownDataLabel), "Own data")
   })
 
   test_that("relevant control buttons are displayed", {
