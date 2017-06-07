@@ -201,6 +201,11 @@ getRemDrivers <- function(name) {
 }
 
 closeRemDrivers <- function(remDr, rDr) {
+    tryCatch({
       remDr$close()
       rDr$server$stop()
+    },
+    error = function(e) {
+      # Ignore errors when rDr is null
+    })
 }
