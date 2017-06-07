@@ -4,8 +4,9 @@ library(RSelenium)
 library(testthat)
 source("functions.R", local=TRUE)
 
-rD <- getRsDriver()
-remDr <-rD$client
+drivers <- getRemDrivers("Test Suite 2 (States) --> State 1.1")
+rD <- drivers$rDr
+remDr <- drivers$remDr
 
 remDr$open(silent=TRUE)
 tryCatch({
@@ -51,10 +52,8 @@ tryCatch({
   })
 },
 error = function(e) {
-  remDr$close()
-  rD$server$stop()
+  closeRemDrivers(remDr, rD)
   stop(e)
 })
-remDr$close()
-rD$server$stop()
 
+closeRemDrivers(remDr, rD)

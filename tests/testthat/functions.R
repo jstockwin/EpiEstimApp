@@ -8,6 +8,7 @@ allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.
               "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
 appUrl="http://localhost:3000"
 source("pageObjects.R", local=TRUE)
+appDir <- system.file("app", package="EpiEstimApp")
 
 findElem <- function(remDr, selector, using="xpath") {
   # Used instead of remDr$findElement(using="xpath", selector)
@@ -159,7 +160,7 @@ navigateToState <- function(remDr, state) {
              # We won't be able to move on unless we upload a
              # file...
              if (getAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "value") == "") {
-               path <- normalizePath("../../inst/app/datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv")
+               path <- paste(appDir, "/datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv", sep="")
                sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput, path)
              }
              clickNext(remDr)
@@ -177,10 +178,29 @@ buildMatrix <- list(
   browserNames=c("firefox", "chrome", "firefox", "chrome")
 )
 
-getRsDriver <- function() {
-  # Sets up a phantomjs remote driver using rsDriver.
-  rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, browser = "phantomjs"
-                 , chromever = NULL, geckover = NULL, verbose=FALSE)
-  return(rDr)
+getRemDrivers <- function(name) {
+  sauceLabs <- TRUE
+      browser = "firefox"
+      platform = "linux"
+      user <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username
+      pass <- Sys.getenv("SAUCE_ACCESS_KEY") # Your Sauce Labs access key
+
+  if (sauceLabs) {
+    port <- 4445
+    ip <- paste0(user, ':', pass, "@localhost")
+    extraCapabilities <- list(name = name, username = user, accessKey = pass
+                              , startConnect = FALSE, tunnelIdentifier = Sys.getenv("TRAVIS_JOB_NUMBER"))
+    remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities
+                              , browserName = browserName, platform = platform)	
+    rDr <- NULL
+  } else {
+    rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, verbose=FALSE)
+    remDr <- rDr$client
+  }
+  return(list(remDr = remDr, rDr = rDr))
 }
 
+closeRemDrivers <- function(remDr, rDr) {
+      remDr$close()
+      rDr$server$stop()
+}
