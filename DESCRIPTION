@@ -11,6 +11,7 @@ Imports:
     shiny,
     MCMCpack,
     shinyjs,
+    shinythemes,
     ggplot2,
     graphics,
     grid,
