@@ -159,6 +159,11 @@ navigateToState <- function(remDr, state) {
            click(remDr, pages$state1.1$selectors$ownDataButton)
            clickNext(remDr)
          },
+         "2.2" = {
+           navigateToState(remDr, "1.1")
+           click(remDr, pages$state1.1$selectors$preloadedDataButton)
+           clickNext(remDr)
+         },
          "3.1" = {
            navigateToState(remDr, "2.1")
            # We won't be able to move on unless we upload a

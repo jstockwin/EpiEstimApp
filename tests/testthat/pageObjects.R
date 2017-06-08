@@ -61,6 +61,29 @@ pages <- list(
             stdPriorInput="//input[@id='uploadedStdPrior']"
         )
     ),
+    state2.2 = list(
+        selectors = list(
+            datasetLabel="//div[@id='incidenceDataset']/label",
+            datasetOption1Label="//div[@id='incidenceDataset']//div[@class='radio'][1]//span",
+            datasetOption1Input="//div[@id='incidenceDataset']//div[@class='radio'][1]//input",
+            datasetOption2Label="//div[@id='incidenceDataset']//div[@class='radio'][2]//span",
+            datasetOption2Input="//div[@id='incidenceDataset']//div[@class='radio'][2]//input",
+            datasetOption3Label="//div[@id='incidenceDataset']//div[@class='radio'][3]//span",
+            datasetOption3Input="//div[@id='incidenceDataset']//div[@class='radio'][3]//input",
+            datasetOption4Label="//div[@id='incidenceDataset']//div[@class='radio'][4]//span",
+            datasetOption4Input="//div[@id='incidenceDataset']//div[@class='radio'][4]//input",
+            datasetOption5Label="//div[@id='incidenceDataset']//div[@class='radio'][5]//span",
+            datasetOption5Input="//div[@id='incidenceDataset']//div[@class='radio'][5]//input",
+            datasetOption6Label="//div[@id='incidenceDataset']//div[@class='radio'][6]//span",
+            datasetOption6Input="//div[@id='incidenceDataset']//div[@class='radio'][6]//input",
+            incidenceWidthLabel="//label[@for='incidenceWidth']",
+            incidenceWidthInput="//input[@id='incidenceWidth']",
+            meanPriorLabel="//label[@for='incidenceMeanPrior']",
+            meanPriorInput="//input[@id='incidenceMeanPrior']",
+            stdPriorLabel="//label[@for='incidenceStdPrior']",
+            stdPriorInput="//input[@id='incidenceStdPrior']"
+        )
+    ),
     state3.1 = list(
         selectors = list(
             imported="//div[@id='imported']",
