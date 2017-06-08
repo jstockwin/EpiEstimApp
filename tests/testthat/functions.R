@@ -143,6 +143,9 @@ waitForStateDisplayed <- function(remDr, state) {
 navigateToState <- function(remDr, state) {
   # Navigate to state
   currentState <- getDisplayedState(remDr)
+  if (currentState == state) {
+      return()
+  }
   switch(state,
          "1.1" = {
            count <- 0
@@ -152,41 +155,29 @@ navigateToState <- function(remDr, state) {
            }
          },
          "2.1" = {
-           if (currentState=="1.1") {
-             click(remDr, pages$state1.1$selectors$ownDataButton)
-             clickNext(remDr)
-           } else {
-             navigateToState(remDr, "1.1")
-             navigateToState(remDr, "2.1")
-           }
+           navigateToState(remDr, "1.1")
+           click(remDr, pages$state1.1$selectors$ownDataButton)
+           clickNext(remDr)
          },
          "3.1" = {
-           if (currentState=="2.1") {
-             # We won't be able to move on unless we upload a
-             # file...
-             if (getAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "value") == "") {
-               # SAUCELABS gives an error about interacting with an element
-               # which is not currently visible. Explicitly show the element
-               # first to fix this?
-               setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
-               path <- getFilePath(remDr, "datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv")
-               sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
-                        path)
-             }
-             clickNext(remDr)
-           } else {
-             navigateToState(remDr, "2.1")
-             navigateToState(remDr, "3.1")
+           navigateToState(remDr, "2.1")
+           # We won't be able to move on unless we upload a
+           # file...
+           if (getAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "value") == "") {
+             # SAUCELABS gives an error about interacting with an element
+             # which is not currently visible. Explicitly show the element
+             # first to fix this?
+             setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
+             path <- getFilePath(remDr, "datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv")
+             sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
+                      path)
            }
+           clickNext(remDr)
          },
          "4.1" = {
-             if (currentState=="3.1") {
-                 click(remDr, pages$state3.1$selectors$importedYesButton)
-                 clickNext(remDr)
-             } else {
-                 navigateToState(remDr, "3.1")
-                 navigateToState(remDr, "4.1")
-             }
+           navigateToState(remDr, "3.1")
+           click(remDr, pages$state3.1$selectors$importedYesButton)
+           clickNext(remDr)
          }
   )
   waitForStateDisplayed(remDr, state)
