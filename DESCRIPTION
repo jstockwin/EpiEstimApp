@@ -2,7 +2,7 @@ Package: EpiEstimApp
 Title: EpiEstimApp: a package to add a graphical interface around EpiEstim,
     which is a package to estimate time varying reproduction numbers from
     epidemic curves
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: person("Jake", "Stockwin", email = "jstockwin@gmail.com", role = c("cre"))
 Description: This package adds a graphic interface (using R Shiny) around the
     EpiEstim package.
