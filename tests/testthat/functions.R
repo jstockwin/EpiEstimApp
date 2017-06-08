@@ -194,8 +194,8 @@ getRemDrivers <- function(name) {
                         browser="firefox")
         remDr <- rDr$client
   } else {
-        browserName = "firefox"
-        platform = "linux"
+        browserName = Sys.getenv("browser")
+        platform = Sys.getenv("platform")
         user <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username
         pass <- Sys.getenv("SAUCE_ACCESS_KEY") # Your Sauce Labs access key
 

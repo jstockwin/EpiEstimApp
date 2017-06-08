@@ -1,5 +1,13 @@
 dist: trusty
 language: r
+env:
+  global:
+  - NOT_CRAN=true
+  matrix:
+  - browser=chrome platform="Windows 10"
+  - browser=firefox platform="Windows 10"
+  - browser=firefox platform=linux
+  - browser=chrome platform=linux
 cache:
 - packages
 r:
