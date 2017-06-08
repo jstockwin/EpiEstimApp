@@ -2,6 +2,7 @@ library(testthat)
 library(EpiEstimApp)
 library(subprocess)
 library(devtools)
+library(httr)
 
 # Helper functions:
 is_windows <- function () (tolower(.Platform$OS.type) == "windows")
@@ -17,9 +18,22 @@ handle <- spawn_process(R_binary(), c('--no-save'))
 process_write(handle, "devtools::install_github('nickreich/coarseDataTools', ref='hackout3')\n")
 process_write(handle, "devtools::install_github('annecori/EpiEstim', ref='hackout3')\n")
 process_write(handle, "EpiEstimApp::runEpiEstimApp()\n")
-cat("Giving app time to start...\n")
-Sys.sleep(10)
-cat("Running tests\n")
+cat("Waiting for app to start...\n")
+timeout <- 200
+t <- 0
+while (t < timeout) {
+  tryCatch({
+      res <- GET("http://localhost:3000")
+      if (res$status == 200) {
+          break()
+      }
+  }, error = function(e) {
+     # Ignore "could not connect to server" etc
+  })
+  t <- t + 1
+  Sys.sleep(1)
+}
+cat("App started. Running tests\n")
 tryCatch({
     test_check("EpiEstimApp")
     cat("Tests finished.\n")

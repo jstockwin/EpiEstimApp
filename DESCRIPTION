@@ -22,7 +22,8 @@ Imports:
     stats,
     future,
     devtools,
-    survival
+    survival,
+    httr
 Remotes:
     annecori/EpiEstim@hackout3,
     nickreich/coarseDataTools@hackout3
