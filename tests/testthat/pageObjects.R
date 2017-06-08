@@ -70,6 +70,29 @@ pages <- list(
             importedYesLabel="//div[@id='imported']//div[@class='radio'][2]//span",
             importedYesButton="//div[@id='imported']//div[@class='radio'][2]//input"
         )
+    ),
+    state4.1 = list(
+        selectors = list(
+            importedDataUploadLabel="//div[@id='importedDataErrorBox']/div/label",
+            importedDataUploadBrowse="//div[@id='importedDataErrorBox']//span",
+            importedDataUploadInput="//input[@id='importedData']",
+            importedDataUploadText="//div[@id='importedDataErrorBox']//input[@type='text']",
+            importedHeaderButton="//input[@id='importedHeader']",
+            importedSepLabel="//div[@id='importedSep']/label",
+            importedSepCommaButton="//div[@id='importedSep']//div[@class='radio'][1]//input",
+            importedSepCommaLabel="//div[@id='importedSep']//div[@class='radio'][1]//span",
+            importedSepSemiButton="//div[@id='importedSep']//div[@class='radio'][2]//input",
+            importedSepSemiLabel="//div[@id='importedSep']//div[@class='radio'][2]//span",
+            importedSepTabButton="//div[@id='importedSep']//div[@class='radio'][3]//input",
+            importedSepTabLabel="//div[@id='importedSep']//div[@class='radio'][3]//span",
+            importedQuoteLabel="//div[@id='importedQuote']/label",
+            importedQuoteNoneButton="//div[@id='importedQuote']//div[@class='radio'][1]//input",
+            importedQuoteNoneLabel="//div[@id='importedQuote']//div[@class='radio'][1]//span",
+            importedQuoteDoubleButton="//div[@id='importedQuote']//div[@class='radio'][2]//input",
+            importedQuoteDoubleLabel="//div[@id='importedQuote']//div[@class='radio'][2]//span",
+            importedQuoteSingleButton="//div[@id='importedQuote']//div[@class='radio'][3]//input",
+            importedQuoteSingleLabel="//div[@id='importedQuote']//div[@class='radio'][3]//span"
+        )
     )
 
 )
