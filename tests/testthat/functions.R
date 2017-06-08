@@ -169,11 +169,9 @@ navigateToState <- function(remDr, state) {
                # which is not currently visible. Explicitly show the element
                # first to fix this?
                setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
-               path <- paste(appDir, "/datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv", sep="")
-               sauceLabsHome <- myUpload(remDr, path)
-               sauceLabsPath <- paste0(sauceLabsHome, substring(path, 6), sep="") # substring removes additional home/ 
+               path <- getFilePath(remDr, "datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv")
                sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
-                        sauceLabsPath)
+                        path)
              }
              clickNext(remDr)
            } else {
@@ -191,23 +189,23 @@ buildMatrix <- list(
 )
 
 getRemDrivers <- function(name) {
-  sauceLabs <- TRUE
-      browserName = "firefox"
-      platform = "linux"
-      user <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username
-      pass <- Sys.getenv("SAUCE_ACCESS_KEY") # Your Sauce Labs access key
-
-  if (sauceLabs) {
-    port <- 4445
-    ip <- paste0(user, ':', pass, "@localhost")
-    extraCapabilities <- list(name = name, username = user, accessKey = pass
-                              , startConnect = FALSE, tunnelIdentifier = Sys.getenv("TRAVIS_JOB_NUMBER"))
-    remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities
-                              , browserName = browserName, platform = platform)	
-    rDr <- NULL
+  if (Sys.getenv("TRAVIS_JOB_NUMBER") == "") {
+        rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, verbose=FALSE,
+                        browser="firefox")
+        remDr <- rDr$client
   } else {
-    rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, verbose=FALSE)
-    remDr <- rDr$client
+        browserName = "firefox"
+        platform = "linux"
+        user <- Sys.getenv("SAUCE_USERNAME") # Your Sauce Labs username
+        pass <- Sys.getenv("SAUCE_ACCESS_KEY") # Your Sauce Labs access key
+
+        port <- 4445
+        ip <- paste0(user, ':', pass, "@localhost")
+        extraCapabilities <- list(name = name, username = user, accessKey = pass
+                                  , startConnect = FALSE, tunnelIdentifier = Sys.getenv("TRAVIS_JOB_NUMBER"))
+        remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities
+                                  , browserName = browserName, platform = platform) 
+        rDr <- NULL
   }
   return(list(remDr = remDr, rDr = rDr))
 }
@@ -222,7 +220,25 @@ closeRemDrivers <- function(remDr, rDr) {
     })
 }
 
+getFilePath <- function(remDr, file) {
+   # file should be a path relative to the apps root directory
+   # Returns full file path on most systems, or uploads to saucelabs
+   # and returns the path on saucelabs if needed.
+   path <- paste(appDir, "/", file, sep="")
+   if (Sys.getenv("TRAVIS_JOB_NUMBER")=="") {
+       return(path)
+   } else {
+       # saucelabsPath will be the path to the home directory on saucelabs
+       # so we take substring(path, 6) which removes the /home/ from path
+       # to avoid having it twice.
+       saucelabsPath <- myUpload(remDr, path)
+       newPath <- paste0(saucelabsPath, substring(path, 6), sep="")
+       return(newPath)
+   }
+}
+
 myUpload <- function(remDr, myfile){
+  # Uploads file to saucelabs and returns the path of the home folder
   tmpfile <- tempfile(fileext = ".zip")
   # zip file
   zip(tmpfile, myfile)
