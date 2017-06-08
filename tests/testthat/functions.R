@@ -183,6 +183,10 @@ navigateToState <- function(remDr, state) {
            navigateToState(remDr, "3.1")
            click(remDr, pages$state3.1$selectors$importedYesButton)
            clickNext(remDr)
+         },
+         "5.1" = {
+           navigateToState(remDr, "2.2")
+           clickNext(remDr)
          }
   )
   waitForStateDisplayed(remDr, state)

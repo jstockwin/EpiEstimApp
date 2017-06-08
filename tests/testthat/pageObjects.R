@@ -116,6 +116,15 @@ pages <- list(
             importedQuoteSingleButton="//div[@id='importedQuote']//div[@class='radio'][3]//input",
             importedQuoteSingleLabel="//div[@id='importedQuote']//div[@class='radio'][3]//span"
         )
+    ),
+    state5.1 = list(
+        selectors = list(
+            exposureDataLabel="//div[@id='SIPatientData']/label",
+            exposureDataNoLabel="//div[@id='SIPatientData']//div[@class='radio'][1]//span",
+            exposureDataNoInput="//div[@id='SIPatientData']//div[@class='radio'][1]//input",
+            exposureDataYesLabel="//div[@id='SIPatientData']//div[@class='radio'][2]//span",
+            exposureDataYesInput="//div[@id='SIPatientData']//div[@class='radio'][2]//input"
+        )
     )
 
 )
