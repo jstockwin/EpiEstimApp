@@ -192,6 +192,11 @@ navigateToState <- function(remDr, state) {
            navigateToState(remDr, "5.1")
            click(remDr, pages$state5.1$selectors$exposureDataYesInput)
            clickNext(remDr)
+         },
+         "6.2" = {
+           navigateToState(remDr, "5.1")
+           click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+           clickNext(remDr)
          }
   )
   waitForStateDisplayed(remDr, state)

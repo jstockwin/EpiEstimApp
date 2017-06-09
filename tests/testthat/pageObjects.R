@@ -135,6 +135,16 @@ pages <- list(
             SIDataTypeOwnLabel="//div[@id='SIDataType']//div[@class='radio'][2]//span",
             SIDataTypeOwnButton="//div[@id='SIDataType']//div[@class='radio'][2]//input"
         )
+    ),
+    state6.2 = list(
+        selectors = list(
+            uncertainty="//div[@id='uncertainty']",
+            uncertaintyLabel="//div[@id='uncertainty']/label",
+            uncertaintyNoLabel="//div[@id='uncertainty']//div[@class='radio'][1]//span",
+            uncertaintyNoButton="//div[@id='uncertainty']//div[@class='radio'][1]//input",
+            uncertaintyYesLabel="//div[@id='uncertainty']//div[@class='radio'][2]//span",
+            uncertaintyYesButton="//div[@id='uncertainty']//div[@class='radio'][2]//input"
+        )
     )
 
 )
