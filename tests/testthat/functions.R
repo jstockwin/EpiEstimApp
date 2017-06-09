@@ -203,6 +203,11 @@ navigateToState <- function(remDr, state) {
            click(remDr, pages$state6.1$selectors$SIDataTypePreloadedButton)
            clickNext(remDr)
          },
+         "7.2" = {
+           navigateToState(remDr, "6.1")
+           click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
+           clickNext(remDr)
+         },
          "8.1" = {
            navigateToState(remDr, "7.1")
            clickNext(remDr)

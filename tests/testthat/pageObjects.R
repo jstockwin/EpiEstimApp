@@ -153,6 +153,16 @@ pages <- list(
             datasetOption1Input="//div[@id='SIDataset']//div[@class='radio'][1]//input"
         )
     ),
+    state7.2 = list(
+        selectors = list(
+            SIFrom="//div[@id='SIFrom']",
+            SIFromLabel="//div[@id='SIFrom']/label",
+            SIFromRawLabel="//div[@id='SIFrom']//div[@class='radio'][1]//span",
+            SIFromRawButton="//div[@id='SIFrom']//div[@class='radio'][1]//input",
+            SIFromSampleLabel="//div[@id='SIFrom']//div[@class='radio'][2]//span",
+            SIFromSampleButton="//div[@id='SIFrom']//div[@class='radio'][2]//input"
+        )
+    ),
     state8.1 = list(
         selectors = list(
             distributionLabel="//div[@id='SIDist']/label",
