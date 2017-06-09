@@ -26,7 +26,7 @@ tryCatch({
     checkDisplayedState(remDr, "7.1")
   })
 
-  test_that("SIDataType input is displayed correctly", {
+  test_that("Dataset input is displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetLabel))
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption1Label))
     expect_equal(getText(remDr, pages$state7.1$selectors$datasetOption1Label),
