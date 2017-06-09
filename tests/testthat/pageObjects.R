@@ -145,6 +145,13 @@ pages <- list(
             uncertaintyYesLabel="//div[@id='uncertainty']//div[@class='radio'][2]//span",
             uncertaintyYesButton="//div[@id='uncertainty']//div[@class='radio'][2]//input"
         )
+    ),
+    state7.1 = list(
+        selectors = list(
+            datasetLabel="//div[@id='SIDataset']/label",
+            datasetOption1Label="//div[@id='SIDataset']//div[@class='radio'][1]//span",
+            datasetOption1Input="//div[@id='SIDataset']//div[@class='radio'][1]//input"
+        )
     )
 
 )
