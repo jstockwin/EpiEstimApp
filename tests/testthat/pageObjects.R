@@ -125,6 +125,16 @@ pages <- list(
             exposureDataYesLabel="//div[@id='SIPatientData']//div[@class='radio'][2]//span",
             exposureDataYesInput="//div[@id='SIPatientData']//div[@class='radio'][2]//input"
         )
+    ),
+    state6.1 = list(
+        selectors = list(
+            SIDataType="//div[@id='SIDataType']",
+            SIDataTypeLabel="//div[@id='SIDataType']/label",
+            SIDataTypePreloadedLabel="//div[@id='SIDataType']//div[@class='radio'][1]//span",
+            SIDataTypePreloadedButton="//div[@id='SIDataType']//div[@class='radio'][1]//input",
+            SIDataTypeOwnLabel="//div[@id='SIDataType']//div[@class='radio'][2]//span",
+            SIDataTypeOwnButton="//div[@id='SIDataType']//div[@class='radio'][2]//input"
+        )
     )
 
 )
