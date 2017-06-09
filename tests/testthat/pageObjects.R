@@ -179,6 +179,31 @@ pages <- list(
             distributionOption6Label="//div[@id='SIDist']//div[@class='radio'][6]//span",
             distributionOption6Input="//div[@id='SIDist']//div[@class='radio'][6]//input"
         )
+    ),
+    state8.2 = list(
+        selectors = list(
+            SIDataUploadLabel="//div[@id='SIDataErrorBox']/div/label",
+            SIDataUploadBrowse="//div[@id='SIDataErrorBox']//span",
+            SIDataUploadInput="//input[@id='SIData']",
+            SIDataUploadText="//div[@id='SIDataErrorBox']//input[@type='text']",
+            SIHeaderButton="//input[@id='SIHeader']",
+            SISepLabel="//div[@id='SISep']/label",
+            SISepCommaButton="//div[@id='SISep']//div[@class='radio'][1]//input",
+            SISepCommaLabel="//div[@id='SISep']//div[@class='radio'][1]//span",
+            SISepSemiButton="//div[@id='SISep']//div[@class='radio'][2]//input",
+            SISepSemiLabel="//div[@id='SISep']//div[@class='radio'][2]//span",
+            SISepTabButton="//div[@id='SISep']//div[@class='radio'][3]//input",
+            SISepTabLabel="//div[@id='SISep']//div[@class='radio'][3]//span",
+            SIQuoteLabel="//div[@id='SIQuote']/label",
+            SIQuoteNoneButton="//div[@id='SIQuote']//div[@class='radio'][1]//input",
+            SIQuoteNoneLabel="//div[@id='SIQuote']//div[@class='radio'][1]//span",
+            SIQuoteDoubleButton="//div[@id='SIQuote']//div[@class='radio'][2]//input",
+            SIQuoteDoubleLabel="//div[@id='SIQuote']//div[@class='radio'][2]//span",
+            SIQuoteSingleButton="//div[@id='SIQuote']//div[@class='radio'][3]//input",
+            SIQuoteSingleLabel="//div[@id='SIQuote']//div[@class='radio'][3]//span",
+            seedLabel="//label[@for='uploadedSISeed']",
+            seedInput="//input[@id='uploadedSISeed']"
+        )
     )
 
 )

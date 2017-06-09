@@ -211,6 +211,11 @@ navigateToState <- function(remDr, state) {
          "8.1" = {
            navigateToState(remDr, "7.1")
            clickNext(remDr)
+         },
+         "8.2" = {
+           navigateToState(remDr, "7.2")
+           click(remDr, pages$state7.2$selectors$SIFromRawButton)
+           clickNext(remDr)
          }
   )
   waitForStateDisplayed(remDr, state)
