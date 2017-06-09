@@ -152,6 +152,23 @@ pages <- list(
             datasetOption1Label="//div[@id='SIDataset']//div[@class='radio'][1]//span",
             datasetOption1Input="//div[@id='SIDataset']//div[@class='radio'][1]//input"
         )
+    ),
+    state8.1 = list(
+        selectors = list(
+            distributionLabel="//div[@id='SIDist']/label",
+            distributionOption1Label="//div[@id='SIDist']//div[@class='radio'][1]//span",
+            distributionOption1Input="//div[@id='SIDist']//div[@class='radio'][1]//input",
+            distributionOption2Label="//div[@id='SIDist']//div[@class='radio'][2]//span",
+            distributionOption2Input="//div[@id='SIDist']//div[@class='radio'][2]//input",
+            distributionOption3Label="//div[@id='SIDist']//div[@class='radio'][3]//span",
+            distributionOption3Input="//div[@id='SIDist']//div[@class='radio'][3]//input",
+            distributionOption4Label="//div[@id='SIDist']//div[@class='radio'][4]//span",
+            distributionOption4Input="//div[@id='SIDist']//div[@class='radio'][4]//input",
+            distributionOption5Label="//div[@id='SIDist']//div[@class='radio'][5]//span",
+            distributionOption5Input="//div[@id='SIDist']//div[@class='radio'][5]//input",
+            distributionOption6Label="//div[@id='SIDist']//div[@class='radio'][6]//span",
+            distributionOption6Input="//div[@id='SIDist']//div[@class='radio'][6]//input"
+        )
     )
 
 )
