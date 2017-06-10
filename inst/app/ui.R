@@ -201,7 +201,7 @@ tool, the format or results generated from it.</p>
                       numericInput('Max.Std.SI', 'Max.Std.SI', value=3, min=1)
                     ),
                     div(id="uncertainSeedErrorBox", class="ErrorBox",
-                        numericInput("uncertainSeed", "Set a seed to be used by EpiEstim. A random one will be chosen this is left blank", value=NULL)
+                        numericInput("uncertainSeed", "Set a seed to be used by EpiEstim. A random one will be chosen if this is left blank", value=NULL)
                     )
          )),
          hidden(div(id="7.4",
@@ -250,7 +250,7 @@ tool, the format or results generated from it.</p>
                                    'Single Quote'="'"),
                                  ''),
                     div(id="uploadedSISeedErrorBox", class="ErrorBox",
-                        numericInput("uploadedSISeed", "Set a seed to be used by EpiEstim. A random one will be chosen this is left blank", value=NULL)
+                        numericInput("uploadedSISeed", "Set a seed to be used by EpiEstim. A random one will be chosen if this is left blank", value=NULL)
                     )
          )),
          hidden(div(id="8.3",
@@ -327,7 +327,7 @@ tool, the format or results generated from it.</p>
                       numericInput('n22', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
                     ),
                     div(id="MCMCSeedErrorBox", class="ErrorBox",
-                        numericInput("MCMCSeed", "Set a seed to be used for MCMC. A random one will be chosen this is left blank", value=NULL)
+                        numericInput("MCMCSeed", "Set a seed to be used for MCMC. A random one will be chosen if this is left blank", value=NULL)
                     ),
                     HTML('
                                  <p>If you would like to use your own initialisation parameters for MCMC <a onClick="showMCMCParams()">click here</a>. Otherwise, a smart choice will be made by EpiEstim, which should work in most cases.</p>
