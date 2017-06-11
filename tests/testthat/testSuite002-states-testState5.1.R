@@ -25,7 +25,8 @@ tryCatch({
   test_that("patient exposure data inputs are displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataLabel))
     expect_equal(getText(remDr, pages$state5.1$selectors$exposureDataLabel),
-       "Do you want to use exposure data to inform the SI?")
+       paste("Do you want to estimate the serial interval from data on the possible",
+             "times of symptom appearance in donor-recipient pairs?"))
     expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataNoLabel))
     expect_equal(getText(remDr, pages$state5.1$selectors$exposureDataNoLabel), "No")
     expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataNoInput))

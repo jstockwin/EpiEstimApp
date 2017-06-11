@@ -77,10 +77,10 @@ tool, the format or results generated from it.</p>
                       sliderInput('uploadedWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
                     ),
                     div(id="uploadedMeanPriorErrorBox", class="ErrorBox",
-                        numericInput("uploadedMeanPrior", "Choose the prior for the mean", value=5, min=0)
+                        numericInput("uploadedMeanPrior", "Choose the prior mean value for the reproduction number estimate", value=5, min=0)
                     ),
                     div(id="uploadedStdPriorErrorBox", class="ErrorBox",
-                        numericInput("uploadedStdPrior", "Choose the prior for the standard deviation", value=5, min=0)
+                        numericInput("uploadedStdPrior", "Choose the prior standard deviation value for the reproduction number estimate", value=5, min=0)
                     )
          )),
          hidden(div(id="2.2",
@@ -100,7 +100,7 @@ tool, the format or results generated from it.</p>
                         numericInput("incidenceStdPrior", "Choose the prior for the standard deviation", value=5, min=0)
                     )
          )),
-         hidden(div(id="3.1", 
+         hidden(div(id="3.1",
                     # State 3.1
                     div(id="importedErrorBox", class="ErrorBox",
                       radioButtons('imported', "Do you have data about which cases are imported?",
@@ -110,7 +110,7 @@ tool, the format or results generated from it.</p>
          hidden(div(id="4.1",
                     # State 4.1
                     div(id="importedDataErrorBox", class="ErrorBox",
-                      fileInput('importedData', 'Choose an imported data file to upload',
+                      fileInput('importedData', 'Choose a data file with numbers of imported cases to upload',
                                 accept = c(
                                   'text/csv',
                                   'text/comma-separated-values',
@@ -136,7 +136,8 @@ tool, the format or results generated from it.</p>
          hidden(div(id="5.1",
                     # State 5.1
                     div(id="SIPatientDataErrorBox", class="ErrorBox",
-                      radioButtons('SIPatientData', 'Do you want to use exposure data to inform the SI?',
+                      radioButtons('SIPatientData', paste("Do you want to estimate the serial interval from data",
+                                                          "on the possible times of symptom appearance in donor-recipient pairs?"),
                                    c('No'='FALSE', 'Yes'='TRUE'))
                     )
          )),
@@ -150,7 +151,7 @@ tool, the format or results generated from it.</p>
          hidden(div(id="6.2", 
                     # State 6.2
                     div(id="uncertaintyErrorBox", class="ErrorBox",
-                      radioButtons('uncertainty', 'Would you like to include SI uncertainty in your model?',
+                      radioButtons('uncertainty', 'Would you like to allow uncertainty in the serial interval distribution?',
                                    c('No'='FALSE', 'Yes'='TRUE'))
                     )
          )),
@@ -172,12 +173,14 @@ tool, the format or results generated from it.</p>
                     # State 7.3
                     div(id="n1ErrorBox", class="ErrorBox",
                       numericInput('n1', 'n1', min=2, value=50),
-                      p('positive integer giving the size of the sample of pairs (Mean SI (serial interval), Std SI) to be drawn')
+                      p('Positive integer describing the number of (Mean SI, Std SI) pairs to be drawn')
                     ),
                     div(id="n2ErrorBox", class="ErrorBox",
                       numericInput('n2', 'n2', min=2, value=50),
-                      p('positive integer giving the size of the sample drawn from each posterior distribution conditional to a pair (Mean SI, Std SI)')
+                      p('Positive integer describing the number of samples drawn from each (Mean SI, Std SI) pair')
                     ),
+                    tags$hr(),
+                    tags$p("Please choose values describing the serial interval distribution, and the uncertainty around these values"),
                     div(id="Mean.SIErrorBox", class="ErrorBox",
                       numericInput('Mean.SI', 'Mean.SI', value=2, min=1)
                     ),
@@ -203,7 +206,8 @@ tool, the format or results generated from it.</p>
                       numericInput('Max.Std.SI', 'Max.Std.SI', value=3, min=1)
                     ),
                     div(id="uncertainSeedErrorBox", class="ErrorBox",
-                        numericInput("uncertainSeed", "Set a seed to be used by EpiEstim. A random one will be chosen if this is left blank", value=NULL)
+                        numericInput("uncertainSeed", paste("Set a seed to be used by EpiEstim, so that the results are reproducible.",
+                                     "A random seed will be chosen if this is left blank"), value=NULL)
                     )
          )),
          hidden(div(id="7.4",

@@ -30,7 +30,7 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state6.2$selectors$uncertainty))
     expect_true(isDisplayed(remDr, pages$state6.2$selectors$uncertaintyLabel))
     expect_equal(getText(remDr, pages$state6.2$selectors$uncertaintyLabel),
-                 "Would you like to include SI uncertainty in your model?")
+                 "Would you like to allow uncertainty in the serial interval distribution?")
     expect_true(isDisplayed(remDr, pages$state6.2$selectors$uncertaintyNoLabel))
     expect_equal(getText(remDr, pages$state6.2$selectors$uncertaintyNoLabel), "No")
     expect_true(isDisplayed(remDr, pages$state6.2$selectors$uncertaintyNoButton))
