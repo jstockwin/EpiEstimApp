@@ -29,6 +29,8 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
           <p>The authors request users to cite the original publication (TODO: LINK) when referring to this
 tool, the format or results generated from it.</p>
           <p>TODO: Insert citatation.</p>
+          <p>For information on the preloaded datasets, <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Preloaded-Datasets'>click here</a>.</p>
+          <p>For more information on uploading your own data, <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Uploading-your-own-data'>click here</a>.</p>
           "
          )      
   ),
@@ -85,7 +87,7 @@ tool, the format or results generated from it.</p>
                     # State 2.2
                     div(id="incidenceDatasetErrorBox", class="ErrorBox",
                       radioButtons('incidenceDataset', 'Choose your dataset',
-                                   c('PennsylvaniaH1N12009', 'Flu1918',
+                                   c('PennsylvaniaH1N1', 'NewYorkH1N1', 'KiribatiRotavirus', 'Flu1918',
                                    'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972'))
                     ),
                     div(id="incidenceWidthErrorBox", class="ErrorBox",
@@ -156,7 +158,7 @@ tool, the format or results generated from it.</p>
                     # State 7.1
                     div(id="SIDatasetErrorBox", class="ErrorBox",
                       radioButtons('SIDataset', 'Choose your dataset',
-                                   c('PennsylvaniaH1N12009'))
+                                   c('EcuadorRotavirus', 'NewYorkH1N1', 'USAH1N1'))
                     )
          )),
          hidden(div(id="7.2",

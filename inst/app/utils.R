@@ -8,13 +8,9 @@
 # The following function takes the string from input$data and uses it to pull in the serialIntervalData
 # It is this function which should be edited if any of the serial inteval file names change.
 getSerialIntervalData <- function (data) {
-  if (data == 'PennsylvaniaH1N12009') {
-    serialIntervalData <- read.table('dataset/SerialIntervalDatas/PennsylvaniaH1N12009SerialIntervalData.csv',
-                                  header = F, sep=',')
-    return(serialIntervalData)
-  } else {
-    return(NULL)
-  }
+  filename <- paste('datasets/SerialIntervalData/', data, '.csv', sep="")
+  serialIntervalData <- read.table(filename, header = F, sep=',')
+  return(serialIntervalData)
 }
 
 
@@ -24,25 +20,19 @@ getIncidenceData <- function (data, alldatasets) {
   if (data %in% names(alldatasets)) {
     dat <- alldatasets[[data]]$Incidence
     return(dat)
-  } else  if (data == 'PennsylvaniaH1N12009') {
-    incidenceData <- read.table('datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv',
-                                  header = F, sep=',')
-    return(incidenceData)
   } else {
-    return(NULL)
+    filename <- paste('datasets/IncidenceData/', data, '.csv', sep="")
+    incidenceData <- read.table(filename, header = F, sep=',')
+    return(incidenceData)
   }
 }
 
 # The following function takes the string from input$data, and the distirbution from input$SIDist and returns
 # the saved fit. It should be updated if any of the file names for the exported fits change.
 getSISamples <- function (data, SIDist) {
-  if (data == 'PennsylvaniaH1N12009') {
-    samples <- read.table((paste('datasets/SIPosteriorSamples/pennsylvaniaH1N12009_SISamples_', SIDist, '.csv', sep='')),
-                          header=F, sep=',')
-    samples <- as.matrix(samples)
-  } else {
-    return(NULL)
-  }
+  filename <- paste('datasets/SIPosteriorSamples/', data, '_SISamples_', SIDist, '.csv', sep='')
+  samples <- read.table(filename, header=FALSE, sep=',')
+  samples <- as.matrix(samples)
   return(samples)
 }
 

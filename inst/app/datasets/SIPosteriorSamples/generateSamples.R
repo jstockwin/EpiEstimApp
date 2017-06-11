@@ -4,26 +4,31 @@
 # The following code reads raw SI exposure data, and saves the posterior samples that can be used by SIFromSample.
 
 library(devtools)
-install_github("robin-thompson/coarseDataTools", ref = "hackout3")
+install_github("nickreich/coarseDataTools", ref = "hackout3")
 library(coarseDataTools)
 library(MCMCpack)
 install_github('annecori/EpiEstim', ref = "hackout3")
 library(EpiEstim)
 
-SIDataPath <- 'datasets/SerialIntervalData/PennsylvaniaH1N12009SerialIntervalData.csv'
-dist <- 'off1L'
-writePath <- 'datasets/SIPosteriorSamples/pennsylvaniaH1N12009_SISamples_' # Will have `dist.csv` added to the end.
+dists <- c("G", "W", "L", "off1G", "off1W", "off1L")
+for (file in list.files("datasets/SerialIntervalData")) {
+  SIDataPath <- paste('datasets/SerialIntervalData/', file, sep="")
+  writePath <- paste('datasets/SIPosteriorSamples/', file, '_SISamples_', sep="") # Will have `dist.csv` added to the end.
 
-SIData <- read.csv(SIDataPath)
+  SIData <- read.csv(SIDataPath)
 
-SIData <- processSerialIntervalData(SIData)
+  SIData <- EpiEstim:::process_SI.Data(SIData)
 
-init.pars <- init_MCMC_params(SIData, dist=dist)
+  for (dist in dists) {
+    init.pars <- init_MCMC_params(SIData, dist=dist)
 
-fit <- dic.fit.mcmc(SIData, dist=dist, init.pars = init.pars)
+    fit <- dic.fit.mcmc(SIData, dist=dist, init.pars = init.pars, seed=1)
 
-CDT <- coarse2estim(fit, dist=dist)
+    CDT <- coarse2estim(fit, dist=dist)
 
-SI.Sample <- CDT$SI.Sample
+    SI.Sample <- CDT$SI.Sample
 
-write.table(SI.Sample, file=paste(writePath, dist, ".csv", sep=""), row.names=FALSE, col.names=FALSE, sep=",")
+    write.table(SI.Sample, file=paste(writePath, dist, ".csv", sep=""), row.names=FALSE, col.names=FALSE, sep=",")
+  }
+}
+

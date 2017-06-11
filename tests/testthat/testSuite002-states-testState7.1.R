@@ -30,8 +30,16 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetLabel))
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption1Label))
     expect_equal(getText(remDr, pages$state7.1$selectors$datasetOption1Label),
-                 "PennsylvaniaH1N12009")
+                 "EcuadorRotavirus")
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption1Input))
+    expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption2Label))
+    expect_equal(getText(remDr, pages$state7.1$selectors$datasetOption2Label),
+                 "NewYorkH1N1")
+    expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption2Input))
+    expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption3Label))
+    expect_equal(getText(remDr, pages$state7.1$selectors$datasetOption3Label),
+                 "USAH1N1")
+    expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption3Input))
   })
 
   test_that("relevant control buttons are displayed", {
