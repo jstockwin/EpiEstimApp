@@ -149,7 +149,7 @@ tool, the format or results generated from it.</p>
          hidden(div(id="6.2", 
                     # State 6.2
                     div(id="uncertaintyErrorBox", class="ErrorBox",
-                      radioButtons('uncertainty', 'Would you like to include SI uncertainty in your model?',
+                      radioButtons('uncertainty', 'Would you like to allow uncertainty in the serial interval distribution?',
                                    c('No'='FALSE', 'Yes'='TRUE'))
                     )
          )),
