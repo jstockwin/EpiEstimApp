@@ -98,7 +98,7 @@ tool, the format or results generated from it.</p>
                         numericInput("incidenceStdPrior", "Choose the prior for the standard deviation", value=5, min=0)
                     )
          )),
-         hidden(div(id="3.1", 
+         hidden(div(id="3.1",
                     # State 3.1
                     div(id="importedErrorBox", class="ErrorBox",
                       radioButtons('imported', "Do you have data about which cases are imported?",
@@ -134,7 +134,8 @@ tool, the format or results generated from it.</p>
          hidden(div(id="5.1",
                     # State 5.1
                     div(id="SIPatientDataErrorBox", class="ErrorBox",
-                      radioButtons('SIPatientData', 'Do you want to use exposure data to inform the SI?',
+                      radioButtons('SIPatientData', paste("Do you want to estimate the serial interval from data",
+                                                          "on the possible times of symptom appearance in donor-recipient pairs?"),
                                    c('No'='FALSE', 'Yes'='TRUE'))
                     )
          )),
