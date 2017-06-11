@@ -26,7 +26,7 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataLabel))
     expect_equal(getText(remDr, pages$state5.1$selectors$exposureDataLabel),
        paste("Do you want to estimate the serial interval from data on the possible",
-             "times of symptom appearence in donor-recipient pairs?"))
+             "times of symptom appearance in donor-recipient pairs?"))
     expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataNoLabel))
     expect_equal(getText(remDr, pages$state5.1$selectors$exposureDataNoLabel), "No")
     expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataNoInput))
