@@ -75,10 +75,10 @@ tool, the format or results generated from it.</p>
                       sliderInput('uploadedWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
                     ),
                     div(id="uploadedMeanPriorErrorBox", class="ErrorBox",
-                        numericInput("uploadedMeanPrior", "Choose the prior for the mean", value=5, min=0)
+                        numericInput("uploadedMeanPrior", "Choose the prior mean value for the reproduction number estimate", value=5, min=0)
                     ),
                     div(id="uploadedStdPriorErrorBox", class="ErrorBox",
-                        numericInput("uploadedStdPrior", "Choose the prior for the standard deviation", value=5, min=0)
+                        numericInput("uploadedStdPrior", "Choose the prior standard deviation value for the reproduction number estimate", value=5, min=0)
                     )
          )),
          hidden(div(id="2.2",
