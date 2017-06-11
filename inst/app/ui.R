@@ -171,12 +171,14 @@ tool, the format or results generated from it.</p>
                     # State 7.3
                     div(id="n1ErrorBox", class="ErrorBox",
                       numericInput('n1', 'n1', min=2, value=50),
-                      p('positive integer giving the size of the sample of pairs (Mean SI (serial interval), Std SI) to be drawn')
+                      p('Positive integer describing the number of (Mean SI, Std SI) pairs to be drawn')
                     ),
                     div(id="n2ErrorBox", class="ErrorBox",
                       numericInput('n2', 'n2', min=2, value=50),
-                      p('positive integer giving the size of the sample drawn from each posterior distribution conditional to a pair (Mean SI, Std SI)')
+                      p('Positive integer describing the number of samples drawn from each (Mean SI, Std SI) pair')
                     ),
+                    tags$hr(),
+                    tags$p("Please choose values describing the serial interval distribution, and the uncertainty around these values"),
                     div(id="Mean.SIErrorBox", class="ErrorBox",
                       numericInput('Mean.SI', 'Mean.SI', value=2, min=1)
                     ),
@@ -202,7 +204,8 @@ tool, the format or results generated from it.</p>
                       numericInput('Max.Std.SI', 'Max.Std.SI', value=3, min=1)
                     ),
                     div(id="uncertainSeedErrorBox", class="ErrorBox",
-                        numericInput("uncertainSeed", "Set a seed to be used by EpiEstim. A random one will be chosen if this is left blank", value=NULL)
+                        numericInput("uncertainSeed", paste("Set a seed to be used by EpiEstim, so that the results are reproducible.",
+                                     "A random seed will be chosen if this is left blank"), value=NULL)
                     )
          )),
          hidden(div(id="7.4",
