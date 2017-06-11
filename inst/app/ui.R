@@ -108,7 +108,7 @@ tool, the format or results generated from it.</p>
          hidden(div(id="4.1",
                     # State 4.1
                     div(id="importedDataErrorBox", class="ErrorBox",
-                      fileInput('importedData', 'Choose an imported data file to upload',
+                      fileInput('importedData', 'Choose a data file with numbers of imported cases to upload',
                                 accept = c(
                                   'text/csv',
                                   'text/comma-separated-values',
