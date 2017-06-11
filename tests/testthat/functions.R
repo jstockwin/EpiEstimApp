@@ -239,7 +239,7 @@ getRemDrivers <- function(name) {
 
         port <- 4445
         ip <- paste0(user, ':', pass, "@localhost")
-        extraCapabilities <- list(name = name, username = user, accessKey = pass
+        extraCapabilities <- list(name = paste(Sys.getenv("TRAVIS_JOB_NUMBER"), name), username = user, accessKey = pass
                                   , startConnect = FALSE, tunnelIdentifier = Sys.getenv("TRAVIS_JOB_NUMBER"))
         remDr <- remoteDriver$new(remoteServerAddr = ip, port = port, extraCapabilities = extraCapabilities
                                   , browserName = browserName, platform = platform) 
