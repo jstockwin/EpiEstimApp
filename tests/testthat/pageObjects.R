@@ -76,6 +76,10 @@ pages <- list(
             datasetOption5Input="//div[@id='incidenceDataset']//div[@class='radio'][5]//input",
             datasetOption6Label="//div[@id='incidenceDataset']//div[@class='radio'][6]//span",
             datasetOption6Input="//div[@id='incidenceDataset']//div[@class='radio'][6]//input",
+            datasetOption7Label="//div[@id='incidenceDataset']//div[@class='radio'][7]//span",
+            datasetOption7Input="//div[@id='incidenceDataset']//div[@class='radio'][7]//input",
+            datasetOption8Label="//div[@id='incidenceDataset']//div[@class='radio'][8]//span",
+            datasetOption8Input="//div[@id='incidenceDataset']//div[@class='radio'][8]//input",
             incidenceWidthLabel="//label[@for='incidenceWidth']",
             incidenceWidthInput="//input[@id='incidenceWidth']",
             meanPriorLabel="//label[@for='incidenceMeanPrior']",
@@ -150,7 +154,11 @@ pages <- list(
         selectors = list(
             datasetLabel="//div[@id='SIDataset']/label",
             datasetOption1Label="//div[@id='SIDataset']//div[@class='radio'][1]//span",
-            datasetOption1Input="//div[@id='SIDataset']//div[@class='radio'][1]//input"
+            datasetOption1Input="//div[@id='SIDataset']//div[@class='radio'][1]//input",
+            datasetOption2Label="//div[@id='SIDataset']//div[@class='radio'][2]//span",
+            datasetOption2Input="//div[@id='SIDataset']//div[@class='radio'][2]//input",
+            datasetOption3Label="//div[@id='SIDataset']//div[@class='radio'][3]//span",
+            datasetOption3Input="//div[@id='SIDataset']//div[@class='radio'][3]//input"
         )
     ),
     state7.2 = list(

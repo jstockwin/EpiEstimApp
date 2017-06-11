@@ -173,7 +173,7 @@ navigateToState <- function(remDr, state) {
              # which is not currently visible. Explicitly show the element
              # first to fix this?
              setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
-             path <- getFilePath(remDr, "datasets/IncidenceData/PennsylvaniaH1N12009FluData.csv")
+             path <- getFilePath(remDr, "datasets/IncidenceData/PennsylvaniaH1N1.csv")
              sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
                       path)
            }
