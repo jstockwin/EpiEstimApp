@@ -95,15 +95,7 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$seedInput))
   })
 
-  test_that("init.pars inputs are NOT initially displayed", {
-    expect_false(isDisplayed(remDr, pages$state9.1$selectors$param1Label))
-    expect_false(isDisplayed(remDr, pages$state9.1$selectors$param1Input))
-    expect_false(isDisplayed(remDr, pages$state9.1$selectors$param2Label))
-    expect_false(isDisplayed(remDr, pages$state9.1$selectors$param2Input))
-  })
-
-  test_that("init.pars inputs are correctly shown when link is clicked", {
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$initParsLink))
+  test_that("init.pars inputs are displayed correctly", {
     click(remDr, pages$state9.1$selectors$initParsLink)
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$param1Label))
     expect_equal(getText(remDr, pages$state9.1$selectors$param1Label),

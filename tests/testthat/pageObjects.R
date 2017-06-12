@@ -265,7 +265,6 @@ pages <- list(
             n2Input="//input[@id='n22']",
             seedLabel="//label[@for='MCMCSeed']",
             seedInput="//input[@id='MCMCSeed']",
-            initParsLink="//a[@onclick='showMCMCParams()']",
             param1Label="//label[@for='param1']",
             param1Input="//input[@id='param1']",
             param2Label="//label[@for='param2']",
