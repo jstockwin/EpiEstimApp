@@ -70,7 +70,7 @@ clickPrev <- function(remDr) {
 }
 
 clickGo <- function(remDr) {
-  click(remDr, pages$common$selectors$prevButton)
+  click(remDr, pages$common$selectors$goButton)
 }
 
 clickStop <- function(remDr) {
@@ -82,11 +82,46 @@ waitForElemDisplayed <- function(remDr, selector, timeout=10) {
   # If passes if element is displayed within timeout, fails otherwise
   displayed <- FALSE
   tries <- 0
-  while (!displayed & tries < timeout) {
-    displayed <- isDisplayed(remDr, selector)
+  while (!displayed & tries < 2*timeout) {
+    tryCatch({
+      displayed <- isDisplayed(remDr, selector)
+      },
+      error = function (e) {}
+    )
     tries <- tries + 1
+    Sys.sleep(0.5)
   }
   expect_true(displayed)
+}
+
+extractOutputFromApp <- function(remDr) {
+  # Extract incidence data
+  click(remDr, pages$common$selectors$incidenceTab)
+  waitForElemDisplayed(remDr, pages$common$selectors$incidenceTable)
+  str <- getText(remDr, pages$common$selectors$incidenceTable)
+  str2 <- gsub(" ", ",", str)
+  con <- textConnection(str2)
+  incidence <- read.csv(con, sep=",", header=TRUE)
+
+  # Extract serialInterval data
+  click(remDr, pages$common$selectors$serialIntervalTab)
+  waitForElemDisplayed(remDr, pages$common$selectors$serialIntervalTable)
+  str <- getText(remDr, pages$common$selectors$serialIntervalTable)
+  str2 <- gsub(" ", ",", str)
+  con <- textConnection(str2)
+  serialInterval <- read.csv(con, sep=",", header=TRUE)
+
+  # Extract reproduction data
+  click(remDr, pages$common$selectors$reproductionTab)
+  waitForElemDisplayed(remDr, pages$common$selectors$reproductionTable)
+  str <- getText(remDr, pages$common$selectors$reproductionTable)
+  str <- gsub(" ", ",", str)
+  con <- textConnection(str)
+  reproduction <- read.csv(con, sep=",", header=TRUE)
+  names(reproduction) <- gsub(".R.", "(R)", names(reproduction))
+
+  # Return the list
+  list(incidence=incidence, SI.Distr=serialInterval, R=reproduction)
 }
 
 connectToApp <- function(remDr) {
@@ -98,15 +133,15 @@ connectToApp <- function(remDr) {
 
 waitForAppReady <- function(remDr, timeout=30) {
   # Waits for "Initialising..." to change to "Ready" for timeout seconds.
-  initialising = TRUE
+  ready <- FALSE
   tries=0
-  while (initialising & tries < timeout) {
+  while (!ready & tries < timeout) {
     status <- getText(remDr, pages$common$selectors$statusBar)
-    if (status == "Initialising...") {
+    if (status != "Ready") {
       tries = tries + 1
       Sys.sleep(1)
     } else {
-      initialising = FALSE
+      ready <- TRUE
     }
   }
   expect_equal(status, "Ready")

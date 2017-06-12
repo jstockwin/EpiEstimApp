@@ -30,7 +30,8 @@ Remotes:
 Suggests:
     testthat,
     RSelenium,
-    subprocess
+    subprocess,
+    compare
 License: GPL (>=2) | file LICENSE
 Encoding: UTF-8
 LazyData: true

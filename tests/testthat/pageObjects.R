@@ -19,7 +19,13 @@ pages <- list(
             goButton="//div[@id='control']/button[@id='go']",
             errorMessage="//div[@id='control']/div[@id='error']",
             incidenceTitle="//div[@id='incidenceTitle']",
-            statusBar="//div[@id='status']"
+            statusBar="//div[@id='status']",
+            incidenceTab="//a[@data-value='Incidence Data']",
+            reproductionTab="//a[@data-value='Estimated Reproduction Number']",
+            serialIntervalTab="//a[@data-value='Serial Interval Distribution']",
+            incidenceTable="//div[@id='incidenceDataOutput']/table",
+            reproductionTable="//div[@id='estimatedROutput']/table",
+            serialIntervalTable="//div[@id='serialIntervalOutput']/table"
         )
     ),
     state1.1 = list(
