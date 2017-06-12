@@ -212,6 +212,38 @@ pages <- list(
             seedLabel="//label[@for='uploadedSISeed']",
             seedInput="//input[@id='uploadedSISeed']"
         )
+    ),
+    state9.1 = list(
+        selectors = list(
+            distributionLabel="//div[@id='SIDist2']/label",
+            distributionOption1Label="//div[@id='SIDist2']//div[@class='radio'][1]//span",
+            distributionOption1Input="//div[@id='SIDist2']//div[@class='radio'][1]//input",
+            distributionOption2Label="//div[@id='SIDist2']//div[@class='radio'][2]//span",
+            distributionOption2Input="//div[@id='SIDist2']//div[@class='radio'][2]//input",
+            distributionOption3Label="//div[@id='SIDist2']//div[@class='radio'][3]//span",
+            distributionOption3Input="//div[@id='SIDist2']//div[@class='radio'][3]//input",
+            distributionOption4Label="//div[@id='SIDist2']//div[@class='radio'][4]//span",
+            distributionOption4Input="//div[@id='SIDist2']//div[@class='radio'][4]//input",
+            distributionOption5Label="//div[@id='SIDist2']//div[@class='radio'][5]//span",
+            distributionOption5Input="//div[@id='SIDist2']//div[@class='radio'][5]//input",
+            distributionOption6Label="//div[@id='SIDist2']//div[@class='radio'][6]//span",
+            distributionOption6Input="//div[@id='SIDist2']//div[@class='radio'][6]//input",
+            n1Label="//label[@for='n12']",
+            n1Input="//input[@id='n12']",
+            burninLabel="//label[@for='burnin']",
+            burninInput="//input[@id='burnin']",
+            thinLabel="//label[@for='thin']",
+            thinInput="//input[@id='thin']",
+            n2Label="//label[@for='n22']",
+            n2Input="//input[@id='n22']",
+            seedLabel="//label[@for='MCMCSeed']",
+            seedInput="//input[@id='MCMCSeed']",
+            initParsLink="//a[@onclick='showMCMCParams()']",
+            param1Label="//label[@for='param1']",
+            param1Input="//input[@id='param1']",
+            param2Label="//label[@for='param2']",
+            param2Input="//input[@id='param2']"
+        )
     )
 
 )

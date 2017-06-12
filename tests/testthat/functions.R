@@ -216,6 +216,21 @@ navigateToState <- function(remDr, state) {
            navigateToState(remDr, "7.2")
            click(remDr, pages$state7.2$selectors$SIFromRawButton)
            clickNext(remDr)
+         },
+         "9.1" = {
+           navigateToState(remDr, "8.2")
+           # We won't be able to move on unless we upload a
+           # file...
+           if (getAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "value") == "") {
+             # SAUCELABS gives an error about interacting with an element
+             # which is not currently visible. Explicitly show the element
+             # first to fix this?
+             setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
+             path <- getFilePath(remDr, "datasets/SerialIntervalData/NewYorkH1N1.csv")
+             sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
+                      path)
+           }
+           clickNext(remDr)
          }
   )
   waitForStateDisplayed(remDr, state)
