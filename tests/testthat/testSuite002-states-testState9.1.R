@@ -96,7 +96,6 @@ tryCatch({
   })
 
   test_that("init.pars inputs are displayed correctly", {
-    click(remDr, pages$state9.1$selectors$initParsLink)
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$param1Label))
     expect_equal(getText(remDr, pages$state9.1$selectors$param1Label),
                  "Choose the value of param1")
