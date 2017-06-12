@@ -221,7 +221,11 @@ pages <- list(
             distributionOption5Label="//div[@id='SIDist']//div[@class='radio'][5]//span",
             distributionOption5Input="//div[@id='SIDist']//div[@class='radio'][5]//input",
             distributionOption6Label="//div[@id='SIDist']//div[@class='radio'][6]//span",
-            distributionOption6Input="//div[@id='SIDist']//div[@class='radio'][6]//input"
+            distributionOption6Input="//div[@id='SIDist']//div[@class='radio'][6]//input",
+            n2Label="//label[@for='n24']",
+            n2Input="//input[@id='n24']",
+            seedLabel="//label[@for='preloadedSeed']",
+            seedInput="//input[@id='preloadedSeed']"
         )
     ),
     state8.2 = list(

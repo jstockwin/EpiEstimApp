@@ -508,6 +508,22 @@ shinyServer(function(input, output, session) {
                # Simply read the MCMC samples from the file. See getMCMCFit in utils.R 
                method <<- "SIFromSample"
                SI.Sample <<- getSISamples(input$SIDataset, input$SIDist)
+
+               requestedSeed <<- input$preloadedSeed
+               if (!is.null(requestedSeed) & !is.na(requestedSeed)) {
+                   # Actually set the seed now, to check it's valid
+                   tryCatch({
+                       set.seed(requestedSeed)
+                   },
+                   error = function(e) {
+                       throwError("Invalid seed", "preloadedSeed")
+                   })
+               }
+
+               n2 <<- input$n24
+               if (is.null(n2) || n2 < 1 || !is.integer(n2)) {
+                 throwError("n2 must be an integer greater than or equal to 1", "n24")
+               }
                TRUE
              },
              "8.2" = {
