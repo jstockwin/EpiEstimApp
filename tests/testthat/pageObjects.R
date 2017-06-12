@@ -324,6 +324,29 @@ pages <- list(
             param2Label="//label[@for='param2']",
             param2Input="//input[@id='param2']"
         )
+    ),
+    state9.2 = list(
+        selectors = list(
+            SIDistrDataUploadLabel="//div[@id='SIDistrDataErrorBox']/div/label",
+            SIDistrDataUploadBrowse="//div[@id='SIDistrDataErrorBox']//span",
+            SIDistrDataUploadInput="//input[@id='SIDistrData']",
+            SIDistrDataUploadText="//div[@id='SIDistrDataErrorBox']//input[@type='text']",
+            SIDistrHeaderButton="//input[@id='SIDistrHeader']",
+            SIDistrSepLabel="//div[@id='SIDistrSep']/label",
+            SIDistrSepCommaButton="//div[@id='SIDistrSep']//div[@class='radio'][1]//input",
+            SIDistrSepCommaLabel="//div[@id='SIDistrSep']//div[@class='radio'][1]//span",
+            SIDistrSepSemiButton="//div[@id='SIDistrSep']//div[@class='radio'][2]//input",
+            SIDistrSepSemiLabel="//div[@id='SIDistrSep']//div[@class='radio'][2]//span",
+            SIDistrSepTabButton="//div[@id='SIDistrSep']//div[@class='radio'][3]//input",
+            SIDistrSepTabLabel="//div[@id='SIDistrSep']//div[@class='radio'][3]//span",
+            SIDistrQuoteLabel="//div[@id='SIDistrQuote']/label",
+            SIDistrQuoteNoneButton="//div[@id='SIDistrQuote']//div[@class='radio'][1]//input",
+            SIDistrQuoteNoneLabel="//div[@id='SIDistrQuote']//div[@class='radio'][1]//span",
+            SIDistrQuoteDoubleButton="//div[@id='SIDistrQuote']//div[@class='radio'][2]//input",
+            SIDistrQuoteDoubleLabel="//div[@id='SIDistrQuote']//div[@class='radio'][2]//span",
+            SIDistrQuoteSingleButton="//div[@id='SIDistrQuote']//div[@class='radio'][3]//input",
+            SIDistrQuoteSingleLabel="//div[@id='SIDistrQuote']//div[@class='radio'][3]//span"
+        )
     )
 
 )

@@ -256,6 +256,11 @@ navigateToState <- function(remDr, state) {
                       path)
            }
            clickNext(remDr)
+         },
+         "9.2" = {
+           navigateToState(remDr, "8.5")
+           click(remDr, pages$state8.5$selectors$SIDistrDataTypeOwnButton)
+           clickNext(remDr)
          }
   )
   waitForStateDisplayed(remDr, state)
