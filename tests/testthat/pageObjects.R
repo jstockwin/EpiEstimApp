@@ -284,6 +284,16 @@ pages <- list(
             Std.SIInput="//input[@id='Std.SI2']"
         )
     ),
+    state8.5 = list(
+        selectors = list(
+            SIDistrDataType="//div[@id='SIDistrDataType']",
+            SIDistrDataTypeLabel="//div[@id='SIDistrDataType']/label",
+            SIDistrDataTypePreloadedLabel="//div[@id='SIDistrDataType']//div[@class='radio'][1]//span",
+            SIDistrDataTypePreloadedButton="//div[@id='SIDistrDataType']//div[@class='radio'][1]//input",
+            SIDistrDataTypeOwnLabel="//div[@id='SIDistrDataType']//div[@class='radio'][2]//span",
+            SIDistrDataTypeOwnButton="//div[@id='SIDistrDataType']//div[@class='radio'][2]//input"
+        )
+    ),
     state9.1 = list(
         selectors = list(
             distributionLabel="//div[@id='SIDist2']/label",
