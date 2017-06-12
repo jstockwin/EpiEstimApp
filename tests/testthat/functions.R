@@ -208,6 +208,11 @@ navigateToState <- function(remDr, state) {
            click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
            clickNext(remDr)
          },
+         "7.3" = {
+           navigateToState(remDr, "6.2")
+           click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+           clickNext(remDr)
+         },
          "8.1" = {
            navigateToState(remDr, "7.1")
            clickNext(remDr)

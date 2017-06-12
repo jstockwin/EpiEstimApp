@@ -171,6 +171,32 @@ pages <- list(
             SIFromSampleButton="//div[@id='SIFrom']//div[@class='radio'][2]//input"
         )
     ),
+    state7.3 = list(
+        selectors = list(
+            n1Label="//label[@for='n1']",
+            n1Input="//input[@id='n1']",
+            n2Label="//label[@for='n2']",
+            n2Input="//input[@id='n2']",
+            Mean.SILabel="//label[@for='Mean.SI']",
+            Mean.SIInput="//input[@id='Mean.SI']",
+            Std.Mean.SILabel="//label[@for='Std.Mean.SI']",
+            Std.Mean.SIInput="//input[@id='Std.Mean.SI']",
+            Min.Mean.SILabel="//label[@for='Min.Mean.SI']",
+            Min.Mean.SIInput="//input[@id='Min.Mean.SI']",
+            Max.Mean.SILabel="//label[@for='Max.Mean.SI']",
+            Max.Mean.SIInput="//input[@id='Max.Mean.SI']",
+            Std.SILabel="//label[@for='Std.SI']",
+            Std.SIInput="//input[@id='Std.SI']",
+            Std.Std.SILabel="//label[@for='Std.Std.SI']",
+            Std.Std.SIInput="//input[@id='Std.Std.SI']",
+            Min.Std.SILabel="//label[@for='Min.Std.SI']",
+            Min.Std.SIInput="//input[@id='Min.Std.SI']",
+            Max.Std.SILabel="//label[@for='Max.Std.SI']",
+            Max.Std.SIInput="//input[@id='Max.Std.SI']",
+            seedLabel="//label[@for='uncertainSeed']",
+            seedInput="//input[@id='uncertainSeed']"
+        )
+    ),
     state8.1 = list(
         selectors = list(
             distributionLabel="//div[@id='SIDist']/label",
