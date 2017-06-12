@@ -8,7 +8,7 @@ drivers <- getRemDrivers("Test Suite 2 (States) --> State 2.1")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
-remDr$open(silent=TRUE)
+openRemDriver(remDr)
 tryCatch({
   test_that("can connect to app", {
     connectToApp(remDr)
