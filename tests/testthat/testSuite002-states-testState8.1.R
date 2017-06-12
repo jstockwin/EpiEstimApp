@@ -57,6 +57,22 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state8.1$selectors$distributionOption6Input))
   })
 
+  test_that("n2 input is displaying correctly", {
+    expect_true(isDisplayed(remDr, pages$state8.1$selectors$n2Label))
+    expect_equal(getText(remDr, pages$state8.1$selectors$n2Label),
+                 paste("Choose n2, the posterior sample size to be drawn for R",
+                       "for each SI distribution sampled"))
+    expect_true(isDisplayed(remDr, pages$state8.1$selectors$n2Input))
+  })
+
+  test_that("seed input is displaying correctly", {
+    expect_true(isDisplayed(remDr, pages$state8.1$selectors$seedLabel))
+    expect_equal(getText(remDr, pages$state8.1$selectors$seedLabel),
+                 paste("Set a seed to be used by EpiEstim. A random one will",
+                       "be chosen if this is left blank"))
+    expect_true(isDisplayed(remDr, pages$state8.1$selectors$seedInput))
+  })
+
   test_that("relevant control buttons are displayed", {
     expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
     expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))

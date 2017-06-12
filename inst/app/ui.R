@@ -227,6 +227,12 @@ tool, the format or results generated from it.</p>
                                        'Offset Weibull' = 'off1W',
                                        'Log-Normal' = 'L',
                                        'Offset Log-Normal' = 'off1L'))
+                        ),
+                    div(id="n24ErrorBox", class="ErrorBox",
+                        numericInput('n24', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
+                        ),
+                    div(id="preloadedSeedErrorBox", class="ErrorBox",
+                        numericInput("preloadedSeed", "Set a seed to be used by EpiEstim. A random one will be chosen if this is left blank", value=NULL)
                         )
       
          )),
