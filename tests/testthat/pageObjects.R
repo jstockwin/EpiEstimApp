@@ -276,6 +276,14 @@ pages <- list(
             seedInput="//input[@id='SISampleSeed']"
         )
     ),
+    state8.4 = list(
+        selectors = list(
+            Mean.SILabel="//label[@for='Mean.SI2']",
+            Mean.SIInput="//input[@id='Mean.SI2']",
+            Std.SILabel="//label[@for='Std.SI2']",
+            Std.SIInput="//input[@id='Std.SI2']"
+        )
+    ),
     state9.1 = list(
         selectors = list(
             distributionLabel="//div[@id='SIDist2']/label",
