@@ -208,6 +208,16 @@ navigateToState <- function(remDr, state) {
            click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
            clickNext(remDr)
          },
+         "7.3" = {
+           navigateToState(remDr, "6.2")
+           click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+           clickNext(remDr)
+         },
+         "7.4" = {
+           navigateToState(remDr, "6.2")
+           click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
+           clickNext(remDr)
+         },
          "8.1" = {
            navigateToState(remDr, "7.1")
            clickNext(remDr)
@@ -215,6 +225,46 @@ navigateToState <- function(remDr, state) {
          "8.2" = {
            navigateToState(remDr, "7.2")
            click(remDr, pages$state7.2$selectors$SIFromRawButton)
+           clickNext(remDr)
+         },
+         "8.3" = {
+           navigateToState(remDr, "7.2")
+           click(remDr, pages$state7.2$selectors$SIFromSampleButton)
+           clickNext(remDr)
+         },
+         "8.4" = {
+           navigateToState(remDr, "7.4")
+           click(remDr, pages$state7.4$selectors$parametricYesButton)
+           clickNext(remDr)
+         },
+         "8.5" = {
+           navigateToState(remDr, "7.4")
+           click(remDr, pages$state7.4$selectors$parametricNoButton)
+           clickNext(remDr)
+         },
+         "9.1" = {
+           navigateToState(remDr, "8.2")
+           # We won't be able to move on unless we upload a
+           # file...
+           if (getAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "value") == "") {
+             # SAUCELABS gives an error about interacting with an element
+             # which is not currently visible. Explicitly show the element
+             # first to fix this?
+             setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
+             path <- getFilePath(remDr, "datasets/SerialIntervalData/NewYorkH1N1.csv")
+             sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
+                      path)
+           }
+           clickNext(remDr)
+         },
+         "9.2" = {
+           navigateToState(remDr, "8.5")
+           click(remDr, pages$state8.5$selectors$SIDistrDataTypeOwnButton)
+           clickNext(remDr)
+         },
+         "9.3" = {
+           navigateToState(remDr, "8.5")
+           click(remDr, pages$state8.5$selectors$SIDistrDataTypePreloadedButton)
            clickNext(remDr)
          }
   )
@@ -246,6 +296,33 @@ getRemDrivers <- function(name) {
         rDr <- NULL
   }
   return(list(remDr = remDr, rDr = rDr))
+}
+
+openRemDriver <- function(remDr) {
+  # Sometimes the saucelabs job fails to start, just because it seems
+  # to be a bit dodgy. (A new saucelabs job starts for each test, and we
+  # have lots of tests, so even though it's unlikely to go wrong, it happens
+  # reasonably often.) To try and help this, we will retry the `remDr%$open
+  # command a few times if it fails the first time.
+  tries <- 5
+  t <- 0
+  done <- FALSE
+  wait <- 3
+  while (!done & t < tries) {
+    tryCatch({
+      remDr$open(silent=TRUE)
+      done <- TRUE
+    },
+    error = function(e) {
+      # Ignore error and try again
+      t <- t + 1
+      Sys.sleep(wait)
+    })
+  }
+  # One final try (will also ensure correct error is thrown)
+  if (!done) {
+    remDr$open(silent=TRUE)
+  }
 }
 
 closeRemDrivers <- function(remDr, rDr) {

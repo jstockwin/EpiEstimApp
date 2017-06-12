@@ -213,7 +213,7 @@ tool, the format or results generated from it.</p>
          hidden(div(id="7.4",
                     # State 7.4
                     div(id="parametricErrorBox", class="ErrorBox",
-                      radioButtons('parametric', 'Parametric on Non-Parametric SI?',
+                      radioButtons('parametric', 'Parametric or Non-Parametric SI?',
                                    c('Parametric'='TRUE', 'Non-Parametric'='FALSE'))
                     )
          )),
@@ -288,7 +288,7 @@ tool, the format or results generated from it.</p>
                       numericInput('n23', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
                     ),
                     div(id="SISampleSeedErrorBox", class="ErrorBox",
-                        numericInput("SISampleSeed", "Set a seed to be used by EpiEstim. A random one will be chosen this is left blank", value=NULL)
+                        numericInput("SISampleSeed", "Set a seed to be used by EpiEstim. A random one will be chosen if this is left blank", value=NULL)
                     )
          )),
          hidden(div(id="8.4",
@@ -335,20 +335,16 @@ tool, the format or results generated from it.</p>
                     div(id="MCMCSeedErrorBox", class="ErrorBox",
                         numericInput("MCMCSeed", "Set a seed to be used for MCMC. A random one will be chosen if this is left blank", value=NULL)
                     ),
-                    HTML('
-                                 <p>If you would like to use your own initialisation parameters for MCMC <a onClick="showMCMCParams()">click here</a>. Otherwise, a smart choice will be made by EpiEstim, which should work in most cases.</p>
-                            '),
-                    div(id='MCMCInitialParams', style="display: none",
-                        p('For Gamma, Offset Gamma and Weibull distributions, 
-                                      param1 is the shape and param2 is the scale of the distribution. 
-                                      For Log-Normal, param1 and param2 are respectively 
-                                      the mean and standard deviation of the logarithm.'),
-                        div(id="param1ErrorBox", class="ErrorBox",
-                          numericInput('param1', 'Choose the value of param1', min=0, value='')
-                        ),
-                        div(id="param2ErrorBox", class="ErrorBox",
-                          numericInput('param2', 'Choose the value of param2', min=0, value='')
-                        )
+                    tags$hr(),
+                    p('For Gamma, Offset Gamma and Weibull distributions, 
+                                  param1 is the shape and param2 is the scale of the distribution. 
+                                  For Log-Normal, param1 and param2 are respectively 
+                                  the mean and standard deviation of the logarithm.'),
+                    div(id="param1ErrorBox", class="ErrorBox",
+                      numericInput('param1', 'Choose the value of param1', min=0, value='')
+                    ),
+                    div(id="param2ErrorBox", class="ErrorBox",
+                      numericInput('param2', 'Choose the value of param2', min=0, value='')
                     )
          )),
          hidden(div(id="9.2",
