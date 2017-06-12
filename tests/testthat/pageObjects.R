@@ -197,6 +197,16 @@ pages <- list(
             seedInput="//input[@id='uncertainSeed']"
         )
     ),
+    state7.4 = list(
+        selectors = list(
+            parametric="//div[@id='parametric']",
+            parametricLabel="//div[@id='parametric']/label",
+            parametricNoLabel="//div[@id='parametric']//div[@class='radio'][2]//span",
+            parametricNoButton="//div[@id='parametric']//div[@class='radio'][2]//input",
+            parametricYesLabel="//div[@id='parametric']//div[@class='radio'][1]//span",
+            parametricYesButton="//div[@id='parametric']//div[@class='radio'][1]//input"
+        )
+    ),
     state8.1 = list(
         selectors = list(
             distributionLabel="//div[@id='SIDist']/label",

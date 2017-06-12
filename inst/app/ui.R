@@ -213,7 +213,7 @@ tool, the format or results generated from it.</p>
          hidden(div(id="7.4",
                     # State 7.4
                     div(id="parametricErrorBox", class="ErrorBox",
-                      radioButtons('parametric', 'Parametric on Non-Parametric SI?',
+                      radioButtons('parametric', 'Parametric or Non-Parametric SI?',
                                    c('Parametric'='TRUE', 'Non-Parametric'='FALSE'))
                     )
          )),
