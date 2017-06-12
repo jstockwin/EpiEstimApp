@@ -347,6 +347,21 @@ pages <- list(
             SIDistrQuoteSingleButton="//div[@id='SIDistrQuote']//div[@class='radio'][3]//input",
             SIDistrQuoteSingleLabel="//div[@id='SIDistrQuote']//div[@class='radio'][3]//span"
         )
+    ),
+    state9.3 = list(
+        selectors = list(
+            datasetLabel="//div[@id='SIDistrDataset']/label",
+            datasetOption1Label="//div[@id='SIDistrDataset']//div[@class='radio'][1]//span",
+            datasetOption1Input="//div[@id='SIDistrDataset']//div[@class='radio'][1]//input",
+            datasetOption2Label="//div[@id='SIDistrDataset']//div[@class='radio'][2]//span",
+            datasetOption2Input="//div[@id='SIDistrDataset']//div[@class='radio'][2]//input",
+            datasetOption3Label="//div[@id='SIDistrDataset']//div[@class='radio'][3]//span",
+            datasetOption3Input="//div[@id='SIDistrDataset']//div[@class='radio'][3]//input",
+            datasetOption4Label="//div[@id='SIDistrDataset']//div[@class='radio'][4]//span",
+            datasetOption4Input="//div[@id='SIDistrDataset']//div[@class='radio'][4]//input",
+            datasetOption5Label="//div[@id='SIDistrDataset']//div[@class='radio'][5]//span",
+            datasetOption5Input="//div[@id='SIDistrDataset']//div[@class='radio'][5]//input"
+        )
     )
 
 )
