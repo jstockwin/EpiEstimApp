@@ -213,6 +213,33 @@ pages <- list(
             seedInput="//input[@id='uploadedSISeed']"
         )
     ),
+    state8.3 = list(
+        selectors = list(
+            SISampleDataUploadLabel="//div[@id='SISampleDataErrorBox']/div/label",
+            SISampleDataUploadBrowse="//div[@id='SISampleDataErrorBox']//span",
+            SISampleDataUploadInput="//input[@id='SISampleData']",
+            SISampleDataUploadText="//div[@id='SISampleDataErrorBox']//input[@type='text']",
+            SISampleHeaderButton="//input[@id='SISampleHeader']",
+            SISampleSepLabel="//div[@id='SISampleSep']/label",
+            SISampleSepCommaButton="//div[@id='SISampleSep']//div[@class='radio'][1]//input",
+            SISampleSepCommaLabel="//div[@id='SISampleSep']//div[@class='radio'][1]//span",
+            SISampleSepSemiButton="//div[@id='SISampleSep']//div[@class='radio'][2]//input",
+            SISampleSepSemiLabel="//div[@id='SISampleSep']//div[@class='radio'][2]//span",
+            SISampleSepTabButton="//div[@id='SISampleSep']//div[@class='radio'][3]//input",
+            SISampleSepTabLabel="//div[@id='SISampleSep']//div[@class='radio'][3]//span",
+            SISampleQuoteLabel="//div[@id='SISampleQuote']/label",
+            SISampleQuoteNoneButton="//div[@id='SISampleQuote']//div[@class='radio'][1]//input",
+            SISampleQuoteNoneLabel="//div[@id='SISampleQuote']//div[@class='radio'][1]//span",
+            SISampleQuoteDoubleButton="//div[@id='SISampleQuote']//div[@class='radio'][2]//input",
+            SISampleQuoteDoubleLabel="//div[@id='SISampleQuote']//div[@class='radio'][2]//span",
+            SISampleQuoteSingleButton="//div[@id='SISampleQuote']//div[@class='radio'][3]//input",
+            SISampleQuoteSingleLabel="//div[@id='SISampleQuote']//div[@class='radio'][3]//span",
+            n2Label="//label[@for='n23']",
+            n2Input="//input[@id='n23']",
+            seedLabel="//label[@for='SISampleSeed']",
+            seedInput="//input[@id='SISampleSeed']"
+        )
+    ),
     state9.1 = list(
         selectors = list(
             distributionLabel="//div[@id='SIDist2']/label",

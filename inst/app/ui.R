@@ -288,7 +288,7 @@ tool, the format or results generated from it.</p>
                       numericInput('n23', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
                     ),
                     div(id="SISampleSeedErrorBox", class="ErrorBox",
-                        numericInput("SISampleSeed", "Set a seed to be used by EpiEstim. A random one will be chosen this is left blank", value=NULL)
+                        numericInput("SISampleSeed", "Set a seed to be used by EpiEstim. A random one will be chosen if this is left blank", value=NULL)
                     )
          )),
          hidden(div(id="8.4",

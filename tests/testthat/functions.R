@@ -217,6 +217,11 @@ navigateToState <- function(remDr, state) {
            click(remDr, pages$state7.2$selectors$SIFromRawButton)
            clickNext(remDr)
          },
+         "8.3" = {
+           navigateToState(remDr, "7.2")
+           click(remDr, pages$state7.2$selectors$SIFromSampleButton)
+           clickNext(remDr)
+         },
          "9.1" = {
            navigateToState(remDr, "8.2")
            # We won't be able to move on unless we upload a
