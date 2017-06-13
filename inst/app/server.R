@@ -270,8 +270,8 @@ shinyServer(function(input, output, session) {
   
   output$incidenceDataOutput <- renderTable({
     if (!is.null(asyncData$epiEstimOutput)) {
-        local <- asyncData$epiEstimOutput$I_local
-        imported <- asyncData$epiEstimOutput$I_imported
+        local <- round(asyncData$epiEstimOutput$I_local, 2)
+        imported <- round(asyncData$epiEstimOutput$I_imported, 2)
         values$status <- "Ready"
         show("prev")
         hide("stop")
@@ -307,7 +307,7 @@ shinyServer(function(input, output, session) {
       show("prev")
       hide("stop")
       enable("go")
-      asyncData$epiEstimOutput$R
+      round(asyncData$epiEstimOutput$R, 2)
     }
   })
   
@@ -317,7 +317,7 @@ shinyServer(function(input, output, session) {
       show("prev")
       hide("stop")
       enable("go")
-      asyncData$epiEstimOutput$SI.Distr
+      round(asyncData$epiEstimOutput$SI.Distr, 2)
     }
   })
   

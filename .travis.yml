@@ -3,19 +3,26 @@ language: r
 env:
   global:
   - NOT_CRAN=true
-  matrix:
   - browser=chrome platform="Windows 10"
-  - browser=firefox platform=linux
-  - browser=chrome platform=linux
+  matrix:
+  - suite=001
+  - suite=002
+  - suite=004
 cache:
 - packages
 r:
 - release
 - devel
+before_script:
+  - |
+    cd tests/testthat
+    # Remove all test files not in current test suite
+    ls | grep -P "^testSuite(?!$suite)" | xargs -d"\n" rm
+    cd ../../
 script:
   - |
     R CMD build .
-    travis_wait 30 R CMD check EpiEstimApp*tar.gz
+    travis_wait 60 R CMD check EpiEstimApp*tar.gz
 after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
 addons:
