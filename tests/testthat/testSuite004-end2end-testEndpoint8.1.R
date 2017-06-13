@@ -1,4 +1,4 @@
-context("Test Suite 4 (Full) -> Endpoint 8.1")
+context("Test Suite 4 (E2E) --> Endpoint 8.1")
 
 library(RSelenium)
 library(testthat)
@@ -9,7 +9,7 @@ drivers <- getRemDrivers("Test Suite 2 (States) --> State 1.1")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
-out <- NULL
+appOut <- NULL
 openRemDriver(remDr)
 tryCatch({
   test_that("can connect to app", {
@@ -43,7 +43,7 @@ tryCatch({
     Sys.sleep(1)
     waitForAppReady(remDr)
 
-    out <<- extractOutputFromApp(remDr)
+    appOut <<- extractOutputFromApp(remDr)
   })
 },
 error = function(e) {
@@ -62,14 +62,7 @@ sample <- EpiEstim:::process_SI.Sample(sample)
 epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
 test_that("output matches", {
-  expect_true(compare::compare(out$R, round(epiEstimOut$R, 2))$result)
-  expect_true(compare::compare(out$SI.Distr, round(as.data.frame(epiEstimOut$SI.Distr), 2))$result)
-  expect_true(compare::compare(out$incidence$local, round(epiEstimOut$I_local, 2))$result)
-  expect_true(compare::compare(out$incidence$imported, round(epiEstimOut$I_imported, 2))$result)
+  compareOutputFromApp(appOut, epiEstimOut)
 })
 
-cat("\n\nout$SI.Distr\n")
-str(out$SI.Distr)
-cat("\n\nepiEstimOut$SI.Distr\n")
-str(round(as.data.frame(epiEstimOut$SI.Distr), 2))
 

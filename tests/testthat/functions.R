@@ -121,7 +121,14 @@ extractOutputFromApp <- function(remDr) {
   names(reproduction) <- gsub(".R.", "(R)", names(reproduction))
 
   # Return the list
-  list(incidence=incidence, SI.Distr=serialInterval, R=reproduction)
+  list(I=incidence, SI.Distr=serialInterval, R=reproduction)
+}
+
+compareOutputFromApp <- function(appOut, epiEstimOut) {
+  expect_true(compare::compare(appOut$R, round(epiEstimOut$R, 2))$result)
+  expect_true(compare::compare(appOut$SI.Distr, round(as.data.frame(epiEstimOut$SI.Distr), 2))$result)
+  expect_true(compare::compare(appOut$I$local, round(epiEstimOut$I_local, 2))$result)
+  expect_true(compare::compare(appOut$I$imported, round(epiEstimOut$I_imported, 2))$result)
 }
 
 connectToApp <- function(remDr) {
