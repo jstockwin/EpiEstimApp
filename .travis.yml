@@ -7,7 +7,6 @@ env:
   matrix:
   - suite=001
   - suite=002
-  - suite=003
   - suite=004
 cache:
 - packages
