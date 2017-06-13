@@ -5,7 +5,11 @@ library(testthat)
 library(EpiEstim)
 source("functions.R", local=TRUE)
 
-drivers <- getRemDrivers("Test Suite 2 (States) --> State 1.1")
+
+# ---------------------------------------------------------------------------#
+# Test 1 - Defaults                                                          #
+# ---------------------------------------------------------------------------#
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 1)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -20,7 +24,7 @@ tryCatch({
     waitForAppReady(remDr)
   })
 
-  test_that("can walk through the app to endpoint state", {
+  test_that("can walk through the app to endpoint state (Test 1)", {
       # Walk the app through to endpoint state with default inputs
     click(remDr, pages$state1.1$selectors$preloadedDataButton)
     clickNext(remDr) # Move to state 2.2
@@ -61,8 +65,7 @@ sample <- EpiEstim:::process_SI.Sample(sample)
 
 epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
-test_that("output matches", {
+test_that("Test 1 output matches", {
   compareOutputFromApp(appOut, epiEstimOut)
 })
-
 
