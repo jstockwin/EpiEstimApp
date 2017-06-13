@@ -3,14 +3,23 @@ language: r
 env:
   global:
   - NOT_CRAN=true
-  matrix:
   - browser=chrome platform="Windows 10"
-  - browser=firefox platform=linux
+  matrix:
+  - suite=001
+  - suite=002
+  - suite=003
+  - suite=004
 cache:
 - packages
 r:
 - release
 - devel
+before_script:
+  - |
+    cd tests/testthat
+    # Remove all test files not in current test suite
+    ls | grep -P "^testSuite(?!$suite)" | xargs -d"\n" rm
+    cd ../../
 script:
   - |
     R CMD build .
