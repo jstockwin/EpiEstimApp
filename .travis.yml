@@ -15,7 +15,7 @@ r:
 script:
   - |
     R CMD build .
-    travis_wait 30 R CMD check EpiEstimApp*tar.gz
+    travis_wait 60 R CMD check EpiEstimApp*tar.gz
 after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
 addons:
