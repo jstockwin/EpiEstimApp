@@ -6,7 +6,6 @@ env:
   matrix:
   - browser=chrome platform="Windows 10"
   - browser=firefox platform=linux
-  - browser=chrome platform=linux
 cache:
 - packages
 r:
