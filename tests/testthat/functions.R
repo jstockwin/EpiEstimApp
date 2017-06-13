@@ -56,6 +56,11 @@ sendKeys <- function(remDr, selector, keys) {
   webElem$sendKeysToElement(list(keys))
 }
 
+clear <- function(remDr, selector) {
+  webElem <- findElem(remDr, selector)
+  webElem$clearElement()
+}
+
 click <- function(remDr, selector) {
   webElem <- findElem(remDr, selector)
   webElem$clickElement()

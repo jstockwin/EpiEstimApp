@@ -374,9 +374,7 @@ tryCatch({
     clickNext(remDr) # Move to state 8.1
     waitForStateDisplayed(remDr, "8.1")
     click(remDr, pages$state8.1$selectors$distributionOption1Input)
-    sendKeys(remDr, pages$state8.1$selectors$n2Input, selKeys$backspace) # <---
-    sendKeys(remDr, pages$state8.1$selectors$n2Input, selKeys$backspace) # <---
-    sendKeys(remDr, pages$state8.1$selectors$n2Input, selKeys$backspace) # <---
+    clear(remDr, pages$state8.1$selectors$n2Input) # <---
     sendKeys(remDr, pages$state8.1$selectors$n2Input, "50") # <---
     sendKeys(remDr, pages$state8.1$selectors$seedInput, "1")
     clickGo(remDr)
