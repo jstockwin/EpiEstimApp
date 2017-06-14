@@ -557,6 +557,7 @@ shinyServer(function(input, output, session) {
                TRUE
              },
              "8.3" = {
+               method <<- "SIFromSample"
                SI.Sample <<- EpiEstim:::process_SI.Sample(read.csv(input$SISampleData$datapath, 
                                                        header = input$SISampleHeader, sep = input$SISampleSep,
                                                        quote = input$SISampleQuote))
