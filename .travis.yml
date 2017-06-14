@@ -10,6 +10,7 @@ env:
   - suite=004.01
   - suite=004.02
   - suite=004.03
+  - suite=004.04
 cache:
 - packages
 r:
