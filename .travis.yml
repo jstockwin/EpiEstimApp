@@ -9,7 +9,9 @@ env:
   - suite=002
   - suite=004.01
   - suite=004.02
-  - suite=004.03
+  - suite=004.03.1
+  - suite=004.03.2
+  - suite=004.03.3
   - suite=004.04
 cache:
 - packages
