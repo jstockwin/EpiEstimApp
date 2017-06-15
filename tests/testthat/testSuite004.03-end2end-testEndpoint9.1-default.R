@@ -21,7 +21,7 @@ tryCatch({
   })
 
   test_that("app is ready within 30 seconds", {
-    waitForAppReady(remDr)
+    waitForAppReady(remDr, timeout=3000) # Long timeout for running MCMC
   })
 
   test_that("can walk through the app to endpoint state (Test 1)", {
@@ -56,7 +56,7 @@ tryCatch({
     sendKeys(remDr, pages$state9.1$selectors$seedInput, "1")
     clickGo(remDr)
     Sys.sleep(1)
-    waitForAppReady(remDr)
+    waitForAppReady(remDr, timeout=3000) # Long timeout for running MCMC
 
     appOut <<- extractOutputFromApp(remDr)
   })
