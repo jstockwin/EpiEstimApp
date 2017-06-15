@@ -82,7 +82,7 @@ clickStop <- function(remDr) {
   click(remDr, pages$common$selectors$stopButton)
 }
 
-waitForElemDisplayed <- function(remDr, selector, timeout=10) {
+waitForElemDisplayed <- function(remDr, selector, timeout=60) {
   # Waits for webElem to be displayed for timeout seconds.
   # If passes if element is displayed within timeout, fails otherwise
   displayed <- FALSE
