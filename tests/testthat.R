@@ -19,7 +19,7 @@ process_write(handle, "devtools::install_github('nickreich/coarseDataTools', ref
 process_write(handle, "devtools::install_github('annecori/EpiEstim', ref='hackout3')\n")
 process_write(handle, "EpiEstimApp::runEpiEstimApp()\n")
 cat("Waiting for app to start...\n")
-timeout <- 200
+timeout <- 600
 t <- 0
 while (t < timeout) {
   tryCatch({
