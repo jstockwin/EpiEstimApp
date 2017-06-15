@@ -7,9 +7,9 @@ source("functions.R", local=TRUE)
 
 
 # ---------------------------------------------------------------------------#
-# Test 11 - Different SI.Sample (1)                                          #
+# Test 1 - Different SI.Sample (1)                                          #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 11)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 1)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -24,7 +24,7 @@ tryCatch({
     waitForAppReady(remDr)
   })
 
-  test_that("can walk through the app to endpoint state (Test 11)", {
+  test_that("can walk through the app to endpoint state (Test 1)", {
       # Walk the app through to endpoint state with default inputs
     click(remDr, pages$state1.1$selectors$preloadedDataButton)
     clickNext(remDr) # Move to state 2.2
@@ -65,15 +65,15 @@ sample <- EpiEstim:::process_SI.Sample(sample)
 
 epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
-test_that("Test 11 output matches", {
+test_that("Test 1 output matches", {
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
 
 # ---------------------------------------------------------------------------#
-# Test 12 - Different SI.Sample (2)                                          #
+# Test 2 - Different SI.Sample (2)                                          #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 12)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 2)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -88,7 +88,7 @@ tryCatch({
     waitForAppReady(remDr)
   })
 
-  test_that("can walk through the app to endpoint state (Test 12)", {
+  test_that("can walk through the app to endpoint state (Test 2)", {
       # Walk the app through to endpoint state with default inputs
     click(remDr, pages$state1.1$selectors$preloadedDataButton)
     clickNext(remDr) # Move to state 2.2
@@ -129,7 +129,7 @@ sample <- EpiEstim:::process_SI.Sample(sample)
 
 epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
-test_that("Test 12 output matches", {
+test_that("Test 2 output matches", {
   compareOutputFromApp(appOut, epiEstimOut)
 })
 

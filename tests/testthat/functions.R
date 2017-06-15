@@ -82,7 +82,7 @@ clickStop <- function(remDr) {
   click(remDr, pages$common$selectors$stopButton)
 }
 
-waitForElemDisplayed <- function(remDr, selector, timeout=10) {
+waitForElemDisplayed <- function(remDr, selector, timeout=60) {
   # Waits for webElem to be displayed for timeout seconds.
   # If passes if element is displayed within timeout, fails otherwise
   displayed <- FALSE
@@ -129,11 +129,22 @@ extractOutputFromApp <- function(remDr) {
   list(I=incidence, SI.Distr=serialInterval, R=reproduction)
 }
 
-compareOutputFromApp <- function(appOut, epiEstimOut) {
+compareOutputFromApp <- function(appOut, epiEstimOut, debug=FALSE) {
   expect_true(compare::compare(appOut$R, round(epiEstimOut$R, 2))$result)
   expect_true(compare::compare(appOut$SI.Distr, round(as.data.frame(epiEstimOut$SI.Distr), 2))$result)
   expect_true(compare::compare(appOut$I$local, round(epiEstimOut$I_local, 2))$result)
   expect_true(compare::compare(appOut$I$imported, round(epiEstimOut$I_imported, 2))$result)
+  if (debug) {
+    cat("\n\nappOut$R:\n")
+    str(appOut$R)
+    cat("\n\nepiEstimOut$R:\n")
+    str(epiEstimOut$R)
+    cat("\n\nappOut$I:\n")
+    str(appOut$I)
+    cat("\n\nepiEstimOut$I:\n")
+    str(epiEstimOut$I_local)
+    str(epiEstimOut$I_imported)
+  }
 }
 
 connectToApp <- function(remDr) {

@@ -7,9 +7,9 @@ source("functions.R", local=TRUE)
 
 
 # ---------------------------------------------------------------------------#
-# Test 13 - Different SI.Dist (1)                                            #
+# Test 1 - Different SI.Dist (1)                                            #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 13)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 1)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -24,7 +24,7 @@ tryCatch({
     waitForAppReady(remDr)
   })
 
-  test_that("can walk through the app to endpoint state (Test 13)", {
+  test_that("can walk through the app to endpoint state (Test 1)", {
       # Walk the app through to endpoint state with default inputs
     click(remDr, pages$state1.1$selectors$preloadedDataButton)
     clickNext(remDr) # Move to state 2.2
@@ -65,15 +65,15 @@ sample <- EpiEstim:::process_SI.Sample(sample)
 
 epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
-test_that("Test 13 output matches", {
+test_that("Test 1 output matches", {
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
 
 # ---------------------------------------------------------------------------#
-# Test 14 - Different SI.Dist (2)                                            #
+# Test 2 - Different SI.Dist (2)                                            #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 14)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 2)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -88,7 +88,7 @@ tryCatch({
     waitForAppReady(remDr)
   })
 
-  test_that("can walk through the app to endpoint state (Test 14)", {
+  test_that("can walk through the app to endpoint state (Test 2)", {
       # Walk the app through to endpoint state with default inputs
     click(remDr, pages$state1.1$selectors$preloadedDataButton)
     clickNext(remDr) # Move to state 2.2
@@ -129,19 +129,19 @@ sample <- EpiEstim:::process_SI.Sample(sample)
 
 epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
-test_that("Test 14 output matches", {
+test_that("Test 2 output matches", {
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
 
 # ---------------------------------------------------------------------------#
-# Test 15 - Different SI.Dist (3)                                            #
+# Test 3 - Different SI.Dist (3)                                            #
 # ---------------------------------------------------------------------------#
 
 # DISABLED because the SI file is too big to process.
 # See https://github.com/jstockwin/EpiEstimApp/issues/114
 
-#drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 15)")
+#drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 3)")
 #rD <- drivers$rDr
 #remDr <- drivers$remDr
 #
@@ -156,7 +156,7 @@ test_that("Test 14 output matches", {
 #    waitForAppReady(remDr)
 #  })
 #
-#  test_that("can walk through the app to endpoint state (Test 15)", {
+#  test_that("can walk through the app to endpoint state (Test 3)", {
 #      # Walk the app through to endpoint state with default inputs
 #    click(remDr, pages$state1.1$selectors$preloadedDataButton)
 #    clickNext(remDr) # Move to state 2.2
@@ -197,19 +197,19 @@ test_that("Test 14 output matches", {
 #
 #epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 #
-#test_that("Test 15 output matches", {
+#test_that("Test 3 output matches", {
 #  compareOutputFromApp(appOut, epiEstimOut)
 #})
 
 
 # ---------------------------------------------------------------------------#
-# Test 16 - Different SI.Dist (4)                                            #
+# Test 4 - Different SI.Dist (4)                                            #
 # ---------------------------------------------------------------------------#
 
 # DISABLED because the SI file is too big to process.
 # See https://github.com/jstockwin/EpiEstimApp/issues/114
 
-#drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 16)")
+#drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 4)")
 #rD <- drivers$rDr
 #remDr <- drivers$remDr
 #
@@ -224,7 +224,7 @@ test_that("Test 14 output matches", {
 #    waitForAppReady(remDr)
 #  })
 #
-#  test_that("can walk through the app to endpoint state (Test 16)", {
+#  test_that("can walk through the app to endpoint state (Test 4)", {
 #      # Walk the app through to endpoint state with default inputs
 #    click(remDr, pages$state1.1$selectors$preloadedDataButton)
 #    clickNext(remDr) # Move to state 2.2
@@ -265,19 +265,19 @@ test_that("Test 14 output matches", {
 #
 #epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 #
-#test_that("Test 16 output matches", {
+#test_that("Test 4 output matches", {
 #  compareOutputFromApp(appOut, epiEstimOut)
 #})
 
 
 # ---------------------------------------------------------------------------#
-# Test 17 - Different SI.Dist (5)                                            #
+# Test 5 - Different SI.Dist (5)                                            #
 # ---------------------------------------------------------------------------#
 
 # DISABLED because the SI file is too big to process.
 # See https://github.com/jstockwin/EpiEstimApp/issues/114
 
-#drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 17)")
+#drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 5)")
 #rD <- drivers$rDr
 #remDr <- drivers$remDr
 #
@@ -292,7 +292,7 @@ test_that("Test 14 output matches", {
 #    waitForAppReady(remDr)
 #  })
 #
-#  test_that("can walk through the app to endpoint state (Test 17)", {
+#  test_that("can walk through the app to endpoint state (Test 5)", {
 #      # Walk the app through to endpoint state with default inputs
 #    click(remDr, pages$state1.1$selectors$preloadedDataButton)
 #    clickNext(remDr) # Move to state 2.2
@@ -333,15 +333,15 @@ test_that("Test 14 output matches", {
 #
 #epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 #
-#test_that("Test 17 output matches", {
+#test_that("Test 5 output matches", {
 #  compareOutputFromApp(appOut, epiEstimOut)
 #})
 
 
 # ---------------------------------------------------------------------------#
-# Test 18 - Different n2                                                     #
+# Test 6 - Different n2                                                     #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 18)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 6)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -356,7 +356,7 @@ tryCatch({
     waitForAppReady(remDr)
   })
 
-  test_that("can walk through the app to endpoint state (Test 18)", {
+  test_that("can walk through the app to endpoint state (Test 6)", {
       # Walk the app through to endpoint state with default inputs
     click(remDr, pages$state1.1$selectors$preloadedDataButton)
     clickNext(remDr) # Move to state 2.2
@@ -399,15 +399,15 @@ sample <- EpiEstim:::process_SI.Sample(sample)
 
 epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=50, seed=1)
 
-test_that("Test 18 output matches", {
+test_that("Test 6 output matches", {
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
 
 # ---------------------------------------------------------------------------#
-# Test 19 - Different seed                                                   #
+# Test 7 - Different seed                                                   #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 19)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 7)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -422,7 +422,7 @@ tryCatch({
     waitForAppReady(remDr)
   })
 
-  test_that("can walk through the app to endpoint state (Test 19)", {
+  test_that("can walk through the app to endpoint state (Test 7)", {
       # Walk the app through to endpoint state with default inputs
     click(remDr, pages$state1.1$selectors$preloadedDataButton)
     clickNext(remDr) # Move to state 2.2
@@ -463,7 +463,7 @@ sample <- EpiEstim:::process_SI.Sample(sample)
 
 epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=2)
 
-test_that("Test 19 output matches", {
+test_that("Test 7 output matches", {
   compareOutputFromApp(appOut, epiEstimOut)
 })
 

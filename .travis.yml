@@ -7,7 +7,13 @@ env:
   matrix:
   - suite=001
   - suite=002
-  - suite=004
+  - suite=004.01
+  - suite=004.02
+  - suite=004.03.1
+  - suite=004.03.2
+  - suite=004.03.3
+  - suite=004.04
+  - suite=004.05
 cache:
 - packages
 r:
@@ -21,7 +27,7 @@ before_script:
     cd ../../
 script:
   - |
-    R CMD build .
+    travis_retry R CMD build .
     travis_wait 60 R CMD check EpiEstimApp*tar.gz
 after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;

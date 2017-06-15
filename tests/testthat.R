@@ -17,7 +17,7 @@ cat("Starting app\n")
 handle <- spawn_process(R_binary(), c('--no-save'))
 process_write(handle, "EpiEstimApp::runEpiEstimApp()\n")
 cat("Waiting for app to start...\n")
-timeout <- 200
+timeout <- 600
 t <- 0
 while (t < timeout) {
   tryCatch({

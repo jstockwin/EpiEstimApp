@@ -4,7 +4,7 @@
 .Rproj.user
 .Rhistory
 .RData
-mcmc-progress/*
+inst/app/mcmc-progress/*/*.txt
 *.swp
 *.log
 
