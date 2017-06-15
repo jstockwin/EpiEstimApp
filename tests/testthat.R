@@ -15,8 +15,6 @@ R_binary <- function () {
 # Start the server
 cat("Starting app\n")
 handle <- spawn_process(R_binary(), c('--no-save'))
-process_write(handle, "devtools::install_github('nickreich/coarseDataTools', ref='hackout3')\n")
-process_write(handle, "devtools::install_github('annecori/EpiEstim', ref='hackout3')\n")
 process_write(handle, "EpiEstimApp::runEpiEstimApp()\n")
 cat("Waiting for app to start...\n")
 timeout <- 200

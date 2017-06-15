@@ -8,6 +8,8 @@ Description: This package adds a graphic interface (using R Shiny) around the
     EpiEstim package.
 BugReports: https://github.com/jstockwin/TransmissibilityEstimator/issues
 Imports:
+    EpiEstim,
+    coarseDataTools,
     shiny,
     shinyjs,
     shinythemes,
