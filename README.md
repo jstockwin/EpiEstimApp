@@ -6,4 +6,4 @@ This application estimates disease transmissibility from incidence time series a
 
 The authors request users to cite the original publication (TODO: Link) when referencing this tool, the format or results generated from it. 
 
-http://shiny.jakestockwin.co.uk
+https://github.com/jstockwin/EpiEstimApp/wiki
