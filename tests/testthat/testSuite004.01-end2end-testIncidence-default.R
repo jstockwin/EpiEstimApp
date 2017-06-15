@@ -1,4 +1,4 @@
-context("Test Suite 4 (E2E) --> Endpoint 8.1")
+context("Test Suite 4 (E2E) --> Incidence")
 
 library(RSelenium)
 library(testthat)
@@ -9,7 +9,7 @@ source("functions.R", local=TRUE)
 # ---------------------------------------------------------------------------#
 # Test 1 - Defaults                                                          #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 1)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 1)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 

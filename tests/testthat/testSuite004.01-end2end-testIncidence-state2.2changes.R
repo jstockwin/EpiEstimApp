@@ -1,4 +1,4 @@
-context("Test Suite 4 (E2E) --> Endpoint 8.1")
+context("Test Suite 4 (E2E) --> Incidence")
 
 library(RSelenium)
 library(testthat)
@@ -9,7 +9,7 @@ source("functions.R", local=TRUE)
 # ---------------------------------------------------------------------------#
 # Test 1 - Difference incidence data (1)                                     #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 1)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 1)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -73,7 +73,7 @@ test_that("Test 1 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 2 - Difference incidence data (2)                                     #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 2)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 2)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -138,7 +138,7 @@ test_that("Test 2 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 3 - Difference incidence data (3)                                     #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 3)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 3)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -204,7 +204,7 @@ test_that("Test 3 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 4 - Difference incidence data (4)                                     #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 4)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 4)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -270,7 +270,7 @@ test_that("Test 4 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 5 - Difference incidence data (5)                                     #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 5)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 5)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -336,7 +336,7 @@ test_that("Test 5 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 6 - Difference incidence data (6)                                     #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 6)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 6)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -402,7 +402,7 @@ test_that("Test 6 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 7 - Difference incidence data (7)                                     #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 7)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 7)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -468,7 +468,7 @@ test_that("Test 7 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 8 - Different Mean.Prior                                              #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 8)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 8)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -534,7 +534,7 @@ test_that("Test 8 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 9 - Different Std.Prior                                              #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 9)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 9)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
