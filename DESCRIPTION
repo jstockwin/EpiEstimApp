@@ -9,20 +9,10 @@ Description: This package adds a graphic interface (using R Shiny) around the
 BugReports: https://github.com/jstockwin/TransmissibilityEstimator/issues
 Imports:
     shiny,
-    MCMCpack,
     shinyjs,
     shinythemes,
-    ggplot2,
-    graphics,
-    grid,
-    gridExtra,
-    plotly,
-    plyr,
-    reshape2,
-    stats,
     future,
     devtools,
-    survival,
     httr
 Remotes:
     annecori/EpiEstim@hackout3,
