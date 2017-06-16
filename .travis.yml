@@ -14,6 +14,9 @@ env:
   - suite=004.03.3
   - suite=004.04
   - suite=004.05
+  - suite=004.06
+  - suite=004.07
+  - suite=004.08
 cache:
 - packages
 r:
@@ -28,7 +31,7 @@ before_script:
 script:
   - |
     travis_retry R CMD build .
-    travis_wait 60 R CMD check EpiEstimApp*tar.gz
+    travis_retry travis_wait 60 R CMD check EpiEstimApp*tar.gz
 after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
 addons:

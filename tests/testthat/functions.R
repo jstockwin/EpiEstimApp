@@ -1,4 +1,4 @@
-# This file contains lots of functions to be used in testing. 
+# This file contains lots of functions to be used in testing., debug=T)
 # Most of them are wrappers to make the testthat syntax nicer, for example by removing all the [[1]]s.
 
 
@@ -131,7 +131,12 @@ extractOutputFromApp <- function(remDr) {
 
 compareOutputFromApp <- function(appOut, epiEstimOut, debug=FALSE) {
   expect_true(compare::compare(appOut$R, round(epiEstimOut$R, 2))$result)
-  expect_true(compare::compare(appOut$SI.Distr, round(as.data.frame(epiEstimOut$SI.Distr), 2))$result)
+  df <- round(as.data.frame(epiEstimOut$SI.Distr), 2)
+  if (ncol(df) == 1) {
+      names(df) <- "data"
+      rownames(df) <- NULL
+  }
+  expect_true(compare::compare(appOut$SI.Distr, df)$result)
   expect_true(compare::compare(appOut$I$local, round(epiEstimOut$I_local, 2))$result)
   expect_true(compare::compare(appOut$I$imported, round(epiEstimOut$I_imported, 2))$result)
   if (debug) {
@@ -144,6 +149,10 @@ compareOutputFromApp <- function(appOut, epiEstimOut, debug=FALSE) {
     cat("\n\nepiEstimOut$I:\n")
     str(epiEstimOut$I_local)
     str(epiEstimOut$I_imported)
+    cat("\n\nappOut$SI.Distr:\n")
+    str(appOut$SI.Distr)
+    cat("\n\nepiEstimOut$SI.Distr:\n")
+    str(df)
   }
 }
 
