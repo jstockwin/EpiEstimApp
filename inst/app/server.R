@@ -48,11 +48,11 @@ finalStates = c("8.1", "9.1", "8.3", "7.3", "8.4", "9.2", "9.3")
 mcmcProgressFolder <- "mcmc-progress/progress/"
 mcmcPidFolder <- "mcmc-progress/pid/"
 
-if (length(list.files(path=mcmcProgressFolder)) > 0) {
-  file.remove(paste(mcmcProgressFolder, list.files(path=mcmcProgressFolder), sep=""))
+if (length(list.files(path=mcmcProgressFolder, pattern="*.txt")) > 0) {
+  file.remove(paste(mcmcProgressFolder, list.files(path=mcmcProgressFolder, pattern="*.txt"), sep=""))
 }
-if (length(list.files(path=mcmcPidFolder)) > 0) {
-  file.remove(paste(mcmcPidFolder, list.files(path=mcmcPidFolder), sep=""))
+if (length(list.files(path=mcmcPidFolder, pattern="*.txt")) > 0) {
+  file.remove(paste(mcmcPidFolder, list.files(path=mcmcPidFolder, pattern="*.txt"), sep=""))
 }
 
 shinyServer(function(input, output, session) {
