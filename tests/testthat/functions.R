@@ -1,4 +1,4 @@
-# This file contains lots of functions to be used in testing. 
+# This file contains lots of functions to be used in testing., debug=T)
 # Most of them are wrappers to make the testthat syntax nicer, for example by removing all the [[1]]s.
 
 
@@ -149,6 +149,10 @@ compareOutputFromApp <- function(appOut, epiEstimOut, debug=FALSE) {
     cat("\n\nepiEstimOut$I:\n")
     str(epiEstimOut$I_local)
     str(epiEstimOut$I_imported)
+    cat("\n\nappOut$SI.Distr:\n")
+    str(appOut$SI.Distr)
+    cat("\n\nepiEstimOut$SI.Distr:\n")
+    str(df)
   }
 }
 

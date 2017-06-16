@@ -655,9 +655,9 @@ shinyServer(function(input, output, session) {
              },
              "9.2" = {
                method <<- "NonParametricSI"
-               SI.Distr <<- read.csv(input$SIDistrData$datapath, 
+               SI.Distr <<- as.numeric(read.csv(input$SIDistrData$datapath,
                                      header = input$SIDistrHeader, sep = input$SIDistrSep,
-                                     quote = input$SIDistrQuote)
+                                     quote = input$SIDistrQuote))
                TRUE
              },
              "9.3" = {
