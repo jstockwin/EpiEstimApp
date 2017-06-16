@@ -1,0 +1,199 @@
+context("Test Suite 4 (E2E) --> Endpoint 8.4")
+
+library(RSelenium)
+library(testthat)
+library(EpiEstim)
+source("functions.R", local=TRUE)
+
+
+# ---------------------------------------------------------------------------#
+# Test 1 - Defaults                                                          #
+# ---------------------------------------------------------------------------#
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.4 (Test 1)")
+rD <- drivers$rDr
+remDr <- drivers$remDr
+
+appOut <- NULL
+openRemDriver(remDr)
+tryCatch({
+  test_that("can connect to app", {
+    connectToApp(remDr)
+  })
+
+  test_that("app is ready within 30 seconds", {
+    waitForAppReady(remDr)
+  })
+
+  test_that("can walk through the app to endpoint state (Test 1)", {
+      # Walk the app through to endpoint state with default inputs
+    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    clickNext(remDr) # Move to state 2.2
+    waitForStateDisplayed(remDr, "2.2")
+    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    clickNext(remDr) # Move to state 5.1
+    waitForStateDisplayed(remDr, "5.1")
+    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    clickNext(remDr) # Move to state 6.2
+    waitForStateDisplayed(remDr, "6.2")
+    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
+    clickNext(remDr) # Move to state 7.4
+    waitForStateDisplayed(remDr, "7.4")
+    click(remDr, pages$state7.4$selectors$parametricYesButton)
+    clickNext(remDr) # Move to state 8.4
+    waitForStateDisplayed(remDr, "8.4")
+    clickGo(remDr)
+    Sys.sleep(1)
+    waitForAppReady(remDr)
+
+    appOut <<- extractOutputFromApp(remDr)
+  })
+},
+error = function(e) {
+  closeRemDrivers(remDr, rD)
+  stop(e)
+})
+
+closeRemDrivers(remDr, rD)
+
+# Compare the output to EpiEstim's output
+I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+I <- EpiEstim:::process_I(I)
+epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="ParametricSI",
+                         Mean.SI=2, Std.SI=1)
+
+test_that("Test 1 output matches", {
+  compareOutputFromApp(appOut, epiEstimOut)
+})
+
+
+
+
+# ---------------------------------------------------------------------------#
+# Test 2 - Different Mean.SI                                                 #
+# ---------------------------------------------------------------------------#
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.4 (Test 2)")
+rD <- drivers$rDr
+remDr <- drivers$remDr
+
+appOut <- NULL
+openRemDriver(remDr)
+tryCatch({
+  test_that("can connect to app", {
+    connectToApp(remDr)
+  })
+
+  test_that("app is ready within 30 seconds", {
+    waitForAppReady(remDr)
+  })
+
+  test_that("can walk through the app to endpoint state (Test 2)", {
+      # Walk the app through to endpoint state with default inputs
+    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    clickNext(remDr) # Move to state 2.2
+    waitForStateDisplayed(remDr, "2.2")
+    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    clickNext(remDr) # Move to state 5.1
+    waitForStateDisplayed(remDr, "5.1")
+    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    clickNext(remDr) # Move to state 6.2
+    waitForStateDisplayed(remDr, "6.2")
+    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
+    clickNext(remDr) # Move to state 7.4
+    waitForStateDisplayed(remDr, "7.4")
+    click(remDr, pages$state7.4$selectors$parametricYesButton)
+    clickNext(remDr) # Move to state 8.4
+    waitForStateDisplayed(remDr, "8.4")
+    clear(remDr, pages$state8.4$selectors$Mean.SIInput)
+    sendKeys(remDr, pages$state8.4$selectors$Mean.SIInput, "3")
+    clickGo(remDr)
+    Sys.sleep(1)
+    waitForAppReady(remDr)
+
+    appOut <<- extractOutputFromApp(remDr)
+  })
+},
+error = function(e) {
+  closeRemDrivers(remDr, rD)
+  stop(e)
+})
+
+closeRemDrivers(remDr, rD)
+
+# Compare the output to EpiEstim's output
+I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+I <- EpiEstim:::process_I(I)
+epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="ParametricSI",
+                         Mean.SI=3, Std.SI=1)
+
+test_that("Test 2 output matches", {
+  compareOutputFromApp(appOut, epiEstimOut)
+})
+
+
+
+
+
+# ---------------------------------------------------------------------------#
+# Test 3 - Different Std.SI                                                  #
+# ---------------------------------------------------------------------------#
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.4 (Test 3)")
+rD <- drivers$rDr
+remDr <- drivers$remDr
+
+appOut <- NULL
+openRemDriver(remDr)
+tryCatch({
+  test_that("can connect to app", {
+    connectToApp(remDr)
+  })
+
+  test_that("app is ready within 30 seconds", {
+    waitForAppReady(remDr)
+  })
+
+  test_that("can walk through the app to endpoint state (Test 3)", {
+      # Walk the app through to endpoint state with default inputs
+    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    clickNext(remDr) # Move to state 2.2
+    waitForStateDisplayed(remDr, "2.2")
+    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    clickNext(remDr) # Move to state 5.1
+    waitForStateDisplayed(remDr, "5.1")
+    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    clickNext(remDr) # Move to state 6.2
+    waitForStateDisplayed(remDr, "6.2")
+    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
+    clickNext(remDr) # Move to state 7.4
+    waitForStateDisplayed(remDr, "7.4")
+    click(remDr, pages$state7.4$selectors$parametricYesButton)
+    clickNext(remDr) # Move to state 8.4
+    waitForStateDisplayed(remDr, "8.4")
+    clear(remDr, pages$state8.4$selectors$Std.SIInput)
+    sendKeys(remDr, pages$state8.4$selectors$Std.SIInput, "2")
+    clickGo(remDr)
+    Sys.sleep(1)
+    waitForAppReady(remDr)
+
+    appOut <<- extractOutputFromApp(remDr)
+  })
+},
+error = function(e) {
+  closeRemDrivers(remDr, rD)
+  stop(e)
+})
+
+closeRemDrivers(remDr, rD)
+
+# Compare the output to EpiEstim's output
+I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+I <- EpiEstim:::process_I(I)
+epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="ParametricSI",
+                         Mean.SI=2, Std.SI=2)
+
+test_that("Test 3 output matches", {
+  compareOutputFromApp(appOut, epiEstimOut)
+})
+
+
+
+
