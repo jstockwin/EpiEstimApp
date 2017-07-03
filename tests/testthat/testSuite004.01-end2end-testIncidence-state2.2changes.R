@@ -48,6 +48,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -55,17 +56,16 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, 'datasets/IncidenceData/NewYorkH1N1.csv', sep='/'), header=FALSE)
-I <- EpiEstim:::process_I(I)
-sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
-sample <- EpiEstim:::process_SI.Sample(sample)
-
-epiEstimOut <- EstimateR(I, T.Start=2:8, T.End=8:14, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
 test_that("Test 1 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, 'datasets/IncidenceData/NewYorkH1N1.csv', sep='/'), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
+  sample <- EpiEstim:::process_SI.Sample(sample)
+
+  epiEstimOut <- EstimateR(I, T.Start=2:8, T.End=8:14, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -112,6 +112,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -119,17 +120,16 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, 'datasets/IncidenceData/KiribatiRotavirus.csv', sep='/'), header=FALSE)
-I <- EpiEstim:::process_I(I)
-sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
-sample <- EpiEstim:::process_SI.Sample(sample)
-
-epiEstimOut <- EstimateR(I, T.Start=2:17, T.End=8:23, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
 test_that("Test 2 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, 'datasets/IncidenceData/KiribatiRotavirus.csv', sep='/'), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
+  sample <- EpiEstim:::process_SI.Sample(sample)
+
+  epiEstimOut <- EstimateR(I, T.Start=2:17, T.End=8:23, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -177,6 +177,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -184,18 +185,17 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-data("Flu1918")
-I <- Flu1918$Incidence
-I <- EpiEstim:::process_I(I)
-sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
-sample <- EpiEstim:::process_SI.Sample(sample)
-
-epiEstimOut <- EstimateR(I, T.Start=2:86, T.End=8:92, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
 test_that("Test 3 output matches", {
+  # Compare the output to EpiEstim's output
+  data("Flu1918")
+  I <- Flu1918$Incidence
+  I <- EpiEstim:::process_I(I)
+  sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
+  sample <- EpiEstim:::process_SI.Sample(sample)
+
+  epiEstimOut <- EstimateR(I, T.Start=2:86, T.End=8:92, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -243,6 +243,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -250,18 +251,17 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-data("Flu2009")
-I <- Flu2009$Incidence
-I <- EpiEstim:::process_I(I)
-sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
-sample <- EpiEstim:::process_SI.Sample(sample)
-
-epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
 test_that("Test 4 output matches", {
+  # Compare the output to EpiEstim's output
+  data("Flu2009")
+  I <- Flu2009$Incidence
+  I <- EpiEstim:::process_I(I)
+  sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
+  sample <- EpiEstim:::process_SI.Sample(sample)
+
+  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -309,6 +309,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -316,18 +317,17 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-data("Measles1861")
-I <- Measles1861$Incidence
-I <- EpiEstim:::process_I(I)
-sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
-sample <- EpiEstim:::process_SI.Sample(sample)
-
-epiEstimOut <- EstimateR(I, T.Start=2:42, T.End=8:48, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
 test_that("Test 5 output matches", {
+  # Compare the output to EpiEstim's output
+  data("Measles1861")
+  I <- Measles1861$Incidence
+  I <- EpiEstim:::process_I(I)
+  sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
+  sample <- EpiEstim:::process_SI.Sample(sample)
+
+  epiEstimOut <- EstimateR(I, T.Start=2:42, T.End=8:48, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -375,6 +375,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -382,18 +383,17 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-data("SARS2003")
-I <- SARS2003$Incidence
-I <- EpiEstim:::process_I(I)
-sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
-sample <- EpiEstim:::process_SI.Sample(sample)
-
-epiEstimOut <- EstimateR(I, T.Start=2:101, T.End=8:107, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
 test_that("Test 6 output matches", {
+  # Compare the output to EpiEstim's output
+  data("SARS2003")
+  I <- SARS2003$Incidence
+  I <- EpiEstim:::process_I(I)
+  sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
+  sample <- EpiEstim:::process_SI.Sample(sample)
+
+  epiEstimOut <- EstimateR(I, T.Start=2:101, T.End=8:107, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -441,6 +441,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -448,18 +449,17 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-data("Smallpox1972")
-I <- Smallpox1972$Incidence
-I <- EpiEstim:::process_I(I)
-sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
-sample <- EpiEstim:::process_SI.Sample(sample)
-
-epiEstimOut <- EstimateR(I, T.Start=2:51, T.End=8:57, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
 
 test_that("Test 7 output matches", {
+  # Compare the output to EpiEstim's output
+  data("Smallpox1972")
+  I <- Smallpox1972$Incidence
+  I <- EpiEstim:::process_I(I)
+  sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
+  sample <- EpiEstim:::process_SI.Sample(sample)
+
+  epiEstimOut <- EstimateR(I, T.Start=2:51, T.End=8:57, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -509,6 +509,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -516,17 +517,16 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, 'datasets/IncidenceData/PennsylvaniaH1N1.csv', sep='/'), header=FALSE)
-I <- EpiEstim:::process_I(I)
-sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
-sample <- EpiEstim:::process_SI.Sample(sample)
-
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1, Mean.Prior=6)
 
 test_that("Test 8 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, 'datasets/IncidenceData/PennsylvaniaH1N1.csv', sep='/'), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
+  sample <- EpiEstim:::process_SI.Sample(sample)
+
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1, Mean.Prior=6)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -575,6 +575,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -582,17 +583,16 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, 'datasets/IncidenceData/PennsylvaniaH1N1.csv', sep='/'), header=FALSE)
-I <- EpiEstim:::process_I(I)
-sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
-sample <- EpiEstim:::process_SI.Sample(sample)
-
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1, Std.Prior=6)
 
 test_that("Test 9 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, 'datasets/IncidenceData/PennsylvaniaH1N1.csv', sep='/'), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/EcuadorRotavirus_SISamples_G.csv", sep="/"), header=FALSE)
+  sample <- EpiEstim:::process_SI.Sample(sample)
+
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, SI.Sample=sample, method="SIFromSample", n2=100, seed=1, Std.Prior=6)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
