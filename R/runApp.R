@@ -1,8 +1,7 @@
 #' Runs EpiEstimApp
 #'
 #' This function runs EpiEstimApp
-#' @param port The port to run on. Defaults to 3000.
-#' @param ... Additional arguments
+#' @param ... Additional arguments (passed to shiny::runApp())
 #' @keywords run
 #' @export
 #' @examples
@@ -10,10 +9,10 @@
 #' runEpiEstimApp()
 #' }
 
-runEpiEstimApp <- function(port=3000, ...) {
+runEpiEstimApp <- function(...) {
   appDir <- system.file("app", package="EpiEstimApp")
   if (appDir == "") {
     stop("Could not find app directory. Try re-installing `EpiEstimApp`.", call. = FALSE)
   }
-  shiny::runApp(appDir, port=port, ...)
+  shiny::runApp(appDir, ...)
 }

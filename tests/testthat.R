@@ -15,7 +15,7 @@ R_binary <- function () {
 # Start the server
 cat("Starting app\n")
 handle <- spawn_process(R_binary(), c('--no-save'))
-process_write(handle, "EpiEstimApp::runEpiEstimApp()\n")
+process_write(handle, "EpiEstimApp::runEpiEstimApp(port=3000)\n")
 cat("Waiting for app to start...\n")
 timeout <- 600
 t <- 0
