@@ -46,6 +46,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -53,15 +54,14 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="ParametricSI",
-                         Mean.SI=2, Std.SI=1)
 
 test_that("Test 1 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="ParametricSI",
+                           Mean.SI=2, Std.SI=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -110,6 +110,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -117,15 +118,14 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="ParametricSI",
-                         Mean.SI=3, Std.SI=1)
 
 test_that("Test 2 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="ParametricSI",
+                           Mean.SI=3, Std.SI=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -175,6 +175,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -182,15 +183,14 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="ParametricSI",
-                         Mean.SI=2, Std.SI=2)
 
 test_that("Test 3 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="ParametricSI",
+                           Mean.SI=2, Std.SI=2)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 

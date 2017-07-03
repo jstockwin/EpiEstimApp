@@ -44,6 +44,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -51,16 +52,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
-                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
 
 test_that("Test 1 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
+                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
+                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -104,6 +104,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -111,16 +112,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=60,
-                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
 
 test_that("Test 2 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=60,
+                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
+                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -166,6 +166,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -173,16 +174,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
-                         n2=60, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
 
 test_that("Test 3 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
+                           n2=60, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
+                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -228,6 +228,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -235,16 +236,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
-                         n2=50, Mean.SI=2.5, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
 
 test_that("Test 4 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
+                           n2=50, Mean.SI=2.5, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
+                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -290,6 +290,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -297,16 +298,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
-                         n2=50, Mean.SI=2, Std.Mean.SI=2, Min.Mean.SI=1, Max.Mean.SI=3,
-                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
 
 test_that("Test 5 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
+                           n2=50, Mean.SI=2, Std.Mean.SI=2, Min.Mean.SI=1, Max.Mean.SI=3,
+                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -352,6 +352,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -359,16 +360,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
-                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1.5, Max.Mean.SI=3,
-                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
 
 test_that("Test 6 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
+                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1.5, Max.Mean.SI=3,
+                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -414,6 +414,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -421,16 +422,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
-                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=4,
-                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
 
 test_that("Test 7 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
+                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=4,
+                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -476,6 +476,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -483,16 +484,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
-                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                         Std.SI=2.5, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
 
 test_that("Test 8 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
+                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
+                           Std.SI=2.5, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -538,6 +538,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -545,16 +546,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
-                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                         Std.SI=2, Std.Std.SI=2, Min.Std.SI=1, Max.Std.SI=3, seed=1)
 
 test_that("Test 9 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
+                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
+                           Std.SI=2, Std.Std.SI=2, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -603,6 +603,7 @@ test_that("Test 9 output matches", {
 #    waitForAppReady(remDr)
 #
 #    appOut <<- extractOutputFromApp(remDr)
+#    closeRemDrivers(remDr, rD)
 #  })
 #},
 #error = function(e) {
@@ -610,8 +611,8 @@ test_that("Test 9 output matches", {
 #  stop(e)
 #})
 #
-#closeRemDrivers(remDr, rD)
 #
+#test_that("Test 10 output matches", {
 ## Compare the output to EpiEstim's output
 #I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
 #I <- EpiEstim:::process_I(I)
@@ -619,7 +620,6 @@ test_that("Test 9 output matches", {
 #                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
 #                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1.5, Max.Std.SI=3, seed=1)
 #
-#test_that("Test 10 output matches", {
 #  compareOutputFromApp(appOut, epiEstimOut)
 #})
 
@@ -665,6 +665,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -672,16 +673,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
-                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=4, seed=1)
 
 test_that("Test 11 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
+                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
+                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=4, seed=1)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
@@ -727,6 +727,7 @@ tryCatch({
     waitForAppReady(remDr)
 
     appOut <<- extractOutputFromApp(remDr)
+    closeRemDrivers(remDr, rD)
   })
 },
 error = function(e) {
@@ -734,16 +735,15 @@ error = function(e) {
   stop(e)
 })
 
-closeRemDrivers(remDr, rD)
-
-# Compare the output to EpiEstim's output
-I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
-I <- EpiEstim:::process_I(I)
-epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
-                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=2)
 
 test_that("Test 12 output matches", {
+  # Compare the output to EpiEstim's output
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
+  I <- EpiEstim:::process_I(I)
+  epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="UncertainSI", n1=50,
+                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
+                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=2)
+
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
