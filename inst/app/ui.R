@@ -60,24 +60,12 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                   accept = c(
                                     'text/csv',
                                     'text/comma-separated-values',
-                                    'text/tab-separated-values',
                                     'text/plain',
-                                    '.csv',
-                                    '.tsv'
+                                    '.csv'
                                   )
                         )
                       ),
                     checkboxInput('incidenceHeader', 'Header', FALSE),
-                    radioButtons('incidenceSep', 'Separator',
-                                 c(Comma=',',
-                                   Semicolon=';',
-                                   Tab='\t'),
-                                 ','),
-                    radioButtons('incidenceQuote', 'Quote',
-                                 c(None='',
-                                   'Double Quote'='"',
-                                   'Single Quote'="'"),
-                                 ''),
                     div(id="uploadedWidthErrorBox", class="ErrorBox",
                       sliderInput('uploadedWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
                     ),
@@ -119,24 +107,12 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                 accept = c(
                                   'text/csv',
                                   'text/comma-separated-values',
-                                  'text/tab-separated-values',
                                   'text/plain',
-                                  '.csv',
-                                  '.tsv'
+                                  '.csv'
                                 )
                       )
                     ),
-                    checkboxInput('importedHeader', 'Header', FALSE),
-                    radioButtons('importedSep', 'Separator',
-                                 c(Comma=',',
-                                   Semicolon=';',
-                                   Tab='\t'),
-                                 ','),
-                    radioButtons('importedQuote', 'Quote',
-                                 c(None='',
-                                   'Double Quote'='"',
-                                   'Single Quote'="'"),
-                                 '')
+                    checkboxInput('importedHeader', 'Header', FALSE)
          )),
          hidden(div(id="5.1",
                     # State 5.1
@@ -236,24 +212,12 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                 accept = c(
                                   'text/csv',
                                   'text/comma-separated-values',
-                                  'text/tab-separated-values',
                                   'text/plain',
                                   '.csv',
-                                  '.tsv'
                                 )
                       )
                     ),
-                    checkboxInput('SIDistrHeader', 'Header', FALSE),
-                    radioButtons('SIDistrSep', 'Separator',
-                                 c(Comma=',',
-                                   Semicolon=';',
-                                   Tab='\t'),
-                                 ','),
-                    radioButtons('SIDistrQuote', 'Quote',
-                                 c(None='',
-                                   'Double Quote'='"',
-                                   'Single Quote'="'"),
-                                 '')
+                    checkboxInput('SIDistrHeader', 'Header', FALSE)
          )),
          hidden(div(id="7.6",
                     # State 7.6
@@ -288,24 +252,12 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                 accept = c(
                                   'text/csv',
                                   'text/comma-separated-values',
-                                  'text/tab-separated-values',
                                   'text/plain',
                                   '.csv',
-                                  '.tsv'
                                 )
                       )
                     ),
                     checkboxInput('SIHeader', 'Header', FALSE),
-                    radioButtons('SISep', 'Separator',
-                                 c(Comma=',',
-                                   Semicolon=';',
-                                   Tab='\t'),
-                                 ','),
-                    radioButtons('SIQuote', 'Quote',
-                                 c(None='',
-                                   'Double Quote'='"',
-                                   'Single Quote'="'"),
-                                 ''),
                     div(id="uploadedSISeedErrorBox", class="ErrorBox",
                         numericInput("uploadedSISeed", "Set a seed to be used by EpiEstim. A random one will be chosen if this is left blank", value=NULL)
                     )
@@ -317,24 +269,12 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                 accept = c(
                                   'text/csv',
                                   'text/comma-separated-values',
-                                  'text/tab-separated-values',
                                   'text/plain',
                                   '.csv',
-                                  '.tsv'
                                 )
                       )
                     ),
                     checkboxInput('SISampleHeader', 'Header', FALSE),
-                    radioButtons('SISampleSep', 'Separator',
-                                 c(Comma=',',
-                                   Semicolon=';',
-                                   Tab='\t'),
-                                 ','),
-                    radioButtons('SISampleQuote', 'Quote',
-                                 c(None='',
-                                   'Double Quote'='"',
-                                   'Single Quote'="'"),
-                                 ''),
                     div(id="n23ErrorBox", class="ErrorBox",
                       numericInput('n23', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
                     ),

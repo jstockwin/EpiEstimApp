@@ -30,29 +30,6 @@ tryCatch({
 
     expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrHeaderButton))
 
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrSepLabel))
-    expect_equal(getText(remDr, pages$state7.5$selectors$SIDistrSepLabel), "Separator")
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrSepCommaButton))
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrSepCommaLabel))
-    expect_equal(getText(remDr, pages$state7.5$selectors$SIDistrSepCommaLabel), "Comma")
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrSepSemiButton))
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrSepSemiLabel))
-    expect_equal(getText(remDr, pages$state7.5$selectors$SIDistrSepSemiLabel), "Semicolon")
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrSepTabButton))
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrSepTabLabel))
-    expect_equal(getText(remDr, pages$state7.5$selectors$SIDistrSepTabLabel), "Tab")
-
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrQuoteLabel))
-    expect_equal(getText(remDr, pages$state7.5$selectors$SIDistrQuoteLabel), "Quote")
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrQuoteNoneButton))
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrQuoteNoneLabel))
-    expect_equal(getText(remDr, pages$state7.5$selectors$SIDistrQuoteNoneLabel), "None")
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrQuoteDoubleButton))
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrQuoteDoubleLabel))
-    expect_equal(getText(remDr, pages$state7.5$selectors$SIDistrQuoteDoubleLabel), "Double Quote")
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrQuoteSingleButton))
-    expect_true(isDisplayed(remDr, pages$state7.5$selectors$SIDistrQuoteSingleLabel))
-    expect_equal(getText(remDr, pages$state7.5$selectors$SIDistrQuoteSingleLabel), "Single Quote")
   })
 
   test_that("relevant control buttons are displayed", {

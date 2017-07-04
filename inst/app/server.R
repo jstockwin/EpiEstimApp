@@ -353,9 +353,9 @@ shinyServer(function(input, output, session) {
              },
              "2.1" = {
                # Handle uploaded data:
-               IncidenceData <<- read.csv(input$incidenceData$datapath, 
-                                          header = input$incidenceHeader, sep = input$incidenceSep,
-                                          quote = input$incidenceQuote)
+               IncidenceData <<- read.csv(input$incidenceData$datapath,
+                                          header = input$incidenceHeader, sep = ",",
+                                          quote = "")
                # Process Incidence data (see utils.R)
                IncidenceData <<- EpiEstim:::process_I(IncidenceData)
                length <- dim(IncidenceData)[1]
@@ -405,9 +405,9 @@ shinyServer(function(input, output, session) {
              },
              "3.1" = {TRUE},
              "4.1" = {
-               IncidenceData <<- read.csv(input$incidenceData$datapath, 
-                                          header = input$incidenceHeader, sep = input$incidenceSep,
-                                          quote = input$incidenceQuote)
+               IncidenceData <<- read.csv(input$incidenceData$datapath,
+                                          header = input$incidenceHeader, sep = ",",
+                                          quote = ",")
                ImportedData <- read.csv(input$importedData$datapath,
                                         header = input$importedHeader, sep = input$importedSep,
                                         quote = input$importedQuote)
@@ -517,8 +517,8 @@ shinyServer(function(input, output, session) {
              "7.5" = {
                method <<- "NonParametricSI"
                SI.Distr <<- as.numeric(read.csv(input$SIDistrData$datapath,
-                                     header = input$SIDistrHeader, sep = input$SIDistrSep,
-                                     quote = input$SIDistrQuote))
+                                     header = input$SIDistrHeader, sep = ",",
+                                     quote = ""))
                TRUE
              },
              "7.6" = {
@@ -551,9 +551,9 @@ shinyServer(function(input, output, session) {
              },
              "8.2" = {
                method <<- "SIFromData"
-               serialIntervalData <- read.csv(input$SIData$datapath, 
-                                              header = input$SIHeader, sep = input$SISep,
-                                              quote = input$SIQuote)
+               serialIntervalData <- read.csv(input$SIData$datapath,
+                                              header = input$SIHeader, sep = ",",
+                                              quote = "")
                # Process the data (see function in utils.R)
                SI.Data <<- EpiEstim:::process_SI.Data(serialIntervalData)
                requestedSeed <<- input$uploadedSISeed
@@ -581,9 +581,9 @@ shinyServer(function(input, output, session) {
              },
              "8.3" = {
                method <<- "SIFromSample"
-               SI.Sample <<- EpiEstim:::process_SI.Sample(read.csv(input$SISampleData$datapath, 
-                                                       header = input$SISampleHeader, sep = input$SISampleSep,
-                                                       quote = input$SISampleQuote))
+               SI.Sample <<- EpiEstim:::process_SI.Sample(read.csv(input$SISampleData$datapath,
+                                                       header = input$SISampleHeader, sep = ",",
+                                                       quote = ""))
                n2 <<- input$n23
                if (is.null(n2) || n2 < 1 || !is.integer(n2)) {
                  throwError("n2 must be an integer greater than or equal to 1", "n23")
