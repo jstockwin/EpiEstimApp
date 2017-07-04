@@ -315,7 +315,7 @@ tryCatch({
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/Smallpox17.5.csv")
+      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/Smallpox1972.csv")
       sendKeys(remDr, pages$state7.5$selectors$SIDistrDataUploadInput,
                path)
     }
@@ -337,8 +337,8 @@ test_that("Test 5 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/PennsylvaniaH1N1.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  data(Smallpox17.5)
-  SI.Distr <- Smallpox17.5$SI.Distr
+  data(Smallpox1972)
+  SI.Distr <- Smallpox1972$SI.Distr
   epiEstimOut <- EstimateR(I, T.Start=2:25, T.End=8:31, method="NonParametricSI",
                            SI.Distr=SI.Distr)
 
