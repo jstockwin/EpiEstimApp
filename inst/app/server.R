@@ -209,7 +209,14 @@ shinyServer(function(input, output, session) {
               } else if (is.null(convergenceCheck)) {
                 values$status <- "Running the Gelman-Rubin convergence check"
                 startAsyncDataLoad("convergenceCheck", future({
-                  check_CDTsamples_convergence(mcmc_samples)
+                  if (.Platform$OS.type == "unix") {
+                    write(Sys.getpid(), file=pidFile)
+                  }
+                  ret <- check_CDTsamples_convergence(mcmc_samples)
+                  if (.Platform$OS.type == "unix") {
+                    file.remove(pidFile)
+                  }
+                  return(ret)
                 }))
               } else {
                 # Good to go!
@@ -223,16 +230,30 @@ shinyServer(function(input, output, session) {
                 }
                 values$status <- "Running EstimateR..."
                 startAsyncDataLoad("epiEstimOutput", future({
-                  EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data, seed=seed,
+                  if (.Platform$OS.type == "unix") {
+                    write(Sys.getpid(), file=pidFile)
+                  }
+                  ret <- EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data, seed=seed,
                             Mean.Prior=Mean.Prior, Std.Prior=Std.Prior)
+                  if (.Platform$OS.type == "unix") {
+                    file.remove(pidFile)
+                  }
+                  return(ret)
                 }))
              }
             } else {
               startAsyncDataLoad("epiEstimOutput", future({
-                EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
+                if (.Platform$OS.type == "unix") {
+                  write(Sys.getpid(), file=pidFile)
+                }
+                ret <- EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
                           Std.Mean.SI = Std.Mean.SI, Min.Mean.SI = Min.Mean.SI, Max.Mean.SI = Max.Mean.SI, Std.Std.SI = Std.Std.SI,
                           Min.Std.SI = Min.Std.SI, Max.Std.SI = Max.Std.SI, SI.Distr = SI.Distr, SI.Data = SI.Data, 
                           SI.Sample = SI.Sample, plot = plot, seed=seed, Mean.Prior=Mean.Prior, Std.Prior=Std.Prior)
+                if (.Platform$OS.type == "unix") {
+                  file.remove(pidFile)
+                }
+                return(ret)
               }))
             }
           }
@@ -831,7 +852,7 @@ shinyServer(function(input, output, session) {
   session$onSessionEnded(function() {
     checkAsyncDataBeingLoaded$suspend()
     if(file.exists(pidFile)) {
-      # MCMC is running (on unix), kill it.
+      # Something async is running (on unix), kill it.
       pid <- read.csv(pidFile, header=FALSE)
       tools::pskill(pid)
       file.remove(pidFile)
@@ -844,7 +865,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$stop, {
     checkAsyncDataBeingLoaded$suspend()
     if(file.exists(pidFile)) {
-      # MCMC is running (on unix), kill it.
+      # Something async is running (on unix), kill it.
       pid <- read.csv(pidFile, header=FALSE)
       tools::pskill(pid)
       file.remove(pidFile)
