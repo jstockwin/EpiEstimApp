@@ -141,9 +141,9 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
          hidden(div(id="5.1",
                     # State 5.1
                     div(id="SIPatientDataErrorBox", class="ErrorBox",
-                      radioButtons('SIPatientData', paste("Do you want to estimate the serial interval from data",
-                                                          "on the possible times of symptom appearance in donor-recipient pairs?"),
-                                   c('No'='FALSE', 'Yes'='TRUE'))
+                      radioButtons('SIPatientData', paste("Do you want to use serial interval data from individual patients, or use",
+                                                          "a distributional estimate of the serial interval?"),
+                                   c('Distributional Estimate'='FALSE', 'Individual Patient Data'='TRUE'))
                     )
          )),
          hidden(div(id="6.1",
