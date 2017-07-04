@@ -35,7 +35,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -93,7 +93,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -155,7 +155,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -217,7 +217,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -279,7 +279,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -341,7 +341,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -403,7 +403,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -465,7 +465,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -527,7 +527,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -592,7 +592,7 @@ test_that("Test 9 output matches", {
 #    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
 #    clickNext(remDr) # Move to state 6.2
 #    waitForStateDisplayed(remDr, "6.2")
-#    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+#    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
 #    clickNext(remDr) # Move to state 7.3
 #    waitForStateDisplayed(remDr, "7.3")
 #    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -654,7 +654,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
@@ -716,7 +716,7 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")

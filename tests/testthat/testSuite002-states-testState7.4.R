@@ -26,26 +26,25 @@ tryCatch({
     checkDisplayedState(remDr, "7.4")
   })
 
-  test_that("parametric input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.4$selectors$parametric))
-    expect_true(isDisplayed(remDr, pages$state7.4$selectors$parametricLabel))
-    expect_equal(getText(remDr, pages$state7.4$selectors$parametricLabel),
-                 "Parametric or Non-Parametric SI?")
-    expect_true(isDisplayed(remDr, pages$state7.4$selectors$parametricNoLabel))
-    expect_equal(getText(remDr, pages$state7.4$selectors$parametricNoLabel), "Non-Parametric")
-    expect_true(isDisplayed(remDr, pages$state7.4$selectors$parametricNoButton))
-    expect_true(isDisplayed(remDr, pages$state7.4$selectors$parametricYesLabel))
-    expect_equal(getText(remDr, pages$state7.4$selectors$parametricYesLabel), "Parametric")
-    expect_true(isDisplayed(remDr, pages$state7.4$selectors$parametricYesButton))
+  test_that("Mean.SI input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.4$selectors$Mean.SIInput))
+    expect_true(isDisplayed(remDr, pages$state7.4$selectors$Mean.SILabel))
+    expect_equal(getText(remDr, pages$state7.4$selectors$Mean.SILabel), "Mean.SI")
+  })
+
+  test_that("Std.SI input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.4$selectors$Std.SIInput))
+    expect_true(isDisplayed(remDr, pages$state7.4$selectors$Std.SILabel))
+    expect_equal(getText(remDr, pages$state7.4$selectors$Std.SILabel), "Std.SI")
   })
 
   test_that("relevant control buttons are displayed", {
     expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
     expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))
     expect_true(isEnabled(remDr, pages$common$selectors$prevButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$nextButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$nextButton))
-    expect_false(isDisplayed(remDr, pages$common$selectors$goButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$nextButton))
+    expect_true(isDisplayed(remDr, pages$common$selectors$goButton))
+    expect_true(isEnabled(remDr, pages$common$selectors$goButton))
   })
 
   test_that("no errors are displaying", {

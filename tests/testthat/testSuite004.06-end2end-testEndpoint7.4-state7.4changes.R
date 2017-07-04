@@ -1,4 +1,4 @@
-context("Test Suite 4 (E2E) --> Endpoint 8.4")
+context("Test Suite 4 (E2E) --> Endpoint 7.4")
 
 library(RSelenium)
 library(testthat)
@@ -9,7 +9,7 @@ source("functions.R", local=TRUE)
 # ---------------------------------------------------------------------------#
 # Test 1 - Defaults                                                          #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.4 (Test 1)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.4 (Test 1)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -35,12 +35,9 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption2Button)
     clickNext(remDr) # Move to state 7.4
     waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricYesButton)
-    clickNext(remDr) # Move to state 8.4
-    waitForStateDisplayed(remDr, "8.4")
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -71,7 +68,7 @@ test_that("Test 1 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 2 - Different Mean.SI                                                 #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.4 (Test 2)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.4 (Test 2)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -97,14 +94,11 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption2Button)
     clickNext(remDr) # Move to state 7.4
     waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricYesButton)
-    clickNext(remDr) # Move to state 8.4
-    waitForStateDisplayed(remDr, "8.4")
-    clear(remDr, pages$state8.4$selectors$Mean.SIInput)
-    sendKeys(remDr, pages$state8.4$selectors$Mean.SIInput, "3")
+    clear(remDr, pages$state7.4$selectors$Mean.SIInput)
+    sendKeys(remDr, pages$state7.4$selectors$Mean.SIInput, "3")
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -136,7 +130,7 @@ test_that("Test 2 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 3 - Different Std.SI                                                  #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.4 (Test 3)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.4 (Test 3)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -162,14 +156,11 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption2Button)
     clickNext(remDr) # Move to state 7.4
     waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricYesButton)
-    clickNext(remDr) # Move to state 8.4
-    waitForStateDisplayed(remDr, "8.4")
-    clear(remDr, pages$state8.4$selectors$Std.SIInput)
-    sendKeys(remDr, pages$state8.4$selectors$Std.SIInput, "2")
+    clear(remDr, pages$state7.4$selectors$Std.SIInput)
+    sendKeys(remDr, pages$state7.4$selectors$Std.SIInput, "2")
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)

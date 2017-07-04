@@ -5,7 +5,7 @@
 library(RSelenium)
 
 allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
-              "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
+              "7.5", "7.6", "8.1", "8.2", "8.3", "9.1")
 appUrl="http://localhost:3000"
 source("pageObjects.R", local=TRUE)
 appDir <- system.file("app", package="EpiEstimApp")
@@ -277,12 +277,22 @@ navigateToState <- function(remDr, state) {
          },
          "7.3" = {
            navigateToState(remDr, "6.2")
-           click(remDr, pages$state6.2$selectors$uncertaintyYesButton)
+           click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
            clickNext(remDr)
          },
          "7.4" = {
            navigateToState(remDr, "6.2")
-           click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
+           click(remDr, pages$state6.2$selectors$SIEstTypeOption2Button)
+           clickNext(remDr)
+         },
+         "7.5" = {
+           navigateToState(remDr, "6.2")
+           click(remDr, pages$state6.2$selectors$SIEstTypeOption3Button)
+           clickNext(remDr)
+         },
+         "7.6" = {
+           navigateToState(remDr, "6.2")
+           click(remDr, pages$state6.2$selectors$SIEstTypeOption4Button)
            clickNext(remDr)
          },
          "8.1" = {
@@ -299,16 +309,6 @@ navigateToState <- function(remDr, state) {
            click(remDr, pages$state7.2$selectors$SIFromSampleButton)
            clickNext(remDr)
          },
-         "8.4" = {
-           navigateToState(remDr, "7.4")
-           click(remDr, pages$state7.4$selectors$parametricYesButton)
-           clickNext(remDr)
-         },
-         "8.5" = {
-           navigateToState(remDr, "7.4")
-           click(remDr, pages$state7.4$selectors$parametricNoButton)
-           clickNext(remDr)
-         },
          "9.1" = {
            navigateToState(remDr, "8.2")
            # We won't be able to move on unless we upload a
@@ -322,16 +322,6 @@ navigateToState <- function(remDr, state) {
              sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
                       path)
            }
-           clickNext(remDr)
-         },
-         "9.2" = {
-           navigateToState(remDr, "8.5")
-           click(remDr, pages$state8.5$selectors$SIDistrDataTypeOwnButton)
-           clickNext(remDr)
-         },
-         "9.3" = {
-           navigateToState(remDr, "8.5")
-           click(remDr, pages$state8.5$selectors$SIDistrDataTypePreloadedButton)
            clickNext(remDr)
          }
   )
