@@ -213,7 +213,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                   'text/csv',
                                   'text/comma-separated-values',
                                   'text/plain',
-                                  '.csv',
+                                  '.csv'
                                 )
                       )
                     ),
@@ -253,7 +253,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                   'text/csv',
                                   'text/comma-separated-values',
                                   'text/plain',
-                                  '.csv',
+                                  '.csv'
                                 )
                       )
                     ),
@@ -270,7 +270,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                   'text/csv',
                                   'text/comma-separated-values',
                                   'text/plain',
-                                  '.csv',
+                                  '.csv'
                                 )
                       )
                     ),
