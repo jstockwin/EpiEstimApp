@@ -1,4 +1,4 @@
-context("Test Suite 4 (E2E) --> Endpoint 9.3")
+context("Test Suite 4 (E2E) --> Endpoint 7.6")
 
 library(RSelenium)
 library(testthat)
@@ -9,7 +9,7 @@ source("functions.R", local=TRUE)
 # ---------------------------------------------------------------------------#
 # Test 1 - Defaults                                                          #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.3 (Test 1)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.6 (Test 1)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -35,16 +35,10 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
-    clickNext(remDr) # Move to state 7.4
-    waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricNoButton)
-    clickNext(remDr) # Move to state 8.5
-    waitForStateDisplayed(remDr, "8.5")
-    click(remDr, pages$state8.5$selectors$SIDistrDataTypePreloadedButton)
-    clickNext(remDr) # Move to state 9.3
-    waitForStateDisplayed(remDr, "9.3")
-    click(remDr, pages$state9.3$selectors$datasetOption1Input)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption4Button)
+    clickNext(remDr) # Move to state 7.6
+    waitForStateDisplayed(remDr, "7.6")
+    click(remDr, pages$state7.6$selectors$datasetOption1Input)
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -75,7 +69,7 @@ test_that("Test 1 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 2 - Different dataset (1)                                             #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.3 (Test 2)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.6 (Test 2)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -101,16 +95,10 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
-    clickNext(remDr) # Move to state 7.4
-    waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricNoButton)
-    clickNext(remDr) # Move to state 8.5
-    waitForStateDisplayed(remDr, "8.5")
-    click(remDr, pages$state8.5$selectors$SIDistrDataTypePreloadedButton)
-    clickNext(remDr) # Move to state 9.3
-    waitForStateDisplayed(remDr, "9.3")
-    click(remDr, pages$state9.3$selectors$datasetOption2Input)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption4Button)
+    clickNext(remDr) # Move to state 7.6
+    waitForStateDisplayed(remDr, "7.6")
+    click(remDr, pages$state7.6$selectors$datasetOption2Input)
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -141,7 +129,7 @@ test_that("Test 2 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 3 - Different dataset (2)                                             #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.3 (Test 3)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.6 (Test 3)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -167,16 +155,10 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
-    clickNext(remDr) # Move to state 7.4
-    waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricNoButton)
-    clickNext(remDr) # Move to state 8.5
-    waitForStateDisplayed(remDr, "8.5")
-    click(remDr, pages$state8.5$selectors$SIDistrDataTypePreloadedButton)
-    clickNext(remDr) # Move to state 9.3
-    waitForStateDisplayed(remDr, "9.3")
-    click(remDr, pages$state9.3$selectors$datasetOption3Input)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption4Button)
+    clickNext(remDr) # Move to state 7.6
+    waitForStateDisplayed(remDr, "7.6")
+    click(remDr, pages$state7.6$selectors$datasetOption3Input)
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -207,7 +189,7 @@ test_that("Test 3 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 4 - Different dataset (3)                                             #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.3 (Test 4)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.6 (Test 4)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -233,16 +215,10 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
-    clickNext(remDr) # Move to state 7.4
-    waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricNoButton)
-    clickNext(remDr) # Move to state 8.5
-    waitForStateDisplayed(remDr, "8.5")
-    click(remDr, pages$state8.5$selectors$SIDistrDataTypePreloadedButton)
-    clickNext(remDr) # Move to state 9.3
-    waitForStateDisplayed(remDr, "9.3")
-    click(remDr, pages$state9.3$selectors$datasetOption4Input)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption4Button)
+    clickNext(remDr) # Move to state 7.6
+    waitForStateDisplayed(remDr, "7.6")
+    click(remDr, pages$state7.6$selectors$datasetOption4Input)
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -273,7 +249,7 @@ test_that("Test 4 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 5 - Different dataset (4)                                             #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.3 (Test 5)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.6 (Test 5)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -299,16 +275,10 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
-    clickNext(remDr) # Move to state 7.4
-    waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricNoButton)
-    clickNext(remDr) # Move to state 8.5
-    waitForStateDisplayed(remDr, "8.5")
-    click(remDr, pages$state8.5$selectors$SIDistrDataTypePreloadedButton)
-    clickNext(remDr) # Move to state 9.3
-    waitForStateDisplayed(remDr, "9.3")
-    click(remDr, pages$state9.3$selectors$datasetOption5Input)
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption4Button)
+    clickNext(remDr) # Move to state 7.6
+    waitForStateDisplayed(remDr, "7.6")
+    click(remDr, pages$state7.6$selectors$datasetOption5Input)
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)

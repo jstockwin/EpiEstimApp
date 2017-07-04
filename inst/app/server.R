@@ -37,9 +37,9 @@ options(shiny.maxRequestSize = 9*1024^2)
 options(shiny.reactlog=TRUE) 
 
 allStates = c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1", "7.2", "7.3", "7.4",
-              "8.1", "8.2", "8.3", "8.4", "8.5", "9.1", "9.2", "9.3")
+              "7.5", "7.6", "8.1", "8.2", "8.3", "9.1")
 
-finalStates = c("8.1", "9.1", "8.3", "7.3", "8.4", "9.2", "9.3")
+finalStates = c("7.3", "7.4", "7.5", "7.6", "8.1", "8.3", "9.1")
 
 # If the app has crashed we may be left with MCMC progress files, which would
 # throw off our counts of how many MCMC processes are running. 
@@ -502,10 +502,33 @@ shinyServer(function(input, output, session) {
                }
                TRUE
              },
-             "7.4" = {TRUE},
+             "7.4" = {
+               Mean.SI <<- input$Mean.SI2
+               Std.SI <<- input$Std.SI2
+               method <<- "ParametricSI"
+               if (is.null(Mean.SI) || Mean.SI < 0) {
+                 throwError("Mean.SI must be an greater than or equal to 0", "Mean.SI2")
+               }
+               if (is.null(Std.SI) || Std.SI < 0) {
+                 throwError("Std.SI must be an greater than or equal to 0", "Std.SI2")
+               }
+               TRUE
+             },
+             "7.5" = {
+               method <<- "NonParametricSI"
+               SI.Distr <<- as.numeric(read.csv(input$SIDistrData$datapath,
+                                     header = input$SIDistrHeader, sep = input$SIDistrSep,
+                                     quote = input$SIDistrQuote))
+               TRUE
+             },
+             "7.6" = {
+               method <<- "NonParametricSI"
+               SI.Distr <<- alldatasets[[input$SIDistrDataset]]$SI.Distr
+               TRUE
+             },
              "8.1" = {
                # "SIFromSample"
-               # Simply read the MCMC samples from the file. See getMCMCFit in utils.R 
+               # Simply read the MCMC samples from the file. See getMCMCFit in utils.R
                method <<- "SIFromSample"
                SI.Sample <<- getSISamples(input$SIDataset, input$SIDist)
 
@@ -577,19 +600,6 @@ shinyServer(function(input, output, session) {
                }
                TRUE
              },
-             "8.4" = {
-               Mean.SI <<- input$Mean.SI2
-               Std.SI <<- input$Std.SI2
-               method <<- "ParametricSI"
-               if (is.null(Mean.SI) || Mean.SI < 0) {
-                 throwError("Mean.SI must be an greater than or equal to 0", "Mean.SI2")
-               }
-               if (is.null(Std.SI) || Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Std.SI2")
-               }
-               TRUE
-             },
-             "8.5" = {TRUE},
              "9.1" = {
                burnin <<- input$burnin
                total.samples.needed <<- input$burnin + input$n12 * input$thin
@@ -653,18 +663,6 @@ shinyServer(function(input, output, session) {
                  TRUE
                }
              },
-             "9.2" = {
-               method <<- "NonParametricSI"
-               SI.Distr <<- as.numeric(read.csv(input$SIDistrData$datapath,
-                                     header = input$SIDistrHeader, sep = input$SIDistrSep,
-                                     quote = input$SIDistrQuote))
-               TRUE
-             },
-             "9.3" = {
-               method <<- "NonParametricSI"
-               SI.Distr <<- alldatasets[[input$SIDistrDataset]]$SI.Distr
-               TRUE
-             },
              stop(sprintf("An error occurred in handleState(). Input '%s' was not recognised.", state))
       )
     },
@@ -686,12 +684,22 @@ shinyServer(function(input, output, session) {
            "4.1" = {"5.1"},
            "5.1" = {if (input$SIPatientData == "TRUE") "6.1" else "6.2"},
            "6.1" = {if (input$SIDataType == "preloaded") "7.1" else "7.2"},
-           "6.2" = {if (input$uncertainty == "TRUE") "7.3" else "7.4"},
+           "6.2" = {
+             if (input$SIEstType == "uncertain") {
+               "7.3"
+             } else if (input$SIEstType == "parametric") {
+               "7.4"
+             } else if (input$SIEstType == "own") {
+               "7.5"
+             } else if (input$SIEstType == "preloaded") {
+               "7.6"
+             } else {
+               stop("Error in getNextState(), SIEstType not found")
+             }
+           },
            "7.1" = {"8.1"},
            "7.2" = {if (input$SIFrom == "data") "8.2" else "8.3"},
-           "7.4" = {if (input$parametric == "TRUE") "8.4" else "8.5"},
            "8.2" = {"9.1"},
-           "8.5"= {if (input$SIDistrDataType == "own") "9.2" else "9.3"},
            stop(sprintf("An error occurred in getNextState(). Input '%s' was not recognised.", currentState))
     )
   }
@@ -715,14 +723,12 @@ shinyServer(function(input, output, session) {
            "7.2" = {"6.1"},
            "7.3" = {"6.2"},
            "7.4" = {"6.2"},
+           "7.5" = {"6.2"},
+           "7.6" = {"6.2"},
            "8.1" = {"7.1"},
            "8.2" = {"7.2"},
            "8.3" = {"7.2"},
-           "8.4" = {"7.4"},
-           "8.5" = {"7.4"},
            "9.1" = {"8.2"},
-           "9.2" = {"8.5"},
-           "9.3" = {"8.5"},
            stop(sprintf("An error occurred in getPrevState(). Input '%s' was not recognised.", currentState))
     )
   }

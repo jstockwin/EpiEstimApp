@@ -148,12 +148,16 @@ pages <- list(
     ),
     state6.2 = list(
         selectors = list(
-            uncertainty="//div[@id='uncertainty']",
-            uncertaintyLabel="//div[@id='uncertainty']/label",
-            uncertaintyNoLabel="//div[@id='uncertainty']//div[@class='radio'][1]//span",
-            uncertaintyNoButton="//div[@id='uncertainty']//div[@class='radio'][1]//input",
-            uncertaintyYesLabel="//div[@id='uncertainty']//div[@class='radio'][2]//span",
-            uncertaintyYesButton="//div[@id='uncertainty']//div[@class='radio'][2]//input"
+            SIEstType="//div[@id='SIEstType']",
+            SIEstTypeLabel="//div[@id='SIEstType']/label",
+            SIEstTypeOption1Label="//div[@id='SIEstType']//div[@class='radio'][1]//span",
+            SIEstTypeOption1Button="//div[@id='SIEstType']//div[@class='radio'][1]//input",
+            SIEstTypeOption2Label="//div[@id='SIEstType']//div[@class='radio'][2]//span",
+            SIEstTypeOption2Button="//div[@id='SIEstType']//div[@class='radio'][2]//input",
+            SIEstTypeOption3Label="//div[@id='SIEstType']//div[@class='radio'][3]//span",
+            SIEstTypeOption3Button="//div[@id='SIEstType']//div[@class='radio'][3]//input",
+            SIEstTypeOption4Label="//div[@id='SIEstType']//div[@class='radio'][4]//span",
+            SIEstTypeOption4Button="//div[@id='SIEstType']//div[@class='radio'][4]//input"
         )
     ),
     state7.1 = list(
@@ -205,12 +209,48 @@ pages <- list(
     ),
     state7.4 = list(
         selectors = list(
-            parametric="//div[@id='parametric']",
-            parametricLabel="//div[@id='parametric']/label",
-            parametricNoLabel="//div[@id='parametric']//div[@class='radio'][2]//span",
-            parametricNoButton="//div[@id='parametric']//div[@class='radio'][2]//input",
-            parametricYesLabel="//div[@id='parametric']//div[@class='radio'][1]//span",
-            parametricYesButton="//div[@id='parametric']//div[@class='radio'][1]//input"
+            Mean.SILabel="//label[@for='Mean.SI2']",
+            Mean.SIInput="//input[@id='Mean.SI2']",
+            Std.SILabel="//label[@for='Std.SI2']",
+            Std.SIInput="//input[@id='Std.SI2']"
+        )
+    ),
+    state7.5 = list(
+        selectors = list(
+            SIDistrDataUploadLabel="//div[@id='SIDistrDataErrorBox']/div/label",
+            SIDistrDataUploadBrowse="//div[@id='SIDistrDataErrorBox']//span",
+            SIDistrDataUploadInput="//input[@id='SIDistrData']",
+            SIDistrDataUploadText="//div[@id='SIDistrDataErrorBox']//input[@type='text']",
+            SIDistrHeaderButton="//input[@id='SIDistrHeader']",
+            SIDistrSepLabel="//div[@id='SIDistrSep']/label",
+            SIDistrSepCommaButton="//div[@id='SIDistrSep']//div[@class='radio'][1]//input",
+            SIDistrSepCommaLabel="//div[@id='SIDistrSep']//div[@class='radio'][1]//span",
+            SIDistrSepSemiButton="//div[@id='SIDistrSep']//div[@class='radio'][2]//input",
+            SIDistrSepSemiLabel="//div[@id='SIDistrSep']//div[@class='radio'][2]//span",
+            SIDistrSepTabButton="//div[@id='SIDistrSep']//div[@class='radio'][3]//input",
+            SIDistrSepTabLabel="//div[@id='SIDistrSep']//div[@class='radio'][3]//span",
+            SIDistrQuoteLabel="//div[@id='SIDistrQuote']/label",
+            SIDistrQuoteNoneButton="//div[@id='SIDistrQuote']//div[@class='radio'][1]//input",
+            SIDistrQuoteNoneLabel="//div[@id='SIDistrQuote']//div[@class='radio'][1]//span",
+            SIDistrQuoteDoubleButton="//div[@id='SIDistrQuote']//div[@class='radio'][2]//input",
+            SIDistrQuoteDoubleLabel="//div[@id='SIDistrQuote']//div[@class='radio'][2]//span",
+            SIDistrQuoteSingleButton="//div[@id='SIDistrQuote']//div[@class='radio'][3]//input",
+            SIDistrQuoteSingleLabel="//div[@id='SIDistrQuote']//div[@class='radio'][3]//span"
+        )
+    ),
+    state7.6 = list(
+        selectors = list(
+            datasetLabel="//div[@id='SIDistrDataset']/label",
+            datasetOption1Label="//div[@id='SIDistrDataset']//div[@class='radio'][1]//span",
+            datasetOption1Input="//div[@id='SIDistrDataset']//div[@class='radio'][1]//input",
+            datasetOption2Label="//div[@id='SIDistrDataset']//div[@class='radio'][2]//span",
+            datasetOption2Input="//div[@id='SIDistrDataset']//div[@class='radio'][2]//input",
+            datasetOption3Label="//div[@id='SIDistrDataset']//div[@class='radio'][3]//span",
+            datasetOption3Input="//div[@id='SIDistrDataset']//div[@class='radio'][3]//input",
+            datasetOption4Label="//div[@id='SIDistrDataset']//div[@class='radio'][4]//span",
+            datasetOption4Input="//div[@id='SIDistrDataset']//div[@class='radio'][4]//input",
+            datasetOption5Label="//div[@id='SIDistrDataset']//div[@class='radio'][5]//span",
+            datasetOption5Input="//div[@id='SIDistrDataset']//div[@class='radio'][5]//input"
         )
     ),
     state8.1 = list(
@@ -286,24 +326,6 @@ pages <- list(
             seedInput="//input[@id='SISampleSeed']"
         )
     ),
-    state8.4 = list(
-        selectors = list(
-            Mean.SILabel="//label[@for='Mean.SI2']",
-            Mean.SIInput="//input[@id='Mean.SI2']",
-            Std.SILabel="//label[@for='Std.SI2']",
-            Std.SIInput="//input[@id='Std.SI2']"
-        )
-    ),
-    state8.5 = list(
-        selectors = list(
-            SIDistrDataType="//div[@id='SIDistrDataType']",
-            SIDistrDataTypeLabel="//div[@id='SIDistrDataType']/label",
-            SIDistrDataTypePreloadedLabel="//div[@id='SIDistrDataType']//div[@class='radio'][1]//span",
-            SIDistrDataTypePreloadedButton="//div[@id='SIDistrDataType']//div[@class='radio'][1]//input",
-            SIDistrDataTypeOwnLabel="//div[@id='SIDistrDataType']//div[@class='radio'][2]//span",
-            SIDistrDataTypeOwnButton="//div[@id='SIDistrDataType']//div[@class='radio'][2]//input"
-        )
-    ),
     state9.1 = list(
         selectors = list(
             distributionLabel="//div[@id='SIDist2']/label",
@@ -333,44 +355,6 @@ pages <- list(
             param1Input="//input[@id='param1']",
             param2Label="//label[@for='param2']",
             param2Input="//input[@id='param2']"
-        )
-    ),
-    state9.2 = list(
-        selectors = list(
-            SIDistrDataUploadLabel="//div[@id='SIDistrDataErrorBox']/div/label",
-            SIDistrDataUploadBrowse="//div[@id='SIDistrDataErrorBox']//span",
-            SIDistrDataUploadInput="//input[@id='SIDistrData']",
-            SIDistrDataUploadText="//div[@id='SIDistrDataErrorBox']//input[@type='text']",
-            SIDistrHeaderButton="//input[@id='SIDistrHeader']",
-            SIDistrSepLabel="//div[@id='SIDistrSep']/label",
-            SIDistrSepCommaButton="//div[@id='SIDistrSep']//div[@class='radio'][1]//input",
-            SIDistrSepCommaLabel="//div[@id='SIDistrSep']//div[@class='radio'][1]//span",
-            SIDistrSepSemiButton="//div[@id='SIDistrSep']//div[@class='radio'][2]//input",
-            SIDistrSepSemiLabel="//div[@id='SIDistrSep']//div[@class='radio'][2]//span",
-            SIDistrSepTabButton="//div[@id='SIDistrSep']//div[@class='radio'][3]//input",
-            SIDistrSepTabLabel="//div[@id='SIDistrSep']//div[@class='radio'][3]//span",
-            SIDistrQuoteLabel="//div[@id='SIDistrQuote']/label",
-            SIDistrQuoteNoneButton="//div[@id='SIDistrQuote']//div[@class='radio'][1]//input",
-            SIDistrQuoteNoneLabel="//div[@id='SIDistrQuote']//div[@class='radio'][1]//span",
-            SIDistrQuoteDoubleButton="//div[@id='SIDistrQuote']//div[@class='radio'][2]//input",
-            SIDistrQuoteDoubleLabel="//div[@id='SIDistrQuote']//div[@class='radio'][2]//span",
-            SIDistrQuoteSingleButton="//div[@id='SIDistrQuote']//div[@class='radio'][3]//input",
-            SIDistrQuoteSingleLabel="//div[@id='SIDistrQuote']//div[@class='radio'][3]//span"
-        )
-    ),
-    state9.3 = list(
-        selectors = list(
-            datasetLabel="//div[@id='SIDistrDataset']/label",
-            datasetOption1Label="//div[@id='SIDistrDataset']//div[@class='radio'][1]//span",
-            datasetOption1Input="//div[@id='SIDistrDataset']//div[@class='radio'][1]//input",
-            datasetOption2Label="//div[@id='SIDistrDataset']//div[@class='radio'][2]//span",
-            datasetOption2Input="//div[@id='SIDistrDataset']//div[@class='radio'][2]//input",
-            datasetOption3Label="//div[@id='SIDistrDataset']//div[@class='radio'][3]//span",
-            datasetOption3Input="//div[@id='SIDistrDataset']//div[@class='radio'][3]//input",
-            datasetOption4Label="//div[@id='SIDistrDataset']//div[@class='radio'][4]//span",
-            datasetOption4Input="//div[@id='SIDistrDataset']//div[@class='radio'][4]//input",
-            datasetOption5Label="//div[@id='SIDistrDataset']//div[@class='radio'][5]//span",
-            datasetOption5Input="//div[@id='SIDistrDataset']//div[@class='radio'][5]//input"
         )
     )
 

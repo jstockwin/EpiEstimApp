@@ -1,4 +1,4 @@
-context("Test Suite 4 (E2E) --> Endpoint 9.2")
+context("Test Suite 4 (E2E) --> Endpoint 7.5")
 
 library(RSelenium)
 library(testthat)
@@ -9,7 +9,7 @@ source("functions.R", local=TRUE)
 # ---------------------------------------------------------------------------#
 # Test 1 - Defaults                                                          #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.2 (Test 1)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.5 (Test 1)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -35,22 +35,16 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
-    clickNext(remDr) # Move to state 7.4
-    waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricNoButton)
-    clickNext(remDr) # Move to state 8.5
-    waitForStateDisplayed(remDr, "8.5")
-    click(remDr, pages$state8.5$selectors$SIDistrDataTypeOwnButton)
-    clickNext(remDr) # Move to state 9.2
-    waitForStateDisplayed(remDr, "9.2")
-    if (getAttribute(remDr, pages$state9.2$selectors$SIDistrDataUploadInput, "value") == "") {
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption3Button)
+    clickNext(remDr) # Move to state 7.5
+    waitForStateDisplayed(remDr, "7.5")
+    if (getAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state9.2$selectors$SIDistrDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/Flu1918.csv")
-      sendKeys(remDr, pages$state9.2$selectors$SIDistrDataUploadInput,
+      sendKeys(remDr, pages$state7.5$selectors$SIDistrDataUploadInput,
                path)
     }
     clickGo(remDr)
@@ -83,7 +77,7 @@ test_that("Test 1 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 2 - Different dataset (1)                                             #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.2 (Test 2)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.5 (Test 2)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -109,22 +103,16 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
-    clickNext(remDr) # Move to state 7.4
-    waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricNoButton)
-    clickNext(remDr) # Move to state 8.5
-    waitForStateDisplayed(remDr, "8.5")
-    click(remDr, pages$state8.5$selectors$SIDistrDataTypeOwnButton)
-    clickNext(remDr) # Move to state 9.2
-    waitForStateDisplayed(remDr, "9.2")
-    if (getAttribute(remDr, pages$state9.2$selectors$SIDistrDataUploadInput, "value") == "") {
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption3Button)
+    clickNext(remDr) # Move to state 7.5
+    waitForStateDisplayed(remDr, "7.5")
+    if (getAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state9.2$selectors$SIDistrDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/Flu2009.csv")
-      sendKeys(remDr, pages$state9.2$selectors$SIDistrDataUploadInput,
+      sendKeys(remDr, pages$state7.5$selectors$SIDistrDataUploadInput,
                path)
     }
     clickGo(remDr)
@@ -157,7 +145,7 @@ test_that("Test 2 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 3 - Different dataset (2)                                             #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.2 (Test 3)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.5 (Test 3)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -183,22 +171,16 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
-    clickNext(remDr) # Move to state 7.4
-    waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricNoButton)
-    clickNext(remDr) # Move to state 8.5
-    waitForStateDisplayed(remDr, "8.5")
-    click(remDr, pages$state8.5$selectors$SIDistrDataTypeOwnButton)
-    clickNext(remDr) # Move to state 9.2
-    waitForStateDisplayed(remDr, "9.2")
-    if (getAttribute(remDr, pages$state9.2$selectors$SIDistrDataUploadInput, "value") == "") {
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption3Button)
+    clickNext(remDr) # Move to state 7.5
+    waitForStateDisplayed(remDr, "7.5")
+    if (getAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state9.2$selectors$SIDistrDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/Measles1861.csv")
-      sendKeys(remDr, pages$state9.2$selectors$SIDistrDataUploadInput,
+      sendKeys(remDr, pages$state7.5$selectors$SIDistrDataUploadInput,
                path)
     }
     clickGo(remDr)
@@ -231,7 +213,7 @@ test_that("Test 3 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 4 - Different dataset (3)                                             #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.2 (Test 4)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.5 (Test 4)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -257,22 +239,16 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
-    clickNext(remDr) # Move to state 7.4
-    waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricNoButton)
-    clickNext(remDr) # Move to state 8.5
-    waitForStateDisplayed(remDr, "8.5")
-    click(remDr, pages$state8.5$selectors$SIDistrDataTypeOwnButton)
-    clickNext(remDr) # Move to state 9.2
-    waitForStateDisplayed(remDr, "9.2")
-    if (getAttribute(remDr, pages$state9.2$selectors$SIDistrDataUploadInput, "value") == "") {
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption3Button)
+    clickNext(remDr) # Move to state 7.5
+    waitForStateDisplayed(remDr, "7.5")
+    if (getAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state9.2$selectors$SIDistrDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/SARS2003.csv")
-      sendKeys(remDr, pages$state9.2$selectors$SIDistrDataUploadInput,
+      sendKeys(remDr, pages$state7.5$selectors$SIDistrDataUploadInput,
                path)
     }
     clickGo(remDr)
@@ -305,7 +281,7 @@ test_that("Test 4 output matches", {
 # ---------------------------------------------------------------------------#
 # Test 5 - Different dataset (4)                                             #
 # ---------------------------------------------------------------------------#
-drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.2 (Test 5)")
+drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.5 (Test 5)")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
@@ -331,22 +307,16 @@ tryCatch({
     click(remDr, pages$state5.1$selectors$exposureDataNoInput)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$uncertaintyNoButton)
-    clickNext(remDr) # Move to state 7.4
-    waitForStateDisplayed(remDr, "7.4")
-    click(remDr, pages$state7.4$selectors$parametricNoButton)
-    clickNext(remDr) # Move to state 8.5
-    waitForStateDisplayed(remDr, "8.5")
-    click(remDr, pages$state8.5$selectors$SIDistrDataTypeOwnButton)
-    clickNext(remDr) # Move to state 9.2
-    waitForStateDisplayed(remDr, "9.2")
-    if (getAttribute(remDr, pages$state9.2$selectors$SIDistrDataUploadInput, "value") == "") {
+    click(remDr, pages$state6.2$selectors$SIEstTypeOption3Button)
+    clickNext(remDr) # Move to state 7.5
+    waitForStateDisplayed(remDr, "7.5")
+    if (getAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state9.2$selectors$SIDistrDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/Smallpox1972.csv")
-      sendKeys(remDr, pages$state9.2$selectors$SIDistrDataUploadInput,
+      sendKeys(remDr, pages$state7.5$selectors$SIDistrDataUploadInput,
                path)
     }
     clickGo(remDr)

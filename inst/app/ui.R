@@ -153,11 +153,16 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                    c('Pre-loaded' = 'preloaded', 'Own data' = 'own'))
                     )
          )),
-         hidden(div(id="6.2", 
+         hidden(div(id="6.2",
                     # State 6.2
-                    div(id="uncertaintyErrorBox", class="ErrorBox",
-                      radioButtons('uncertainty', 'Would you like to allow uncertainty in the serial interval distribution?',
-                                   c('No'='FALSE', 'Yes'='TRUE'))
+                    div(id="SIEstTypeErrorBox", class="ErrorBox",
+                      radioButtons('SIEstType', 'Which of the following serial interval distribution estimates would you like to use?',
+                                   c(
+                                      "Parametric with uncertainty (offset gamma)"="uncertain",
+                                      "Parametric without uncertainty (offset gamma)"="parametric",
+                                      "Upload your own probability distribution"="own",
+                                      "Use a distribution estimated from a previous outbreak (preloaded data)"="preloaded"
+                                    ))
                     )
          )),
          hidden(div(id="7.1",
@@ -217,9 +222,45 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
          )),
          hidden(div(id="7.4",
                     # State 7.4
-                    div(id="parametricErrorBox", class="ErrorBox",
-                      radioButtons('parametric', 'Parametric or Non-Parametric SI?',
-                                   c('Parametric'='TRUE', 'Non-Parametric'='FALSE'))
+                    div(id="Mean.SI2ErrorBox", class="ErrorBox",
+                      numericInput('Mean.SI2', 'Mean.SI', value=2, min=1+1e-18)
+                    ),
+                    div(id="Std.SI2ErrorBox", class="ErrorBox",
+                      numericInput('Std.SI2', 'Std.SI', value=1, min=1e-18)
+                    )
+         )),
+         hidden(div(id="7.5",
+                    # State 7.5
+                    div(id="SIDistrDataErrorBox", class="ErrorBox",
+                      fileInput('SIDistrData', 'Choose serialIntervalData file to upload',
+                                accept = c(
+                                  'text/csv',
+                                  'text/comma-separated-values',
+                                  'text/tab-separated-values',
+                                  'text/plain',
+                                  '.csv',
+                                  '.tsv'
+                                )
+                      )
+                    ),
+                    checkboxInput('SIDistrHeader', 'Header', FALSE),
+                    radioButtons('SIDistrSep', 'Separator',
+                                 c(Comma=',',
+                                   Semicolon=';',
+                                   Tab='\t'),
+                                 ','),
+                    radioButtons('SIDistrQuote', 'Quote',
+                                 c(None='',
+                                   'Double Quote'='"',
+                                   'Single Quote'="'"),
+                                 '')
+         )),
+         hidden(div(id="7.6",
+                    # State 7.6
+                    div(id="SIDistrDatasetErrorBox", class="ErrorBox",
+                      radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
+                                   c('Flu1918', 'Flu2009', 'Measles1861',
+                                     'SARS2003', 'Smallpox1972'))
                     )
          )),
          hidden(div(id="8.1",
@@ -239,7 +280,6 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     div(id="preloadedSeedErrorBox", class="ErrorBox",
                         numericInput("preloadedSeed", "Set a seed to be used by EpiEstim. A random one will be chosen if this is left blank", value=NULL)
                         )
-      
          )),
          hidden(div(id="8.2",
                     # State 8.2
@@ -302,23 +342,6 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                         numericInput("SISampleSeed", "Set a seed to be used by EpiEstim. A random one will be chosen if this is left blank", value=NULL)
                     )
          )),
-         hidden(div(id="8.4",
-                    # State 8.4
-                    div(id="Mean.SI2ErrorBox", class="ErrorBox",
-                      numericInput('Mean.SI2', 'Mean.SI', value=2, min=1+1e-18)
-                    ),
-                    div(id="Std.SI2ErrorBox", class="ErrorBox",
-                      numericInput('Std.SI2', 'Std.SI', value=1, min=1e-18)
-                    )
-         )),
-         hidden(div(id="8.5",
-                    # State 8.5
-                    div(id="SIDistrDataTypeErrorBox", class="ErrorBox",
-                      radioButtons('SIDistrDataType', 'Would you like to use an external file containing the SI distribution, or a pre-loaded SI distribution?',
-                                   c('Pre-loaded' = 'preloaded', 'External file' = 'own'))
-                    )
-                    
-         )),
          hidden(div(id="9.1",
                     # State 9.1
                     div(id="SIDist2ErrorBox", class="ErrorBox",
@@ -356,40 +379,6 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     ),
                     div(id="param2ErrorBox", class="ErrorBox",
                       numericInput('param2', 'Choose the value of param2', min=0, value='')
-                    )
-         )),
-         hidden(div(id="9.2",
-                    # State 9.2    
-                    div(id="SIDistrDataErrorBox", class="ErrorBox",
-                      fileInput('SIDistrData', 'Choose serialIntervalData file to upload',
-                                accept = c(
-                                  'text/csv',
-                                  'text/comma-separated-values',
-                                  'text/tab-separated-values',
-                                  'text/plain',
-                                  '.csv',
-                                  '.tsv'
-                                )
-                      )
-                    ),
-                    checkboxInput('SIDistrHeader', 'Header', FALSE),
-                    radioButtons('SIDistrSep', 'Separator',
-                                 c(Comma=',',
-                                   Semicolon=';',
-                                   Tab='\t'),
-                                 ','),
-                    radioButtons('SIDistrQuote', 'Quote',
-                                 c(None='',
-                                   'Double Quote'='"',
-                                   'Single Quote'="'"),
-                                 '')
-         )),
-         hidden(div(id="9.3",
-                    # State 9.3
-                    div(id="SIDistrDatasetErrorBox", class="ErrorBox",
-                      radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
-                                   c('Flu1918', 'Flu2009', 'Measles1861',
-                                     'SARS2003', 'Smallpox1972'))
                     )
          )),
          div(id="control",
