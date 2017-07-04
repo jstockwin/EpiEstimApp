@@ -30,29 +30,6 @@ tryCatch({
 
     expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleHeaderButton))
 
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleSepLabel))
-    expect_equal(getText(remDr, pages$state8.3$selectors$SISampleSepLabel), "Separator")
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleSepCommaButton))
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleSepCommaLabel))
-    expect_equal(getText(remDr, pages$state8.3$selectors$SISampleSepCommaLabel), "Comma")
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleSepSemiButton))
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleSepSemiLabel))
-    expect_equal(getText(remDr, pages$state8.3$selectors$SISampleSepSemiLabel), "Semicolon")
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleSepTabButton))
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleSepTabLabel))
-    expect_equal(getText(remDr, pages$state8.3$selectors$SISampleSepTabLabel), "Tab")
-
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleQuoteLabel))
-    expect_equal(getText(remDr, pages$state8.3$selectors$SISampleQuoteLabel), "Quote")
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleQuoteNoneButton))
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleQuoteNoneLabel))
-    expect_equal(getText(remDr, pages$state8.3$selectors$SISampleQuoteNoneLabel), "None")
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleQuoteDoubleButton))
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleQuoteDoubleLabel))
-    expect_equal(getText(remDr, pages$state8.3$selectors$SISampleQuoteDoubleLabel), "Double Quote")
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleQuoteSingleButton))
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleQuoteSingleLabel))
-    expect_equal(getText(remDr, pages$state8.3$selectors$SISampleQuoteSingleLabel), "Single Quote")
   })
 
   test_that("n2 input is displayed correctly", {

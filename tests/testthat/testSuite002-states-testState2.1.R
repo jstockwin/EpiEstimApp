@@ -30,29 +30,6 @@ tryCatch({
 
     expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceHeaderButton))
 
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceSepLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$incidenceSepLabel), "Separator")
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceSepCommaButton))
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceSepCommaLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$incidenceSepCommaLabel), "Comma")
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceSepSemiButton))
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceSepSemiLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$incidenceSepSemiLabel), "Semicolon")
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceSepTabButton))
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceSepTabLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$incidenceSepTabLabel), "Tab")
-
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceQuoteLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$incidenceQuoteLabel), "Quote")
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceQuoteNoneButton))
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceQuoteNoneLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$incidenceQuoteNoneLabel), "None")
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceQuoteDoubleButton))
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceQuoteDoubleLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$incidenceQuoteDoubleLabel), "Double Quote")
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceQuoteSingleButton))
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceQuoteSingleLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$incidenceQuoteSingleLabel), "Single Quote")
   })
 
   test_that("width inputs are displaying correctly", {
