@@ -81,7 +81,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     div(id="incidenceDatasetErrorBox", class="ErrorBox",
                       radioButtons('incidenceDataset', 'Choose your dataset',
                                    c('FluPennsylvania2009', 'FluNewYork2009', 'RotavirusKiribati2013', 'FluMaryland1918',
-                                   'FluPennsylvania2009', 'MeaslesGermany1861', 'SARSHongKong2003', 'SmallpoxKosovo1972'))
+                                   'MeaslesGermany1861', 'SARSHongKong2003', 'SmallpoxKosovo1972'))
                     ),
                     div(id="incidenceWidthErrorBox", class="ErrorBox",
                       sliderInput('incidenceWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)

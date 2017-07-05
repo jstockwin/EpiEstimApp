@@ -70,8 +70,6 @@ pages <- list(
             datasetOption6Input="//div[@id='incidenceDataset']//div[@class='radio'][6]//input",
             datasetOption7Label="//div[@id='incidenceDataset']//div[@class='radio'][7]//span",
             datasetOption7Input="//div[@id='incidenceDataset']//div[@class='radio'][7]//input",
-            datasetOption8Label="//div[@id='incidenceDataset']//div[@class='radio'][8]//span",
-            datasetOption8Input="//div[@id='incidenceDataset']//div[@class='radio'][8]//input",
             incidenceWidthLabel="//label[@for='incidenceWidth']",
             incidenceWidthInput="//input[@id='incidenceWidth']",
             meanPriorLabel="//label[@for='incidenceMeanPrior']",

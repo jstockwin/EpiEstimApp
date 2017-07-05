@@ -48,23 +48,18 @@ tryCatch({
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption5Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption5Label),
-                 "FluPennsylvania2009")
+                 "MeaslesGermany1861")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption5Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption6Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption6Label),
-                 "MeaslesGermany1861")
+                 "SARSHongKong2003")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption6Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption7Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption7Label),
-                 "SARSHongKong2003")
-    expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption7Input))
-
-    expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption8Label))
-    expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption8Label),
                  "SmallpoxKosovo1972")
-    expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption8Input))
+    expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption7Input))
   })
 
   test_that("width inputs are displaying correctly", {
