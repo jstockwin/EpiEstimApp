@@ -16,15 +16,16 @@ getSerialIntervalData <- function (data) {
 
 # The following function takes the string from input$data and uses it to pull in the incidenceData
 # It is this function which should be edited if any of the cases per day file names change.
-getIncidenceData <- function (data, alldatasets) {
-  if (data %in% names(alldatasets)) {
-    dat <- alldatasets[[data]]$Incidence
-    return(dat)
-  } else {
-    filename <- paste('datasets/IncidenceData/', data, '.csv', sep="")
-    incidenceData <- read.table(filename, header = F, sep=',')
-    return(incidenceData)
-  }
+getIncidenceData <- function (data) {
+  filename <- paste('datasets/IncidenceData/', data, '.csv', sep="")
+  incidenceData <- read.table(filename, header = FALSE, sep=',')
+  return(incidenceData)
+}
+
+getSIDistribution <- function(data) {
+  filename <- paste('datasets/SerialIntervalDistributions/', data, '.csv', sep="")
+  SIDist <- as.numeric(read.table(filename, header=FALSE, sep=','))
+  return(SIDist)
 }
 
 # The following function takes the string from input$data, and the distirbution from input$SIDist and returns

@@ -30,15 +30,15 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetLabel))
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption1Label))
     expect_equal(getText(remDr, pages$state7.1$selectors$datasetOption1Label),
-                 "EcuadorRotavirus")
+                 "RotavirusEcuador2011")
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption1Input))
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption2Label))
     expect_equal(getText(remDr, pages$state7.1$selectors$datasetOption2Label),
-                 "NewYorkH1N1")
+                 "FluNewYork2009")
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption2Input))
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption3Label))
     expect_equal(getText(remDr, pages$state7.1$selectors$datasetOption3Label),
-                 "USAH1N1")
+                 "FluUSA2009")
     expect_true(isDisplayed(remDr, pages$state7.1$selectors$datasetOption3Input))
   })
 

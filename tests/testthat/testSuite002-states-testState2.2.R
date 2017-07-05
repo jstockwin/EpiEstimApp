@@ -28,43 +28,38 @@ tryCatch({
                  "Choose your dataset")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption1Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption1Label),
-                 "PennsylvaniaH1N1")
+                 "FluPennsylvania2009")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption1Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption2Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption2Label),
-                 "NewYorkH1N1")
+                 "FluNewYork2009")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption2Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption3Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption3Label),
-                 "KiribatiRotavirus")
+                 "RotavirusKiribati2013")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption3Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption4Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption4Label),
-                 "Flu1918")
+                 "FluMaryland1918")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption4Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption5Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption5Label),
-                 "Flu2009")
+                 "MeaslesGermany1861")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption5Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption6Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption6Label),
-                 "Measles1861")
+                 "SARSHongKong2003")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption6Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption7Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption7Label),
-                 "SARS2003")
+                 "SmallpoxKosovo1972")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption7Input))
-
-    expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption8Label))
-    expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption8Label),
-                 "Smallpox1972")
-    expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption8Input))
   })
 
   test_that("width inputs are displaying correctly", {
