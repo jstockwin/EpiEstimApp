@@ -1,4 +1,5 @@
 library(coarseDataTools)
+
 library(MCMCpack)
 library(EpiEstim)
 library(shiny)
@@ -14,17 +15,6 @@ library(stats)
 library(future)
 
 plan(multiprocess)
-
-data(Measles1861)
-data(Flu1918)
-data(Smallpox1972)
-data(SARS2003)
-data(Flu2009)
-alldatasets <- list('Measles1861' = Measles1861,
-                    'Flu1918' = Flu1918,
-                    'Smallpox1972' = Smallpox1972,
-                    'SARS2003' = SARS2003,
-                    'Flu2009' = Flu2009)
 
 
 # Source necessary files
@@ -400,7 +390,7 @@ shinyServer(function(input, output, session) {
              },
              "2.2" = {
                # Get preloaded data
-               IncidenceData <<- getIncidenceData(input$incidenceDataset, alldatasets)
+               IncidenceData <<- getIncidenceData(input$incidenceDataset)
 
                # Process Incidence data (using EpiEstim)
                IncidenceData <<- EpiEstim:::process_I(IncidenceData)
@@ -544,7 +534,7 @@ shinyServer(function(input, output, session) {
              },
              "7.6" = {
                method <<- "NonParametricSI"
-               SI.Distr <<- alldatasets[[input$SIDistrDataset]]$SI.Distr
+               SI.Distr <<- getSIDistribution(input$SIDistrDataset)
                TRUE
              },
              "8.1" = {

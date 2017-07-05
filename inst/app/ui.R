@@ -80,8 +80,8 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     # State 2.2
                     div(id="incidenceDatasetErrorBox", class="ErrorBox",
                       radioButtons('incidenceDataset', 'Choose your dataset',
-                                   c('PennsylvaniaH1N1', 'NewYorkH1N1', 'KiribatiRotavirus', 'Flu1918',
-                                   'Flu2009', 'Measles1861', 'SARS2003', 'Smallpox1972'))
+                                   c('FluPennsylvania2009', 'FluNewYork2009', 'RotavirusKiribati2013', 'FluMaryland1918',
+                                   'FluPennsylvania2009', 'MeaslesGermany1861', 'SARSHongKong2003', 'SmallpoxKosovo1972'))
                     ),
                     div(id="incidenceWidthErrorBox", class="ErrorBox",
                       sliderInput('incidenceWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
@@ -145,7 +145,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     # State 7.1
                     div(id="SIDatasetErrorBox", class="ErrorBox",
                       radioButtons('SIDataset', 'Choose your dataset',
-                                   c('EcuadorRotavirus', 'NewYorkH1N1', 'USAH1N1'))
+                                   c('RotavirusEcuador2011', 'FluNewYork2009', 'FluUSA2009'))
                     )
          )),
          hidden(div(id="7.2",
@@ -223,8 +223,8 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     # State 7.6
                     div(id="SIDistrDatasetErrorBox", class="ErrorBox",
                       radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
-                                   c('Flu1918', 'Flu2009', 'Measles1861',
-                                     'SARS2003', 'Smallpox1972'))
+                                   c('FluMaryland1918', 'FluPennsylvania2009', 'MeaslesGermany1861',
+                                     'SARSHongKong2003', 'SmallpoxKosovo1972'))
                     )
          )),
          hidden(div(id="8.1",

@@ -30,23 +30,23 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetLabel))
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption1Label))
     expect_equal(getText(remDr, pages$state7.6$selectors$datasetOption1Label),
-                 "Flu1918")
+                 "FluMaryland1918")
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption1Input))
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption2Label))
     expect_equal(getText(remDr, pages$state7.6$selectors$datasetOption2Label),
-                 "Flu2009")
+                 "FluPennsylvania2009")
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption2Input))
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption3Label))
     expect_equal(getText(remDr, pages$state7.6$selectors$datasetOption3Label),
-                 "Measles1861")
+                 "MeaslesGermany1861")
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption3Input))
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption4Label))
     expect_equal(getText(remDr, pages$state7.6$selectors$datasetOption4Label),
-                 "SARS2003")
+                 "SARSHongKong2003")
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption4Input))
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption5Label))
     expect_equal(getText(remDr, pages$state7.6$selectors$datasetOption5Label),
-                 "Smallpox1972")
+                 "SmallpoxKosovo1972")
     expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption5Input))
   })
 
