@@ -33,14 +33,13 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
 
 </p>
           <p>Thompson RN, Stockwin JE, Polonsky JE, DeMarsh A et al. EpiEstim 2: An improved tool for estimating serial intervals and time-varying reproduction numbers during infection disease outbreaks. Submitted (2017).</p>
-          <p>For information on the preloaded datasets, <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Preloaded-Datasets'>click here</a>.</p>
-          <p>For more information on uploading your own data, <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Uploading-your-own-data'>click here</a>.</p>
           "
          ) 
   ),
   column(4, id="menu",
          div(id="status",
-             verbatimTextOutput('output')
+             verbatimTextOutput('output'),
+             htmlOutput("progress")
          ),
          div(id="titles",
              div(id="incidenceTitle", h1('Incidence Data')),

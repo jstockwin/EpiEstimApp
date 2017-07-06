@@ -7,3 +7,7 @@
 #error {
   color: red;
 }
+
+#titles h1 {
+  margin-top: 10px;
+}
