@@ -134,7 +134,11 @@ shinyServer(function(input, output, session) {
   
   # Keep the output text to values$status
   output$output <- renderText({values$status})
-  
+  output$progress <- renderText({paste(
+      "<p>Step ", substr(values$state,1,1), " of at most 9.",
+      " View the <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Interactive-Documentation-State-",
+      values$state, "' target='_blank'>interactive documentation</a> for this state.</p>"
+      , sep="")})
   output$error <- renderText({values$error})
   
   
