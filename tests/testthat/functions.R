@@ -82,6 +82,16 @@ clickStop <- function(remDr) {
   click(remDr, pages$common$selectors$stopButton)
 }
 
+checkError <- function(remDr, msg, input=NULL) {
+  expect_equal(getText(remDr, pages$common$selectors$errorMessage), msg)
+  expect_equal(getText(remDr, pages$common$selectors$status), "ERROR")
+  if(!is.null(input)) {
+    selector <- paste("//div[@id='", input, "ErrorBox']", sep="")
+    style <- getAttribute(remDr, selector, "style")
+    expect_equal(style, "border: 3px solid red;")
+  }
+}
+
 waitForElemDisplayed <- function(remDr, selector, timeout=60) {
   # Waits for webElem to be displayed for timeout seconds.
   # If passes if element is displayed within timeout, fails otherwise
@@ -240,10 +250,10 @@ navigateToState <- function(remDr, state) {
              # which is not currently visible. Explicitly show the element
              # first to fix this?
              setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
-             path <- getFilePath(remDr, "datasets/IncidenceData/FluPennsylvania2009.csv")
-             sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
-                      path)
            }
+           path <- getFilePath(remDr, "datasets/IncidenceData/FluPennsylvania2009.csv")
+           sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
+                    path)
            clickNext(remDr)
          },
          "4.1" = {
@@ -318,10 +328,10 @@ navigateToState <- function(remDr, state) {
              # which is not currently visible. Explicitly show the element
              # first to fix this?
              setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
-             path <- getFilePath(remDr, "datasets/SerialIntervalData/FluNewYork2009.csv")
-             sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
-                      path)
            }
+           path <- getFilePath(remDr, "datasets/SerialIntervalData/FluNewYork2009.csv")
+           sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
+                    path)
            clickNext(remDr)
          }
   )

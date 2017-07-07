@@ -1,5 +1,5 @@
 library(coarseDataTools)
-
+library(tools)
 library(MCMCpack)
 library(EpiEstim)
 library(shiny)
@@ -368,6 +368,12 @@ shinyServer(function(input, output, session) {
              },
              "2.1" = {
                # Handle uploaded data:
+               if (is.null(input$incidenceData$datapath)) {
+                 throwError("Please upload a file", "incidenceData")
+               }
+               if (file_ext(input$incidenceData$name) != "csv") {
+                 throwError("The uploaded file must be a .csv file", "incidenceData")
+               }
                IncidenceData <<- read.csv(input$incidenceData$datapath,
                                           header = input$incidenceHeader, sep = ",",
                                           quote = "")
@@ -423,6 +429,12 @@ shinyServer(function(input, output, session) {
                IncidenceData <<- read.csv(input$incidenceData$datapath,
                                           header = input$incidenceHeader, sep = ",",
                                           quote = ",")
+               if (is.null(input$importedData$datapath)) {
+                 throwError("Please upload a file", "importedData")
+               }
+               if (file_ext(input$importedData$name) != "csv") {
+                 throwError("The uploaded file must be a .csv file", "importedData")
+               }
                ImportedData <- read.csv(input$importedData$datapath,
                                         header = input$importedHeader, sep = input$importedSep,
                                         quote = input$importedQuote)
@@ -531,6 +543,12 @@ shinyServer(function(input, output, session) {
              },
              "7.5" = {
                method <<- "NonParametricSI"
+               if (is.null(input$SIDistrData$datapath)) {
+                 throwError("Please upload a file", "SIDistrData")
+               }
+               if (file_ext(input$SIDistrData$name) != "csv") {
+                 throwError("The uploaded file must be a .csv file", "SIDistrData")
+               }
                SI.Distr <<- as.numeric(read.csv(input$SIDistrData$datapath,
                                      header = input$SIDistrHeader, sep = ",",
                                      quote = ""))
@@ -566,6 +584,12 @@ shinyServer(function(input, output, session) {
              },
              "8.2" = {
                method <<- "SIFromData"
+               if (is.null(input$SIData$datapath)) {
+                 throwError("Please upload a file", "SIData")
+               }
+               if (file_ext(input$SIData$name) != "csv") {
+                 throwError("The uploaded file must be a .csv file", "SIData")
+               }
                serialIntervalData <- read.csv(input$SIData$datapath,
                                               header = input$SIHeader, sep = ",",
                                               quote = "")
@@ -807,7 +831,21 @@ shinyServer(function(input, output, session) {
     switch(state,
            "2.1" = {
              if (error$message == "'file' must be a character string or connection") {
-               throwError("Please upload a file", "incidenceData", FALSE)
+               throwError("Please upload a valid csv file", "incidenceData", FALSE)
+             } else {
+               info(error$message)
+             }
+           },
+           "4.1" = {
+             if (error$message == "'file' must be a character string or connection") {
+               throwError("Please upload a valid csvfile", "importedData", FALSE)
+             } else {
+               info(error$message)
+             }
+           },
+           "7.5" = {
+             if (error$message == "'file' must be a character string or connection") {
+               throwError("Please upload a valid csv file", "SIDistrData", FALSE)
              } else {
                info(error$message)
              }
@@ -815,6 +853,13 @@ shinyServer(function(input, output, session) {
            "8.1" = {
              if (error$message == "The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate."){
                throwError("The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate. Please use a different SI distribution, or change your dataset", "SIDist", FALSE)
+             } else {
+               info(error$message)
+             }
+           },
+           "8.2" = {
+             if (error$message == "'file' must be a character string or connection") {
+               throwError("Please upload a valid csv file", "SIData", FALSE)
              } else {
                info(error$message)
              }
@@ -834,6 +879,7 @@ shinyServer(function(input, output, session) {
       session$sendCustomMessage(type="errorBox", errorBoxName)
     }
     values$error <- errorMessage
+    values$status <- "ERROR"
     enable("go")
     hide("stop")
     show("prev")
