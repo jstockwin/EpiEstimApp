@@ -34,7 +34,7 @@ tryCatch({
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/IncidenceData/FluPennsylvania2009.csv")
+      path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
       sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
                path)
     }
@@ -48,7 +48,7 @@ tryCatch({
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state4.1$selectors$importedDataUploadInput, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/IncidenceData/FluPennsylvania2009_imported.csv")
+      path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009_imported.csv")
       sendKeys(remDr, pages$state4.1$selectors$importedDataUploadInput,
                path)
     }
@@ -81,7 +81,7 @@ error = function(e) {
 
 test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/FluPennsylvania2009.csv', sep='/'), header=FALSE)
+  I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
@@ -206,7 +206,7 @@ tryCatch({
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/IncidenceData/FluNewYork2009.csv") # <---
+      path <- getFilePath(remDr, "datasets/IncidenceData/H1N1NewYork2009.csv") # <---
       sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
                path)
     }
@@ -220,7 +220,7 @@ tryCatch({
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state4.1$selectors$importedDataUploadInput, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/IncidenceData/FluNewYork2009_imported.csv")
+      path <- getFilePath(remDr, "datasets/IncidenceData/H1N1NewYork2009_imported.csv")
       sendKeys(remDr, pages$state4.1$selectors$importedDataUploadInput,
                path)
     }
@@ -253,7 +253,7 @@ error = function(e) {
 
 test_that("Test 3 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/FluNewYork2009.csv', sep='/'), header=FALSE)
+  I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1NewYork2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)

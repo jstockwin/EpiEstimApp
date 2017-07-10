@@ -78,7 +78,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     # State 2.2
                     div(id="incidenceDatasetErrorBox", class="ErrorBox",
                       radioButtons('incidenceDataset', 'Choose your dataset',
-                                   c('FluPennsylvania2009', 'FluNewYork2009', 'RotavirusKiribati2013', 'FluMaryland1918',
+                                   c('H1N1Pennsylvania2009', 'H1N1NewYork2009', 'RotavirusKiribati2013', 'H1N1Maryland1918',
                                    'MeaslesGermany1861', 'SARSHongKong2003', 'SmallpoxKosovo1972'))
                     ),
                     div(id="incidenceWidthErrorBox", class="ErrorBox",
@@ -143,7 +143,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     # State 7.1
                     div(id="SIDatasetErrorBox", class="ErrorBox",
                       radioButtons('SIDataset', 'Choose your dataset',
-                                   c('RotavirusEcuador2011', 'FluNewYork2009', 'FluUSA2009'))
+                                   c('RotavirusEcuador2011', 'H1N1NewYork2009', 'H1N1USA2009'))
                     )
          )),
          hidden(div(id="7.2",
@@ -221,7 +221,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     # State 7.6
                     div(id="SIDistrDatasetErrorBox", class="ErrorBox",
                       radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
-                                   c('FluMaryland1918', 'FluPennsylvania2009', 'MeaslesGermany1861',
+                                   c('H1N1Maryland1918', 'H1N1Pennsylvania2009', 'MeaslesGermany1861',
                                      'SARSHongKong2003', 'SmallpoxKosovo1972'))
                     )
          )),

@@ -240,7 +240,7 @@ navigateToState <- function(remDr, state) {
              # which is not currently visible. Explicitly show the element
              # first to fix this?
              setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
-             path <- getFilePath(remDr, "datasets/IncidenceData/FluPennsylvania2009.csv")
+             path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
              sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
                       path)
            }
@@ -318,7 +318,7 @@ navigateToState <- function(remDr, state) {
              # which is not currently visible. Explicitly show the element
              # first to fix this?
              setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
-             path <- getFilePath(remDr, "datasets/SerialIntervalData/FluNewYork2009.csv")
+             path <- getFilePath(remDr, "datasets/SerialIntervalData/H1N1NewYork2009.csv")
              sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
                       path)
            }
