@@ -830,7 +830,11 @@ shinyServer(function(input, output, session) {
     show("prev")
     switch(state,
            "2.1" = {
-             if (error$message == "'file' must be a character string or connection") {
+             if (error$message == "I must contain only non negative integer values.") {
+               throwError("Incidence data must contain only non negative integer values.", "incidenceData", FALSE)
+             } else if (error$message == "I must be a vector or a dataframe with either i) a column called 'I', or ii) 2 columns called 'local' and 'imported'.") {
+               throwError("Incidence data must only contain one column, called 'I' or 'local'", "incidenceData", FALSE)
+             } else if (error$message == "'file' must be a character string or connection") {
                throwError("Please upload a valid csv file", "incidenceData", FALSE)
              } else {
                info(error$message)
@@ -844,22 +848,45 @@ shinyServer(function(input, output, session) {
              }
            },
            "7.5" = {
+             fileProcessingErrors <- c(
+               "SI.Distr must be a vector.",
+               "SI.Distr should be so that SI.Distr[1] = 0.",
+               "SI.Distr must be a positive vector.",
+               "SI.Distr must sum to 1."
+             )
              if (error$message == "'file' must be a character string or connection") {
                throwError("Please upload a valid csv file", "SIDistrData", FALSE)
-             } else {
-               info(error$message)
-             }
-           },
-           "8.1" = {
-             if (error$message == "The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate."){
-               throwError("The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate. Please use a different SI distribution, or change your dataset", "SIDist", FALSE)
+             } else if (error$message %in% fileProcessingErrors) {
+               throwError(error$message, SIDistrData, FALSE)
              } else {
                info(error$message)
              }
            },
            "8.2" = {
+             fileProcessingErrors <- c(
+               "SI.Data has entries for which EL, ER, SL or SR are non integers.",
+               "SI.Data has entries for which ER<EL.",
+               "SI.Data has entries for which SR<SL.",
+               "You cannot fit any of the supported distributions to this SI dataset, because for some data points the maximum serial interval is <=0."
+             )
              if (error$message == "'file' must be a character string or connection") {
                throwError("Please upload a valid csv file", "SIData", FALSE)
+             } else if (error$message %in% fileProcessingErrors) {
+               throwError(error$message, "SIData", FALSE)
+             } else {
+               info(error$message)
+             }
+           },
+           "8.3" = {
+             fileProcessingErrors <- c(
+               "method SIFromSample requires that SI.Sample[1,] contains only 0.",
+               "method SIFromSample requires that SI.Sample must contain only non negtaive values.",
+               "method SIFromSample requires the sum of each column in SI.Sample to be 1."
+             )
+             if (error$message == "'file' must be a character string or connection") {
+               throwError("Please upload a valid csv file", "SISampleData", FALSE)
+             } else if (error$message %in% fileProcessingErrors) {
+               throwError(error$message, "SISampleData", FALSE)
              } else {
                info(error$message)
              }
