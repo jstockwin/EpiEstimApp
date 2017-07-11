@@ -1,5 +1,5 @@
 library(coarseDataTools)
-
+library(tools)
 library(MCMCpack)
 library(EpiEstim)
 library(shiny)
@@ -368,6 +368,12 @@ shinyServer(function(input, output, session) {
              },
              "2.1" = {
                # Handle uploaded data:
+               if (is.null(input$incidenceData$datapath)) {
+                 throwError("Please upload a file", "incidenceData")
+               }
+               if (file_ext(input$incidenceData$name) != "csv") {
+                 throwError("The uploaded file must be a .csv file", "incidenceData")
+               }
                IncidenceData <<- read.csv(input$incidenceData$datapath,
                                           header = input$incidenceHeader, sep = ",",
                                           quote = "")
@@ -423,6 +429,12 @@ shinyServer(function(input, output, session) {
                IncidenceData <<- read.csv(input$incidenceData$datapath,
                                           header = input$incidenceHeader, sep = ",",
                                           quote = ",")
+               if (is.null(input$importedData$datapath)) {
+                 throwError("Please upload a file", "importedData")
+               }
+               if (file_ext(input$importedData$name) != "csv") {
+                 throwError("The uploaded file must be a .csv file", "importedData")
+               }
                ImportedData <- read.csv(input$importedData$datapath,
                                         header = input$importedHeader, sep = input$importedSep,
                                         quote = input$importedQuote)
@@ -458,23 +470,23 @@ shinyServer(function(input, output, session) {
                Std.Std.SI <<- input$Std.Std.SI
                Min.Std.SI <<- input$Min.Std.SI
                Max.Std.SI <<- input$Max.Std.SI
-               if (is.null(n1) || n1 < 1 || !is.integer(n1)) {
+               if (is.null(n1) || is.na(n1) || n1 < 1 || !is.integer(n1)) {
                  throwError("n1 must be an integer greater than or equal to 1", "n1")
                }
-               if (is.null(n2) || n2 < 1 || !is.integer(n2)) {
+               if (is.null(n2) || is.na(n2) || n2 < 1 || !is.integer(n2)) {
                  throwError("n2 must be an integer greater than or equal to 1", "n2")
                }
-               if (is.null(Mean.SI) || Mean.SI < 0) {
-                 throwError("Mean.SI must be an greater than or equal to 0", "Mean.SI")
+               if (is.null(Mean.SI) || is.na(Mean.SI) || Mean.SI < 1) {
+                 throwError("Mean.SI must be greater than or equal to 1", "Mean.SI")
                }
-               if (is.null(Min.Mean.SI) || Min.Mean.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Min.Mean.SI")
+               if (is.null(Min.Mean.SI) || is.na(Min.Mean.SI) || Min.Mean.SI < 1) {
+                 throwError("Min.Mean.SI must be greater than or equal to 1", "Min.Mean.SI")
                }
-               if (is.null(Max.Mean.SI) || Max.Mean.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Max.Mean.SI")
+               if (is.null(Max.Mean.SI) || is.na(Max.Mean.SI) || Max.Mean.SI < 1) {
+                 throwError("Max.Mean.SI must be greater than or equal to 1", "Max.Mean.SI")
                }
-               if (is.null(Std.Mean.SI) || Std.Mean.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Std.Mean.SI")
+               if (is.null(Std.Mean.SI) || is.na(Std.Mean.SI) || Std.Mean.SI <= 0) {
+                 throwError("Std.Mean.SI must be greater than 0", "Std.Mean.SI")
                }
                if (Min.Mean.SI > Mean.SI) {
                  throwError("Min.Mean.SI must be less than Mean.SI", "Min.Mean.SI", FALSE) # Don't stop until next one
@@ -484,17 +496,17 @@ shinyServer(function(input, output, session) {
                  throwError("Max.Mean.SI must be greater than Mean.SI", "Max.Mean.SI", FALSE) # Don't stop until next one
                  throwError("Max.Mean.SI must be greater than Mean.SI", "Mean.SI")
                }
-               if (is.null(Std.SI) || Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Std.SI")
+               if (is.null(Std.SI) || is.na(Std.SI) || Std.SI <= 0) {
+                 throwError("Std.SI must be greater than 0", "Std.SI")
                }
-               if (is.null(Min.Std.SI) || Min.Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Min.Std.SI")
+               if (is.null(Min.Std.SI) || is.na(Min.Std.SI) || Min.Std.SI <= 0) {
+                 throwError("Min.Std.SI must be greater than 0", "Min.Std.SI")
                }
-               if (is.null(Max.Std.SI) || Max.Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Max.Std.SI")
+               if (is.null(Max.Std.SI) || is.na(Max.Std.SI) || Max.Std.SI <= 0) {
+                 throwError("Max.Std.SI must be greater than 0", "Max.Std.SI")
                }
-               if (is.null(Std.Std.SI) || Std.Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Std.Std.SI")
+               if (is.null(Std.Std.SI) || is.na(Std.Std.SI) || Std.Std.SI <= 0) {
+                 throwError("Std.Std.SI must be greater than 0", "Std.Std.SI")
                }
                if (Min.Std.SI > Std.SI) {
                  throwError("Min.Std.SI must be less than Std.SI", "Min.Std.SI", FALSE) # Don't stop until next one
@@ -521,16 +533,22 @@ shinyServer(function(input, output, session) {
                Mean.SI <<- input$Mean.SI2
                Std.SI <<- input$Std.SI2
                method <<- "ParametricSI"
-               if (is.null(Mean.SI) || Mean.SI < 0) {
-                 throwError("Mean.SI must be an greater than or equal to 0", "Mean.SI2")
+               if (is.null(Mean.SI) || Mean.SI <= 1) {
+                 throwError("Mean.SI must be greater than 1", "Mean.SI2")
                }
-               if (is.null(Std.SI) || Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Std.SI2")
+               if (is.null(Std.SI) || Std.SI <= 0) {
+                 throwError("Std.SI must be greater than 0", "Std.SI2")
                }
                TRUE
              },
              "7.5" = {
                method <<- "NonParametricSI"
+               if (is.null(input$SIDistrData$datapath)) {
+                 throwError("Please upload a file", "SIDistrData")
+               }
+               if (file_ext(input$SIDistrData$name) != "csv") {
+                 throwError("The uploaded file must be a .csv file", "SIDistrData")
+               }
                SI.Distr <<- as.numeric(read.csv(input$SIDistrData$datapath,
                                      header = input$SIDistrHeader, sep = ",",
                                      quote = ""))
@@ -566,6 +584,12 @@ shinyServer(function(input, output, session) {
              },
              "8.2" = {
                method <<- "SIFromData"
+               if (is.null(input$SIData$datapath)) {
+                 throwError("Please upload a file", "SIData")
+               }
+               if (file_ext(input$SIData$name) != "csv") {
+                 throwError("The uploaded file must be a .csv file", "SIData")
+               }
                serialIntervalData <- read.csv(input$SIData$datapath,
                                               header = input$SIHeader, sep = ",",
                                               quote = "")
@@ -806,15 +830,63 @@ shinyServer(function(input, output, session) {
     show("prev")
     switch(state,
            "2.1" = {
-             if (error$message == "'file' must be a character string or connection") {
-               throwError("Please upload a file", "incidenceData", FALSE)
+             if (error$message == "I must contain only non negative integer values.") {
+               throwError("Incidence data must contain only non negative integer values.", "incidenceData", FALSE)
+             } else if (error$message == "I must be a vector or a dataframe with either i) a column called 'I', or ii) 2 columns called 'local' and 'imported'.") {
+               throwError("Incidence data must only contain one column, called 'I' or 'local'", "incidenceData", FALSE)
+             } else if (error$message == "'file' must be a character string or connection") {
+               throwError("Please upload a valid csv file", "incidenceData", FALSE)
              } else {
                info(error$message)
              }
            },
-           "8.1" = {
-             if (error$message == "The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate."){
-               throwError("The Rotavirus dataset has serial intervals which are definitely less than 1, so an offset distribution is not appropriate. Please use a different SI distribution, or change your dataset", "SIDist", FALSE)
+           "4.1" = {
+             if (error$message == "'file' must be a character string or connection") {
+               throwError("Please upload a valid csvfile", "importedData", FALSE)
+             } else {
+               info(error$message)
+             }
+           },
+           "7.5" = {
+             fileProcessingErrors <- c(
+               "SI.Distr must be a vector.",
+               "SI.Distr should be so that SI.Distr[1] = 0.",
+               "SI.Distr must be a positive vector.",
+               "SI.Distr must sum to 1."
+             )
+             if (error$message == "'file' must be a character string or connection") {
+               throwError("Please upload a valid csv file", "SIDistrData", FALSE)
+             } else if (error$message %in% fileProcessingErrors) {
+               throwError(error$message, SIDistrData, FALSE)
+             } else {
+               info(error$message)
+             }
+           },
+           "8.2" = {
+             fileProcessingErrors <- c(
+               "SI.Data has entries for which EL, ER, SL or SR are non integers.",
+               "SI.Data has entries for which ER<EL.",
+               "SI.Data has entries for which SR<SL.",
+               "You cannot fit any of the supported distributions to this SI dataset, because for some data points the maximum serial interval is <=0."
+             )
+             if (error$message == "'file' must be a character string or connection") {
+               throwError("Please upload a valid csv file", "SIData", FALSE)
+             } else if (error$message %in% fileProcessingErrors) {
+               throwError(error$message, "SIData", FALSE)
+             } else {
+               info(error$message)
+             }
+           },
+           "8.3" = {
+             fileProcessingErrors <- c(
+               "method SIFromSample requires that SI.Sample[1,] contains only 0.",
+               "method SIFromSample requires that SI.Sample must contain only non negtaive values.",
+               "method SIFromSample requires the sum of each column in SI.Sample to be 1."
+             )
+             if (error$message == "'file' must be a character string or connection") {
+               throwError("Please upload a valid csv file", "SISampleData", FALSE)
+             } else if (error$message %in% fileProcessingErrors) {
+               throwError(error$message, "SISampleData", FALSE)
              } else {
                info(error$message)
              }
@@ -834,6 +906,7 @@ shinyServer(function(input, output, session) {
       session$sendCustomMessage(type="errorBox", errorBoxName)
     }
     values$error <- errorMessage
+    values$status <- "ERROR"
     enable("go")
     hide("stop")
     show("prev")
