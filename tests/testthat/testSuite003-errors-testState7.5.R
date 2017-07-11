@@ -24,6 +24,7 @@ tryCatch({
 
   test_that("pressing go without uploading a file throws correct error", {
     clickGo(remDr)
+    Sys.sleep(1)
     checkError(remDr, "Please upload a file", "SIDistrData")
   })
 
@@ -34,7 +35,6 @@ tryCatch({
     path <- getFilePath(remDr, "utils.R")
     #path <- getFilePath(remDr, "datasets/IncidenceData/FluPennsylvania2009.csv")
     sendKeys(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, path)
-    Sys.sleep(1)
     clickGo(remDr)
     Sys.sleep(1)
     checkError(remDr, "The uploaded file must be a .csv file", "SIDistrData")

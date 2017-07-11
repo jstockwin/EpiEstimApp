@@ -24,6 +24,7 @@ tryCatch({
 
   test_that("pressing next without uploading a file throws correct error", {
     clickNext(remDr)
+    Sys.sleep(1)
     checkError(remDr, "Please upload a file", "importedData")
   })
 
@@ -34,7 +35,6 @@ tryCatch({
     path <- getFilePath(remDr, "utils.R")
     #path <- getFilePath(remDr, "datasets/IncidenceData/FluPennsylvania2009.csv")
     sendKeys(remDr, pages$state4.1$selectors$importedDataUploadInput, path)
-    Sys.sleep(1)
     clickNext(remDr)
     Sys.sleep(1)
     checkError(remDr, "The uploaded file must be a .csv file", "importedData")
