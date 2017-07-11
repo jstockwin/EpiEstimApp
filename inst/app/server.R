@@ -533,11 +533,11 @@ shinyServer(function(input, output, session) {
                Mean.SI <<- input$Mean.SI2
                Std.SI <<- input$Std.SI2
                method <<- "ParametricSI"
-               if (is.null(Mean.SI) || Mean.SI < 0) {
-                 throwError("Mean.SI must be an greater than or equal to 0", "Mean.SI2")
+               if (is.null(Mean.SI) || Mean.SI <= 1) {
+                 throwError("Mean.SI must be greater than 1", "Mean.SI2")
                }
-               if (is.null(Std.SI) || Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Std.SI2")
+               if (is.null(Std.SI) || Std.SI <= 0) {
+                 throwError("Std.SI must be greater than 0", "Std.SI2")
                }
                TRUE
              },
