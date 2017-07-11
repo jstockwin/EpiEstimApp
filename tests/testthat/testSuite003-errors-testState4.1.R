@@ -33,7 +33,7 @@ tryCatch({
       setAttribute(remDr, pages$state4.1$selectors$importedDataUploadInput, "style", "display: block;")
     }
     path <- getFilePath(remDr, "utils.R")
-    #path <- getFilePath(remDr, "datasets/IncidenceData/FluPennsylvania2009.csv")
+    #path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
     sendKeys(remDr, pages$state4.1$selectors$importedDataUploadInput, path)
     clickNext(remDr)
     Sys.sleep(1)

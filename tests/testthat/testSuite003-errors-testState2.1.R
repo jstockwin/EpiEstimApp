@@ -33,7 +33,7 @@ tryCatch({
       setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
     }
     path <- getFilePath(remDr, "utils.R")
-    #path <- getFilePath(remDr, "datasets/IncidenceData/FluPennsylvania2009.csv")
+    #path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
     sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput, path)
     clickNext(remDr)
     Sys.sleep(1)
@@ -45,7 +45,7 @@ tryCatch({
     if (getAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "value") == "") {
       setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
     }
-    path <- getFilePath(remDr, "datasets/IncidenceData/FluPennsylvania2009.csv")
+    path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
     sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput, path)
   })
 
