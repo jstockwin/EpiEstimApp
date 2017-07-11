@@ -23,6 +23,8 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
   column(12,
          HTML(
            "
+          <meta name='keywords' content='infectious,disease,epidemiology,transmissibility,serial,interval,generation,time,time,varying,reproduction,number,Robin,Thompson,Anne,Cori,Jake,Stockwin,Hackout3'>
+          <meta name='author' content='Jake Stockwin'>
           <h1>EpiEstim App</h1>
           <p>This web application generates an estimate of infectious disease transmissibility throughout an outbreak. The time-dependent reproduction number (R) is inferred from disease incidence time series and raw data or estimates of the serial interval. For more information about how to use this application, please see the <a href='https://github.com/jstockwin/EpiEstimApp/wiki'>wiki</a>. We expect users to upload their own data, however there are also some in built, to illustrate how the application might be used.</p>
           <p>For more information on uploading your own data and on the required format of the data, please
