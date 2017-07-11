@@ -1,10 +1,10 @@
-context("Test Suite 2 (States) --> State 7.5")
+context("Test Suite 3 (Errors) --> State 7.5")
 
 library(RSelenium)
 library(testthat)
 source("functions.R", local=TRUE)
 
-drivers <- getRemDrivers("Test Suite 2 (States) --> State 7.5")
+drivers <- getRemDrivers("Test Suite 3 (Errors) --> State 7.5")
 rD <- drivers$rDr
 remDr <- drivers$remDr
 
