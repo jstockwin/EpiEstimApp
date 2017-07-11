@@ -67,7 +67,7 @@ error = function(e) {
 
 test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, "datasets/IncidenceData/FluPennsylvania2009.csv", sep="/"), header=FALSE)
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   SI.Sample <- EpiEstim:::process_SI.Sample(SI.Sample)
@@ -139,7 +139,7 @@ error = function(e) {
 
 test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, "datasets/IncidenceData/FluPennsylvania2009.csv", sep="/"), header=FALSE)
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_W.csv", sep="/"), header=FALSE)
   SI.Sample <- EpiEstim:::process_SI.Sample(SI.Sample)
@@ -192,7 +192,7 @@ tryCatch({
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SIPosteriorSamples/FluNewYork2009_SISamples_G.csv")
+      path <- getFilePath(remDr, "datasets/SIPosteriorSamples/H1N1NewYork2009_SISamples_G.csv")
       sendKeys(remDr, pages$state8.3$selectors$SISampleDataUploadInput,
                path)
     }
@@ -213,9 +213,9 @@ error = function(e) {
 
 test_that("Test 3 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, "datasets/IncidenceData/FluPennsylvania2009.csv", sep="/"), header=FALSE)
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/FluNewYork2009_SISamples_G.csv", sep="/"), header=FALSE)
+  SI.Sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/H1N1NewYork2009_SISamples_G.csv", sep="/"), header=FALSE)
   SI.Sample <- EpiEstim:::process_SI.Sample(SI.Sample)
 
   epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=SI.Sample, method="SIFromSample",

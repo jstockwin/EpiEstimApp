@@ -59,7 +59,7 @@ error = function(e) {
 
 test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/FluPennsylvania2009.csv', sep='/'), header=FALSE)
+  I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_off1G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
@@ -123,7 +123,7 @@ error = function(e) {
 
 test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/FluPennsylvania2009.csv', sep='/'), header=FALSE)
+  I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_W.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
@@ -191,7 +191,7 @@ test_that("Test 2 output matches", {
 #
 #test_that("Test 3 output matches", {
 ## Compare the output to EpiEstim's output
-#I <- read.csv(paste(appDir, 'datasets/IncidenceData/FluPennsylvania2009.csv', sep='/'), header=FALSE)
+#I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
 #I <- EpiEstim:::process_I(I)
 #sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_off1W.csv", sep="/"), header=FALSE)
 #sample <- EpiEstim:::process_SI.Sample(sample)
@@ -259,7 +259,7 @@ test_that("Test 2 output matches", {
 #
 #test_that("Test 4 output matches", {
 ## Compare the output to EpiEstim's output
-#I <- read.csv(paste(appDir, 'datasets/IncidenceData/FluPennsylvania2009.csv', sep='/'), header=FALSE)
+#I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
 #I <- EpiEstim:::process_I(I)
 #sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_L.csv", sep="/"), header=FALSE)
 #sample <- EpiEstim:::process_SI.Sample(sample)
@@ -327,7 +327,7 @@ test_that("Test 2 output matches", {
 #
 #test_that("Test 5 output matches", {
 ## Compare the output to EpiEstim's output
-#I <- read.csv(paste(appDir, 'datasets/IncidenceData/FluPennsylvania2009.csv', sep='/'), header=FALSE)
+#I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
 #I <- EpiEstim:::process_I(I)
 #sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_off1L.csv", sep="/"), header=FALSE)
 #sample <- EpiEstim:::process_SI.Sample(sample)
@@ -393,7 +393,7 @@ error = function(e) {
 
 test_that("Test 6 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/FluPennsylvania2009.csv', sep='/'), header=FALSE)
+  I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
@@ -457,7 +457,7 @@ error = function(e) {
 
 test_that("Test 7 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/FluPennsylvania2009.csv', sep='/'), header=FALSE)
+  I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)

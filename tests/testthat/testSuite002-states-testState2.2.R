@@ -28,12 +28,12 @@ tryCatch({
                  "Choose your dataset")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption1Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption1Label),
-                 "FluPennsylvania2009")
+                 "H1N1Pennsylvania2009")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption1Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption2Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption2Label),
-                 "FluNewYork2009")
+                 "H1N1NewYork2009")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption2Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption3Label))
@@ -43,7 +43,7 @@ tryCatch({
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption4Label))
     expect_equal(getText(remDr, pages$state2.2$selectors$datasetOption4Label),
-                 "FluMaryland1918")
+                 "H1N1Maryland1918")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption4Input))
 
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$datasetOption5Label))

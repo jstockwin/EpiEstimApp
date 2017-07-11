@@ -43,7 +43,7 @@ tryCatch({
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/FluMaryland1918.csv")
+      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/H1N1Maryland1918.csv")
       sendKeys(remDr, pages$state7.5$selectors$SIDistrDataUploadInput,
                path)
     }
@@ -63,9 +63,9 @@ error = function(e) {
 
 test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, "datasets/IncidenceData/FluPennsylvania2009.csv", sep="/"), header=FALSE)
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/FluMaryland1918.csv", sep="/"), header=FALSE))
+  SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/H1N1Maryland1918.csv", sep="/"), header=FALSE))
   epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="NonParametricSI",
                            SI.Distr=SI.Distr)
 
@@ -110,7 +110,7 @@ tryCatch({
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state7.5$selectors$SIDistrDataUploadInput, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/FluPennsylvania2009.csv")
+      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/H1N1Pennsylvania2009.csv")
       sendKeys(remDr, pages$state7.5$selectors$SIDistrDataUploadInput,
                path)
     }
@@ -130,9 +130,9 @@ error = function(e) {
 
 test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, "datasets/IncidenceData/FluPennsylvania2009.csv", sep="/"), header=FALSE)
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/FluPennsylvania2009.csv", sep="/"), header=FALSE))
+  SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE))
   epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="NonParametricSI",
                            SI.Distr=SI.Distr)
 
@@ -197,7 +197,7 @@ error = function(e) {
 
 test_that("Test 3 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, "datasets/IncidenceData/FluPennsylvania2009.csv", sep="/"), header=FALSE)
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/MeaslesGermany1861.csv", sep="/"), header=FALSE))
   epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="NonParametricSI",
@@ -264,7 +264,7 @@ error = function(e) {
 
 test_that("Test 4 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, "datasets/IncidenceData/FluPennsylvania2009.csv", sep="/"), header=FALSE)
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/SARSHongKong2003.csv", sep="/"), header=FALSE))
   epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="NonParametricSI",
@@ -331,7 +331,7 @@ error = function(e) {
 
 test_that("Test 5 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, "datasets/IncidenceData/FluPennsylvania2009.csv", sep="/"), header=FALSE)
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/SmallpoxKosovo1972.csv", sep="/"), header=FALSE))
   epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="NonParametricSI",

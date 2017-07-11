@@ -46,7 +46,7 @@ tryCatch({
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SerialIntervalData/FluNewYork2009.csv") # <---
+      path <- getFilePath(remDr, "datasets/SerialIntervalData/H1N1NewYork2009.csv") # <---
       sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
                path)
     }
@@ -70,9 +70,9 @@ error = function(e) {
 
 test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, "datasets/IncidenceData/FluPennsylvania2009.csv", sep="/"), header=FALSE)
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/FluNewYork2009.csv", sep="/"), header=FALSE)
+  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/H1N1NewYork2009.csv", sep="/"), header=FALSE)
   SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
 
   epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Data=SI.Data,
@@ -148,7 +148,7 @@ error = function(e) {
 
 test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, "datasets/IncidenceData/FluPennsylvania2009.csv", sep="/"), header=FALSE)
+  I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
   SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
