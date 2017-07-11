@@ -470,23 +470,23 @@ shinyServer(function(input, output, session) {
                Std.Std.SI <<- input$Std.Std.SI
                Min.Std.SI <<- input$Min.Std.SI
                Max.Std.SI <<- input$Max.Std.SI
-               if (is.null(n1) || n1 < 1 || !is.integer(n1)) {
+               if (is.null(n1) || is.na(n1) || n1 < 1 || !is.integer(n1)) {
                  throwError("n1 must be an integer greater than or equal to 1", "n1")
                }
-               if (is.null(n2) || n2 < 1 || !is.integer(n2)) {
+               if (is.null(n2) || is.na(n2) || n2 < 1 || !is.integer(n2)) {
                  throwError("n2 must be an integer greater than or equal to 1", "n2")
                }
-               if (is.null(Mean.SI) || Mean.SI < 0) {
-                 throwError("Mean.SI must be an greater than or equal to 0", "Mean.SI")
+               if (is.null(Mean.SI) || is.na(Mean.SI) || Mean.SI < 1) {
+                 throwError("Mean.SI must be greater than or equal to 1", "Mean.SI")
                }
-               if (is.null(Min.Mean.SI) || Min.Mean.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Min.Mean.SI")
+               if (is.null(Min.Mean.SI) || is.na(Min.Mean.SI) || Min.Mean.SI < 1) {
+                 throwError("Min.Mean.SI must be greater than or equal to 1", "Min.Mean.SI")
                }
-               if (is.null(Max.Mean.SI) || Max.Mean.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Max.Mean.SI")
+               if (is.null(Max.Mean.SI) || is.na(Max.Mean.SI) || Max.Mean.SI < 1) {
+                 throwError("Max.Mean.SI must be greater than or equal to 1", "Max.Mean.SI")
                }
-               if (is.null(Std.Mean.SI) || Std.Mean.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Std.Mean.SI")
+               if (is.null(Std.Mean.SI) || is.na(Std.Mean.SI) || Std.Mean.SI <= 0) {
+                 throwError("Std.Mean.SI must be greater than 0", "Std.Mean.SI")
                }
                if (Min.Mean.SI > Mean.SI) {
                  throwError("Min.Mean.SI must be less than Mean.SI", "Min.Mean.SI", FALSE) # Don't stop until next one
@@ -496,17 +496,17 @@ shinyServer(function(input, output, session) {
                  throwError("Max.Mean.SI must be greater than Mean.SI", "Max.Mean.SI", FALSE) # Don't stop until next one
                  throwError("Max.Mean.SI must be greater than Mean.SI", "Mean.SI")
                }
-               if (is.null(Std.SI) || Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Std.SI")
+               if (is.null(Std.SI) || is.na(Std.SI) || Std.SI <= 0) {
+                 throwError("Std.SI must be greater than 0", "Std.SI")
                }
-               if (is.null(Min.Std.SI) || Min.Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Min.Std.SI")
+               if (is.null(Min.Std.SI) || is.na(Min.Std.SI) || Min.Std.SI <= 0) {
+                 throwError("Min.Std.SI must be greater than 0", "Min.Std.SI")
                }
-               if (is.null(Max.Std.SI) || Max.Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Max.Std.SI")
+               if (is.null(Max.Std.SI) || is.na(Max.Std.SI) || Max.Std.SI <= 0) {
+                 throwError("Max.Std.SI must be greater than 0", "Max.Std.SI")
                }
-               if (is.null(Std.Std.SI) || Std.Std.SI < 0) {
-                 throwError("Std.SI must be an greater than or equal to 0", "Std.Std.SI")
+               if (is.null(Std.Std.SI) || is.na(Std.Std.SI) || Std.Std.SI <= 0) {
+                 throwError("Std.Std.SI must be greater than 0", "Std.Std.SI")
                }
                if (Min.Std.SI > Std.SI) {
                  throwError("Min.Std.SI must be less than Std.SI", "Min.Std.SI", FALSE) # Don't stop until next one
