@@ -161,7 +161,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     # State 7.3
                     div(id="n1ErrorBox", class="ErrorBox",
                       numericInput('n1', 'n1', min=2, value=50),
-                      p('Choose the number of serial interval distributions to be sampled (n1) according to the parameters above')
+                      p('Choose the number of serial interval distributions to be sampled (n1) according to the parameters below')
                     ),
                     div(id="n2ErrorBox", class="ErrorBox",
                       numericInput('n2', 'n2', min=2, value=50),
