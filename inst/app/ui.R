@@ -26,11 +26,9 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
           <meta name='keywords' content='infectious,disease,epidemiology,transmissibility,serial,interval,generation,time,time,varying,reproduction,number,Robin,Thompson,Anne,Cori,Jake,Stockwin,Hackout3'>
           <meta name='author' content='Jake Stockwin'>
           <h1>EpiEstim App</h1>
-          <p>This web application generates an estimate of infectious disease transmissibility throughout an outbreak. The time-dependent reproduction number (R) is inferred from disease incidence time series and raw data or estimates of the serial interval. For more information about how to use this application, please see the <a href='https://github.com/jstockwin/EpiEstimApp/wiki'>wiki</a>. We expect users to upload their own data, however there are also some in built, to illustrate how the application might be used.</p>
+          <p>This web application generates an estimate of infectious disease transmissibility throughout an outbreak. The time-dependent reproduction number (<i>R</i>) is inferred from disease incidence time series and raw data or estimates of the serial interval. For more information about how to use this application, please see the <a href='https://github.com/jstockwin/EpiEstimApp/wiki'>wiki</a>. We expect users to upload their own data, however there are also some <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Preloaded-Datasets' target='_blank'>example datasets</a> built in, to illustrate how the application might be used.</p>
           <p>For more information on uploading your own data and on the required format of the data, please
           <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Uploading-your-own-data' target='_blank'>click here</a>.</p>
-          <p>Example data are available, and may be used to see how the application works. For more information on the preloaded datasets,
-          please <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Preloaded-Datasets' target='_blank'>click here</a>.</p>
           <p>The authors request users to cite the original publication when referring to this tool, any results generated from it, or the R software application on which this tool is based (EpiEstim 2):
 
 </p>
@@ -55,6 +53,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
          ),
          hidden(div(id="2.1",
                     # State 2.1
+                    h2("R Estimation Settings"),
                     div(id="incidenceDataErrorBox", class="ErrorBox",
                         fileInput('incidenceData', 'Choose incidence data file to upload',
                                   accept = c(
@@ -70,14 +69,15 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                       sliderInput('uploadedWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
                     ),
                     div(id="uploadedMeanPriorErrorBox", class="ErrorBox",
-                        numericInput("uploadedMeanPrior", "Choose the prior mean value for the reproduction number estimate", value=5, min=0)
+                        numericInput("uploadedMeanPrior", "Choose the prior mean value for R", value=5, min=0)
                     ),
                     div(id="uploadedStdPriorErrorBox", class="ErrorBox",
-                        numericInput("uploadedStdPrior", "Choose the prior standard deviation value for the reproduction number estimate", value=5, min=0)
+                        numericInput("uploadedStdPrior", "Choose the prior standard deviation value for R", value=5, min=0)
                     )
          )),
          hidden(div(id="2.2",
                     # State 2.2
+                    h2("R Estimation Settings"),
                     div(id="incidenceDatasetErrorBox", class="ErrorBox",
                       radioButtons('incidenceDataset', 'Choose your dataset',
                                    c('H1N1Pennsylvania2009', 'H1N1NewYork2009', 'RotavirusKiribati2013', 'H1N1Maryland1918',
@@ -87,10 +87,10 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                       sliderInput('incidenceWidth', 'Choose the width of the sliding time window for R estimation', min=1, max=20, value = 7)
                     ),
                     div(id="incidenceMeanPriorErrorBox", class="ErrorBox",
-                        numericInput("incidenceMeanPrior", "Choose the prior for the mean", value=5, min=0)
+                        numericInput("incidenceMeanPrior", "Choose the prior mean value for R", value=5, min=0)
                     ),
                     div(id="incidenceStdPriorErrorBox", class="ErrorBox",
-                        numericInput("incidenceStdPrior", "Choose the prior for the standard deviation", value=5, min=0)
+                        numericInput("incidenceStdPrior", "Choose the prior standard deviation value for R", value=5, min=0)
                     )
          )),
          hidden(div(id="3.1",
@@ -143,6 +143,8 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
          )),
          hidden(div(id="7.1",
                     # State 7.1
+                    p("Please note that these preloaded data are only to give an idea as to how the app works. As such, the full range of options are not provided here."),
+                    HTML("<p>If you would like to have the full range of options, please download the serial interval data for your dataset from <a href='https://github.com/jstockwin/EpiEstimApp/tree/master/inst/app/datasets/SerialIntervalData' target='_blank'>here</a> then go back a step and select 'Own data' then 'Raw exposure data'.</p>"),
                     div(id="SIDatasetErrorBox", class="ErrorBox",
                       radioButtons('SIDataset', 'Choose your dataset',
                                    c('RotavirusEcuador2011', 'H1N1NewYork2009', 'H1N1USA2009'))
@@ -159,14 +161,14 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     # State 7.3
                     div(id="n1ErrorBox", class="ErrorBox",
                       numericInput('n1', 'n1', min=2, value=50),
-                      p('Positive integer describing the number of (Mean SI, Std SI) pairs to be drawn')
+                      p('Choose the number of serial interval distributions to be sampled (n1) according to the parameters above')
                     ),
                     div(id="n2ErrorBox", class="ErrorBox",
                       numericInput('n2', 'n2', min=2, value=50),
-                      p('Positive integer describing the number of samples drawn from each (Mean SI, Std SI) pair')
+                      p('Choose the number of serial interval valies to be samples from each of the n1 estimated serial interval distributions in order to estimate R (n2)')
                     ),
                     tags$hr(),
-                    tags$p("Please choose values describing the serial interval distribution, and the uncertainty around these values"),
+                    tags$p("Choose values describing the serial interval distribution, and the uncertainty around these values"),
                     div(id="Mean.SIErrorBox", class="ErrorBox",
                       numericInput('Mean.SI', 'Mean.SI', value=2, min=1)
                     ),
@@ -293,26 +295,27 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                      'Log-Normal' = 'L',
                                      'Offset Log-Normal' = 'off1L'))
                     ),
-                    p('NOTE: MCMC will run burnin + n1*thin iterations. This is slow. Try to keep below 10,000 even for small dataset'),
+                    p('NOTE: MCMC will run burnin + n1*thin iterations. This is slow. Try to keep below 10,000 even for small datasets'),
                     div(id="n12ErrorBox", class="ErrorBox",
-                      numericInput('n12', 'Choose the posterior sample size (n1)', min=10, value=500)
+                      numericInput('n12', 'Choose the number of serial interval distributions to be estimated using MCMC (n1)', min=10, value=500)
                     ),
                     div(id="burninErrorBox", class="ErrorBox",
-                      numericInput('burnin', 'Choose the number of iterations used as MCMC burnin', min=0, value=3000)
+                      numericInput('burnin', 'Choose the number of iterations used as MCMC burn in', min=0, value=3000)
                     ),
                     div(id="thinErrorBox", class="ErrorBox",
-                      numericInput('thin', 'Choose MCMC thin parameter (thin-1 out of thin iterations will be discarded to produce posterior sample)', min=1, value=10)
+                      numericInput('thin', 'Choose the MCMC thinning parameter (thin). Each of the n1 estimated serial interval distributions will be taken after every "thin" iterations of the MCMC chain.', min=1, value=10)
                     ),
                     div(id="n22ErrorBox", class="ErrorBox",
-                      numericInput('n22', 'Choose n2, the posterior sample size to be drawn for R for each SI distribution sampled', min=10, value=100)
+                      numericInput('n22', 'Choose the number of serial interval values to be sampled from each estimated serial interval distribution in order to estimate R (n2)', min=10, value=100)
                     ),
                     div(id="MCMCSeedErrorBox", class="ErrorBox",
-                        numericInput("MCMCSeed", "Set a seed to be used for MCMC. A random one will be chosen if this is left blank", value=NULL)
+                        numericInput("MCMCSeed", "Set a seed for the MCMC. If no seed is chosen, a random value will be selected.", value=NULL)
                     ),
                     tags$hr(),
-                    p('For Gamma, Offset Gamma and Weibull distributions, 
-                                  param1 is the shape and param2 is the scale of the distribution. 
-                                  For Log-Normal, param1 and param2 are respectively 
+                    p('The following two parameters give the initial parameters to use in MCMC.
+                      For Gamma, Offset Gamma and Weibull distributions,
+                                  param1 is the shape and param2 is the scale of the distribution.
+                                  For Log-Normal, param1 and param2 are respectively
                                   the mean and standard deviation of the logarithm.'),
                     div(id="param1ErrorBox", class="ErrorBox",
                       numericInput('param1', 'Choose the value of param1', min=0, value='')

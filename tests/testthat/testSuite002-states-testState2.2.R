@@ -71,14 +71,14 @@ tryCatch({
   test_that("mean prior input is displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$meanPriorLabel))
     expect_equal(getText(remDr, pages$state2.2$selectors$meanPriorLabel),
-                 "Choose the prior for the mean")
+                 "Choose the prior mean value for R")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$meanPriorInput))
   })
 
   test_that("std prior input is displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$stdPriorLabel))
     expect_equal(getText(remDr, pages$state2.2$selectors$stdPriorLabel),
-                 "Choose the prior for the standard deviation")
+                 "Choose the prior standard deviation value for R")
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$stdPriorInput))
   })
 
