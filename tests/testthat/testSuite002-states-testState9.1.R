@@ -60,38 +60,39 @@ tryCatch({
   test_that("n1 input is displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$n1Label))
     expect_equal(getText(remDr, pages$state9.1$selectors$n1Label),
-                 "Choose the posterior sample size (n1)")
+                 'Choose the number of serial interval distributions to be estimated using MCMC (n1)')
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$n1Input))
   })
 
   test_that("burnin input is displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$burninLabel))
     expect_equal(getText(remDr, pages$state9.1$selectors$burninLabel),
-                 "Choose the number of iterations used as MCMC burnin")
+                 "Choose the number of iterations used as MCMC burn in")
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$burninInput))
   })
 
   test_that("thin input is displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$thinLabel))
     expect_equal(getText(remDr, pages$state9.1$selectors$thinLabel),
-                 paste("Choose MCMC thin parameter (thin-1 out of thin iterations",
-                       "will be discarded to produce posterior sample)"))
+                 paste('Choose the MCMC thinning parameter (thin). Each of the n1',
+                       'estimated serial interval distributions will be taken after',
+                       'every "thin" iterations of the MCMC chain.'))
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$thinInput))
   })
 
   test_that("n2 input is displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$n2Label))
     expect_equal(getText(remDr, pages$state9.1$selectors$n2Label),
-                 paste("Choose n2, the posterior sample size to be drawn for R",
-                       "for each SI distribution sampled"))
+                 paste("Choose the number of serial interval values to be sampled",
+                       "from each estimated serial interval distribution in order to estimate R (n2)"))
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$n2Input))
   })
 
   test_that("seed input is displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$seedLabel))
     expect_equal(getText(remDr, pages$state9.1$selectors$seedLabel),
-                 paste("Set a seed to be used for MCMC. A random one will",
-                       "be chosen if this is left blank"))
+                 paste("Set a seed for the MCMC. If no seed is chosen, a random",
+                       "value will be selected."))
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$seedInput))
   })
 
