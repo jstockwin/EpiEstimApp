@@ -26,13 +26,13 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
           <meta name='keywords' content='infectious,disease,epidemiology,transmissibility,serial,interval,generation,time,time,varying,reproduction,number,Robin,Thompson,Anne,Cori,Jake,Stockwin,Hackout3'>
           <meta name='author' content='Jake Stockwin'>
           <h1>EpiEstim App</h1>
-          <p>This web application generates an estimate of infectious disease transmissibility throughout an outbreak. The time-dependent reproduction number (<i>R</i>) is inferred from disease incidence time series and raw data or estimates of the serial interval. For more information about how to use this application, please see the <a href='https://github.com/jstockwin/EpiEstimApp/wiki'>wiki</a>. We expect users to upload their own data, however there are also some <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Preloaded-Datasets' target='_blank'>example datasets</a> built in, to illustrate how the application might be used.</p>
+          <p>This web application generates an estimate of infectious disease transmissibility throughout an outbreak. The time-dependent reproduction number (<i>R</i>) is inferred from disease incidence time series and raw data or estimates of the serial interval. For more information about how to use this application, please see the <a href='https://github.com/jstockwin/EpiEstimApp/wiki'>wiki</a>. For the most part, we assume that users will want to upload their own data, however there are also some <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Preloaded-Datasets' target='_blank'>example datasets</a> built in, to illustrate how the application might be used.</p>
           <p>For more information on uploading your own data and on the required format of the data, please
           <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Uploading-your-own-data' target='_blank'>click here</a>.</p>
           <p>The authors request users to cite the original publication when referring to this tool, any results generated from it, or the R software application on which this tool is based (EpiEstim 2):
 
 </p>
-          <p>Thompson RN, Stockwin JE, Polonsky JE, DeMarsh A et al. EpiEstim 2: An improved tool for estimating serial intervals and time-varying reproduction numbers during infection disease outbreaks. Submitted (2017).</p>
+          <p>Thompson RN, Stockwin JE, van Gaalen RD, Polonsky JE et al. EpiEstim 2: An improved tool for estimating serial intervals and time-varying reproduction numbers during infection disease outbreaks. Submitted (2017).</p>
           "
          ) 
   ),
@@ -143,7 +143,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
          )),
          hidden(div(id="7.1",
                     # State 7.1
-                    p("Please note that these preloaded data are only to give an idea as to how the app works. As such, the full range of options are not provided here."),
+                    p("Please note that these preloaded data are only to give an idea as to how the app works. As such, the full range of options are not provided here (e.g. the number of steps in the MCMC chain is fixed)."),
                     HTML("<p>If you would like to have the full range of options, please download the serial interval data for your dataset from <a href='https://github.com/jstockwin/EpiEstimApp/tree/master/inst/app/datasets/SerialIntervalData' target='_blank'>here</a> then go back a step and select 'Own data' then 'Raw exposure data'.</p>"),
                     div(id="SIDatasetErrorBox", class="ErrorBox",
                       radioButtons('SIDataset', 'Choose your dataset',
@@ -295,7 +295,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                                      'Log-Normal' = 'L',
                                      'Offset Log-Normal' = 'off1L'))
                     ),
-                    p('NOTE: MCMC will run burnin + n1*thin iterations. This is slow. Try to keep below 10,000 even for small datasets'),
+                    p('NOTE: MCMC will run burnin + n1*thin iterations. This is slow. Try to keep below 10,000 even for small datasets. For longer MCMC chains, please use the EpiEstim 2.0 R package directly, rather than our online interface.'),
                     div(id="n12ErrorBox", class="ErrorBox",
                       numericInput('n12', 'Choose the number of serial interval distributions to be estimated using MCMC (n1)', min=10, value=500)
                     ),
