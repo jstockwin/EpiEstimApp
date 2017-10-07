@@ -32,7 +32,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
           <p>The authors request users to cite the original publication when referring to this tool, any results generated from it, or the R software application on which this tool is based (EpiEstim 2):
 
 </p>
-          <p>Thompson RN, Stockwin JE, van Gaalen RD, Polonsky JE et al. EpiEstim 2: An improved tool for estimating serial intervals and time-varying reproduction numbers during infection disease outbreaks. Submitted (2017).</p>
+          <p>Thompson RN, Stockwin JE, van Gaalen RD, Polonsky JA, et al. EpiEstim 2: An improved tool for estimating serial intervals and time-varying reproduction numbers during infection disease outbreaks. Submitted (2017).</p>
           "
          ) 
   ),
