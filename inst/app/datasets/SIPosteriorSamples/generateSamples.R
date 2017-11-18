@@ -12,7 +12,7 @@ library(EpiEstim)
 
 dists <- c("G", "W", "L", "off1G", "off1W", "off1L")
 for (file in list.files("datasets/SerialIntervalData")) {
-  SIDataPath <- paste('datasets/SerialIntervalData/', file, sep="")
+  SIDataPath <- paste("datasets/SerialIntervalData/", file, sep="")
   writePath <- paste('datasets/SIPosteriorSamples/', tools::file_path_sans_ext(file), '_SISamples_', sep="") # Will have `dist.csv` added to the end.
 
   SIData <- read.csv(SIDataPath)

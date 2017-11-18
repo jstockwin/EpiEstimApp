@@ -8,3 +8,4 @@ inst/app/mcmc-progress/*/*.txt
 *.swp
 *.log
 
+inst/doc
