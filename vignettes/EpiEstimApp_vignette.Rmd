@@ -18,13 +18,13 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-EpiEstimApp is a user-friendly software interface that makes EpiEstim available to users unfamiliar with R statistical software. Here we demonstrate how the interface can be launched and then used to estimate the time-dependent reproduction number using a sample dataset.  For a guide describing usage of EpiEstimApp with data in forms different to these sample data, see our online wiki (XXX).
+EpiEstimApp is a user-friendly software interface that makes EpiEstim available to users unfamiliar with R statistical software. Here we demonstrate how the interface can be launched and then used to estimate the time-dependent reproduction number using a sample dataset.  For a guide describing usage of EpiEstimApp with data in forms different to these sample data, see the online wiki (https://github.com/jstockwin/EpiEstimApp/wiki).
 
 ## Loading EpiEstimApp
 
 To load the app, the easiest way is to open a web browser and simply navigate to the online interface.  If you choose this approach, type in the web address below and skip to “Loading the data” below.
 
-www.XXX.XXX
+    www.XXX.XXX
 
 Alternatively, to load EpiEstimApp in R, first install devtools if you have not already done so, install EpiEstimApp, and launch EpiEstimApp.
 
@@ -41,7 +41,7 @@ knitr::include_graphics("appFrontPage.jpg")
 
 ## Loading the data and estimating the reproduction number
 
-The example that follows will use disease incidence time series (XXX.csv) and interval-censored observations of the serial interval (XXX.csv), which are datasets available at XXX. Save these on your computer.
+The example that follows will use disease incidence time series (DataS1.csv) and interval-censored observations of the serial interval (DataS2.csv), which are datasets available at XXX. Save these on your computer.
 
 Since we will be uploading the first of these files as the incidence data, select "Own data" and click "Next".
 
@@ -90,4 +90,4 @@ Finally, choose the distribution to fit to the serial interval data, and if desi
 knitr::include_graphics("FINALOUTPUT.jpg")
 ```
 
-We have now obtained an estimate of the reproduction number throughout the outbreak of XXX in XXX.
+We have now obtained an estimate of the reproduction number throughout the outbreak of H1N1 infuenza in a New York school.
