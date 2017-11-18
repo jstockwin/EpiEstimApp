@@ -169,29 +169,29 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
                     ),
                     tags$hr(),
                     tags$p("Choose values describing the serial interval distribution, and the uncertainty around these values"),
-                    div(id="Mean.SIErrorBox", class="ErrorBox",
-                      numericInput('Mean.SI', 'Mean.SI', value=2, min=1)
+                    div(id="mean_siErrorBox", class="ErrorBox",
+                      numericInput('mean_si', 'mean_si', value=2, min=1)
                     ),
-                    div(id="Std.Mean.SIErrorBox", class="ErrorBox",
-                     numericInput('Std.Mean.SI', 'Std.Mean.SI', min=0, value=1)
+                    div(id="std_mean_siErrorBox", class="ErrorBox",
+                     numericInput('std_mean_si', 'std_mean_si', min=0, value=1)
                     ),
-                    div(id="Min.Mean.SIErrorBox", class="ErrorBox",
-                      numericInput('Min.Mean.SI', 'Min.Mean.SI', min=1, value=1)
+                    div(id="min_mean_siErrorBox", class="ErrorBox",
+                      numericInput('min_mean_si', 'min_mean_si', min=1, value=1)
                     ),
-                    div(id="Max.Mean.SIErrorBox", class="ErrorBox",
-                      numericInput('Max.Mean.SI', 'Max.Mean.SI', value=3, min=1)
+                    div(id="max_mean_siErrorBox", class="ErrorBox",
+                      numericInput('max_mean_si', 'max_mean_si', value=3, min=1)
                     ),
-                    div(id="Std.SIErrorBox", class="ErrorBox",
-                      numericInput('Std.SI', 'Std.SI', value=2, min=1)
+                    div(id="std_siErrorBox", class="ErrorBox",
+                      numericInput('std_si', 'std_si', value=2, min=1)
                     ),
-                    div(id="Std.Std.SIErrorBox", class="ErrorBox",
-                      numericInput('Std.Std.SI', 'Std.Std.SI', min=0, value=1)
+                    div(id="std_std_siErrorBox", class="ErrorBox",
+                      numericInput('std_std_si', 'std_std_si', min=0, value=1)
                     ),
-                    div(id="Min.Std.SIErrorBox", class="ErrorBox",
-                      numericInput('Min.Std.SI', 'Min.Std.SI', value=1, min=1)
+                    div(id="min_std_siErrorBox", class="ErrorBox",
+                      numericInput('min_std_si', 'min_std_si', value=1, min=1)
                     ),
-                    div(id="Max.Std.SIErrorBox", class="ErrorBox",
-                      numericInput('Max.Std.SI', 'Max.Std.SI', value=3, min=1)
+                    div(id="max_std_siErrorBox", class="ErrorBox",
+                      numericInput('max_std_si', 'max_std_si', value=3, min=1)
                     ),
                     div(id="uncertainSeedErrorBox", class="ErrorBox",
                         numericInput("uncertainSeed", paste("Set a seed to be used by EpiEstim, so that the results are reproducible.",
@@ -200,11 +200,11 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
          )),
          hidden(div(id="7.4",
                     # State 7.4
-                    div(id="Mean.SI2ErrorBox", class="ErrorBox",
-                      numericInput('Mean.SI2', 'Mean.SI', value=2, min=1+1e-18)
+                    div(id="mean_si2ErrorBox", class="ErrorBox",
+                      numericInput('mean_si2', 'mean_si', value=2, min=1+1e-18)
                     ),
-                    div(id="Std.SI2ErrorBox", class="ErrorBox",
-                      numericInput('Std.SI2', 'Std.SI', value=1, min=1e-18)
+                    div(id="std_si2ErrorBox", class="ErrorBox",
+                      numericInput('std_si2', 'std_si', value=1, min=1e-18)
                     )
          )),
          hidden(div(id="7.5",
@@ -224,7 +224,7 @@ shinyUI(bootstrapPage(theme = shinytheme("spacelab"),
          hidden(div(id="7.6",
                     # State 7.6
                     div(id="SIDistrDatasetErrorBox", class="ErrorBox",
-                      radioButtons('SIDistrDataset', 'Choose your SI.Distr Dataset',
+                      radioButtons('SIDistrDataset', 'Choose your si_distr Dataset',
                                    c('H1N1Maryland1918', 'H1N1Pennsylvania2009', 'MeaslesGermany1861',
                                      'SARSHongKong2003', 'SmallpoxKosovo1972'))
                     )

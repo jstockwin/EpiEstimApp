@@ -38,7 +38,7 @@ tryCatch({
     click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromSampleButton)
+    click(remDr, pages$state7.2$selectors$si_from_sampleButton)
     clickNext(remDr) # Move to state 8.3
     waitForStateDisplayed(remDr, "8.3")
     if (getAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "value") == "") {
@@ -72,7 +72,7 @@ test_that("Test 1 output matches", {
   SI.Sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   SI.Sample <- EpiEstim:::process_SI.Sample(SI.Sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=SI.Sample, method="SIFromSample",
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=SI.Sample, method="si_from_sample",
                            n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
@@ -110,7 +110,7 @@ tryCatch({
     click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromSampleButton)
+    click(remDr, pages$state7.2$selectors$si_from_sampleButton)
     clickNext(remDr) # Move to state 8.3
     waitForStateDisplayed(remDr, "8.3")
     if (getAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "value") == "") {
@@ -144,7 +144,7 @@ test_that("Test 2 output matches", {
   SI.Sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_W.csv", sep="/"), header=FALSE)
   SI.Sample <- EpiEstim:::process_SI.Sample(SI.Sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=SI.Sample, method="SIFromSample",
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=SI.Sample, method="si_from_sample",
                            n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
@@ -184,7 +184,7 @@ tryCatch({
     click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromSampleButton)
+    click(remDr, pages$state7.2$selectors$si_from_sampleButton)
     clickNext(remDr) # Move to state 8.3
     waitForStateDisplayed(remDr, "8.3")
     if (getAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "value") == "") {
@@ -218,7 +218,7 @@ test_that("Test 3 output matches", {
   SI.Sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/H1N1NewYork2009_SISamples_G.csv", sep="/"), header=FALSE)
   SI.Sample <- EpiEstim:::process_SI.Sample(SI.Sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=SI.Sample, method="SIFromSample",
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=SI.Sample, method="si_from_sample",
                            n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)

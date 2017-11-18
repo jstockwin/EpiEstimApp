@@ -34,9 +34,9 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state7.2$selectors$SIFromRawLabel))
     expect_equal(getText(remDr, pages$state7.2$selectors$SIFromRawLabel), "Raw exposure data")
     expect_true(isDisplayed(remDr, pages$state7.2$selectors$SIFromRawButton))
-    expect_true(isDisplayed(remDr, pages$state7.2$selectors$SIFromSampleLabel))
-    expect_equal(getText(remDr, pages$state7.2$selectors$SIFromSampleLabel), "SI posterior sample")
-    expect_true(isDisplayed(remDr, pages$state7.2$selectors$SIFromSampleButton))
+    expect_true(isDisplayed(remDr, pages$state7.2$selectors$si_from_sampleLabel))
+    expect_equal(getText(remDr, pages$state7.2$selectors$si_from_sampleLabel), "SI posterior sample")
+    expect_true(isDisplayed(remDr, pages$state7.2$selectors$si_from_sampleButton))
   })
 
   test_that("relevant control buttons are displayed", {

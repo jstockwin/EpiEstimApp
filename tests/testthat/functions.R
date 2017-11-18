@@ -320,7 +320,7 @@ navigateToState <- function(remDr, state) {
          },
          "8.3" = {
            navigateToState(remDr, "7.2")
-           click(remDr, pages$state7.2$selectors$SIFromSampleButton)
+           click(remDr, pages$state7.2$selectors$si_from_sampleButton)
            clickNext(remDr)
          },
          "9.1" = {

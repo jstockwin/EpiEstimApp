@@ -66,7 +66,7 @@ test_that("Test 1 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/H1N1Maryland1918.csv", sep="/"), header=FALSE))
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="NonParametricSI",
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="non_parametric_si",
                            SI.Distr=SI.Distr)
 
   compareOutputFromApp(appOut, epiEstimOut)
@@ -133,7 +133,7 @@ test_that("Test 2 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE))
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="NonParametricSI",
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="non_parametric_si",
                            SI.Distr=SI.Distr)
 
   compareOutputFromApp(appOut, epiEstimOut)
@@ -200,7 +200,7 @@ test_that("Test 3 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/MeaslesGermany1861.csv", sep="/"), header=FALSE))
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="NonParametricSI",
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="non_parametric_si",
                            SI.Distr=SI.Distr)
 
   compareOutputFromApp(appOut, epiEstimOut)
@@ -267,7 +267,7 @@ test_that("Test 4 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/SARSHongKong2003.csv", sep="/"), header=FALSE))
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="NonParametricSI",
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="non_parametric_si",
                            SI.Distr=SI.Distr)
 
   compareOutputFromApp(appOut, epiEstimOut)
@@ -334,7 +334,7 @@ test_that("Test 5 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   SI.Distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/SmallpoxKosovo1972.csv", sep="/"), header=FALSE))
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="NonParametricSI",
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="non_parametric_si",
                            SI.Distr=SI.Distr)
 
   compareOutputFromApp(appOut, epiEstimOut)

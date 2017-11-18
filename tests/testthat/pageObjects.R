@@ -147,8 +147,8 @@ pages <- list(
             SIFromLabel="//div[@id='SIFrom']/label",
             SIFromRawLabel="//div[@id='SIFrom']//div[@class='radio'][1]//span",
             SIFromRawButton="//div[@id='SIFrom']//div[@class='radio'][1]//input",
-            SIFromSampleLabel="//div[@id='SIFrom']//div[@class='radio'][2]//span",
-            SIFromSampleButton="//div[@id='SIFrom']//div[@class='radio'][2]//input"
+            si_from_sampleLabel="//div[@id='SIFrom']//div[@class='radio'][2]//span",
+            si_from_sampleButton="//div[@id='SIFrom']//div[@class='radio'][2]//input"
         )
     ),
     state7.3 = list(

@@ -86,7 +86,7 @@ test_that("Test 1 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -172,7 +172,7 @@ test_that("Test 2 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:17, T.End=8:23, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:17, t_end=8:23, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -258,7 +258,7 @@ test_that("Test 3 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:8, T.End=8:14, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:8, t_end=8:14, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })

@@ -64,7 +64,7 @@ test_that("Test 1 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:8, T.End=8:14, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:8, t_end=8:14, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -128,7 +128,7 @@ test_that("Test 2 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:17, T.End=8:23, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:17, t_end=8:23, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -193,7 +193,7 @@ test_that("Test 3 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:86, T.End=8:92, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:86, t_end=8:92, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -258,7 +258,7 @@ test_that("Test 4 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:42, T.End=8:48, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:42, t_end=8:48, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -323,7 +323,7 @@ test_that("Test 5 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:101, T.End=8:107, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:101, t_end=8:107, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -388,7 +388,7 @@ test_that("Test 6 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:51, T.End=8:57, SI.Sample=sample, method="SIFromSample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:51, t_end=8:57, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -454,7 +454,7 @@ test_that("Test 8 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=sample, method="SIFromSample", n2=100, seed=1, Mean.Prior=6)
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=sample, method="si_from_sample", n2=100, seed=1, Mean.Prior=6)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -520,7 +520,7 @@ test_that("Test 9 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_SI.Sample(sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=sample, method="SIFromSample", n2=100, seed=1, Std.Prior=6)
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=sample, method="si_from_sample", n2=100, seed=1, Std.Prior=6)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })

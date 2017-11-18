@@ -57,47 +57,47 @@ shinyServer(function(input, output, session) {
   id <- 1e8 * (t - floor(t))
   id <- gsub("\\.", "-", as.character(id))
   progressFile <- paste(mcmcProgressFolder, id, "-progress.txt", sep="")
-  pidFile <- paste(mcmcPidFolder, id, "-pid.txt", sep="")
+  pid_file <- paste(mcmcPidFolder, id, "-pid.txt", sep="")
   values <- reactiveValues(state="1.1", status="Ready", error = NULL)
   enable("nxt") # Enable next button when initial load is done.
   
   asyncData <-
-    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL, SI.Sample.From.Data = NULL, convergenceCheck = NULL)
+    reactiveValues(epiEstimOutput = NULL, mcmc_samples = NULL, si_sample.From.Data = NULL, convergenceCheck = NULL)
   asyncDataBeingLoaded <- list()
   
   # Initialise inputs for EpiEstim's EstimateR
   ## TODO - if we make these reactive, it might mean calling EstimateR twice without changing inputs
   ## doesn't bother to run the second time, which might be nice?
   IncidenceData = NULL
-  T.Start = NULL
-  T.End = NULL
+  t_start = NULL
+  t_end = NULL
   method = NULL
   n1 = NULL
   n2 = 100
-  Mean.SI = NULL
-  Std.SI = NULL
-  Std.Mean.SI = NULL
-  Min.Mean.SI = NULL
-  Max.Mean.SI = NULL
-  Std.Std.SI = NULL
-  Min.Std.SI = NULL
-  Max.Std.SI = NULL
-  SI.Distr = NULL
-  SI.Data = NULL
-  SI.parametricDistr = NULL
+  mean_si = NULL
+  std_si = NULL
+  std_mean_si = NULL
+  min_mean_si = NULL
+  max_mean_si = NULL
+  std_std_si = NULL
+  min_std_si = NULL
+  max_std_si = NULL
+  si_distr = NULL
+  si_data = NULL
+  si_parametric_distr = NULL
   burnin = 3000
-  SI.Sample = NULL
+  si_sample = NULL
   plot = FALSE
   total.samples.needed <- 1 # Will be overridden. Set to 1 so dim(mcmc_samples) < total.samples.needed initially
   mcmc_samples <- NULL
   init.pars <- NULL
   thin <- NULL
-  SI.Sample.From.Data <- NULL
+  si_sample.From.Data <- NULL
   convergenceCheck <- NULL
   requestedSeed <- NULL
   requestedMCMCSeed <- NULL
-  Mean.Prior <- 5
-  Std.Prior <- 5
+  mean_prior <- 5
+  std_prior <- 5
 
   # Clicking previous/next should increment the stateLevel
   observeEvent(input$nxt, {
@@ -165,7 +165,7 @@ shinyServer(function(input, output, session) {
               seed <- requestedSeed
           }
 
-          if (method=="SIFromData" && is.null(mcmc_samples)) {
+          if (method=="si_from_data" && is.null(mcmc_samples)) {
             values$status <- "Running MCMC (0%)"
             startAsyncDataLoad("mcmc_samples", future({
               # The following sets a seed randomly if no seed was requested.
@@ -178,44 +178,44 @@ shinyServer(function(input, output, session) {
                   MCMCSeed <- requestedMCMCSeed
               }
               if (.Platform$OS.type == "unix") {
-                write(Sys.getpid(), file=pidFile)
+                write(Sys.getpid(), file=pid_file)
               }
               capture.output(
-              samples <- dic.fit.mcmc(dat=SI.Data, dist=SI.parametricDistr, init.pars = init.pars, burnin=burnin, n.samples=n1*thin, 
+              samples <- dic.fit.mcmc(dat=si_data, dist=si_parametric_distr, init.pars = init.pars, burnin=burnin, n.samples=n1*thin, 
                            verbose=floor(total.samples.needed/100), seed=MCMCSeed)@samples
               , file=progressFile)
               file.remove(progressFile)
               if (.Platform$OS.type == "unix") {
-                file.remove(pidFile)
+                file.remove(pid_file)
               }
               return(samples)
             }))
           } else {
-            if (method=="SIFromData") {
+            if (method=="si_from_data") {
               # We have a full set of samples.
               mcmc_samples <- asyncData$mcmc_samples
               
-              if (is.null(SI.Sample.From.Data)) {
+              if (is.null(si_sample.From.Data)) {
                 values$status <- "Running coarse2estim"
-                startAsyncDataLoad("SI.Sample.From.Data", future({
-                    coarse2estim(samples=mcmc_samples, dist=SI.parametricDistr, thin=thin)$SI.Sample
+                startAsyncDataLoad("si_sample.From.Data", future({
+                    coarse2estim(samples=mcmc_samples, dist=si_parametric_distr, thin=thin)$si_sample
                 }))
               } else if (is.null(convergenceCheck)) {
                 values$status <- "Running the Gelman-Rubin convergence check"
                 startAsyncDataLoad("convergenceCheck", future({
                   if (.Platform$OS.type == "unix") {
-                    write(Sys.getpid(), file=pidFile)
+                    write(Sys.getpid(), file=pid_file)
                   }
                   ret <- check_CDTsamples_convergence(mcmc_samples)
                   if (.Platform$OS.type == "unix") {
-                    file.remove(pidFile)
+                    file.remove(pid_file)
                   }
                   return(ret)
                 }))
               } else {
                 # Good to go!
-                # Run SIFromSample not SIFromData using SI.Sample.From.Data (which is the result of us running MCMC)
-                # The whole thing is equivalent to passing SI.Data to EstimateR(method="SIFromData"), but this way we
+                # Run si_from_sample not si_from_data using si_sample.From.Data (which is the result of us running MCMC)
+                # The whole thing is equivalent to passing si_data to EstimateR(method="si_from_data"), but this way we
                 # get a progress bar.
                 if (!convergenceCheck) {
                   # FYI: This works in browsers, but seems to stop everything when done in RStudio
@@ -225,12 +225,12 @@ shinyServer(function(input, output, session) {
                 values$status <- "Running EstimateR..."
                 startAsyncDataLoad("epiEstimOutput", future({
                   if (.Platform$OS.type == "unix") {
-                    write(Sys.getpid(), file=pidFile)
+                    write(Sys.getpid(), file=pid_file)
                   }
-                  ret <- EstimateR(IncidenceData, T.Start, T.End, method="SIFromSample", n2=n2, SI.Sample=SI.Sample.From.Data, seed=seed,
-                            Mean.Prior=Mean.Prior, Std.Prior=Std.Prior)
+                  ret <- EstimateR(IncidenceData, t_start, t_end, method="si_from_sample", n2=n2, si_sample=si_sample.From.Data, seed=seed,
+                            mean_prior=mean_prior, std_prior=std_prior)
                   if (.Platform$OS.type == "unix") {
-                    file.remove(pidFile)
+                    file.remove(pid_file)
                   }
                   return(ret)
                 }))
@@ -238,14 +238,14 @@ shinyServer(function(input, output, session) {
             } else {
               startAsyncDataLoad("epiEstimOutput", future({
                 if (.Platform$OS.type == "unix") {
-                  write(Sys.getpid(), file=pidFile)
+                  write(Sys.getpid(), file=pid_file)
                 }
-                ret <- EstimateR(IncidenceData, T.Start, T.End, method=method, n1=n1, n2=n2, Mean.SI = Mean.SI, Std.SI = Std.SI, 
-                          Std.Mean.SI = Std.Mean.SI, Min.Mean.SI = Min.Mean.SI, Max.Mean.SI = Max.Mean.SI, Std.Std.SI = Std.Std.SI,
-                          Min.Std.SI = Min.Std.SI, Max.Std.SI = Max.Std.SI, SI.Distr = SI.Distr, SI.Data = SI.Data, 
-                          SI.Sample = SI.Sample, plot = plot, seed=seed, Mean.Prior=Mean.Prior, Std.Prior=Std.Prior)
+                ret <- EstimateR(IncidenceData, t_start, t_end, method=method, n1=n1, n2=n2, mean_si = mean_si, std_si = std_si, 
+                          std_mean_si = std_mean_si, min_mean_si = min_mean_si, max_mean_si = max_mean_si, std_std_si = std_std_si,
+                          min_std_si = min_std_si, max_std_si = max_std_si, si_distr = si_distr, si_data = si_data, 
+                          si_sample = si_sample, plot = plot, seed=seed, mean_prior=mean_prior, std_prior=std_prior)
                 if (.Platform$OS.type == "unix") {
-                  file.remove(pidFile)
+                  file.remove(pid_file)
                 }
                 return(ret)
               }))
@@ -311,7 +311,7 @@ shinyServer(function(input, output, session) {
     filename = function() {"SerialIntervalEstimates.csv"},
     content = function(file) {
       if(!is.null(asyncData$epiEstimOutput)) {
-        write.csv(asyncData$epiEstimOutput$SI.Distr, file, row.names=F)
+        write.csv(asyncData$epiEstimOutput$si_distr, file, row.names=F)
       }
     }
   )
@@ -332,7 +332,7 @@ shinyServer(function(input, output, session) {
       show("prev")
       hide("stop")
       enable("go")
-      round(asyncData$epiEstimOutput$SI.Distr, 2)
+      round(asyncData$epiEstimOutput$si_distr, 2)
     }
   })
   
@@ -385,15 +385,15 @@ shinyServer(function(input, output, session) {
                  throwError("The width must be smaller than the length of your incidence data", "uploadedWidth")
                  throwError("The width must be smaller than the length of your incidence data", "incidenceData")
                }
-               T.Start <<- 2:(length - W + 1)
-               T.End <<- (1+W):length
+               t_start <<- 2:(length - W + 1)
+               t_end <<- (1+W):length
 
-               Mean.Prior <<- input$uploadedMeanPrior
-               if (Mean.Prior < 0) {
+               mean_prior <<- input$uploadedMeanPrior
+               if (mean_prior < 0) {
                  throwError("Prior mean must be non-negative", "uploadedMeanPrior")
                }
-               Std.Prior <<- input$uploadedStdPrior
-               if (Std.Prior <=0) {
+               std_prior <<- input$uploadedStdPrior
+               if (std_prior <=0) {
                  throwError("Prior standard deviation must be positive", "uploadedStdPrior")
                }
                TRUE
@@ -411,15 +411,15 @@ shinyServer(function(input, output, session) {
                  throwError("The width must be smaller than the length of your incidence data", "incidenceWidth", FALSE) # Don't stop until next one
                  throwError("The width must be smaller than the length of your incidence data", "incidenceData")
                }
-               T.Start <<- 2:(length - W + 1)
-               T.End <<- (1+W):length
+               t_start <<- 2:(length - W + 1)
+               t_end <<- (1+W):length
 
-               Mean.Prior <<- input$incidenceMeanPrior
-               if (Mean.Prior < 0) {
+               mean_prior <<- input$incidenceMeanPrior
+               if (mean_prior < 0) {
                  throwError("Prior mean must be non-negative", "incidenceMeanPrior")
                }
-               Std.Prior <<- input$incidenceStdPrior
-               if (Std.Prior <=0) {
+               std_prior <<- input$incidenceStdPrior
+               if (std_prior <=0) {
                  throwError("Prior standard deviation must be positive", "incidenceStdPrior")
                }
                TRUE
@@ -459,62 +459,62 @@ shinyServer(function(input, output, session) {
              "7.1" = {TRUE},
              "7.2" = {TRUE},
              "7.3" = {
-               method <<- "UncertainSI"
+               method <<- "uncertain_si"
                n1 <<- input$n1
                n2 <<- input$n2
-               Mean.SI <<- input$Mean.SI
-               Std.SI <<- input$Std.SI
-               Std.Mean.SI <<- input$Std.Mean.SI
-               Min.Mean.SI <<- input$Min.Mean.SI
-               Max.Mean.SI <<- input$Max.Mean.SI
-               Std.Std.SI <<- input$Std.Std.SI
-               Min.Std.SI <<- input$Min.Std.SI
-               Max.Std.SI <<- input$Max.Std.SI
+               mean_si <<- input$mean_si
+               std_si <<- input$std_si
+               std_mean_si <<- input$std_mean_si
+               min_mean_si <<- input$min_mean_si
+               max_mean_si <<- input$max_mean_si
+               std_std_si <<- input$std_std_si
+               min_std_si <<- input$min_std_si
+               max_std_si <<- input$max_std_si
                if (is.null(n1) || is.na(n1) || n1 < 1 || !is.integer(n1)) {
                  throwError("n1 must be an integer greater than or equal to 1", "n1")
                }
                if (is.null(n2) || is.na(n2) || n2 < 1 || !is.integer(n2)) {
                  throwError("n2 must be an integer greater than or equal to 1", "n2")
                }
-               if (is.null(Mean.SI) || is.na(Mean.SI) || Mean.SI < 1) {
-                 throwError("Mean.SI must be greater than or equal to 1", "Mean.SI")
+               if (is.null(mean_si) || is.na(mean_si) || mean_si < 1) {
+                 throwError("mean_si must be greater than or equal to 1", "mean_si")
                }
-               if (is.null(Min.Mean.SI) || is.na(Min.Mean.SI) || Min.Mean.SI < 1) {
-                 throwError("Min.Mean.SI must be greater than or equal to 1", "Min.Mean.SI")
+               if (is.null(min_mean_si) || is.na(min_mean_si) || min_mean_si < 1) {
+                 throwError("min_mean_si must be greater than or equal to 1", "min_mean_si")
                }
-               if (is.null(Max.Mean.SI) || is.na(Max.Mean.SI) || Max.Mean.SI < 1) {
-                 throwError("Max.Mean.SI must be greater than or equal to 1", "Max.Mean.SI")
+               if (is.null(max_mean_si) || is.na(max_mean_si) || max_mean_si < 1) {
+                 throwError("max_mean_si must be greater than or equal to 1", "max_mean_si")
                }
-               if (is.null(Std.Mean.SI) || is.na(Std.Mean.SI) || Std.Mean.SI <= 0) {
-                 throwError("Std.Mean.SI must be greater than 0", "Std.Mean.SI")
+               if (is.null(std_mean_si) || is.na(std_mean_si) || std_mean_si <= 0) {
+                 throwError("std_mean_si must be greater than 0", "std_mean_si")
                }
-               if (Min.Mean.SI > Mean.SI) {
-                 throwError("Min.Mean.SI must be less than Mean.SI", "Min.Mean.SI", FALSE) # Don't stop until next one
-                 throwError("Min.Mean.SI must be less than Mean.SI", "Mean.SI")
+               if (min_mean_si > mean_si) {
+                 throwError("min_mean_si must be less than mean_si", "min_mean_si", FALSE) # Don't stop until next one
+                 throwError("min_mean_si must be less than mean_si", "mean_si")
                }
-               if (Mean.SI > Max.Mean.SI) {
-                 throwError("Max.Mean.SI must be greater than Mean.SI", "Max.Mean.SI", FALSE) # Don't stop until next one
-                 throwError("Max.Mean.SI must be greater than Mean.SI", "Mean.SI")
+               if (mean_si > max_mean_si) {
+                 throwError("max_mean_si must be greater than mean_si", "max_mean_si", FALSE) # Don't stop until next one
+                 throwError("max_mean_si must be greater than mean_si", "mean_si")
                }
-               if (is.null(Std.SI) || is.na(Std.SI) || Std.SI <= 0) {
-                 throwError("Std.SI must be greater than 0", "Std.SI")
+               if (is.null(std_si) || is.na(std_si) || std_si <= 0) {
+                 throwError("std_si must be greater than 0", "std_si")
                }
-               if (is.null(Min.Std.SI) || is.na(Min.Std.SI) || Min.Std.SI <= 0) {
-                 throwError("Min.Std.SI must be greater than 0", "Min.Std.SI")
+               if (is.null(min_std_si) || is.na(min_std_si) || min_std_si <= 0) {
+                 throwError("min_std_si must be greater than 0", "min_std_si")
                }
-               if (is.null(Max.Std.SI) || is.na(Max.Std.SI) || Max.Std.SI <= 0) {
-                 throwError("Max.Std.SI must be greater than 0", "Max.Std.SI")
+               if (is.null(max_std_si) || is.na(max_std_si) || max_std_si <= 0) {
+                 throwError("max_std_si must be greater than 0", "max_std_si")
                }
-               if (is.null(Std.Std.SI) || is.na(Std.Std.SI) || Std.Std.SI <= 0) {
-                 throwError("Std.Std.SI must be greater than 0", "Std.Std.SI")
+               if (is.null(std_std_si) || is.na(std_std_si) || std_std_si <= 0) {
+                 throwError("std_std_si must be greater than 0", "std_std_si")
                }
-               if (Min.Std.SI > Std.SI) {
-                 throwError("Min.Std.SI must be less than Std.SI", "Min.Std.SI", FALSE) # Don't stop until next one
-                 throwError("Min.Std.SI must be less than Std.SI", "Std.SI")
+               if (min_std_si > std_si) {
+                 throwError("min_std_si must be less than std_si", "min_std_si", FALSE) # Don't stop until next one
+                 throwError("min_std_si must be less than std_si", "std_si")
                }
-               if (Std.SI > Max.Std.SI) {
-                 throwError("Max.Std.SI must be greater than Std.SI", "Max.Std.SI", FALSE) # Don't stop until next one
-                 throwError("Max.Std.SI must be greater than Std.SI", "Std.SI")
+               if (std_si > max_std_si) {
+                 throwError("max_std_si must be greater than std_si", "max_std_si", FALSE) # Don't stop until next one
+                 throwError("max_std_si must be greater than std_si", "std_si")
                }
 
                requestedSeed <<- input$uncertainSeed
@@ -530,40 +530,40 @@ shinyServer(function(input, output, session) {
                TRUE
              },
              "7.4" = {
-               Mean.SI <<- input$Mean.SI2
-               Std.SI <<- input$Std.SI2
-               method <<- "ParametricSI"
-               if (is.null(Mean.SI) || Mean.SI <= 1) {
-                 throwError("Mean.SI must be greater than 1", "Mean.SI2")
+               mean_si <<- input$mean_si2
+               std_si <<- input$std_si2
+               method <<- "parametric_si"
+               if (is.null(mean_si) || mean_si <= 1) {
+                 throwError("mean_si must be greater than 1", "mean_si2")
                }
-               if (is.null(Std.SI) || Std.SI <= 0) {
-                 throwError("Std.SI must be greater than 0", "Std.SI2")
+               if (is.null(std_si) || std_si <= 0) {
+                 throwError("std_si must be greater than 0", "std_si2")
                }
                TRUE
              },
              "7.5" = {
-               method <<- "NonParametricSI"
+               method <<- "non_parametric_si"
                if (is.null(input$SIDistrData$datapath)) {
                  throwError("Please upload a file", "SIDistrData")
                }
                if (file_ext(input$SIDistrData$name) != "csv") {
                  throwError("The uploaded file must be a .csv file", "SIDistrData")
                }
-               SI.Distr <<- as.numeric(read.csv(input$SIDistrData$datapath,
+               si_distr <<- as.numeric(read.csv(input$SIDistrData$datapath,
                                      header = input$SIDistrHeader, sep = ",",
                                      quote = ""))
                TRUE
              },
              "7.6" = {
-               method <<- "NonParametricSI"
-               SI.Distr <<- getSIDistribution(input$SIDistrDataset)
+               method <<- "non_parametric_si"
+               si_distr <<- getSIDistribution(input$SIDistrDataset)
                TRUE
              },
              "8.1" = {
-               # "SIFromSample"
+               # "si_from_sample"
                # Simply read the MCMC samples from the file. See getMCMCFit in utils.R
-               method <<- "SIFromSample"
-               SI.Sample <<- getSISamples(input$SIDataset, input$SIDist)
+               method <<- "si_from_sample"
+               si_sample <<- getSISamples(input$SIDataset, input$SIDist)
 
                requestedSeed <<- input$preloadedSeed
                if (!is.null(requestedSeed) & !is.na(requestedSeed)) {
@@ -583,7 +583,7 @@ shinyServer(function(input, output, session) {
                TRUE
              },
              "8.2" = {
-               method <<- "SIFromData"
+               method <<- "si_from_data"
                if (is.null(input$SIData$datapath)) {
                  throwError("Please upload a file", "SIData")
                }
@@ -594,7 +594,7 @@ shinyServer(function(input, output, session) {
                                               header = input$SIHeader, sep = ",",
                                               quote = "")
                # Process the data (see function in utils.R)
-               SI.Data <<- EpiEstim:::process_SI.Data(serialIntervalData)
+               si_data <<- EpiEstim:::process_si_data(serialIntervalData)
                requestedSeed <<- input$uploadedSISeed
                if (!is.null(requestedSeed) & !is.na(requestedSeed)) {
                    # Actually set the seed now, to check it's valid
@@ -619,8 +619,8 @@ shinyServer(function(input, output, session) {
                TRUE
              },
              "8.3" = {
-               method <<- "SIFromSample"
-               SI.Sample <<- EpiEstim:::process_SI.Sample(read.csv(input$SISampleData$datapath,
+               method <<- "si_from_sample"
+               si_sample <<- EpiEstim:::process_si_sample(read.csv(input$SISampleData$datapath,
                                                        header = input$SISampleHeader, sep = ",",
                                                        quote = ""))
                n2 <<- input$n23
@@ -645,14 +645,14 @@ shinyServer(function(input, output, session) {
                n1 <<- input$n12
                n2 <<- input$n22
                thin <<- input$thin
-               SI.parametricDistr <<- input$SIDist2
+               si_parametric_distr <<- input$SIDist2
                mcmc_samples <<- asyncData$mcmc_samples
-               SI.Sample.From.Data <<- asyncData$SI.Sample.From.Data
+               si_sample.From.Data <<- asyncData$si_sample.From.Data
                convergenceCheck <<- asyncData$convergenceCheck
                if (!is.na(input$param1) && !is.na(input$param1)) {
                  init.pars <<- c(input$param1, input$param2)
                } else {
-                 init.pars <<- init_MCMC_params(SI.Data, SI.parametricDistr)
+                 init.pars <<- init_MCMC_params(si_data, si_parametric_distr)
                }
 
                if (is.null(n1) || n1 < 1 || !is.integer(n1)) {
@@ -807,7 +807,7 @@ shinyServer(function(input, output, session) {
     }
     
     # If MCMC is being run, we should check on progress.
-    if (method == "SIFromData") {
+    if (method == "si_from_data") {
       prog <- getMCMCProgress(progressFile)
       if (prog > 0 & prog < total.samples.needed) {
         values$status <- paste("Running MCMC (", floor(100*prog/total.samples.needed), "%)", sep="")
@@ -849,10 +849,10 @@ shinyServer(function(input, output, session) {
            },
            "7.5" = {
              fileProcessingErrors <- c(
-               "SI.Distr must be a vector.",
-               "SI.Distr should be so that SI.Distr[1] = 0.",
-               "SI.Distr must be a positive vector.",
-               "SI.Distr must sum to 1."
+               "si_distr must be a vector.",
+               "si_distr should be so that si_distr[1] = 0.",
+               "si_distr must be a positive vector.",
+               "si_distr must sum to 1."
              )
              if (error$message == "'file' must be a character string or connection") {
                throwError("Please upload a valid csv file", "SIDistrData", FALSE)
@@ -864,9 +864,9 @@ shinyServer(function(input, output, session) {
            },
            "8.2" = {
              fileProcessingErrors <- c(
-               "SI.Data has entries for which EL, ER, SL or SR are non integers.",
-               "SI.Data has entries for which ER<EL.",
-               "SI.Data has entries for which SR<SL.",
+               "si_data has entries for which EL, ER, SL or SR are non integers.",
+               "si_data has entries for which ER<EL.",
+               "si_data has entries for which SR<SL.",
                "You cannot fit any of the supported distributions to this SI dataset, because for some data points the maximum serial interval is <=0."
              )
              if (error$message == "'file' must be a character string or connection") {
@@ -879,9 +879,9 @@ shinyServer(function(input, output, session) {
            },
            "8.3" = {
              fileProcessingErrors <- c(
-               "method SIFromSample requires that SI.Sample[1,] contains only 0.",
-               "method SIFromSample requires that SI.Sample must contain only non negtaive values.",
-               "method SIFromSample requires the sum of each column in SI.Sample to be 1."
+               "method si_from_sample requires that si_sample[1,] contains only 0.",
+               "method si_from_sample requires that si_sample must contain only non negtaive values.",
+               "method si_from_sample requires the sum of each column in si_sample to be 1."
              )
              if (error$message == "'file' must be a character string or connection") {
                throwError("Please upload a valid csv file", "SISampleData", FALSE)
@@ -918,11 +918,11 @@ shinyServer(function(input, output, session) {
   
   session$onSessionEnded(function() {
     checkAsyncDataBeingLoaded$suspend()
-    if(file.exists(pidFile)) {
+    if(file.exists(pid_file)) {
       # Something async is running (on unix), kill it.
-      pid <- read.csv(pidFile, header=FALSE)
+      pid <- read.csv(pid_file, header=FALSE)
       tools::pskill(pid)
-      file.remove(pidFile)
+      file.remove(pid_file)
     }
     if(file.exists(progressFile)) {
       file.remove(progressFile)
@@ -931,11 +931,11 @@ shinyServer(function(input, output, session) {
   
   observeEvent(input$stop, {
     checkAsyncDataBeingLoaded$suspend()
-    if(file.exists(pidFile)) {
+    if(file.exists(pid_file)) {
       # Something async is running (on unix), kill it.
-      pid <- read.csv(pidFile, header=FALSE)
+      pid <- read.csv(pid_file, header=FALSE)
       tools::pskill(pid)
-      file.remove(pidFile)
+      file.remove(pid_file)
     }
     if(file.exists(progressFile)) {
       file.remove(progressFile)
@@ -962,8 +962,8 @@ shinyServer(function(input, output, session) {
     
     asyncData$mcmc_samples <<- NULL
     mcmc_samples <<- NULL
-    asyncData$SI.Sample.From.Data <<- NULL
-    SI.Sample.From.Data <<- NULL
+    asyncData$si_sample.From.Data <<- NULL
+    si_sample.From.Data <<- NULL
     asyncData$convergenceCheck <<- NULL
     convergenceCheck <<- NULL
   })
