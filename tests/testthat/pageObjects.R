@@ -47,8 +47,8 @@ pages <- list(
             incidenceHeaderButton="//input[@id='incidenceHeader']",
             uploadedWidthLabel="//label[@for='uploadedWidth']",
             uploadedWidthInput="//input[@id='uploadedWidth']",
-            mea_priorLabel="//label[@for='uploadedMea_prior']",
-            mea_priorInput="//input[@id='uploadedMea_prior']",
+            meanPriorLabel="//label[@for='uploadedMeanPrior']",
+            meanPriorInput="//input[@id='uploadedMeanPrior']",
             stdPriorLabel="//label[@for='uploadedStdPrior']",
             stdPriorInput="//input[@id='uploadedStdPrior']"
         )
@@ -72,8 +72,8 @@ pages <- list(
             datasetOption7Input="//div[@id='incidenceDataset']//div[@class='radio'][7]//input",
             incidenceWidthLabel="//label[@for='incidenceWidth']",
             incidenceWidthInput="//input[@id='incidenceWidth']",
-            mea_priorLabel="//label[@for='incidenceMea_prior']",
-            mea_priorInput="//input[@id='incidenceMea_prior']",
+            meanPriorLabel="//label[@for='incidenceMeanPrior']",
+            meanPriorInput="//input[@id='incidenceMeanPrior']",
             stdPriorLabel="//label[@for='incidenceStdPrior']",
             stdPriorInput="//input[@id='incidenceStdPrior']"
         )

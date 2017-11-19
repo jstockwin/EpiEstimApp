@@ -418,8 +418,8 @@ tryCatch({
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
     click(remDr, pages$state2.2$selectors$datasetOption1Input)
-    clear(remDr, pages$state2.2$selectors$mea_priorInput) # <---
-    sendKeys(remDr, pages$state2.2$selectors$mea_priorInput, "6") # <---
+    clear(remDr, pages$state2.2$selectors$meanPriorInput) # <---
+    sendKeys(remDr, pages$state2.2$selectors$meanPriorInput, "6") # <---
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
     click(remDr, pages$state5.1$selectors$exposureDataYesInput)

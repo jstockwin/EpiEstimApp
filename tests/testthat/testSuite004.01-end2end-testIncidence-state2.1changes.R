@@ -263,8 +263,8 @@ tryCatch({
       sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
                path)
     }
-    clear(remDr, pages$state2.1$selectors$mea_priorInput) # <---
-    sendKeys(remDr, pages$state2.1$selectors$mea_priorInput, "6") # <---
+    clear(remDr, pages$state2.1$selectors$meanPriorInput) # <---
+    sendKeys(remDr, pages$state2.1$selectors$meanPriorInput, "6") # <---
     clickNext(remDr) # Move to state 3.1
     waitForStateDisplayed(remDr, "3.1")
     click(remDr, pages$state3.1$selectors$importedNoButton)
