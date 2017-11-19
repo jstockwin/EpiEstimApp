@@ -7,7 +7,7 @@ source("functions.R", local=TRUE)
 
 
 # ---------------------------------------------------------------------------#
-# Test 1 - Different SI.Sample (1)                                          #
+# Test 1 - Different si_sample (1)                                          #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 1)")
 rD <- drivers$rDr
@@ -62,16 +62,16 @@ test_that("Test 1 output matches", {
   I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/H1N1NewYork2009_SISamples_G.csv", sep="/"), header=FALSE)
-  sample <- EpiEstim:::process_SI.Sample(sample)
+  sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
 
 # ---------------------------------------------------------------------------#
-# Test 2 - Different SI.Sample (2)                                          #
+# Test 2 - Different si_sample (2)                                          #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 8.1 (Test 2)")
 rD <- drivers$rDr
@@ -126,9 +126,9 @@ test_that("Test 2 output matches", {
   I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/H1N1USA2009_SISamples_G.csv", sep="/"), header=FALSE)
-  sample <- EpiEstim:::process_SI.Sample(sample)
+  sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })

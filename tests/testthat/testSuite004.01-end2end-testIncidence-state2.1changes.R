@@ -73,9 +73,9 @@ test_that("Test 1 output matches", {
   I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
-  sample <- EpiEstim:::process_SI.Sample(sample)
+  sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -148,9 +148,9 @@ test_that("Test 2 output matches", {
   I <- read.csv(paste(appDir, 'datasets/IncidenceData/RotavirusKiribati2013.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
-  sample <- EpiEstim:::process_SI.Sample(sample)
+  sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, t_start=2:17, t_end=8:23, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:17, t_end=8:23, si_sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -223,16 +223,16 @@ test_that("Test 3 output matches", {
   I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1NewYork2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
-  sample <- EpiEstim:::process_SI.Sample(sample)
+  sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, t_start=2:8, t_end=8:14, SI.Sample=sample, method="si_from_sample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, t_start=2:8, t_end=8:14, si_sample=sample, method="si_from_sample", n2=100, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
 
 # ---------------------------------------------------------------------------#
-# Test 4 - Different Mean.Prior                                              #
+# Test 4 - Different mean_prior                                              #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 4)")
 rD <- drivers$rDr
@@ -263,8 +263,8 @@ tryCatch({
       sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
                path)
     }
-    clear(remDr, pages$state2.1$selectors$meanPriorInput) # <---
-    sendKeys(remDr, pages$state2.1$selectors$meanPriorInput, "6") # <---
+    clear(remDr, pages$state2.1$selectors$mea_priorInput) # <---
+    sendKeys(remDr, pages$state2.1$selectors$mea_priorInput, "6") # <---
     clickNext(remDr) # Move to state 3.1
     waitForStateDisplayed(remDr, "3.1")
     click(remDr, pages$state3.1$selectors$importedNoButton)
@@ -300,16 +300,16 @@ test_that("Test 4 output matches", {
   I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
-  sample <- EpiEstim:::process_SI.Sample(sample)
+  sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=sample, method="si_from_sample", n2=100, seed=1, Mean.Prior=6)
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_sample=sample, method="si_from_sample", n2=100, seed=1, mean_prior=6)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
 
 
 # ---------------------------------------------------------------------------#
-# Test 5 - Different Std.Prior                                               #
+# Test 5 - Different std_prior                                               #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Incidence (Test 5)")
 rD <- drivers$rDr
@@ -377,9 +377,9 @@ test_that("Test 5 output matches", {
   I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
   I <- EpiEstim:::process_I(I)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
-  sample <- EpiEstim:::process_SI.Sample(sample)
+  sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Sample=sample, method="si_from_sample", n2=100, seed=1, Std.Prior=6)
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_sample=sample, method="si_from_sample", n2=100, seed=1, std_prior=6)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })

@@ -57,7 +57,7 @@ test_that("Test 1 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="parametric_si",
-                           Mean.SI=2, Std.SI=1)
+                           mean_si=2, std_si=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -66,7 +66,7 @@ test_that("Test 1 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 2 - Different Mean.SI                                                 #
+# Test 2 - Different mean_si                                                 #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.4 (Test 2)")
 rD <- drivers$rDr
@@ -97,8 +97,8 @@ tryCatch({
     click(remDr, pages$state6.2$selectors$SIEstTypeOption2Button)
     clickNext(remDr) # Move to state 7.4
     waitForStateDisplayed(remDr, "7.4")
-    clear(remDr, pages$state7.4$selectors$Mean.SIInput)
-    sendKeys(remDr, pages$state7.4$selectors$Mean.SIInput, "3")
+    clear(remDr, pages$state7.4$selectors$mean_siInput)
+    sendKeys(remDr, pages$state7.4$selectors$mean_siInput, "3")
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -118,7 +118,7 @@ test_that("Test 2 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="parametric_si",
-                           Mean.SI=3, Std.SI=1)
+                           mean_si=3, std_si=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -128,7 +128,7 @@ test_that("Test 2 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 3 - Different Std.SI                                                  #
+# Test 3 - Different std_si                                                  #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.4 (Test 3)")
 rD <- drivers$rDr
@@ -159,8 +159,8 @@ tryCatch({
     click(remDr, pages$state6.2$selectors$SIEstTypeOption2Button)
     clickNext(remDr) # Move to state 7.4
     waitForStateDisplayed(remDr, "7.4")
-    clear(remDr, pages$state7.4$selectors$Std.SIInput)
-    sendKeys(remDr, pages$state7.4$selectors$Std.SIInput, "2")
+    clear(remDr, pages$state7.4$selectors$std_siInput)
+    sendKeys(remDr, pages$state7.4$selectors$std_siInput, "2")
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -180,7 +180,7 @@ test_that("Test 3 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="parametric_si",
-                           Mean.SI=2, Std.SI=2)
+                           mean_si=2, std_si=2)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })

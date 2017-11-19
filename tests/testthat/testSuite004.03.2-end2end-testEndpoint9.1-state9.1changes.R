@@ -74,11 +74,11 @@ test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
-  SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
+  si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
+  si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Data=SI.Data,
-                           SI.parametricDistr="G", method="si_from_data", n1=400,
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_data=si_data,
+                           si_parametric_distr="G", method="si_from_data", n1=400,
                            n2=100, seed=1, mcmc_control=list(burnin=3000, thin=10, seed=1))
 
   compareOutputFromApp(appOut, epiEstimOut)
@@ -153,11 +153,11 @@ test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
-  SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
+  si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
+  si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Data=SI.Data,
-                           SI.parametricDistr="G", method="si_from_data", n1=500,
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_data=si_data,
+                           si_parametric_distr="G", method="si_from_data", n1=500,
                            n2=100, seed=1, mcmc_control=list(burnin=3500, thin=10, seed=1))
 
   compareOutputFromApp(appOut, epiEstimOut)
@@ -234,11 +234,11 @@ test_that("Test 3 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
-  SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
+  si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
+  si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Data=SI.Data,
-                           SI.parametricDistr="G", method="si_from_data", n1=500,
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_data=si_data,
+                           si_parametric_distr="G", method="si_from_data", n1=500,
                            n2=100, seed=1, mcmc_control=list(burnin=3000, thin=15, seed=1))
 
   compareOutputFromApp(appOut, epiEstimOut)
@@ -315,11 +315,11 @@ test_that("Test 4 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
-  SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
+  si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
+  si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Data=SI.Data,
-                           SI.parametricDistr="G", method="si_from_data", n1=500,
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_data=si_data,
+                           si_parametric_distr="G", method="si_from_data", n1=500,
                            n2=150, seed=1, mcmc_control=list(burnin=3000, thin=10, seed=1))
 
   compareOutputFromApp(appOut, epiEstimOut)
@@ -394,11 +394,11 @@ test_that("Test 5 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
-  SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
+  si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
+  si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, SI.Data=SI.Data,
-                           SI.parametricDistr="G", method="si_from_data", n1=500,
+  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_data=si_data,
+                           si_parametric_distr="G", method="si_from_data", n1=500,
                            n2=100, seed=1, mcmc_control=list(burnin=3000, thin=10, seed=2))
 
   compareOutputFromApp(appOut, epiEstimOut)

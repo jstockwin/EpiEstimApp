@@ -140,17 +140,17 @@ extractOutputFromApp <- function(remDr) {
   names(reproduction) <- gsub(".R.", "(R)", names(reproduction))
 
   # Return the list
-  list(I=incidence, SI.Distr=serialInterval, R=reproduction)
+  list(I=incidence, si_distr=serialInterval, R=reproduction)
 }
 
 compareOutputFromApp <- function(appOut, epiEstimOut, debug=FALSE) {
   expect_true(compare::compare(appOut$R, round(epiEstimOut$R, 2))$result)
-  df <- round(as.data.frame(epiEstimOut$SI.Distr), 2)
+  df <- round(as.data.frame(epiEstimOut$si_distr), 2)
   if (ncol(df) == 1) {
       names(df) <- "data"
       rownames(df) <- NULL
   }
-  expect_true(compare::compare(appOut$SI.Distr, df)$result)
+  expect_true(compare::compare(appOut$si_distr, df)$result)
   expect_true(compare::compare(appOut$I$local, round(epiEstimOut$I_local, 2))$result)
   expect_true(compare::compare(appOut$I$imported, round(epiEstimOut$I_imported, 2))$result)
   if (debug) {
@@ -163,9 +163,9 @@ compareOutputFromApp <- function(appOut, epiEstimOut, debug=FALSE) {
     cat("\n\nepiEstimOut$I:\n")
     str(epiEstimOut$I_local)
     str(epiEstimOut$I_imported)
-    cat("\n\nappOut$SI.Distr:\n")
-    str(appOut$SI.Distr)
-    cat("\n\nepiEstimOut$SI.Distr:\n")
+    cat("\n\nappOut$si_distr:\n")
+    str(appOut$si_distr)
+    cat("\n\nepiEstimOut$si_distr:\n")
     str(df)
   }
 }

@@ -36,60 +36,60 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state7.3$selectors$n2Input))
   })
 
-  test_that("Mean.SI input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Mean.SILabel))
-    expect_equal(getText(remDr, pages$state7.3$selectors$Mean.SILabel),
-                 "Mean.SI")
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Mean.SIInput))
+  test_that("mean_si input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$mean_siLabel))
+    expect_equal(getText(remDr, pages$state7.3$selectors$mean_siLabel),
+                 "mean_si")
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$mean_siInput))
   })
 
-  test_that("Std.Mean.SI input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Std.Mean.SILabel))
-    expect_equal(getText(remDr, pages$state7.3$selectors$Std.Mean.SILabel),
-                 "Std.Mean.SI")
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Std.Mean.SIInput))
+  test_that("std_mean_si input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$std_mean_siLabel))
+    expect_equal(getText(remDr, pages$state7.3$selectors$std_mean_siLabel),
+                 "std_mean_si")
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$std_mean_siInput))
   })
 
-  test_that("Min.Mean.SI input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Min.Mean.SILabel))
-    expect_equal(getText(remDr, pages$state7.3$selectors$Min.Mean.SILabel),
-                 "Min.Mean.SI")
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Min.Mean.SIInput))
+  test_that("min_mean_si input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$min_mean_siLabel))
+    expect_equal(getText(remDr, pages$state7.3$selectors$min_mean_siLabel),
+                 "min_mean_si")
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$min_mean_siInput))
   })
 
-  test_that("Max.Mean.SI input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Max.Mean.SILabel))
-    expect_equal(getText(remDr, pages$state7.3$selectors$Max.Mean.SILabel),
-                 "Max.Mean.SI")
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Max.Mean.SIInput))
+  test_that("max_mean_si input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$max_mean_siLabel))
+    expect_equal(getText(remDr, pages$state7.3$selectors$max_mean_siLabel),
+                 "max_mean_si")
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$max_mean_siInput))
   })
 
-  test_that("Std.SI input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Std.SILabel))
-    expect_equal(getText(remDr, pages$state7.3$selectors$Std.SILabel),
-                 "Std.SI")
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Std.SIInput))
+  test_that("std_si input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$std_siLabel))
+    expect_equal(getText(remDr, pages$state7.3$selectors$std_siLabel),
+                 "std_si")
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$std_siInput))
   })
 
-  test_that("Std.Std.SI input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Std.Std.SILabel))
-    expect_equal(getText(remDr, pages$state7.3$selectors$Std.Std.SILabel),
-                 "Std.Std.SI")
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Std.Std.SIInput))
+  test_that("std_std_si input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$std_std_siLabel))
+    expect_equal(getText(remDr, pages$state7.3$selectors$std_std_siLabel),
+                 "std_std_si")
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$std_std_siInput))
   })
 
-  test_that("Min.Std.SI input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Min.Std.SILabel))
-    expect_equal(getText(remDr, pages$state7.3$selectors$Min.Std.SILabel),
-                 "Min.Std.SI")
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Min.Std.SIInput))
+  test_that("min_std_si input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$min_std_siLabel))
+    expect_equal(getText(remDr, pages$state7.3$selectors$min_std_siLabel),
+                 "min_std_si")
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$min_std_siInput))
   })
 
-  test_that("Max.Std.SI input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Max.Std.SILabel))
-    expect_equal(getText(remDr, pages$state7.3$selectors$Max.Std.SILabel),
-                 "Max.Std.SI")
-    expect_true(isDisplayed(remDr, pages$state7.3$selectors$Max.Std.SIInput))
+  test_that("max_std_si input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$max_std_siLabel))
+    expect_equal(getText(remDr, pages$state7.3$selectors$max_std_siLabel),
+                 "max_std_si")
+    expect_true(isDisplayed(remDr, pages$state7.3$selectors$max_std_siInput))
   })
 
   test_that("seed input is displayed correctly", {

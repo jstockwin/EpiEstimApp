@@ -23,13 +23,13 @@ tryCatch({
   })
 
   test_that("Giving an invalid prior mean throws correct error", {
-    clear(remDr, pages$state2.2$selectors$meanPriorInput)
-    sendKeys(remDr, pages$state2.2$selectors$meanPriorInput, "-1")
+    clear(remDr, pages$state2.2$selectors$mea_priorInput)
+    sendKeys(remDr, pages$state2.2$selectors$mea_priorInput, "-1")
     clickNext(remDr)
-    checkError(remDr, "Prior mean must be non-negative", "incidenceMeanPrior")
+    checkError(remDr, "Prior mean must be non-negative", "incidenceMea_prior")
     # Reset for upcoming tests
-    clear(remDr, pages$state2.2$selectors$meanPriorInput)
-    sendKeys(remDr, pages$state2.2$selectors$meanPriorInput, "5")
+    clear(remDr, pages$state2.2$selectors$mea_priorInput)
+    sendKeys(remDr, pages$state2.2$selectors$mea_priorInput, "5")
   })
 
   test_that("Giving an invalid prior sd throws correct error", {

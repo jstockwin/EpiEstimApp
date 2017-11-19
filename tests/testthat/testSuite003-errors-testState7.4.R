@@ -22,32 +22,32 @@ tryCatch({
    navigateToState(remDr, "7.4")
   })
 
-  test_that("Giving an invalid Mean.SI throws correct error", {
-    clear(remDr, pages$state7.4$selectors$Mean.SIInput)
-    sendKeys(remDr, pages$state7.4$selectors$Mean.SIInput, "-1")
+  test_that("Giving an invalid mean_si throws correct error", {
+    clear(remDr, pages$state7.4$selectors$mean_siInput)
+    sendKeys(remDr, pages$state7.4$selectors$mean_siInput, "-1")
     clickGo(remDr)
-    checkError(remDr, "Mean.SI must be greater than 1", "Mean.SI2")
-    clear(remDr, pages$state7.4$selectors$Mean.SIInput)
-    sendKeys(remDr, pages$state7.4$selectors$Mean.SIInput, "1")
+    checkError(remDr, "mean_si must be greater than 1", "mean_si2")
+    clear(remDr, pages$state7.4$selectors$mean_siInput)
+    sendKeys(remDr, pages$state7.4$selectors$mean_siInput, "1")
     clickGo(remDr)
-    checkError(remDr, "Mean.SI must be greater than 1", "Mean.SI2")
+    checkError(remDr, "mean_si must be greater than 1", "mean_si2")
     # Reset for upcoming tests
-    clear(remDr, pages$state7.4$selectors$Mean.SIInput)
-    sendKeys(remDr, pages$state7.4$selectors$Mean.SIInput, "2")
+    clear(remDr, pages$state7.4$selectors$mean_siInput)
+    sendKeys(remDr, pages$state7.4$selectors$mean_siInput, "2")
   })
 
-  test_that("Giving an invalid Std.SI throws correct error", {
-    clear(remDr, pages$state7.4$selectors$Std.SIInput)
-    sendKeys(remDr, pages$state7.4$selectors$Std.SIInput, "-1")
+  test_that("Giving an invalid std_si throws correct error", {
+    clear(remDr, pages$state7.4$selectors$std_siInput)
+    sendKeys(remDr, pages$state7.4$selectors$std_siInput, "-1")
     clickGo(remDr)
-    checkError(remDr, "Std.SI must be greater than 0", "Std.SI2")
-    clear(remDr, pages$state7.4$selectors$Std.SIInput)
-    sendKeys(remDr, pages$state7.4$selectors$Std.SIInput, "0")
+    checkError(remDr, "std_si must be greater than 0", "std_si2")
+    clear(remDr, pages$state7.4$selectors$std_siInput)
+    sendKeys(remDr, pages$state7.4$selectors$std_siInput, "0")
     clickGo(remDr)
-    checkError(remDr, "Std.SI must be greater than 0", "Std.SI2")
+    checkError(remDr, "std_si must be greater than 0", "std_si2")
     # Reset for upcoming tests
-    clear(remDr, pages$state7.4$selectors$Std.SIInput)
-    sendKeys(remDr, pages$state7.4$selectors$Std.SIInput, "1")
+    clear(remDr, pages$state7.4$selectors$std_siInput)
+    sendKeys(remDr, pages$state7.4$selectors$std_siInput, "1")
   })
 },
 error = function(e) {

@@ -26,16 +26,16 @@ tryCatch({
     checkDisplayedState(remDr, "7.4")
   })
 
-  test_that("Mean.SI input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.4$selectors$Mean.SIInput))
-    expect_true(isDisplayed(remDr, pages$state7.4$selectors$Mean.SILabel))
-    expect_equal(getText(remDr, pages$state7.4$selectors$Mean.SILabel), "Mean.SI")
+  test_that("mean_si input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.4$selectors$mean_siInput))
+    expect_true(isDisplayed(remDr, pages$state7.4$selectors$mean_siLabel))
+    expect_equal(getText(remDr, pages$state7.4$selectors$mean_siLabel), "mean_si")
   })
 
-  test_that("Std.SI input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.4$selectors$Std.SIInput))
-    expect_true(isDisplayed(remDr, pages$state7.4$selectors$Std.SILabel))
-    expect_equal(getText(remDr, pages$state7.4$selectors$Std.SILabel), "Std.SI")
+  test_that("std_si input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state7.4$selectors$std_siInput))
+    expect_true(isDisplayed(remDr, pages$state7.4$selectors$std_siLabel))
+    expect_equal(getText(remDr, pages$state7.4$selectors$std_siLabel), "std_si")
   })
 
   test_that("relevant control buttons are displayed", {

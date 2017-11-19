@@ -58,8 +58,8 @@ test_that("Test 1 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -118,8 +118,8 @@ test_that("Test 2 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=60,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -180,8 +180,8 @@ test_that("Test 3 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-                           n2=60, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+                           n2=60, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -189,7 +189,7 @@ test_that("Test 3 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 4 - Different Mean.SI                                                 #
+# Test 4 - Different mean_si                                                 #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 4)")
 rD <- drivers$rDr
@@ -221,8 +221,8 @@ tryCatch({
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Mean.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Mean.SIInput, "2.5") # <--
+    clear(remDr, pages$state7.3$selectors$mean_siInput) # <---
+    sendKeys(remDr, pages$state7.3$selectors$mean_siInput, "2.5") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -242,8 +242,8 @@ test_that("Test 4 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-                           n2=50, Mean.SI=2.5, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+                           n2=50, mean_si=2.5, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -251,7 +251,7 @@ test_that("Test 4 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 5 - Different Std.Mean.SI                                             #
+# Test 5 - Different std_mean_si                                             #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 5)")
 rD <- drivers$rDr
@@ -283,8 +283,8 @@ tryCatch({
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Std.Mean.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Std.Mean.SIInput, "2") # <--
+    clear(remDr, pages$state7.3$selectors$std_mean_siInput) # <---
+    sendKeys(remDr, pages$state7.3$selectors$std_mean_siInput, "2") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -304,8 +304,8 @@ test_that("Test 5 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=2, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+                           n2=50, mean_si=2, std_mean_si=2, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -313,7 +313,7 @@ test_that("Test 5 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 6 - Different Min.Mean.SI                                             #
+# Test 6 - Different min_mean_si                                             #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 6)")
 rD <- drivers$rDr
@@ -345,8 +345,8 @@ tryCatch({
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Min.Mean.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Min.Mean.SIInput, "1.5") # <--
+    clear(remDr, pages$state7.3$selectors$min_mean_siInput) # <---
+    sendKeys(remDr, pages$state7.3$selectors$min_mean_siInput, "1.5") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -366,8 +366,8 @@ test_that("Test 6 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1.5, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1.5, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -375,7 +375,7 @@ test_that("Test 6 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 7 - Different Max.Mean.SI                                             #
+# Test 7 - Different max_mean_si                                             #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 7)")
 rD <- drivers$rDr
@@ -407,8 +407,8 @@ tryCatch({
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Max.Mean.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Max.Mean.SIInput, "4") # <--
+    clear(remDr, pages$state7.3$selectors$max_mean_siInput) # <---
+    sendKeys(remDr, pages$state7.3$selectors$max_mean_siInput, "4") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -428,8 +428,8 @@ test_that("Test 7 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=4,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=4,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -437,7 +437,7 @@ test_that("Test 7 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 8 - Different Std.SI                                                  #
+# Test 8 - Different std_si                                                  #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 8)")
 rD <- drivers$rDr
@@ -469,8 +469,8 @@ tryCatch({
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Std.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Std.SIInput, "2.5") # <--
+    clear(remDr, pages$state7.3$selectors$std_siInput) # <---
+    sendKeys(remDr, pages$state7.3$selectors$std_siInput, "2.5") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -490,8 +490,8 @@ test_that("Test 8 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2.5, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2.5, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -499,7 +499,7 @@ test_that("Test 8 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 9 - Different Std.Std.SI                                              #
+# Test 9 - Different std_std_si                                              #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 9)")
 rD <- drivers$rDr
@@ -531,8 +531,8 @@ tryCatch({
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Std.Std.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Std.Std.SIInput, "2") # <--
+    clear(remDr, pages$state7.3$selectors$std_std_siInput) # <---
+    sendKeys(remDr, pages$state7.3$selectors$std_std_siInput, "2") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -552,8 +552,8 @@ test_that("Test 9 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=2, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=2, min_std_si=1, max_std_si=3, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -561,7 +561,7 @@ test_that("Test 9 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 10 - Different Min.Std.SI                                              #
+# Test 10 - Different min_std_si                                              #
 # ---------------------------------------------------------------------------#
 
 # Test commented out ref https://github.com/jstockwin/EpiEstimApp/issues/126
@@ -596,8 +596,8 @@ test_that("Test 9 output matches", {
 #    clickNext(remDr) # Move to state 7.3
 #    waitForStateDisplayed(remDr, "7.3")
 #    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-#    clear(remDr, pages$state7.3$selectors$Min.Std.SIInput) # <---
-#    sendKeys(remDr, pages$state7.3$selectors$Min.Std.SIInput, "1.5") # <--
+#    clear(remDr, pages$state7.3$selectors$min_std_siInput) # <---
+#    sendKeys(remDr, pages$state7.3$selectors$min_std_siInput, "1.5") # <--
 #    clickGo(remDr)
 #    Sys.sleep(1)
 #    waitForAppReady(remDr)
@@ -617,8 +617,8 @@ test_that("Test 9 output matches", {
 #I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
 #I <- EpiEstim:::process_I(I)
 #epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-#                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-#                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1.5, Max.Std.SI=3, seed=1)
+#                         n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+#                         std_si=2, std_std_si=1, min_std_si=1.5, max_std_si=3, seed=1)
 #
 #  compareOutputFromApp(appOut, epiEstimOut)
 #})
@@ -626,7 +626,7 @@ test_that("Test 9 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 11 - Different Max.Std.SI                                              #
+# Test 11 - Different max_std_si                                              #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 11)")
 rD <- drivers$rDr
@@ -658,8 +658,8 @@ tryCatch({
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
     sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Max.Std.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Max.Std.SIInput, "4") # <--
+    clear(remDr, pages$state7.3$selectors$max_std_siInput) # <---
+    sendKeys(remDr, pages$state7.3$selectors$max_std_siInput, "4") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -679,8 +679,8 @@ test_that("Test 11 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=4, seed=1)
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=4, seed=1)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -741,8 +741,8 @@ test_that("Test 12 output matches", {
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
   epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=2)
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=2)
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
