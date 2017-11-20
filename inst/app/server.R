@@ -206,7 +206,7 @@ shinyServer(function(input, output, session) {
                   if (.Platform$OS.type == "unix") {
                     write(Sys.getpid(), file=pid_file)
                   }
-                  ret <- check_CDTsamples_convergence(mcmc_samples)
+                  ret <- check_cdt_samples_convergence(mcmc_samples)
                   if (.Platform$OS.type == "unix") {
                     file.remove(pid_file)
                   }
