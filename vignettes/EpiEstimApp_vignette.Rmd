@@ -41,7 +41,7 @@ knitr::include_graphics("appFrontPage.jpg")
 
 ## Loading the data and estimating the reproduction number
 
-The example that follows will use disease incidence time series (DataS1.csv) and interval-censored observations of the serial interval (DataS2.csv), which are datasets available at XXX. Save these on your computer.
+The example that follows will use disease incidence time series (DataS1.csv) and interval-censored observations of the serial interval (DataS2.csv), which are datasets available with our publication [1]. Save these on your computer.
 
 Since we will be uploading the first of these files as the incidence data, select "Own data" and click "Next".
 
@@ -91,3 +91,7 @@ knitr::include_graphics("FINALOUTPUT.jpg")
 ```
 
 We have now obtained an estimate of the reproduction number throughout the outbreak of H1N1 infuenza in a New York school.
+
+## Reference
+
+[1] Thompson RN et al. Improved inference of time-varying reproduction numbers during infectious disease outbreaks. Submitted.
