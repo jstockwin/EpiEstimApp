@@ -4,12 +4,10 @@
 \alias{runEpiEstimApp}
 \title{Runs EpiEstimApp}
 \usage{
-runEpiEstimApp(port = 3000, ...)
+runEpiEstimApp(...)
 }
 \arguments{
-\item{port}{The port to run on. Defaults to 3000.}
-
-\item{...}{Additional arguments}
+\item{...}{Additional arguments (passed to shiny::runApp())}
 }
 \description{
 This function runs EpiEstimApp

@@ -64,7 +64,9 @@ test_that("Test 1 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, si_sample=sample, method="si_from_sample", n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, si_sample=sample, method="si_from_sample", 
+                           config=list(t_start=2:26, t_end=8:32, n2=100, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })

@@ -57,9 +57,11 @@ test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
                            n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
                            std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -117,9 +119,11 @@ test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=60,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=60,
                            n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
                            std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -179,9 +183,11 @@ test_that("Test 3 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
                            n2=60, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
                            std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -241,9 +247,11 @@ test_that("Test 4 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
                            n2=50, mean_si=2.5, std_mean_si=1, min_mean_si=1, max_mean_si=3,
                            std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -303,9 +311,11 @@ test_that("Test 5 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
                            n2=50, mean_si=2, std_mean_si=2, min_mean_si=1, max_mean_si=3,
                            std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -365,9 +375,11 @@ test_that("Test 6 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
                            n2=50, mean_si=2, std_mean_si=1, min_mean_si=1.5, max_mean_si=3,
                            std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -427,9 +439,11 @@ test_that("Test 7 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
                            n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=4,
                            std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -489,9 +503,11 @@ test_that("Test 8 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
                            n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
                            std_si=2.5, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -551,9 +567,11 @@ test_that("Test 9 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
                            n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
                            std_si=2, std_std_si=2, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -678,9 +696,11 @@ test_that("Test 11 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
                            n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
                            std_si=2, std_std_si=1, min_std_si=1, max_std_si=4, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -740,9 +760,11 @@ test_that("Test 12 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
                            n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
                            std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=2)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
