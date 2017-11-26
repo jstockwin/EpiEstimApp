@@ -473,7 +473,7 @@ test_that("Test 7 output matches", {
 
   epiEstimOut <- EstimateR(I, method="si_from_sample", si_sample=sample,
                            config=list(n2=100, seed=2,
-                                       t_start=2:26, t_end=8:32,)
+                                       t_start=2:26, t_end=8:32)
   )
 
   compareOutputFromApp(appOut, epiEstimOut)

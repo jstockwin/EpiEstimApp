@@ -78,6 +78,7 @@ shinyServer(function(input, output, session) {
     plot=FALSE
   )
   IncidenceData = NULL
+  requestedSeed = NULL
   total.samples.needed <- 1 # Will be overridden. Set to 1 so dim(mcmc_samples) < total.samples.needed initially
 
   # Clicking previous/next should increment the stateLevel
@@ -141,9 +142,9 @@ shinyServer(function(input, output, session) {
           # requested then a NEW random seed is chosen on EACH run.
           if (is.null(requestedSeed) || is.na(requestedSeed)) {
               t <- as.numeric(Sys.time())
-              seed <- 1e8 * (t - floor(t))
+              config$seed <- 1e8 * (t - floor(t))
           } else {
-              seed <- requestedSeed
+              config$seed <- requestedSeed
           }
 
           if (method=="si_from_data" && is.null(mcmc_samples)) {
