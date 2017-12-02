@@ -23,59 +23,59 @@ pages <- list(
             incidenceTab="//a[@data-value='Incidence Data']",
             reproductionTab="//a[@data-value='Estimated Reproduction Number']",
             serialIntervalTab="//a[@data-value='Serial Interval Distribution']",
-            incidenceTable="//div[@id='incidenceDataOutput']/table",
-            reproductionTable="//div[@id='estimatedROutput']/table",
-            serialIntervalTable="//div[@id='serialIntervalOutput']/table"
+            incidenceTable="//div[@id='incidence_data_output']/table",
+            reproductionTable="//div[@id='estimated_r_output']/table",
+            serialIntervalTable="//div[@id='serial_interval_output']/table"
         )
     ),
     state1.1 = list(
         selectors = list(
-            incidenceDataType="//div[@id='incidenceDataType']",
-            incidenceDataTypeLabel="//div[@id='incidenceDataType']/label",
-            preloadedDataButton = "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][1]//input",
-            ownDataButton = "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][2]//input",
-            preloadedDataLabel = "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][1]//span",
-            ownDataLabel = "//div[@id='incidenceDataType']/div[@class='shiny-options-group']/div[@class='radio'][2]//span"
+            incidenceDataType="//div[@id='incidence_data_type']",
+            incidenceDataTypeLabel="//div[@id='incidence_data_type']/label",
+            preloadedDataButton = "//div[@id='incidence_data_type']/div[@class='shiny-options-group']/div[@class='radio'][1]//input",
+            ownDataButton = "//div[@id='incidence_data_type']/div[@class='shiny-options-group']/div[@class='radio'][2]//input",
+            preloadedDataLabel = "//div[@id='incidence_data_type']/div[@class='shiny-options-group']/div[@class='radio'][1]//span",
+            ownDataLabel = "//div[@id='incidence_data_type']/div[@class='shiny-options-group']/div[@class='radio'][2]//span"
         )
     ),
     state2.1 = list(
         selectors = list(
-            incidenceDataUploadLabel="//div[@id='incidenceDataErrorBox']/div/label",
-            incidenceDataUploadBrowse="//div[@id='incidenceDataErrorBox']//span",
-            incidenceDataUploadInput="//input[@id='incidenceData']",
-            incidenceDataUploadText="//div[@id='incidenceDataErrorBox']//input[@type='text']",
+            incidenceDataUploadLabel="//div[@id='incidence_data_error_box']/div/label",
+            incidenceDataUploadBrowse="//div[@id='incidence_data_error_box']//span",
+            incidenceDataUploadInput="//input[@id='incidence_data']",
+            incidenceDataUploadText="//div[@id='incidence_data_error_box']//input[@type='text']",
             incidenceHeaderButton="//input[@id='incidenceHeader']",
-            uploadedWidthLabel="//label[@for='uploadedWidth']",
-            uploadedWidthInput="//input[@id='uploadedWidth']",
-            meanPriorLabel="//label[@for='uploadedMeanPrior']",
-            meanPriorInput="//input[@id='uploadedMeanPrior']",
-            stdPriorLabel="//label[@for='uploadedStdPrior']",
-            stdPriorInput="//input[@id='uploadedStdPrior']"
+            uploadedWidthLabel="//label[@for='uploaded_width']",
+            uploadedWidthInput="//input[@id='uploaded_width']",
+            meanPriorLabel="//label[@for='uploaded_mean_prior']",
+            meanPriorInput="//input[@id='uploaded_mean_prior']",
+            stdPriorLabel="//label[@for='uploaded_std_prior']",
+            stdPriorInput="//input[@id='uploaded_std_prior']"
         )
     ),
     state2.2 = list(
         selectors = list(
-            datasetLabel="//div[@id='incidenceDataset']/label",
-            datasetOption1Label="//div[@id='incidenceDataset']//div[@class='radio'][1]//span",
-            datasetOption1Input="//div[@id='incidenceDataset']//div[@class='radio'][1]//input",
-            datasetOption2Label="//div[@id='incidenceDataset']//div[@class='radio'][2]//span",
-            datasetOption2Input="//div[@id='incidenceDataset']//div[@class='radio'][2]//input",
-            datasetOption3Label="//div[@id='incidenceDataset']//div[@class='radio'][3]//span",
-            datasetOption3Input="//div[@id='incidenceDataset']//div[@class='radio'][3]//input",
-            datasetOption4Label="//div[@id='incidenceDataset']//div[@class='radio'][4]//span",
-            datasetOption4Input="//div[@id='incidenceDataset']//div[@class='radio'][4]//input",
-            datasetOption5Label="//div[@id='incidenceDataset']//div[@class='radio'][5]//span",
-            datasetOption5Input="//div[@id='incidenceDataset']//div[@class='radio'][5]//input",
-            datasetOption6Label="//div[@id='incidenceDataset']//div[@class='radio'][6]//span",
-            datasetOption6Input="//div[@id='incidenceDataset']//div[@class='radio'][6]//input",
-            datasetOption7Label="//div[@id='incidenceDataset']//div[@class='radio'][7]//span",
-            datasetOption7Input="//div[@id='incidenceDataset']//div[@class='radio'][7]//input",
-            incidenceWidthLabel="//label[@for='incidenceWidth']",
-            incidenceWidthInput="//input[@id='incidenceWidth']",
-            meanPriorLabel="//label[@for='incidenceMeanPrior']",
-            meanPriorInput="//input[@id='incidenceMeanPrior']",
-            stdPriorLabel="//label[@for='incidenceStdPrior']",
-            stdPriorInput="//input[@id='incidenceStdPrior']"
+            datasetLabel="//div[@id='incidence_dataset']/label",
+            datasetOption1Label="//div[@id='incidence_dataset']//div[@class='radio'][1]//span",
+            datasetOption1Input="//div[@id='incidence_dataset']//div[@class='radio'][1]//input",
+            datasetOption2Label="//div[@id='incidence_dataset']//div[@class='radio'][2]//span",
+            datasetOption2Input="//div[@id='incidence_dataset']//div[@class='radio'][2]//input",
+            datasetOption3Label="//div[@id='incidence_dataset']//div[@class='radio'][3]//span",
+            datasetOption3Input="//div[@id='incidence_dataset']//div[@class='radio'][3]//input",
+            datasetOption4Label="//div[@id='incidence_dataset']//div[@class='radio'][4]//span",
+            datasetOption4Input="//div[@id='incidence_dataset']//div[@class='radio'][4]//input",
+            datasetOption5Label="//div[@id='incidence_dataset']//div[@class='radio'][5]//span",
+            datasetOption5Input="//div[@id='incidence_dataset']//div[@class='radio'][5]//input",
+            datasetOption6Label="//div[@id='incidence_dataset']//div[@class='radio'][6]//span",
+            datasetOption6Input="//div[@id='incidence_dataset']//div[@class='radio'][6]//input",
+            datasetOption7Label="//div[@id='incidence_dataset']//div[@class='radio'][7]//span",
+            datasetOption7Input="//div[@id='incidence_dataset']//div[@class='radio'][7]//input",
+            incidenceWidthLabel="//label[@for='incidence_width']",
+            incidenceWidthInput="//input[@id='incidence_width']",
+            meanPriorLabel="//label[@for='incidence_mean_prior']",
+            meanPriorInput="//input[@id='incidence_mean_prior']",
+            stdPriorLabel="//label[@for='incidence_std_prior']",
+            stdPriorInput="//input[@id='incidence_std_prior']"
         )
     ),
     state3.1 = list(
@@ -90,65 +90,65 @@ pages <- list(
     ),
     state4.1 = list(
         selectors = list(
-            importedDataUploadLabel="//div[@id='importedDataErrorBox']/div/label",
-            importedDataUploadBrowse="//div[@id='importedDataErrorBox']//span",
-            importedDataUploadInput="//input[@id='importedData']",
-            importedDataUploadText="//div[@id='importedDataErrorBox']//input[@type='text']",
-            importedHeaderButton="//input[@id='importedHeader']"
+            importedDataUploadLabel="//div[@id='imported_data_error_box']/div/label",
+            importedDataUploadBrowse="//div[@id='imported_data_error_box']//span",
+            importedDataUploadInput="//input[@id='imported_data']",
+            importedDataUploadText="//div[@id='imported_data_error_box']//input[@type='text']",
+            importedHeaderButton="//input[@id='imported_header']"
         )
     ),
     state5.1 = list(
         selectors = list(
-            exposureDataLabel="//div[@id='SIPatientData']/label",
-            exposureDataNoLabel="//div[@id='SIPatientData']//div[@class='radio'][1]//span",
-            exposureDataNoInput="//div[@id='SIPatientData']//div[@class='radio'][1]//input",
-            exposureDataYesLabel="//div[@id='SIPatientData']//div[@class='radio'][2]//span",
-            exposureDataYesInput="//div[@id='SIPatientData']//div[@class='radio'][2]//input"
+            exposureDataLabel="//div[@id='si_patient_data']/label",
+            exposureDataNoLabel="//div[@id='si_patient_data']//div[@class='radio'][1]//span",
+            exposureDataNoInput="//div[@id='si_patient_data']//div[@class='radio'][1]//input",
+            exposureDataYesLabel="//div[@id='si_patient_data']//div[@class='radio'][2]//span",
+            exposureDataYesInput="//div[@id='si_patient_data']//div[@class='radio'][2]//input"
         )
     ),
     state6.1 = list(
         selectors = list(
-            SIDataType="//div[@id='SIDataType']",
-            SIDataTypeLabel="//div[@id='SIDataType']/label",
-            SIDataTypePreloadedLabel="//div[@id='SIDataType']//div[@class='radio'][1]//span",
-            SIDataTypePreloadedButton="//div[@id='SIDataType']//div[@class='radio'][1]//input",
-            SIDataTypeOwnLabel="//div[@id='SIDataType']//div[@class='radio'][2]//span",
-            SIDataTypeOwnButton="//div[@id='SIDataType']//div[@class='radio'][2]//input"
+            SIDataType="//div[@id='si_data_type']",
+            SIDataTypeLabel="//div[@id='si_data_type']/label",
+            SIDataTypePreloadedLabel="//div[@id='si_data_type']//div[@class='radio'][1]//span",
+            SIDataTypePreloadedButton="//div[@id='si_data_type']//div[@class='radio'][1]//input",
+            SIDataTypeOwnLabel="//div[@id='si_data_type']//div[@class='radio'][2]//span",
+            SIDataTypeOwnButton="//div[@id='si_data_type']//div[@class='radio'][2]//input"
         )
     ),
     state6.2 = list(
         selectors = list(
-            SIEstType="//div[@id='SIEstType']",
-            SIEstTypeLabel="//div[@id='SIEstType']/label",
-            SIEstTypeOption1Label="//div[@id='SIEstType']//div[@class='radio'][1]//span",
-            SIEstTypeOption1Button="//div[@id='SIEstType']//div[@class='radio'][1]//input",
-            SIEstTypeOption2Label="//div[@id='SIEstType']//div[@class='radio'][2]//span",
-            SIEstTypeOption2Button="//div[@id='SIEstType']//div[@class='radio'][2]//input",
-            SIEstTypeOption3Label="//div[@id='SIEstType']//div[@class='radio'][3]//span",
-            SIEstTypeOption3Button="//div[@id='SIEstType']//div[@class='radio'][3]//input",
-            SIEstTypeOption4Label="//div[@id='SIEstType']//div[@class='radio'][4]//span",
-            SIEstTypeOption4Button="//div[@id='SIEstType']//div[@class='radio'][4]//input"
+            SIEstType="//div[@id='si_est_type']",
+            SIEstTypeLabel="//div[@id='si_est_type']/label",
+            SIEstTypeOption1Label="//div[@id='si_est_type']//div[@class='radio'][1]//span",
+            SIEstTypeOption1Button="//div[@id='si_est_type']//div[@class='radio'][1]//input",
+            SIEstTypeOption2Label="//div[@id='si_est_type']//div[@class='radio'][2]//span",
+            SIEstTypeOption2Button="//div[@id='si_est_type']//div[@class='radio'][2]//input",
+            SIEstTypeOption3Label="//div[@id='si_est_type']//div[@class='radio'][3]//span",
+            SIEstTypeOption3Button="//div[@id='si_est_type']//div[@class='radio'][3]//input",
+            SIEstTypeOption4Label="//div[@id='si_est_type']//div[@class='radio'][4]//span",
+            SIEstTypeOption4Button="//div[@id='si_est_type']//div[@class='radio'][4]//input"
         )
     ),
     state7.1 = list(
         selectors = list(
-            datasetLabel="//div[@id='SIDataset']/label",
-            datasetOption1Label="//div[@id='SIDataset']//div[@class='radio'][1]//span",
-            datasetOption1Input="//div[@id='SIDataset']//div[@class='radio'][1]//input",
-            datasetOption2Label="//div[@id='SIDataset']//div[@class='radio'][2]//span",
-            datasetOption2Input="//div[@id='SIDataset']//div[@class='radio'][2]//input",
-            datasetOption3Label="//div[@id='SIDataset']//div[@class='radio'][3]//span",
-            datasetOption3Input="//div[@id='SIDataset']//div[@class='radio'][3]//input"
+            datasetLabel="//div[@id='si_dataset']/label",
+            datasetOption1Label="//div[@id='si_dataset']//div[@class='radio'][1]//span",
+            datasetOption1Input="//div[@id='si_dataset']//div[@class='radio'][1]//input",
+            datasetOption2Label="//div[@id='si_dataset']//div[@class='radio'][2]//span",
+            datasetOption2Input="//div[@id='si_dataset']//div[@class='radio'][2]//input",
+            datasetOption3Label="//div[@id='si_dataset']//div[@class='radio'][3]//span",
+            datasetOption3Input="//div[@id='si_dataset']//div[@class='radio'][3]//input"
         )
     ),
     state7.2 = list(
         selectors = list(
-            SIFrom="//div[@id='SIFrom']",
-            SIFromLabel="//div[@id='SIFrom']/label",
-            SIFromRawLabel="//div[@id='SIFrom']//div[@class='radio'][1]//span",
-            SIFromRawButton="//div[@id='SIFrom']//div[@class='radio'][1]//input",
-            si_from_sampleLabel="//div[@id='SIFrom']//div[@class='radio'][2]//span",
-            si_from_sampleButton="//div[@id='SIFrom']//div[@class='radio'][2]//input"
+            SIFrom="//div[@id='si_from']",
+            SIFromLabel="//div[@id='si_from']/label",
+            SIFromRawLabel="//div[@id='si_from']//div[@class='radio'][1]//span",
+            SIFromRawButton="//div[@id='si_from']//div[@class='radio'][1]//input",
+            si_from_sampleLabel="//div[@id='si_from']//div[@class='radio'][2]//span",
+            si_from_sampleButton="//div[@id='si_from']//div[@class='radio'][2]//input"
         )
     ),
     state7.3 = list(
@@ -173,8 +173,8 @@ pages <- list(
             min_std_siInput="//input[@id='min_std_si']",
             max_std_siLabel="//label[@for='max_std_si']",
             max_std_siInput="//input[@id='max_std_si']",
-            seedLabel="//label[@for='uncertainSeed']",
-            seedInput="//input[@id='uncertainSeed']"
+            seedLabel="//label[@for='uncertain_seed']",
+            seedInput="//input[@id='uncertain_seed']"
         )
     ),
     state7.4 = list(
@@ -187,88 +187,88 @@ pages <- list(
     ),
     state7.5 = list(
         selectors = list(
-            SIDistrDataUploadLabel="//div[@id='SIDistrDataErrorBox']/div/label",
-            SIDistrDataUploadBrowse="//div[@id='SIDistrDataErrorBox']//span",
-            SIDistrDataUploadInput="//input[@id='SIDistrData']",
-            SIDistrDataUploadText="//div[@id='SIDistrDataErrorBox']//input[@type='text']",
-            SIDistrHeaderButton="//input[@id='SIDistrHeader']"
+            SIDistrDataUploadLabel="//div[@id='si_distr_data_error_box']/div/label",
+            SIDistrDataUploadBrowse="//div[@id='si_distr_data_error_box']//span",
+            SIDistrDataUploadInput="//input[@id='si_distr_data']",
+            SIDistrDataUploadText="//div[@id='si_distr_data_error_box']//input[@type='text']",
+            SIDistrHeaderButton="//input[@id='si_distr_header']"
         )
     ),
     state7.6 = list(
         selectors = list(
-            datasetLabel="//div[@id='SIDistrDataset']/label",
-            datasetOption1Label="//div[@id='SIDistrDataset']//div[@class='radio'][1]//span",
-            datasetOption1Input="//div[@id='SIDistrDataset']//div[@class='radio'][1]//input",
-            datasetOption2Label="//div[@id='SIDistrDataset']//div[@class='radio'][2]//span",
-            datasetOption2Input="//div[@id='SIDistrDataset']//div[@class='radio'][2]//input",
-            datasetOption3Label="//div[@id='SIDistrDataset']//div[@class='radio'][3]//span",
-            datasetOption3Input="//div[@id='SIDistrDataset']//div[@class='radio'][3]//input",
-            datasetOption4Label="//div[@id='SIDistrDataset']//div[@class='radio'][4]//span",
-            datasetOption4Input="//div[@id='SIDistrDataset']//div[@class='radio'][4]//input",
-            datasetOption5Label="//div[@id='SIDistrDataset']//div[@class='radio'][5]//span",
-            datasetOption5Input="//div[@id='SIDistrDataset']//div[@class='radio'][5]//input"
+            datasetLabel="//div[@id='si_distr_dataset']/label",
+            datasetOption1Label="//div[@id='si_distr_dataset']//div[@class='radio'][1]//span",
+            datasetOption1Input="//div[@id='si_distr_dataset']//div[@class='radio'][1]//input",
+            datasetOption2Label="//div[@id='si_distr_dataset']//div[@class='radio'][2]//span",
+            datasetOption2Input="//div[@id='si_distr_dataset']//div[@class='radio'][2]//input",
+            datasetOption3Label="//div[@id='si_distr_dataset']//div[@class='radio'][3]//span",
+            datasetOption3Input="//div[@id='si_distr_dataset']//div[@class='radio'][3]//input",
+            datasetOption4Label="//div[@id='si_distr_dataset']//div[@class='radio'][4]//span",
+            datasetOption4Input="//div[@id='si_distr_dataset']//div[@class='radio'][4]//input",
+            datasetOption5Label="//div[@id='si_distr_dataset']//div[@class='radio'][5]//span",
+            datasetOption5Input="//div[@id='si_distr_dataset']//div[@class='radio'][5]//input"
         )
     ),
     state8.1 = list(
         selectors = list(
-            distributionLabel="//div[@id='SIDist']/label",
-            distributionOption1Label="//div[@id='SIDist']//div[@class='radio'][1]//span",
-            distributionOption1Input="//div[@id='SIDist']//div[@class='radio'][1]//input",
-            distributionOption2Label="//div[@id='SIDist']//div[@class='radio'][2]//span",
-            distributionOption2Input="//div[@id='SIDist']//div[@class='radio'][2]//input",
-            distributionOption3Label="//div[@id='SIDist']//div[@class='radio'][3]//span",
-            distributionOption3Input="//div[@id='SIDist']//div[@class='radio'][3]//input",
-            distributionOption4Label="//div[@id='SIDist']//div[@class='radio'][4]//span",
-            distributionOption4Input="//div[@id='SIDist']//div[@class='radio'][4]//input",
-            distributionOption5Label="//div[@id='SIDist']//div[@class='radio'][5]//span",
-            distributionOption5Input="//div[@id='SIDist']//div[@class='radio'][5]//input",
-            distributionOption6Label="//div[@id='SIDist']//div[@class='radio'][6]//span",
-            distributionOption6Input="//div[@id='SIDist']//div[@class='radio'][6]//input",
+            distributionLabel="//div[@id='si_dist']/label",
+            distributionOption1Label="//div[@id='si_dist']//div[@class='radio'][1]//span",
+            distributionOption1Input="//div[@id='si_dist']//div[@class='radio'][1]//input",
+            distributionOption2Label="//div[@id='si_dist']//div[@class='radio'][2]//span",
+            distributionOption2Input="//div[@id='si_dist']//div[@class='radio'][2]//input",
+            distributionOption3Label="//div[@id='si_dist']//div[@class='radio'][3]//span",
+            distributionOption3Input="//div[@id='si_dist']//div[@class='radio'][3]//input",
+            distributionOption4Label="//div[@id='si_dist']//div[@class='radio'][4]//span",
+            distributionOption4Input="//div[@id='si_dist']//div[@class='radio'][4]//input",
+            distributionOption5Label="//div[@id='si_dist']//div[@class='radio'][5]//span",
+            distributionOption5Input="//div[@id='si_dist']//div[@class='radio'][5]//input",
+            distributionOption6Label="//div[@id='si_dist']//div[@class='radio'][6]//span",
+            distributionOption6Input="//div[@id='si_dist']//div[@class='radio'][6]//input",
             n2Label="//label[@for='n24']",
             n2Input="//input[@id='n24']",
-            seedLabel="//label[@for='preloadedSeed']",
-            seedInput="//input[@id='preloadedSeed']"
+            seedLabel="//label[@for='preloaded_seed']",
+            seedInput="//input[@id='preloaded_seed']"
         )
     ),
     state8.2 = list(
         selectors = list(
-            SIDataUploadLabel="//div[@id='SIDataErrorBox']/div/label",
-            SIDataUploadBrowse="//div[@id='SIDataErrorBox']//span",
-            SIDataUploadInput="//input[@id='SIData']",
-            SIDataUploadText="//div[@id='SIDataErrorBox']//input[@type='text']",
-            SIHeaderButton="//input[@id='SIHeader']",
-            seedLabel="//label[@for='uploadedSISeed']",
-            seedInput="//input[@id='uploadedSISeed']"
+            SIDataUploadLabel="//div[@id='si_data_error_box']/div/label",
+            SIDataUploadBrowse="//div[@id='si_data_error_box']//span",
+            SIDataUploadInput="//input[@id='si_data']",
+            SIDataUploadText="//div[@id='si_data_error_box']//input[@type='text']",
+            SIHeaderButton="//input[@id='si_header']",
+            seedLabel="//label[@for='uploaded_si_seed']",
+            seedInput="//input[@id='uploaded_si_seed']"
         )
     ),
     state8.3 = list(
         selectors = list(
-            SISampleDataUploadLabel="//div[@id='SISampleDataErrorBox']/div/label",
-            SISampleDataUploadBrowse="//div[@id='SISampleDataErrorBox']//span",
-            SISampleDataUploadInput="//input[@id='SISampleData']",
-            SISampleDataUploadText="//div[@id='SISampleDataErrorBox']//input[@type='text']",
-            SISampleHeaderButton="//input[@id='SISampleHeader']",
+            SISampleDataUploadLabel="//div[@id='si_sample_data_error_box']/div/label",
+            SISampleDataUploadBrowse="//div[@id='si_sample_data_error_box']//span",
+            SISampleDataUploadInput="//input[@id='si_sample_data']",
+            SISampleDataUploadText="//div[@id='si_sample_data_error_box']//input[@type='text']",
+            SISampleHeaderButton="//input[@id='si_sample_header']",
             n2Label="//label[@for='n23']",
             n2Input="//input[@id='n23']",
-            seedLabel="//label[@for='SISampleSeed']",
-            seedInput="//input[@id='SISampleSeed']"
+            seedLabel="//label[@for='si_sample_seed']",
+            seedInput="//input[@id='si_sample_seed']"
         )
     ),
     state9.1 = list(
         selectors = list(
-            distributionLabel="//div[@id='SIDist2']/label",
-            distributionOption1Label="//div[@id='SIDist2']//div[@class='radio'][1]//span",
-            distributionOption1Input="//div[@id='SIDist2']//div[@class='radio'][1]//input",
-            distributionOption2Label="//div[@id='SIDist2']//div[@class='radio'][2]//span",
-            distributionOption2Input="//div[@id='SIDist2']//div[@class='radio'][2]//input",
-            distributionOption3Label="//div[@id='SIDist2']//div[@class='radio'][3]//span",
-            distributionOption3Input="//div[@id='SIDist2']//div[@class='radio'][3]//input",
-            distributionOption4Label="//div[@id='SIDist2']//div[@class='radio'][4]//span",
-            distributionOption4Input="//div[@id='SIDist2']//div[@class='radio'][4]//input",
-            distributionOption5Label="//div[@id='SIDist2']//div[@class='radio'][5]//span",
-            distributionOption5Input="//div[@id='SIDist2']//div[@class='radio'][5]//input",
-            distributionOption6Label="//div[@id='SIDist2']//div[@class='radio'][6]//span",
-            distributionOption6Input="//div[@id='SIDist2']//div[@class='radio'][6]//input",
+            distributionLabel="//div[@id='si_dist_2']/label",
+            distributionOption1Label="//div[@id='si_dist_2']//div[@class='radio'][1]//span",
+            distributionOption1Input="//div[@id='si_dist_2']//div[@class='radio'][1]//input",
+            distributionOption2Label="//div[@id='si_dist_2']//div[@class='radio'][2]//span",
+            distributionOption2Input="//div[@id='si_dist_2']//div[@class='radio'][2]//input",
+            distributionOption3Label="//div[@id='si_dist_2']//div[@class='radio'][3]//span",
+            distributionOption3Input="//div[@id='si_dist_2']//div[@class='radio'][3]//input",
+            distributionOption4Label="//div[@id='si_dist_2']//div[@class='radio'][4]//span",
+            distributionOption4Input="//div[@id='si_dist_2']//div[@class='radio'][4]//input",
+            distributionOption5Label="//div[@id='si_dist_2']//div[@class='radio'][5]//span",
+            distributionOption5Input="//div[@id='si_dist_2']//div[@class='radio'][5]//input",
+            distributionOption6Label="//div[@id='si_dist_2']//div[@class='radio'][6]//span",
+            distributionOption6Input="//div[@id='si_dist_2']//div[@class='radio'][6]//input",
             n1Label="//label[@for='n12']",
             n1Input="//input[@id='n12']",
             burninLabel="//label[@for='burnin']",
@@ -277,8 +277,8 @@ pages <- list(
             thinInput="//input[@id='thin']",
             n2Label="//label[@for='n22']",
             n2Input="//input[@id='n22']",
-            seedLabel="//label[@for='MCMCSeed']",
-            seedInput="//input[@id='MCMCSeed']",
+            seedLabel="//label[@for='mcmc_seed']",
+            seedInput="//input[@id='mcmc_seed']",
             param1Label="//label[@for='param1']",
             param1Input="//input[@id='param1']",
             param2Label="//label[@for='param2']",
