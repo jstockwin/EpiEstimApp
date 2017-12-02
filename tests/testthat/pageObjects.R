@@ -18,7 +18,7 @@ pages <- list(
             stopButton="//div[@id='control']/button[@id='stop']",
             goButton="//div[@id='control']/button[@id='go']",
             errorMessage="//div[@id='control']/div[@id='error']",
-            incidenceTitle="//div[@id='incidenceTitle']",
+            incidenceTitle="//div[@id='incidence_title']",
             statusBar="//div[@id='status']/pre[@id='output']",
             incidenceTab="//a[@data-value='Incidence Data']",
             reproductionTab="//a[@data-value='Estimated Reproduction Number']",

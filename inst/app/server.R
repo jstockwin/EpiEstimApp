@@ -185,14 +185,14 @@ shiny::shinyServer(function(input, output, session) {
             
             if (is.null(si_sample_from_data)) {
               values$status <- "Running coarse2estim"
-              start_async_data_load("si_sample_from_data", future({
+              start_async_data_load("si_sample_from_data", future::future({
                   coarse2estim(samples = mcmc_samples,
                                dist = config$si_parametric_distr,
                                thin = config$mcmc_control$thin)$si_sample
               }))
             } else if (is.null(convergence_check)) {
               values$status <- "Running the Gelman-Rubin convergence check"
-              start_async_data_load("convergence_check", future({
+              start_async_data_load("convergence_check", future::future({
                 if (.Platform$OS.type == "unix") {
                   write(Sys.getpid(), file = pid_file)
                 }
@@ -219,7 +219,7 @@ shiny::shinyServer(function(input, output, session) {
                     "anyway, but you should investigate this issue.")
               }
               values$status <- "Running EstimateR..."
-              start_async_data_load("epi_estim_output", future({
+              start_async_data_load("epi_estim_output", future::future({
                 if (.Platform$OS.type == "unix") {
                   write(Sys.getpid(), file = pid_file)
                 }
@@ -234,7 +234,7 @@ shiny::shinyServer(function(input, output, session) {
               }))
            }
           } else {
-            start_async_data_load("epi_estim_output", future({
+            start_async_data_load("epi_estim_output", future::future({
               if (.Platform$OS.type == "unix") {
                 write(Sys.getpid(), file = pid_file)
               }
@@ -859,10 +859,10 @@ shiny::shinyServer(function(input, output, session) {
   check_async_data_being_loaded <- observe({
     shiny::invalidateLater(1000)
     for (async_data_name in names(async_data_being_loaded)) {
-      asyncfuture_object <- async_data_being_loaded[[async_data_name]]
-      if (resolved(asyncfuture_object)) {
+      async_future_object <- async_data_being_loaded[[async_data_name]]
+      if (future::resolved(async_future_object)) {
         tryCatch({
-          async_data[[async_data_name]] <<- value(asyncfuture_object)
+          async_data[[async_data_name]] <<- future::value(async_future_object)
           async_data_being_loaded[[async_data_name]] <<- NULL
           
           # If we've resolved something but async_data$epi_estim_output is not
