@@ -74,9 +74,9 @@ tryCatch({
   test_that("thin input is displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$thinLabel))
     expect_equal(getText(remDr, pages$state9.1$selectors$thinLabel),
-                 paste('Choose the MCMC thinning parameter (thin). Each of the n1',
-                       'estimated serial interval distributions will be taken after',
-                       'every "thin" iterations of the MCMC chain.'))
+                 paste("Choose the MCMC thinning parameter (thin). Each of the n1",
+                       "estimated serial interval distributions will be taken after",
+                       "every 'thin' iterations of the MCMC chain."))
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$thinInput))
   })
 

@@ -90,7 +90,7 @@ checkError <- function(remDr, msg, input=NULL) {
   expect_equal(getText(remDr, pages$common$selectors$errorMessage), msg)
   expect_equal(getText(remDr, pages$common$selectors$status), "ERROR")
   if(!is.null(input)) {
-    selector <- paste("//div[@id='", input, "ErrorBox']", sep="")
+    selector <- paste("//div[@id='", input, "_error_box']", sep="")
     style <- getAttribute(remDr, selector, "style")
     expect_equal(style, "border: 3px solid red;")
   }
@@ -349,9 +349,11 @@ buildMatrix <- list(
 
 getRemDrivers <- function(name) {
   if (Sys.getenv("TRAVIS_JOB_NUMBER") == "") {
-        rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, verbose=FALSE,
-                        browser="firefox")
-        remDr <- rDr$client
+        # rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, verbose=FALSE,
+        #                 browser="chrome")
+        # remDr <- rDr$client
+        rDr <- NULL
+        remDr <- remoteDriver(remoteServerAddr="localhost", port=4444L, browser="chrome")
   } else {
         browserName = Sys.getenv("browser")
         platform = Sys.getenv("platform")

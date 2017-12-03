@@ -25,7 +25,7 @@ tryCatch({
   test_that("pressing next without uploading a file throws correct error", {
     clickNext(remDr)
     Sys.sleep(1)
-    checkError(remDr, "Please upload a file", "importedData")
+    checkError(remDr, "Please upload a file", "imported_data")
   })
 
   # test_that("uploading a non-csv file throws correct error", {

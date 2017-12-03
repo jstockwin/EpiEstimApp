@@ -67,7 +67,6 @@ test_that("Test 1 output matches", {
   epiEstimOut <- EstimateR(I, si_sample=sample, method="si_from_sample", 
                            config=list(t_start=2:26, t_end=8:32, n2=100, seed=1)
   )
-
   compareOutputFromApp(appOut, epiEstimOut)
 })
 

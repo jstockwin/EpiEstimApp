@@ -81,6 +81,6 @@ test_that("Test 1 output matches", {
                            n2=100, seed=1, mcmc_control=list(burnin=3000, thin=10, seed=1))
   )
 
-  compareOutputFromApp(appOut, epiEstimOut)
+  compareOutputFromApp(appOut, epiEstimOut, debug=TRUE)
 })
 

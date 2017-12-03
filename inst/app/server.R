@@ -2,7 +2,7 @@ future::plan(future::multiprocess)
 
 
 # Source necessary files
-devtools::load_all()
+source("utils.R")
 
 # By default, the file size limit is 5MB. It can be changed by
 # setting this option. Here we'll raise limit to 9MB.
@@ -368,7 +368,7 @@ shiny::shinyServer(function(input, output, session) {
                if (is.null(input$incidence_data$datapath)) {
                  throw_error("Please upload a file", "incidence_data")
                }
-               if (file_ext(input$incidence_data$name) != "csv") {
+               if (tools::file_ext(input$incidence_data$name) != "csv") {
                  throw_error("The uploaded file must be a .csv file",
                              "incidence_data")
                }
@@ -393,15 +393,15 @@ shiny::shinyServer(function(input, output, session) {
                config$t_start <<- 2:(length - w + 1)
                config$t_end <<- (1 + w):length
 
-               config$mean_prior <<- input$uploaded_mean_proir
+               config$mean_prior <<- input$uploaded_mean_prior
                if (config$mean_prior < 0) {
                  throw_error("Prior mean must be non-negative",
-                             "uploaded_mean_proir")
+                             "uploaded_mean_prior")
                }
-               config$std_prior <<- input$uploaded_std_proir
+               config$std_prior <<- input$uploaded_std_prior
                if (config$std_prior <= 0) {
                  throw_error("Prior standard deviation must be positive",
-                             "uploaded_std_proir")
+                             "uploaded_std_prior")
                }
                TRUE
              },
@@ -449,7 +449,7 @@ shiny::shinyServer(function(input, output, session) {
                if (is.null(input$imported_data$datapath)) {
                  throw_error("Please upload a file", "imported_data")
                }
-               if (file_ext(input$imported_data$name) != "csv") {
+               if (tools::file_ext(input$imported_data$name) != "csv") {
                  throw_error("The uploaded file must be a .csv file",
                              "imported_data")
                }
@@ -588,7 +588,7 @@ shiny::shinyServer(function(input, output, session) {
                if (is.null(input$si_distr_data$datapath)) {
                  throw_error("Please upload a file", "si_distr_data")
                }
-               if (file_ext(input$si_distr_data$name) != "csv") {
+               if (tools::file_ext(input$si_distr_data$name) != "csv") {
                  throw_error("The uploaded file must be a .csv file",
                              "si_distr_data")
                }
@@ -635,7 +635,7 @@ shiny::shinyServer(function(input, output, session) {
                if (is.null(input$si_data$datapath)) {
                  throw_error("Please upload a file", "si_data")
                }
-               if (file_ext(input$si_data$name) != "csv") {
+               if (tools::file_ext(input$si_data$name) != "csv") {
                  throw_error("The uploaded file must be a .csv file", "si_data")
                }
                serial_interval_data <- read.csv(input$si_data$datapath,
@@ -707,7 +707,8 @@ shiny::shinyServer(function(input, output, session) {
                if (!is.na(input$param1) && !is.na(input$param1)) {
                  config$mcmc_control$init.pars <<- c(input$param1, input$param2)
                } else {
-                 config$mcmc_control$init.pars <<- init_MCMC_params(si_data,
+                 config$mcmc_control$init.pars <<- EpiEstim::init_MCMC_params(
+                                                    si_data,
                                                     config$si_parametric_distr)
                }
 
@@ -777,9 +778,9 @@ shiny::shinyServer(function(input, output, session) {
       handle_error(values$state, e)
       FALSE
     })
-  } # End handle_state
-  
-  
+  } #  End handle_state
+
+
   # get_next_state and get_prev_state encode the logic in the decision tree.
   # See Decision Tree_Schematic.pdf in the root of this project.
   get_next_state <- function (current_state) {

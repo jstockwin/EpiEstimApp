@@ -26,7 +26,7 @@ tryCatch({
     clear(remDr, pages$state2.2$selectors$meanPriorInput)
     sendKeys(remDr, pages$state2.2$selectors$meanPriorInput, "-1")
     clickNext(remDr)
-    checkError(remDr, "Prior mean must be non-negative", "incidenceMeanPrior")
+    checkError(remDr, "Prior mean must be non-negative", "incidence_mean_prior")
     # Reset for upcoming tests
     clear(remDr, pages$state2.2$selectors$meanPriorInput)
     sendKeys(remDr, pages$state2.2$selectors$meanPriorInput, "5")
@@ -36,7 +36,7 @@ tryCatch({
     clear(remDr, pages$state2.2$selectors$stdPriorInput)
     sendKeys(remDr, pages$state2.2$selectors$stdPriorInput, "0")
     clickNext(remDr)
-    checkError(remDr, "Prior standard deviation must be positive", "incidenceStdPrior")
+    checkError(remDr, "Prior standard deviation must be positive", "incidence_std_prior")
     # Reset for upcoming tests
     clear(remDr, pages$state2.2$selectors$stdPriorInput)
     sendKeys(remDr, pages$state2.2$selectors$stdPriorInput, "5")

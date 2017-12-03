@@ -44,7 +44,7 @@ pages <- list(
             incidenceDataUploadBrowse="//div[@id='incidence_data_error_box']//span",
             incidenceDataUploadInput="//input[@id='incidence_data']",
             incidenceDataUploadText="//div[@id='incidence_data_error_box']//input[@type='text']",
-            incidenceHeaderButton="//input[@id='incidenceHeader']",
+            incidenceHeaderButton="//input[@id='incidence_header']",
             uploadedWidthLabel="//label[@for='uploaded_width']",
             uploadedWidthInput="//input[@id='uploaded_width']",
             meanPriorLabel="//label[@for='uploaded_mean_prior']",
