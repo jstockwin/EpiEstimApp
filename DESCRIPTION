@@ -23,8 +23,7 @@ Suggests:
     testthat,
     RSelenium,
     subprocess,
-    compare,
-    roxygen
+    compare
 License: GPL (>=2) | file LICENSE
 Encoding: UTF-8
 LazyData: true
