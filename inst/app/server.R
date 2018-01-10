@@ -186,7 +186,7 @@ shiny::shinyServer(function(input, output, session) {
             if (is.null(si_sample_from_data)) {
               values$status <- "Running coarse2estim"
               start_async_data_load("si_sample_from_data", future::future({
-                  coarse2estim(samples = mcmc_samples,
+                  EpiEstim::coarse2estim(samples = mcmc_samples,
                                dist = config$si_parametric_distr,
                                thin = config$mcmc_control$thin)$si_sample
               }))
@@ -196,7 +196,7 @@ shiny::shinyServer(function(input, output, session) {
                 if (.Platform$OS.type == "unix") {
                   write(Sys.getpid(), file = pid_file)
                 }
-                ret <- check_cdt_samples_convergence(mcmc_samples) #nolint
+                ret <- EpiEstim::check_cdt_samples_convergence(mcmc_samples)
                 if (.Platform$OS.type == "unix") {
                   file.remove(pid_file)
                 }
@@ -700,7 +700,7 @@ shiny::shinyServer(function(input, output, session) {
                config$n1 <<- input$n12
                config$n2 <<- input$n22
                config$mcmc_control$thin <<- input$thin
-               config$si_parametric_distr <<- input$si_dist2
+               config$si_parametric_distr <<- input$si_dist_2
                mcmc_samples <<- async_data$mcmc_samples
                si_sample_from_data <<- async_data$si_sample_from_data
                convergence_check <<- async_data$convergence_check
