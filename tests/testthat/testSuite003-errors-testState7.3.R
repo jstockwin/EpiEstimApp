@@ -37,6 +37,10 @@ tryCatch({
     # Reset for upcoming tests
     clear(remDr, pages$state7.3$selectors$n1Input)
     sendKeys(remDr, pages$state7.3$selectors$n1Input, "50")
+    clickPrev(remDr)
+    waitForStateDisplayed(remDr, "6.2")
+    clickNext(remDr)
+    waitForStateDisplayed(remDr, "7.3")
   })
 
   test_that("Giving an invalid n2 throws correct error", {

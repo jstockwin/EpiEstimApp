@@ -30,6 +30,10 @@ tryCatch({
     # Reset for upcoming tests
     clear(remDr, pages$state2.2$selectors$meanPriorInput)
     sendKeys(remDr, pages$state2.2$selectors$meanPriorInput, "5")
+    clickPrev(remDr)
+    waitForStateDisplayed(remDr, "1.1")
+    clickNext(remDr)
+    waitForStateDisplayed(remDr, "2.2")
   })
 
   test_that("Giving an invalid prior sd throws correct error", {

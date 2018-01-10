@@ -34,6 +34,10 @@ tryCatch({
     # Reset for upcoming tests
     clear(remDr, pages$state7.4$selectors$mean_siInput)
     sendKeys(remDr, pages$state7.4$selectors$mean_siInput, "2")
+    clickPrev(remDr)
+    waitForStateDisplayed(remDr, "6.2")
+    clickNext(remDr)
+    waitForStateDisplayed(remDr, "7.4")
   })
 
   test_that("Giving an invalid std_si throws correct error", {

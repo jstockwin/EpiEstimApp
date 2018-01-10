@@ -87,7 +87,7 @@ checkError <- function(remDr, msg, input=NULL, timeout=120) {
   done <- FALSE
   while (!done & tries < timeout) {
     if (getText(remDr, pages$common$selectors$status) != "ERROR") {
-      sys.sleep(1)
+      Sys.sleep(1)
       tries <- tries + 1
     } else {
       done <- TRUE
