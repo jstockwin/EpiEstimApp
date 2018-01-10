@@ -82,13 +82,18 @@ clickStop <- function(remDr) {
   click(remDr, pages$common$selectors$stopButton)
 }
 
-checkError <- function(remDr, msg, input=NULL) {
-  # Because the pages isn't changing, we can't really do a "wait for",
-  # but we do need to wait as there is some processing before the error is
-  # thrown which may take some time. We'll just use Sys.sleep :(
-  Sys.sleep(1)
+checkError <- function(remDr, msg, input=NULL, timeout=120) {
+  tries <- 0
+  done <- FALSE
+  while (!done & tries < timeout) {
+    if (getText(remDr, pages$common$selectors$status) != "ERROR") {
+      sys.sleep(1)
+      tries <- tries + 1
+    } else {
+      done <- TRUE
+    }
+  }
   expect_equal(getText(remDr, pages$common$selectors$errorMessage), msg)
-  expect_equal(getText(remDr, pages$common$selectors$status), "ERROR")
   if(!is.null(input)) {
     selector <- paste("//div[@id='", input, "_error_box']", sep="")
     style <- getAttribute(remDr, selector, "style")
