@@ -18,8 +18,9 @@ final_states <- c("7.3", "7.4", "7.5", "7.6", "8.1", "8.3", "9.1")
 # throw off our counts of how many MCMC processes are running. 
 # To be sure this doesn't happen, we will clear the repsective folders
 # when this happens.
-mcmc_progress_folder <- "mcmc-progress/progress/"
-mcmc_pid_folder <- "mcmc-progress/pid/"
+appDir <- system.file("app", package="EpiEstimApp")
+mcmc_progress_folder <- paste(appDir, "mcmc-progress/progress/", sep="/")
+mcmc_pid_folder <- paste(appDir, "mcmc-progress/pid/", sep="/")
 
 if (length(list.files(path = mcmc_progress_folder, pattern = "*.txt")) > 0) {
   file.remove(paste(mcmc_progress_folder,
@@ -66,7 +67,6 @@ shiny::shinyServer(function(input, output, session) {
   mcmc_samples <- NULL #nolint
   si_sample_from_data <- NULL
   convergence_check <- NULL
-  mcmc_pid_folder <- NULL
   si_distr_data <- NULL
 
   # Clicking previous/next should increment the stateLevel
