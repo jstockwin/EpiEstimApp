@@ -32,7 +32,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
          div(id = "titles",
              div(id = "incidence_title", h1("Incidence Data")),
              shinyjs::hidden(div(id = "si_title",
-                                 h1("Serial Interval (SI) Input")))
+                                 h1("Serial Interval (SI) _input")))
           ),
          div(id = "1.1",
              div(id = "incidence_data_type_error_box", class = "error_box",
@@ -186,7 +186,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
          shinyjs::hidden(div(id = "7.1",
                     # State 7.1
                     p("Please note that these preloaded data are only to give an idea as to how the app works. As such, the full range of options are not provided here (e.g. the number of steps in the MCMC chain is fixed)."), #nolint (can't split html)
-                    HTML("<p>If you would like to have the full range of options, please download the serial interval data for your dataset from <a href='https://github.com/jstockwin/EpiEstimApp/tree/master/inst/app/datasets/SerialIntervalData' target='_blank'>here</a> then go back a step and select 'Own data' then 'Raw exposure data'.</p>"), #nolint can't split html
+                    HTML("<p>If you would like to have the full range of options, please download the serial interval data for your dataset from <a href='https://github.com/jstockwin/EpiEstimApp/tree/master/inst/app/datasets/SerialIntervalData' target='_blank'>here</a> then go back a step and select 'Own data' then '_raw exposure data'.</p>"), #nolint can't split html
                     div(id = "si_dataset_error_box", class = "error_box",
                         shiny::radioButtons("si_dataset", "Choose your dataset",
                                    c("RotavirusEcuador2011", "H1N1NewYork2009",
@@ -200,7 +200,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                                             paste("Do you have raw exposure",
                                                   "data or a SI posterior",
                                                   "sample to upload?"),
-                                            c("Raw exposure data" = "data",
+                                            c("_raw exposure data" = "data",
                                               "SI posterior sample" = "sample"
                                               )
                                             )

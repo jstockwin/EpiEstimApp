@@ -771,7 +771,7 @@ shiny::shinyServer(function(input, output, session) {
                }
              },
              stop(sprintf(paste("An error occurred in handle_state().",
-                                "Input '%s' was not recognised."), state))
+                                "_input '%s' was not recognised."), state))
       )
     },
     error = function (e) {
@@ -814,7 +814,7 @@ shiny::shinyServer(function(input, output, session) {
            "7.1" = {"8.1"}, #nolint
            "7.2" = {if (input$si_from == "data") "8.2" else "8.3"}, #nolint
            "8.2" = {"9.1"}, #nolint
-           stop(sprintf(paste("An error occurred in get_next_state(). Input",
+           stop(sprintf(paste("An error occurred in get_next_state(). _input",
                               "'%s' was not recognised."), current_state))
     )
   }
@@ -845,7 +845,7 @@ shiny::shinyServer(function(input, output, session) {
            "8.3" = {"7.2"}, #nolint
            "9.1" = {"8.2"}, #nolint
            stop(sprintf(paste("An error occurred in get_prev_state().",
-                              "Input '%s' was not recognised."), current_state))
+                              "_input '%s' was not recognised."), current_state))
     )
   }
   

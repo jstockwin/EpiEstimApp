@@ -23,27 +23,27 @@ tryCatch({
   })
 
   test_that("Giving an invalid n2 throws correct error", {
-    if (getAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "value") == "") {
+    if (getAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "style", "display: block;")
     }
     path <- getFilePath(remDr, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv")
-    sendKeys(remDr, pages$state8.3$selectors$SISampleDataUploadInput,
+    sendKeys(remDr, pages$state8.3$selectors$si_sample_data_upload_input,
              path)
 
-    clear(remDr, pages$state8.3$selectors$n2Input)
-    sendKeys(remDr, pages$state8.3$selectors$n2Input, "-1")
+    clear(remDr, pages$state8.3$selectors$n2_input)
+    sendKeys(remDr, pages$state8.3$selectors$n2_input, "-1")
     clickGo(remDr)
     checkError(remDr, "n2 must be an integer greater than or equal to 1", "n23")
-    clear(remDr, pages$state8.3$selectors$n2Input)
-    sendKeys(remDr, pages$state8.3$selectors$n2Input, "1.5")
+    clear(remDr, pages$state8.3$selectors$n2_input)
+    sendKeys(remDr, pages$state8.3$selectors$n2_input, "1.5")
     clickGo(remDr)
     checkError(remDr, "n2 must be an integer greater than or equal to 1", "n23")
     # Reset for upcoming tests
-    clear(remDr, pages$state8.3$selectors$n2Input)
-    sendKeys(remDr, pages$state8.3$selectors$n2Input, "100")
+    clear(remDr, pages$state8.3$selectors$n2_input)
+    sendKeys(remDr, pages$state8.3$selectors$n2_input, "100")
   })
 
 },

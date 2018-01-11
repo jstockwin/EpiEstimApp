@@ -23,43 +23,43 @@ tryCatch({
   })
 
   test_that("SISample file upload buttons are displaying correctly", {
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleDataUploadLabel))
-    expect_equal(getText(remDr, pages$state8.3$selectors$SISampleDataUploadLabel),
+    expect_true(isDisplayed(remDr, pages$state8.3$selectors$si_sample_data_upload_label))
+    expect_equal(getText(remDr, pages$state8.3$selectors$si_sample_data_upload_label),
                  "Choose serialIntervalData file to upload")
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleDataUploadBrowse))
+    expect_true(isDisplayed(remDr, pages$state8.3$selectors$si_sample_data_upload_browse))
 
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$SISampleHeaderButton))
+    expect_true(isDisplayed(remDr, pages$state8.3$selectors$si_sample_header_button))
 
   })
 
   test_that("n2 input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$n2Label))
-    expect_equal(getText(remDr, pages$state8.3$selectors$n2Label),
+    expect_true(isDisplayed(remDr, pages$state8.3$selectors$n2_label))
+    expect_equal(getText(remDr, pages$state8.3$selectors$n2_label),
                  paste("Choose n2, the posterior sample size to be drawn for",
                        "R for each SI distribution sampled"))
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$n2Input))
+    expect_true(isDisplayed(remDr, pages$state8.3$selectors$n2_input))
   })
 
   test_that("seed input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$seedLabel))
-    expect_equal(getText(remDr, pages$state8.3$selectors$seedLabel),
+    expect_true(isDisplayed(remDr, pages$state8.3$selectors$seed_label))
+    expect_equal(getText(remDr, pages$state8.3$selectors$seed_label),
                  paste("Set a seed to be used by EpiEstim. A random one will",
                        "be chosen if this is left blank"))
-    expect_true(isDisplayed(remDr, pages$state8.3$selectors$seedInput))
+    expect_true(isDisplayed(remDr, pages$state8.3$selectors$seed_input))
   })
 
   test_that("relevant control buttons are displayed", {
-    expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$prevButton))
-    expect_false(isDisplayed(remDr, pages$common$selectors$nextButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$goButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$goButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$stop_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$prev_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$prev_button))
+    expect_false(isDisplayed(remDr, pages$common$selectors$next_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$go_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$go_button))
   })
 
   test_that("no errors are displaying", {
-    expect_true(isDisplayed(remDr, pages$common$selectors$errorMessage))
-    expect_equal(getText(remDr, pages$common$selectors$errorMessage), "")
+    expect_true(isDisplayed(remDr, pages$common$selectors$error_message))
+    expect_equal(getText(remDr, pages$common$selectors$error_message), "")
   })
 },
 error = function(e) {

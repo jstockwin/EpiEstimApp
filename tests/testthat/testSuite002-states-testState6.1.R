@@ -26,32 +26,32 @@ tryCatch({
     checkDisplayedState(remDr, "6.1")
   })
 
-  test_that("SIDataType input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state6.1$selectors$SIDataType))
-    expect_true(isDisplayed(remDr, pages$state6.1$selectors$SIDataTypeLabel))
-    expect_equal(getText(remDr, pages$state6.1$selectors$SIDataTypeLabel),
+  test_that("si_data_type input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state6.1$selectors$si_data_type))
+    expect_true(isDisplayed(remDr, pages$state6.1$selectors$si_data_type_label))
+    expect_equal(getText(remDr, pages$state6.1$selectors$si_data_type_label),
                  paste("Would you like to use an external file containing",
                        "the exposure data, or a pre-loaded dataset?"))
-    expect_true(isDisplayed(remDr, pages$state6.1$selectors$SIDataTypePreloadedLabel))
-    expect_equal(getText(remDr, pages$state6.1$selectors$SIDataTypePreloadedLabel), "Pre-loaded")
-    expect_true(isDisplayed(remDr, pages$state6.1$selectors$SIDataTypePreloadedButton))
-    expect_true(isDisplayed(remDr, pages$state6.1$selectors$SIDataTypeOwnLabel))
-    expect_equal(getText(remDr, pages$state6.1$selectors$SIDataTypeOwnLabel), "Own data")
-    expect_true(isDisplayed(remDr, pages$state6.1$selectors$SIDataTypeOwnButton))
+    expect_true(isDisplayed(remDr, pages$state6.1$selectors$si_data_type_preloaded_label))
+    expect_equal(getText(remDr, pages$state6.1$selectors$si_data_type_preloaded_label), "Pre-loaded")
+    expect_true(isDisplayed(remDr, pages$state6.1$selectors$si_data_type_preloaded_button))
+    expect_true(isDisplayed(remDr, pages$state6.1$selectors$si_data_type_own_label))
+    expect_equal(getText(remDr, pages$state6.1$selectors$si_data_type_own_label), "Own data")
+    expect_true(isDisplayed(remDr, pages$state6.1$selectors$si_data_type_own_button))
   })
 
   test_that("relevant control buttons are displayed", {
-    expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$prevButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$nextButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$nextButton))
-    expect_false(isDisplayed(remDr, pages$common$selectors$goButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$stop_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$prev_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$prev_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$next_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$next_button))
+    expect_false(isDisplayed(remDr, pages$common$selectors$go_button))
   })
 
   test_that("no errors are displaying", {
-    expect_true(isDisplayed(remDr, pages$common$selectors$errorMessage))
-    expect_equal(getText(remDr, pages$common$selectors$errorMessage), "")
+    expect_true(isDisplayed(remDr, pages$common$selectors$error_message))
+    expect_equal(getText(remDr, pages$common$selectors$error_message), "")
   })
 },
 error = function(e) {

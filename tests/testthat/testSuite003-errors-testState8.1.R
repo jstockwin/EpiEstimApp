@@ -23,17 +23,17 @@ tryCatch({
   })
 
   test_that("Giving an invalid n2 throws correct error", {
-    clear(remDr, pages$state8.1$selectors$n2Input)
-    sendKeys(remDr, pages$state8.1$selectors$n2Input, "-1")
+    clear(remDr, pages$state8.1$selectors$n2_input)
+    sendKeys(remDr, pages$state8.1$selectors$n2_input, "-1")
     clickGo(remDr)
     checkError(remDr, "n2 must be an integer greater than or equal to 1", "n24")
-    clear(remDr, pages$state8.1$selectors$n2Input)
-    sendKeys(remDr, pages$state8.1$selectors$n2Input, "1.5")
+    clear(remDr, pages$state8.1$selectors$n2_input)
+    sendKeys(remDr, pages$state8.1$selectors$n2_input, "1.5")
     clickGo(remDr)
     checkError(remDr, "n2 must be an integer greater than or equal to 1", "n24")
     # Reset for upcoming tests
-    clear(remDr, pages$state8.1$selectors$n2Input)
-    sendKeys(remDr, pages$state8.1$selectors$n2Input, "100")
+    clear(remDr, pages$state8.1$selectors$n2_input)
+    sendKeys(remDr, pages$state8.1$selectors$n2_input, "100")
   })
 
 },

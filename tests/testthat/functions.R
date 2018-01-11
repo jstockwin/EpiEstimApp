@@ -67,19 +67,19 @@ click <- function(remDr, selector) {
 }
 
 clickNext <- function(remDr) {
-  click(remDr, pages$common$selectors$nextButton)
+  click(remDr, pages$common$selectors$next_button)
 }
 
 clickPrev <- function(remDr) {
-  click(remDr, pages$common$selectors$prevButton)
+  click(remDr, pages$common$selectors$prev_button)
 }
 
 clickGo <- function(remDr) {
-  click(remDr, pages$common$selectors$goButton)
+  click(remDr, pages$common$selectors$go_button)
 }
 
 clickStop <- function(remDr) {
-  click(remDr, pages$common$selectors$stopButton)
+  click(remDr, pages$common$selectors$stop_button)
 }
 
 checkError <- function(remDr, msg, input=NULL, timeout=120) {
@@ -93,7 +93,7 @@ checkError <- function(remDr, msg, input=NULL, timeout=120) {
       done <- TRUE
     }
   }
-  expect_equal(getText(remDr, pages$common$selectors$errorMessage), msg)
+  expect_equal(getText(remDr, pages$common$selectors$error_message), msg)
   if(!is.null(input)) {
     selector <- paste("//div[@id='", input, "_error_box']", sep="")
     style <- getAttribute(remDr, selector, "style")
@@ -120,25 +120,25 @@ waitForElemDisplayed <- function(remDr, selector, timeout=60) {
 
 extractOutputFromApp <- function(remDr) {
   # Extract incidence data
-  click(remDr, pages$common$selectors$incidenceTab)
-  waitForElemDisplayed(remDr, pages$common$selectors$incidenceTable)
-  str <- getText(remDr, pages$common$selectors$incidenceTable)
+  click(remDr, pages$common$selectors$incidence_tab)
+  waitForElemDisplayed(remDr, pages$common$selectors$incidence_table)
+  str <- getText(remDr, pages$common$selectors$incidence_table)
   str2 <- gsub(" ", ",", str)
   con <- textConnection(str2)
   incidence <- read.csv(con, sep=",", header=TRUE)
 
   # Extract serialInterval data
-  click(remDr, pages$common$selectors$serialIntervalTab)
-  waitForElemDisplayed(remDr, pages$common$selectors$serialIntervalTable)
-  str <- getText(remDr, pages$common$selectors$serialIntervalTable)
+  click(remDr, pages$common$selectors$serial_interval_tab)
+  waitForElemDisplayed(remDr, pages$common$selectors$serial_interval_table)
+  str <- getText(remDr, pages$common$selectors$serial_interval_table)
   str2 <- gsub(" ", ",", str)
   con <- textConnection(str2)
   serialInterval <- read.csv(con, sep=",", header=TRUE)
 
   # Extract reproduction data
-  click(remDr, pages$common$selectors$reproductionTab)
-  waitForElemDisplayed(remDr, pages$common$selectors$reproductionTable)
-  str <- getText(remDr, pages$common$selectors$reproductionTable)
+  click(remDr, pages$common$selectors$reproduction_tab)
+  waitForElemDisplayed(remDr, pages$common$selectors$reproduction_table)
+  str <- getText(remDr, pages$common$selectors$reproduction_table)
   str <- gsub(" ", ",", str)
   con <- textConnection(str)
   reproduction <- read.csv(con, sep=",", header=TRUE)
@@ -178,7 +178,7 @@ compareOutputFromApp <- function(appOut, epiEstimOut, debug=FALSE) {
 connectToApp <- function(remDr) {
   # Navigates to the app, checks the title appears.
   remDr$navigate(appUrl)
-  title <- getText(remDr, pages$common$selectors$incidenceTitle)
+  title <- getText(remDr, pages$common$selectors$incidence_title)
   expect_equal(title, "Incidence Data")
 }
 
@@ -187,7 +187,7 @@ waitForAppReady <- function(remDr, timeout=120) {
   ready <- FALSE
   tries=0
   while (!ready & tries < timeout) {
-    status <- getText(remDr, pages$common$selectors$statusBar)
+    status <- getText(remDr, pages$common$selectors$status_bar)
     if (status != "Ready") {
       tries = tries + 1
       Sys.sleep(1)
@@ -242,32 +242,32 @@ navigateToState <- function(remDr, state) {
          },
          "2.1" = {
            navigateToState(remDr, "1.1")
-           click(remDr, pages$state1.1$selectors$ownDataButton)
+           click(remDr, pages$state1.1$selectors$own_data_button)
            clickNext(remDr)
          },
          "2.2" = {
            navigateToState(remDr, "1.1")
-           click(remDr, pages$state1.1$selectors$preloadedDataButton)
+           click(remDr, pages$state1.1$selectors$preloaded_data_button)
            clickNext(remDr)
          },
          "3.1" = {
            navigateToState(remDr, "2.1")
            # We won't be able to move on unless we upload a
            # file...
-           if (getAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "value") == "") {
+           if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
              # SAUCELABS gives an error about interacting with an element
              # which is not currently visible. Explicitly show the element
              # first to fix this?
-             setAttribute(remDr, pages$state2.1$selectors$incidenceDataUploadInput, "style", "display: block;")
+             setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
            }
            path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
-           sendKeys(remDr, pages$state2.1$selectors$incidenceDataUploadInput,
+           sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input,
                     path)
            clickNext(remDr)
          },
          "4.1" = {
            navigateToState(remDr, "3.1")
-           click(remDr, pages$state3.1$selectors$importedYesButton)
+           click(remDr, pages$state3.1$selectors$imported_yes_button)
            clickNext(remDr)
          },
          "5.1" = {
@@ -276,42 +276,42 @@ navigateToState <- function(remDr, state) {
          },
          "6.1" = {
            navigateToState(remDr, "5.1")
-           click(remDr, pages$state5.1$selectors$exposureDataYesInput)
+           click(remDr, pages$state5.1$selectors$exposure_data_yes_input)
            clickNext(remDr)
          },
          "6.2" = {
            navigateToState(remDr, "5.1")
-           click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+           click(remDr, pages$state5.1$selectors$exposure_data_no_input)
            clickNext(remDr)
          },
          "7.1" = {
            navigateToState(remDr, "6.1")
-           click(remDr, pages$state6.1$selectors$SIDataTypePreloadedButton)
+           click(remDr, pages$state6.1$selectors$si_data_type_preloaded_button)
            clickNext(remDr)
          },
          "7.2" = {
            navigateToState(remDr, "6.1")
-           click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
+           click(remDr, pages$state6.1$selectors$si_data_type_own_button)
            clickNext(remDr)
          },
          "7.3" = {
            navigateToState(remDr, "6.2")
-           click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+           click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
            clickNext(remDr)
          },
          "7.4" = {
            navigateToState(remDr, "6.2")
-           click(remDr, pages$state6.2$selectors$SIEstTypeOption2Button)
+           click(remDr, pages$state6.2$selectors$si_est_type_option_2_button)
            clickNext(remDr)
          },
          "7.5" = {
            navigateToState(remDr, "6.2")
-           click(remDr, pages$state6.2$selectors$SIEstTypeOption3Button)
+           click(remDr, pages$state6.2$selectors$si_est_type_option_3_button)
            clickNext(remDr)
          },
          "7.6" = {
            navigateToState(remDr, "6.2")
-           click(remDr, pages$state6.2$selectors$SIEstTypeOption4Button)
+           click(remDr, pages$state6.2$selectors$si_est_type_option_4_button)
            clickNext(remDr)
          },
          "8.1" = {
@@ -320,26 +320,26 @@ navigateToState <- function(remDr, state) {
          },
          "8.2" = {
            navigateToState(remDr, "7.2")
-           click(remDr, pages$state7.2$selectors$SIFromRawButton)
+           click(remDr, pages$state7.2$selectors$si_from_raw_button)
            clickNext(remDr)
          },
          "8.3" = {
            navigateToState(remDr, "7.2")
-           click(remDr, pages$state7.2$selectors$si_from_sampleButton)
+           click(remDr, pages$state7.2$selectors$si_from_sample_button)
            clickNext(remDr)
          },
          "9.1" = {
            navigateToState(remDr, "8.2")
            # We won't be able to move on unless we upload a
            # file...
-           if (getAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "value") == "") {
+           if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
              # SAUCELABS gives an error about interacting with an element
              # which is not currently visible. Explicitly show the element
              # first to fix this?
-             setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
+             setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
            }
            path <- getFilePath(remDr, "datasets/SerialIntervalData/H1N1NewYork2009.csv")
-           sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
+           sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input,
                     path)
            clickNext(remDr)
          }

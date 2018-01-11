@@ -28,29 +28,29 @@ tryCatch({
 
   test_that("imported input is displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state3.1$selectors$imported))
-    expect_true(isDisplayed(remDr, pages$state3.1$selectors$importedLabel))
-    expect_equal(getText(remDr, pages$state3.1$selectors$importedLabel),
+    expect_true(isDisplayed(remDr, pages$state3.1$selectors$imported_label))
+    expect_equal(getText(remDr, pages$state3.1$selectors$imported_label),
                  "Do you have data about which cases are imported?")
-    expect_true(isDisplayed(remDr, pages$state3.1$selectors$importedNoLabel))
-    expect_equal(getText(remDr, pages$state3.1$selectors$importedNoLabel), "No")
-    expect_true(isDisplayed(remDr, pages$state3.1$selectors$importedNoButton))
-    expect_true(isDisplayed(remDr, pages$state3.1$selectors$importedYesLabel))
-    expect_equal(getText(remDr, pages$state3.1$selectors$importedYesLabel), "Yes")
-    expect_true(isDisplayed(remDr, pages$state3.1$selectors$importedYesButton))
+    expect_true(isDisplayed(remDr, pages$state3.1$selectors$imported_no_label))
+    expect_equal(getText(remDr, pages$state3.1$selectors$imported_no_label), "No")
+    expect_true(isDisplayed(remDr, pages$state3.1$selectors$imported_no_button))
+    expect_true(isDisplayed(remDr, pages$state3.1$selectors$imported_yes_label))
+    expect_equal(getText(remDr, pages$state3.1$selectors$imported_yes_label), "Yes")
+    expect_true(isDisplayed(remDr, pages$state3.1$selectors$imported_yes_button))
   })
 
   test_that("relevant control buttons are displayed", {
-    expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$prevButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$nextButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$nextButton))
-    expect_false(isDisplayed(remDr, pages$common$selectors$goButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$stop_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$prev_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$prev_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$next_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$next_button))
+    expect_false(isDisplayed(remDr, pages$common$selectors$go_button))
   })
 
   test_that("no errors are displaying", {
-    expect_true(isDisplayed(remDr, pages$common$selectors$errorMessage))
-    expect_equal(getText(remDr, pages$common$selectors$errorMessage), "")
+    expect_true(isDisplayed(remDr, pages$common$selectors$error_message))
+    expect_equal(getText(remDr, pages$common$selectors$error_message), "")
   })
 },
 error = function(e) {

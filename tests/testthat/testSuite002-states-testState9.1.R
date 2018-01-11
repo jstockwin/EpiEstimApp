@@ -23,102 +23,102 @@ tryCatch({
   })
 
   test_that("SI distribution selection input is displaying correctly", {
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionLabel))
-    expect_equal(getText(remDr, pages$state9.1$selectors$distributionLabel),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$distribution_label),
                  "Choose your serial interval distribution")
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption1Label))
-    expect_equal(getText(remDr, pages$state9.1$selectors$distributionOption1Label),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_1_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$distribution_option_1_label),
                  "Gamma")
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption1Input))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_1_input))
 
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption2Label))
-    expect_equal(getText(remDr, pages$state9.1$selectors$distributionOption2Label),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_2_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$distribution_option_2_label),
                  "Offset Gamma")
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption2Input))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_2_input))
 
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption3Label))
-    expect_equal(getText(remDr, pages$state9.1$selectors$distributionOption3Label),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_3_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$distribution_option_3_label),
                  "Weibull")
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption3Input))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_3_input))
 
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption4Label))
-    expect_equal(getText(remDr, pages$state9.1$selectors$distributionOption4Label),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_4_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$distribution_option_4_label),
                  "Offset Weibull")
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption4Input))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_4_input))
 
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption5Label))
-    expect_equal(getText(remDr, pages$state9.1$selectors$distributionOption5Label),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_5_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$distribution_option_5_label),
                  "Log-Normal")
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption5Input))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_5_input))
 
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption6Label))
-    expect_equal(getText(remDr, pages$state9.1$selectors$distributionOption6Label),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_6_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$distribution_option_6_label),
                  "Offset Log-Normal")
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distributionOption6Input))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_6_input))
   })
 
   test_that("n1 input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$n1Label))
-    expect_equal(getText(remDr, pages$state9.1$selectors$n1Label),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$n1_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$n1_label),
                  'Choose the number of serial interval distributions to be estimated using MCMC (n1)')
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$n1Input))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$n1_input))
   })
 
   test_that("burnin input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$burninLabel))
-    expect_equal(getText(remDr, pages$state9.1$selectors$burninLabel),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$burnin_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$burnin_label),
                  "Choose the number of iterations used as MCMC burn in")
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$burninInput))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$burnin_input))
   })
 
   test_that("thin input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$thinLabel))
-    expect_equal(getText(remDr, pages$state9.1$selectors$thinLabel),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$thin_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$thin_label),
                  paste("Choose the MCMC thinning parameter (thin). Each of the n1",
                        "estimated serial interval distributions will be taken after",
                        "every 'thin' iterations of the MCMC chain."))
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$thinInput))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$thin_input))
   })
 
   test_that("n2 input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$n2Label))
-    expect_equal(getText(remDr, pages$state9.1$selectors$n2Label),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$n2_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$n2_label),
                  paste("Choose the number of serial interval values to be sampled",
                        "from each estimated serial interval distribution in order to estimate R (n2)"))
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$n2Input))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$n2_input))
   })
 
   test_that("seed input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$seedLabel))
-    expect_equal(getText(remDr, pages$state9.1$selectors$seedLabel),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$seed_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$seed_label),
                  paste("Set a seed for the MCMC. If no seed is chosen, a random",
                        "value will be selected."))
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$seedInput))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$seed_input))
   })
 
   test_that("init.pars inputs are displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$param1Label))
-    expect_equal(getText(remDr, pages$state9.1$selectors$param1Label),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$param1_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$param1_label),
                  "Choose the value of param1")
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$param1Input))
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$param2Label))
-    expect_equal(getText(remDr, pages$state9.1$selectors$param2Label),
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$param1_input))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$param2_label))
+    expect_equal(getText(remDr, pages$state9.1$selectors$param2_label),
                  "Choose the value of param2")
-    expect_true(isDisplayed(remDr, pages$state9.1$selectors$param2Input))
+    expect_true(isDisplayed(remDr, pages$state9.1$selectors$param2_input))
   })
 
   test_that("relevant control buttons are displayed", {
-    expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$prevButton))
-    expect_false(isDisplayed(remDr, pages$common$selectors$nextButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$goButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$goButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$stop_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$prev_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$prev_button))
+    expect_false(isDisplayed(remDr, pages$common$selectors$next_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$go_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$go_button))
   })
 
   test_that("no errors are displaying", {
-    expect_true(isDisplayed(remDr, pages$common$selectors$errorMessage))
-    expect_equal(getText(remDr, pages$common$selectors$errorMessage), "")
+    expect_true(isDisplayed(remDr, pages$common$selectors$error_message))
+    expect_equal(getText(remDr, pages$common$selectors$error_message), "")
   })
 },
 error = function(e) {

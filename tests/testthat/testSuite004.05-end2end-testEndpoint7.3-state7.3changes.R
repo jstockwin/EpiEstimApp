@@ -26,19 +26,19 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 1)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -86,21 +86,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 2)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$n1Input) # <---
-    sendKeys(remDr, pages$state7.3$selectors$n1Input, "60") # <---
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$n1_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$n1_input, "60") # <---
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -150,21 +150,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 3)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$n2Input) # <---
-    sendKeys(remDr, pages$state7.3$selectors$n2Input, "60") # <---
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$n2_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$n2_input, "60") # <---
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -214,21 +214,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 4)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$mean_siInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$mean_siInput, "2.5") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$mean_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$mean_si_input, "2.5") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -278,21 +278,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 5)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$std_mean_siInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$std_mean_siInput, "2") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$std_mean_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$std_mean_si_input, "2") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -342,21 +342,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 6)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$min_mean_siInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$min_mean_siInput, "1.5") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$min_mean_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$min_mean_si_input, "1.5") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -406,21 +406,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 7)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$max_mean_siInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$max_mean_siInput, "4") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$max_mean_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$max_mean_si_input, "4") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -470,21 +470,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 8)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$std_siInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$std_siInput, "2.5") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$std_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$std_si_input, "2.5") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -534,21 +534,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 9)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$std_std_siInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$std_std_siInput, "2") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$std_std_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$std_std_si_input, "2") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -601,21 +601,21 @@ test_that("Test 9 output matches", {
 #
 #  test_that("can walk through the app to endpoint state (Test 10)", {
 #      # Walk the app through to endpoint state with default inputs
-#    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+#    click(remDr, pages$state1.1$selectors$preloaded_data_button)
 #    clickNext(remDr) # Move to state 2.2
 #    waitForStateDisplayed(remDr, "2.2")
-#    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+#    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
 #    clickNext(remDr) # Move to state 5.1
 #    waitForStateDisplayed(remDr, "5.1")
-#    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+#    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
 #    clickNext(remDr) # Move to state 6.2
 #    waitForStateDisplayed(remDr, "6.2")
-#    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+#    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
 #    clickNext(remDr) # Move to state 7.3
 #    waitForStateDisplayed(remDr, "7.3")
-#    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-#    clear(remDr, pages$state7.3$selectors$min_std_siInput) # <---
-#    sendKeys(remDr, pages$state7.3$selectors$min_std_siInput, "1.5") # <--
+#    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+#    clear(remDr, pages$state7.3$selectors$min_std_si_input) # <---
+#    sendKeys(remDr, pages$state7.3$selectors$min_std_si_input, "1.5") # <--
 #    clickGo(remDr)
 #    Sys.sleep(1)
 #    waitForAppReady(remDr)
@@ -663,21 +663,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 11)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$max_std_siInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$max_std_siInput, "4") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$max_std_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$max_std_si_input, "4") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -727,21 +727,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 12)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$seedInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "2") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$seed_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "2") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
