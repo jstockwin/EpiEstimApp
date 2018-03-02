@@ -6,7 +6,7 @@ Version: 0.1.0
 Authors@R: person("Jake", "Stockwin", email = "jstockwin@gmail.com", role = c("cre"))
 Description: This package adds a graphic interface (using R Shiny) around the
     EpiEstim package.
-BugReports: https://github.com/jstockwin/TransmissibilityEstimator/issues
+BugReports: https://github.com/jstockwin/EpiEstimApp/issues
 Imports:
     EpiEstim,
     coarseDataTools,
