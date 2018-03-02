@@ -26,36 +26,36 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 1)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataYesInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_yes_input)
     clickNext(remDr) # Move to state 6.1
     waitForStateDisplayed(remDr, "6.1")
-    click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
+    click(remDr, pages$state6.1$selectors$si_data_type_own_button)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromRawButton)
+    click(remDr, pages$state7.2$selectors$si_from_raw_button)
     clickNext(remDr) # Move to state 8.2
     waitForStateDisplayed(remDr, "8.2")
-    if (getAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "value") == "") {
+    if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SerialIntervalData/RotavirusEcuador2011.csv")
-      sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
+      sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input,
                path)
     }
-    sendKeys(remDr, pages$state8.2$selectors$seedInput, "1")
+    sendKeys(remDr, pages$state8.2$selectors$seed_input, "1")
     clickNext(remDr) # Move to state 9.1
     waitForStateDisplayed(remDr, "9.1")
-    sendKeys(remDr, pages$state9.1$selectors$seedInput, "1")
-    clear(remDr, pages$state9.1$selectors$n1Input)           # <---
-    sendKeys(remDr, pages$state9.1$selectors$n1Input, "400") # <---
+    sendKeys(remDr, pages$state9.1$selectors$seed_input, "1")
+    clear(remDr, pages$state9.1$selectors$n1_input)           # <---
+    sendKeys(remDr, pages$state9.1$selectors$n1_input, "400") # <---
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr, timeout=3000) # Long timeout for running MCMC
@@ -74,12 +74,12 @@ test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
-  SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
+  si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
+  si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Data=SI.Data,
-                           SI.parametricDistr="G", method="SIFromData", n1=400,
-                           n2=100, seed=1, MCMC.control=list(burnin=3000, thin=10, seed=1))
+  epiEstimOut <- EstimateR(I, method="si_from_data", si_data=si_data,
+                           config=list(si_parametric_distr="G", n1=400, t_start=2:26, t_end=8:32,
+                           n2=100, seed=1, mcmc_control=list(burnin=3000, thin=10, seed=1)))
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -105,36 +105,36 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 2)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataYesInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_yes_input)
     clickNext(remDr) # Move to state 6.1
     waitForStateDisplayed(remDr, "6.1")
-    click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
+    click(remDr, pages$state6.1$selectors$si_data_type_own_button)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromRawButton)
+    click(remDr, pages$state7.2$selectors$si_from_raw_button)
     clickNext(remDr) # Move to state 8.2
     waitForStateDisplayed(remDr, "8.2")
-    if (getAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "value") == "") {
+    if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SerialIntervalData/RotavirusEcuador2011.csv")
-      sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
+      sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input,
                path)
     }
-    sendKeys(remDr, pages$state8.2$selectors$seedInput, "1")
+    sendKeys(remDr, pages$state8.2$selectors$seed_input, "1")
     clickNext(remDr) # Move to state 9.1
     waitForStateDisplayed(remDr, "9.1")
-    sendKeys(remDr, pages$state9.1$selectors$seedInput, "1")
-    clear(remDr, pages$state9.1$selectors$burninInput)           # <---
-    sendKeys(remDr, pages$state9.1$selectors$burninInput, "3500") # <---
+    sendKeys(remDr, pages$state9.1$selectors$seed_input, "1")
+    clear(remDr, pages$state9.1$selectors$burnin_input)           # <---
+    sendKeys(remDr, pages$state9.1$selectors$burnin_input, "3500") # <---
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr, timeout=3000) # Long timeout for running MCMC
@@ -153,12 +153,12 @@ test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
-  SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
+  si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
+  si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Data=SI.Data,
-                           SI.parametricDistr="G", method="SIFromData", n1=500,
-                           n2=100, seed=1, MCMC.control=list(burnin=3500, thin=10, seed=1))
+  epiEstimOut <- EstimateR(I, method="si_from_data", si_data=si_data,
+                           config=list(si_parametric_distr="G", n1=500, t_start=2:26, t_end=8:32,
+                           n2=100, seed=1, mcmc_control=list(burnin=3500, thin=10, seed=1)))
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -186,36 +186,36 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 3)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataYesInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_yes_input)
     clickNext(remDr) # Move to state 6.1
     waitForStateDisplayed(remDr, "6.1")
-    click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
+    click(remDr, pages$state6.1$selectors$si_data_type_own_button)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromRawButton)
+    click(remDr, pages$state7.2$selectors$si_from_raw_button)
     clickNext(remDr) # Move to state 8.2
     waitForStateDisplayed(remDr, "8.2")
-    if (getAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "value") == "") {
+    if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SerialIntervalData/RotavirusEcuador2011.csv")
-      sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
+      sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input,
                path)
     }
-    sendKeys(remDr, pages$state8.2$selectors$seedInput, "1")
+    sendKeys(remDr, pages$state8.2$selectors$seed_input, "1")
     clickNext(remDr) # Move to state 9.1
     waitForStateDisplayed(remDr, "9.1")
-    sendKeys(remDr, pages$state9.1$selectors$seedInput, "1")
-    clear(remDr, pages$state9.1$selectors$thinInput)           # <---
-    sendKeys(remDr, pages$state9.1$selectors$thinInput, "15") # <---
+    sendKeys(remDr, pages$state9.1$selectors$seed_input, "1")
+    clear(remDr, pages$state9.1$selectors$thin_input)           # <---
+    sendKeys(remDr, pages$state9.1$selectors$thin_input, "15") # <---
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr, timeout=3000) # Long timeout for running MCMC
@@ -234,12 +234,12 @@ test_that("Test 3 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
-  SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
+  si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
+  si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Data=SI.Data,
-                           SI.parametricDistr="G", method="SIFromData", n1=500,
-                           n2=100, seed=1, MCMC.control=list(burnin=3000, thin=15, seed=1))
+  epiEstimOut <- EstimateR(I, method="si_from_data", si_data=si_data,
+                           config=list(t_start=2:26, t_end=8:32, si_parametric_distr="G", n1=500,
+                           n2=100, seed=1, mcmc_control=list(burnin=3000, thin=15, seed=1)))
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -267,36 +267,36 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 4)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataYesInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_yes_input)
     clickNext(remDr) # Move to state 6.1
     waitForStateDisplayed(remDr, "6.1")
-    click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
+    click(remDr, pages$state6.1$selectors$si_data_type_own_button)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromRawButton)
+    click(remDr, pages$state7.2$selectors$si_from_raw_button)
     clickNext(remDr) # Move to state 8.2
     waitForStateDisplayed(remDr, "8.2")
-    if (getAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "value") == "") {
+    if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SerialIntervalData/RotavirusEcuador2011.csv")
-      sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
+      sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input,
                path)
     }
-    sendKeys(remDr, pages$state8.2$selectors$seedInput, "1")
+    sendKeys(remDr, pages$state8.2$selectors$seed_input, "1")
     clickNext(remDr) # Move to state 9.1
     waitForStateDisplayed(remDr, "9.1")
-    sendKeys(remDr, pages$state9.1$selectors$seedInput, "1")
-    clear(remDr, pages$state9.1$selectors$n2Input)           # <---
-    sendKeys(remDr, pages$state9.1$selectors$n2Input, "150") # <---
+    sendKeys(remDr, pages$state9.1$selectors$seed_input, "1")
+    clear(remDr, pages$state9.1$selectors$n2_input)           # <---
+    sendKeys(remDr, pages$state9.1$selectors$n2_input, "150") # <---
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr, timeout=3000) # Long timeout for running MCMC
@@ -315,12 +315,12 @@ test_that("Test 4 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
-  SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
+  si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
+  si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Data=SI.Data,
-                           SI.parametricDistr="G", method="SIFromData", n1=500,
-                           n2=150, seed=1, MCMC.control=list(burnin=3000, thin=10, seed=1))
+  epiEstimOut <- EstimateR(I, method="si_from_data", si_data=si_data,
+                           config=list(t_start=2:26, t_end=8:32, si_parametric_distr="G", n1=500,
+                           n2=150, seed=1, mcmc_control=list(burnin=3000, thin=10, seed=1)))
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -348,34 +348,34 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 5)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataYesInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_yes_input)
     clickNext(remDr) # Move to state 6.1
     waitForStateDisplayed(remDr, "6.1")
-    click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
+    click(remDr, pages$state6.1$selectors$si_data_type_own_button)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromRawButton)
+    click(remDr, pages$state7.2$selectors$si_from_raw_button)
     clickNext(remDr) # Move to state 8.2
     waitForStateDisplayed(remDr, "8.2")
-    if (getAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "value") == "") {
+    if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SerialIntervalData/RotavirusEcuador2011.csv")
-      sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput,
+      sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input,
                path)
     }
-    sendKeys(remDr, pages$state8.2$selectors$seedInput, "1")
+    sendKeys(remDr, pages$state8.2$selectors$seed_input, "1")
     clickNext(remDr) # Move to state 9.1
     waitForStateDisplayed(remDr, "9.1")
-    sendKeys(remDr, pages$state9.1$selectors$seedInput, "2") # <---
+    sendKeys(remDr, pages$state9.1$selectors$seed_input, "2") # <---
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr, timeout=3000) # Long timeout for running MCMC
@@ -394,12 +394,12 @@ test_that("Test 5 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
-  SI.Data <- EpiEstim:::process_SI.Data(SI.Data)
+  si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
+  si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Data=SI.Data,
-                           SI.parametricDistr="G", method="SIFromData", n1=500,
-                           n2=100, seed=1, MCMC.control=list(burnin=3000, thin=10, seed=2))
+  epiEstimOut <- EstimateR(I, method="si_from_data", si_data=si_data,
+                           config=list(t_start=2:26, t_end=8:32, si_parametric_distr="G", n1=500,
+                           n2=100, seed=1, mcmc_control=list(burnin=3000, thin=10, seed=2)))
 
   compareOutputFromApp(appOut, epiEstimOut)
 })

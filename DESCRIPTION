@@ -17,7 +17,7 @@ Imports:
     devtools,
     httr
 Remotes:
-    annecori/EpiEstim@hackout3,
+    annecori/EpiEstim@recon-update,
     nickreich/coarseDataTools@hackout3
 Suggests:
     testthat,

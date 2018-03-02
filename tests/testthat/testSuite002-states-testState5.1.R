@@ -23,30 +23,30 @@ tryCatch({
   })
 
   test_that("patient exposure data inputs are displaying correctly", {
-    expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataLabel))
-    expect_equal(getText(remDr, pages$state5.1$selectors$exposureDataLabel),
+    expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposure_data_label))
+    expect_equal(getText(remDr, pages$state5.1$selectors$exposure_data_label),
        paste("Do you want to use serial interval data from individual patients, or use a",
              "distributional estimate of the serial interval?"))
-    expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataNoLabel))
-    expect_equal(getText(remDr, pages$state5.1$selectors$exposureDataNoLabel), "Distributional Estimate")
-    expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataNoInput))
-    expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataYesLabel))
-    expect_equal(getText(remDr, pages$state5.1$selectors$exposureDataYesLabel), "Individual Patient Data")
-    expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposureDataYesInput))
+    expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposure_data_no_label))
+    expect_equal(getText(remDr, pages$state5.1$selectors$exposure_data_no_label), "Distributional Estimate")
+    expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposure_data_no_input))
+    expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposure_data_yes_label))
+    expect_equal(getText(remDr, pages$state5.1$selectors$exposure_data_yes_label), "Individual Patient Data")
+    expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposure_data_yes_input))
   })
 
   test_that("relevant control buttons are displayed", {
-    expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$prevButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$nextButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$nextButton))
-    expect_false(isDisplayed(remDr, pages$common$selectors$goButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$stop_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$prev_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$prev_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$next_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$next_button))
+    expect_false(isDisplayed(remDr, pages$common$selectors$go_button))
   })
 
   test_that("no errors are displaying", {
-    expect_true(isDisplayed(remDr, pages$common$selectors$errorMessage))
-    expect_equal(getText(remDr, pages$common$selectors$errorMessage), "")
+    expect_true(isDisplayed(remDr, pages$common$selectors$error_message))
+    expect_equal(getText(remDr, pages$common$selectors$error_message), "")
   })
 },
 error = function(e) {

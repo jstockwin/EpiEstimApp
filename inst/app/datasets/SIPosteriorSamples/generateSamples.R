@@ -1,7 +1,7 @@
-# When adding preloaded SI data to the app, we'll always use SIFromSamples, since we don't want the user
+# When adding preloaded SI data to the app, we'll always use si_from_samples, since we don't want the user
 # to have to wait for MCMC to run for pre-loaded data when we can just save the output. 
 
-# The following code reads raw SI exposure data, and saves the posterior samples that can be used by SIFromSample.
+# The following code reads raw SI exposure data, and saves the posterior samples that can be used by si_from_sample.
 
 library(devtools)
 install_github("nickreich/coarseDataTools", ref = "hackout3")
@@ -17,7 +17,7 @@ for (file in list.files("datasets/SerialIntervalData")) {
 
   SIData <- read.csv(SIDataPath)
 
-  SIData <- EpiEstim:::process_SI.Data(SIData)
+  SIData <- EpiEstim:::process_si_data(SIData)
 
   for (dist in dists) {
     init.pars <- init_MCMC_params(SIData, dist=dist)
@@ -26,9 +26,9 @@ for (file in list.files("datasets/SerialIntervalData")) {
 
     CDT <- coarse2estim(fit, dist=dist)
 
-    SI.Sample <- CDT$SI.Sample
+    si_sample <- CDT$si_sample
 
-    write.table(SI.Sample, file=paste(writePath, dist, ".csv", sep=""), row.names=FALSE, col.names=FALSE, sep=",")
+    write.table(si_sample, file=paste(writePath, dist, ".csv", sep=""), row.names=FALSE, col.names=FALSE, sep=",")
   }
 }
 

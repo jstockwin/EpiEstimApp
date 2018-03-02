@@ -23,47 +23,47 @@ tryCatch({
   })
 
   test_that("incidence file upload buttons are displaying correctly", {
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceDataUploadLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$incidenceDataUploadLabel),
+    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidence_data_upload_label))
+    expect_equal(getText(remDr, pages$state2.1$selectors$incidence_data_upload_label),
                  "Choose incidence data file to upload")
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceDataUploadBrowse))
+    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceDataUpload_browse))
 
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidenceHeaderButton))
+    expect_true(isDisplayed(remDr, pages$state2.1$selectors$incidence_header_button))
 
   })
 
   test_that("width inputs are displaying correctly", {
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$uploadedWidthLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$uploadedWidthLabel),
+    expect_true(isDisplayed(remDr, pages$state2.1$selectors$uploaded_width_label))
+    expect_equal(getText(remDr, pages$state2.1$selectors$uploaded_width_label),
                  "Choose the width of the sliding time window for R estimation")
   })
 
   test_that("mean prior input is displaying correctly", {
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$meanPriorLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$meanPriorLabel),
+    expect_true(isDisplayed(remDr, pages$state2.1$selectors$mean_prior_label))
+    expect_equal(getText(remDr, pages$state2.1$selectors$mean_prior_label),
                  "Choose the prior mean value for R")
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$meanPriorInput))
+    expect_true(isDisplayed(remDr, pages$state2.1$selectors$mean_prior_input))
   })
 
   test_that("std prior input is displaying correctly", {
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$stdPriorLabel))
-    expect_equal(getText(remDr, pages$state2.1$selectors$stdPriorLabel),
+    expect_true(isDisplayed(remDr, pages$state2.1$selectors$std_prior_label))
+    expect_equal(getText(remDr, pages$state2.1$selectors$std_prior_label),
                  "Choose the prior standard deviation value for R")
-    expect_true(isDisplayed(remDr, pages$state2.1$selectors$stdPriorInput))
+    expect_true(isDisplayed(remDr, pages$state2.1$selectors$std_prior_input))
   })
 
   test_that("relevant control buttons are displayed", {
-    expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$prevButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$nextButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$nextButton))
-    expect_false(isDisplayed(remDr, pages$common$selectors$goButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$stop_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$prev_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$prev_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$next_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$next_button))
+    expect_false(isDisplayed(remDr, pages$common$selectors$go_button))
   })
 
   test_that("no errors are displaying", {
-    expect_true(isDisplayed(remDr, pages$common$selectors$errorMessage))
-    expect_equal(getText(remDr, pages$common$selectors$errorMessage), "")
+    expect_true(isDisplayed(remDr, pages$common$selectors$error_message))
+    expect_equal(getText(remDr, pages$common$selectors$error_message), "")
   })
 },
 error = function(e) {

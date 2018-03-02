@@ -26,41 +26,41 @@ tryCatch({
     checkDisplayedState(remDr, "6.2")
   })
 
-  test_that("SIEstType input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state6.2$selectors$SIEstType))
-    expect_true(isDisplayed(remDr, pages$state6.2$selectors$SIEstTypeLabel))
-    expect_equal(getText(remDr, pages$state6.2$selectors$SIEstTypeLabel),
+  test_that("si_est_type input is displayed correctly", {
+    expect_true(isDisplayed(remDr, pages$state6.2$selectors$si_est_type))
+    expect_true(isDisplayed(remDr, pages$state6.2$selectors$si_est_type_label))
+    expect_equal(getText(remDr, pages$state6.2$selectors$si_est_type_label),
                  "Which of the following serial interval distribution estimates would you like to use?")
 
-    expect_true(isDisplayed(remDr, pages$state6.2$selector$SIEstTypeOption1Label))
-    expect_equal(getText(remDr, pages$state6.2$selector$SIEstTypeOption1Label),
+    expect_true(isDisplayed(remDr, pages$state6.2$selector$si_est_type_option_1_label))
+    expect_equal(getText(remDr, pages$state6.2$selector$si_est_type_option_1_label),
                  "Parametric with uncertainty (offset gamma)")
 
-    expect_true(isDisplayed(remDr, pages$state6.2$selector$SIEstTypeOption2Label))
-    expect_equal(getText(remDr, pages$state6.2$selector$SIEstTypeOption2Label),
+    expect_true(isDisplayed(remDr, pages$state6.2$selector$si_est_type_option_2_label))
+    expect_equal(getText(remDr, pages$state6.2$selector$si_est_type_option_2_label),
                  "Parametric without uncertainty (offset gamma)")
 
-    expect_true(isDisplayed(remDr, pages$state6.2$selector$SIEstTypeOption3Label))
-    expect_equal(getText(remDr, pages$state6.2$selector$SIEstTypeOption3Label),
+    expect_true(isDisplayed(remDr, pages$state6.2$selector$si_est_type_option_3_label))
+    expect_equal(getText(remDr, pages$state6.2$selector$si_est_type_option_3_label),
                  "Upload your own probability distribution")
 
-    expect_true(isDisplayed(remDr, pages$state6.2$selector$SIEstTypeOption4Label))
-    expect_equal(getText(remDr, pages$state6.2$selector$SIEstTypeOption4Label),
+    expect_true(isDisplayed(remDr, pages$state6.2$selector$si_est_type_option_4_label))
+    expect_equal(getText(remDr, pages$state6.2$selector$si_est_type_option_4_label),
                  "Use a distribution estimated from a previous outbreak (preloaded data)")
   })
 
   test_that("relevant control buttons are displayed", {
-    expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$prevButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$nextButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$nextButton))
-    expect_false(isDisplayed(remDr, pages$common$selectors$goButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$stop_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$prev_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$prev_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$next_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$next_button))
+    expect_false(isDisplayed(remDr, pages$common$selectors$go_button))
   })
 
   test_that("no errors are displaying", {
-    expect_true(isDisplayed(remDr, pages$common$selectors$errorMessage))
-    expect_equal(getText(remDr, pages$common$selectors$errorMessage), "")
+    expect_true(isDisplayed(remDr, pages$common$selectors$error_message))
+    expect_equal(getText(remDr, pages$common$selectors$error_message), "")
   })
 },
 error = function(e) {

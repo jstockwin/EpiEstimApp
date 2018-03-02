@@ -27,41 +27,41 @@ tryCatch({
   })
 
   test_that("Dataset input is displayed correctly", {
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetLabel))
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption1Label))
-    expect_equal(getText(remDr, pages$state7.6$selectors$datasetOption1Label),
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_label))
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_option_1_label))
+    expect_equal(getText(remDr, pages$state7.6$selectors$dataset_option_1_label),
                  "H1N1Maryland1918")
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption1Input))
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption2Label))
-    expect_equal(getText(remDr, pages$state7.6$selectors$datasetOption2Label),
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_option_1_input))
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_option_2_label))
+    expect_equal(getText(remDr, pages$state7.6$selectors$dataset_option_2_label),
                  "H1N1Pennsylvania2009")
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption2Input))
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption3Label))
-    expect_equal(getText(remDr, pages$state7.6$selectors$datasetOption3Label),
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_option_2_input))
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_option_3_label))
+    expect_equal(getText(remDr, pages$state7.6$selectors$dataset_option_3_label),
                  "MeaslesGermany1861")
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption3Input))
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption4Label))
-    expect_equal(getText(remDr, pages$state7.6$selectors$datasetOption4Label),
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_option_3_input))
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_option_4_label))
+    expect_equal(getText(remDr, pages$state7.6$selectors$dataset_option_4_label),
                  "SARSHongKong2003")
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption4Input))
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption5Label))
-    expect_equal(getText(remDr, pages$state7.6$selectors$datasetOption5Label),
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_option_4_input))
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_option_5_label))
+    expect_equal(getText(remDr, pages$state7.6$selectors$dataset_option_5_label),
                  "SmallpoxKosovo1972")
-    expect_true(isDisplayed(remDr, pages$state7.6$selectors$datasetOption5Input))
+    expect_true(isDisplayed(remDr, pages$state7.6$selectors$dataset_option_5_input))
   })
 
   test_that("relevant control buttons are displayed", {
-    expect_false(isDisplayed(remDr, pages$common$selectors$stopButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$prevButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$prevButton))
-    expect_false(isDisplayed(remDr, pages$common$selectors$nextButton))
-    expect_true(isDisplayed(remDr, pages$common$selectors$goButton))
-    expect_true(isEnabled(remDr, pages$common$selectors$goButton))
+    expect_false(isDisplayed(remDr, pages$common$selectors$stop_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$prev_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$prev_button))
+    expect_false(isDisplayed(remDr, pages$common$selectors$next_button))
+    expect_true(isDisplayed(remDr, pages$common$selectors$go_button))
+    expect_true(isEnabled(remDr, pages$common$selectors$go_button))
   })
 
   test_that("no errors are displaying", {
-    expect_true(isDisplayed(remDr, pages$common$selectors$errorMessage))
-    expect_equal(getText(remDr, pages$common$selectors$errorMessage), "")
+    expect_true(isDisplayed(remDr, pages$common$selectors$error_message))
+    expect_equal(getText(remDr, pages$common$selectors$error_message), "")
   })
 },
 error = function(e) {

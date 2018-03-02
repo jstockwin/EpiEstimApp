@@ -26,31 +26,31 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 1)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataYesInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_yes_input)
     clickNext(remDr) # Move to state 6.1
     waitForStateDisplayed(remDr, "6.1")
-    click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
+    click(remDr, pages$state6.1$selectors$si_data_type_own_button)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromSampleButton)
+    click(remDr, pages$state7.2$selectors$si_from_sample_button)
     clickNext(remDr) # Move to state 8.3
     waitForStateDisplayed(remDr, "8.3")
-    if (getAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "value") == "") {
+    if (getAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv")
-      sendKeys(remDr, pages$state8.3$selectors$SISampleDataUploadInput,
+      sendKeys(remDr, pages$state8.3$selectors$si_sample_data_upload_input,
                path)
     }
-    sendKeys(remDr, pages$state8.3$selectors$seedInput, "1")
+    sendKeys(remDr, pages$state8.3$selectors$seed_input, "1")
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -69,11 +69,12 @@ test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
-  SI.Sample <- EpiEstim:::process_SI.Sample(SI.Sample)
+  si_sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
+  si_sample <- EpiEstim:::process_si_sample(si_sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=SI.Sample, method="SIFromSample",
-                           n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, method="si_from_sample", si_sample=si_sample,
+                           config=list(t_start=2:26, t_end=8:32, n2=100, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -98,31 +99,31 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 2)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataYesInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_yes_input)
     clickNext(remDr) # Move to state 6.1
     waitForStateDisplayed(remDr, "6.1")
-    click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
+    click(remDr, pages$state6.1$selectors$si_data_type_own_button)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromSampleButton)
+    click(remDr, pages$state7.2$selectors$si_from_sample_button)
     clickNext(remDr) # Move to state 8.3
     waitForStateDisplayed(remDr, "8.3")
-    if (getAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "value") == "") {
+    if (getAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_W.csv")
-      sendKeys(remDr, pages$state8.3$selectors$SISampleDataUploadInput,
+      sendKeys(remDr, pages$state8.3$selectors$si_sample_data_upload_input,
                path)
     }
-    sendKeys(remDr, pages$state8.3$selectors$seedInput, "1")
+    sendKeys(remDr, pages$state8.3$selectors$seed_input, "1")
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -141,11 +142,12 @@ test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_W.csv", sep="/"), header=FALSE)
-  SI.Sample <- EpiEstim:::process_SI.Sample(SI.Sample)
+  si_sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_W.csv", sep="/"), header=FALSE)
+  si_sample <- EpiEstim:::process_si_sample(si_sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=SI.Sample, method="SIFromSample",
-                           n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, method="si_from_sample", si_sample=si_sample,
+                           config=list(t_start=2:26, t_end=8:32, n2=100, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -172,31 +174,31 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 3)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataYesInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_yes_input)
     clickNext(remDr) # Move to state 6.1
     waitForStateDisplayed(remDr, "6.1")
-    click(remDr, pages$state6.1$selectors$SIDataTypeOwnButton)
+    click(remDr, pages$state6.1$selectors$si_data_type_own_button)
     clickNext(remDr) # Move to state 7.2
     waitForStateDisplayed(remDr, "7.2")
-    click(remDr, pages$state7.2$selectors$SIFromSampleButton)
+    click(remDr, pages$state7.2$selectors$si_from_sample_button)
     clickNext(remDr) # Move to state 8.3
     waitForStateDisplayed(remDr, "8.3")
-    if (getAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "value") == "") {
+    if (getAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "value") == "") {
       # SAUCELABS gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
-      setAttribute(remDr, pages$state8.3$selectors$SISampleDataUploadInput, "style", "display: block;")
+      setAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "style", "display: block;")
       path <- getFilePath(remDr, "datasets/SIPosteriorSamples/H1N1NewYork2009_SISamples_G.csv")
-      sendKeys(remDr, pages$state8.3$selectors$SISampleDataUploadInput,
+      sendKeys(remDr, pages$state8.3$selectors$si_sample_data_upload_input,
                path)
     }
-    sendKeys(remDr, pages$state8.3$selectors$seedInput, "1")
+    sendKeys(remDr, pages$state8.3$selectors$seed_input, "1")
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -215,11 +217,13 @@ test_that("Test 3 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  SI.Sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/H1N1NewYork2009_SISamples_G.csv", sep="/"), header=FALSE)
-  SI.Sample <- EpiEstim:::process_SI.Sample(SI.Sample)
+  si_sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/H1N1NewYork2009_SISamples_G.csv", sep="/"), header=FALSE)
+  si_sample <- EpiEstim:::process_si_sample(si_sample)
 
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, SI.Sample=SI.Sample, method="SIFromSample",
-                           n2=100, seed=1)
+  epiEstimOut <- EstimateR(I, method="si_from_sample", si_sample=si_sample,
+                           config=list(t_start=2:26, t_end=8:32,
+                                       n2=100, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })

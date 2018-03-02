@@ -26,19 +26,19 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 1)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -57,9 +57,11 @@ test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -84,21 +86,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 2)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$n1Input) # <---
-    sendKeys(remDr, pages$state7.3$selectors$n1Input, "60") # <---
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$n1_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$n1_input, "60") # <---
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -117,9 +119,11 @@ test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=60,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=60,
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -146,21 +150,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 3)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$n2Input) # <---
-    sendKeys(remDr, pages$state7.3$selectors$n2Input, "60") # <---
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$n2_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$n2_input, "60") # <---
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -179,9 +183,11 @@ test_that("Test 3 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-                           n2=60, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
+                           n2=60, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -189,7 +195,7 @@ test_that("Test 3 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 4 - Different Mean.SI                                                 #
+# Test 4 - Different mean_si                                                 #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 4)")
 rD <- drivers$rDr
@@ -208,21 +214,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 4)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Mean.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Mean.SIInput, "2.5") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$mean_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$mean_si_input, "2.5") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -241,9 +247,11 @@ test_that("Test 4 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-                           n2=50, Mean.SI=2.5, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
+                           n2=50, mean_si=2.5, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -251,7 +259,7 @@ test_that("Test 4 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 5 - Different Std.Mean.SI                                             #
+# Test 5 - Different std_mean_si                                             #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 5)")
 rD <- drivers$rDr
@@ -270,21 +278,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 5)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Std.Mean.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Std.Mean.SIInput, "2") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$std_mean_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$std_mean_si_input, "2") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -303,9 +311,11 @@ test_that("Test 5 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=2, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
+                           n2=50, mean_si=2, std_mean_si=2, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -313,7 +323,7 @@ test_that("Test 5 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 6 - Different Min.Mean.SI                                             #
+# Test 6 - Different min_mean_si                                             #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 6)")
 rD <- drivers$rDr
@@ -332,21 +342,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 6)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Min.Mean.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Min.Mean.SIInput, "1.5") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$min_mean_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$min_mean_si_input, "1.5") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -365,9 +375,11 @@ test_that("Test 6 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1.5, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1.5, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -375,7 +387,7 @@ test_that("Test 6 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 7 - Different Max.Mean.SI                                             #
+# Test 7 - Different max_mean_si                                             #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 7)")
 rD <- drivers$rDr
@@ -394,21 +406,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 7)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Max.Mean.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Max.Mean.SIInput, "4") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$max_mean_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$max_mean_si_input, "4") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -427,9 +439,11 @@ test_that("Test 7 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=4,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=4,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -437,7 +451,7 @@ test_that("Test 7 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 8 - Different Std.SI                                                  #
+# Test 8 - Different std_si                                                  #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 8)")
 rD <- drivers$rDr
@@ -456,21 +470,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 8)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Std.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Std.SIInput, "2.5") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$std_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$std_si_input, "2.5") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -489,9 +503,11 @@ test_that("Test 8 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2.5, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2.5, std_std_si=1, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -499,7 +515,7 @@ test_that("Test 8 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 9 - Different Std.Std.SI                                              #
+# Test 9 - Different std_std_si                                              #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 9)")
 rD <- drivers$rDr
@@ -518,21 +534,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 9)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Std.Std.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Std.Std.SIInput, "2") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$std_std_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$std_std_si_input, "2") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -551,9 +567,11 @@ test_that("Test 9 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=2, Min.Std.SI=1, Max.Std.SI=3, seed=1)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=2, min_std_si=1, max_std_si=3, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -561,7 +579,7 @@ test_that("Test 9 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 10 - Different Min.Std.SI                                              #
+# Test 10 - Different min_std_si                                              #
 # ---------------------------------------------------------------------------#
 
 # Test commented out ref https://github.com/jstockwin/EpiEstimApp/issues/126
@@ -583,21 +601,21 @@ test_that("Test 9 output matches", {
 #
 #  test_that("can walk through the app to endpoint state (Test 10)", {
 #      # Walk the app through to endpoint state with default inputs
-#    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+#    click(remDr, pages$state1.1$selectors$preloaded_data_button)
 #    clickNext(remDr) # Move to state 2.2
 #    waitForStateDisplayed(remDr, "2.2")
-#    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+#    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
 #    clickNext(remDr) # Move to state 5.1
 #    waitForStateDisplayed(remDr, "5.1")
-#    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+#    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
 #    clickNext(remDr) # Move to state 6.2
 #    waitForStateDisplayed(remDr, "6.2")
-#    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+#    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
 #    clickNext(remDr) # Move to state 7.3
 #    waitForStateDisplayed(remDr, "7.3")
-#    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-#    clear(remDr, pages$state7.3$selectors$Min.Std.SIInput) # <---
-#    sendKeys(remDr, pages$state7.3$selectors$Min.Std.SIInput, "1.5") # <--
+#    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+#    clear(remDr, pages$state7.3$selectors$min_std_si_input) # <---
+#    sendKeys(remDr, pages$state7.3$selectors$min_std_si_input, "1.5") # <--
 #    clickGo(remDr)
 #    Sys.sleep(1)
 #    waitForAppReady(remDr)
@@ -616,9 +634,9 @@ test_that("Test 9 output matches", {
 ## Compare the output to EpiEstim's output
 #I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
 #I <- EpiEstim:::process_I(I)
-#epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-#                         n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-#                         Std.SI=2, Std.Std.SI=1, Min.Std.SI=1.5, Max.Std.SI=3, seed=1)
+#epiEstimOut <- EstimateR(I, t_start=2:26, t_end=8:32, method="uncertain_si", n1=50,
+#                         n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+#                         std_si=2, std_std_si=1, min_std_si=1.5, max_std_si=3, seed=1)
 #
 #  compareOutputFromApp(appOut, epiEstimOut)
 #})
@@ -626,7 +644,7 @@ test_that("Test 9 output matches", {
 
 
 # ---------------------------------------------------------------------------#
-# Test 11 - Different Max.Std.SI                                              #
+# Test 11 - Different max_std_si                                              #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 7.3 (Test 11)")
 rD <- drivers$rDr
@@ -645,21 +663,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 11)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$Max.Std.SIInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$Max.Std.SIInput, "4") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$max_std_si_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$max_std_si_input, "4") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -678,9 +696,11 @@ test_that("Test 11 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=4, seed=1)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=4, seed=1)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })
@@ -707,21 +727,21 @@ tryCatch({
 
   test_that("can walk through the app to endpoint state (Test 12)", {
       # Walk the app through to endpoint state with default inputs
-    click(remDr, pages$state1.1$selectors$preloadedDataButton)
+    click(remDr, pages$state1.1$selectors$preloaded_data_button)
     clickNext(remDr) # Move to state 2.2
     waitForStateDisplayed(remDr, "2.2")
-    click(remDr, pages$state2.2$selectors$datasetOption1Input)
+    click(remDr, pages$state2.2$selectors$dataset_option_1_input)
     clickNext(remDr) # Move to state 5.1
     waitForStateDisplayed(remDr, "5.1")
-    click(remDr, pages$state5.1$selectors$exposureDataNoInput)
+    click(remDr, pages$state5.1$selectors$exposure_data_no_input)
     clickNext(remDr) # Move to state 6.2
     waitForStateDisplayed(remDr, "6.2")
-    click(remDr, pages$state6.2$selectors$SIEstTypeOption1Button)
+    click(remDr, pages$state6.2$selectors$si_est_type_option_1_button)
     clickNext(remDr) # Move to state 7.3
     waitForStateDisplayed(remDr, "7.3")
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "1")
-    clear(remDr, pages$state7.3$selectors$seedInput) # <---
-    sendKeys(remDr, pages$state7.3$selectors$seedInput, "2") # <--
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "1")
+    clear(remDr, pages$state7.3$selectors$seed_input) # <---
+    sendKeys(remDr, pages$state7.3$selectors$seed_input, "2") # <--
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -740,9 +760,11 @@ test_that("Test 12 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, T.Start=2:26, T.End=8:32, method="UncertainSI", n1=50,
-                           n2=50, Mean.SI=2, Std.Mean.SI=1, Min.Mean.SI=1, Max.Mean.SI=3,
-                           Std.SI=2, Std.Std.SI=1, Min.Std.SI=1, Max.Std.SI=3, seed=2)
+  epiEstimOut <- EstimateR(I, method="uncertain_si",
+                           config=list(t_start=2:26, t_end=8:32, n1=50,
+                           n2=50, mean_si=2, std_mean_si=1, min_mean_si=1, max_mean_si=3,
+                           std_si=2, std_std_si=1, min_std_si=1, max_std_si=3, seed=2)
+  )
 
   compareOutputFromApp(appOut, epiEstimOut)
 })

@@ -23,23 +23,27 @@ tryCatch({
   })
 
   test_that("Giving an invalid prior mean throws correct error", {
-    clear(remDr, pages$state2.2$selectors$meanPriorInput)
-    sendKeys(remDr, pages$state2.2$selectors$meanPriorInput, "-1")
+    clear(remDr, pages$state2.2$selectors$mean_prior_input)
+    sendKeys(remDr, pages$state2.2$selectors$mean_prior_input, "-1")
     clickNext(remDr)
-    checkError(remDr, "Prior mean must be non-negative", "incidenceMeanPrior")
+    checkError(remDr, "Prior mean must be non-negative", "incidence_mean_prior")
     # Reset for upcoming tests
-    clear(remDr, pages$state2.2$selectors$meanPriorInput)
-    sendKeys(remDr, pages$state2.2$selectors$meanPriorInput, "5")
+    clear(remDr, pages$state2.2$selectors$mean_prior_input)
+    sendKeys(remDr, pages$state2.2$selectors$mean_prior_input, "5")
+    clickPrev(remDr)
+    waitForStateDisplayed(remDr, "1.1")
+    clickNext(remDr)
+    waitForStateDisplayed(remDr, "2.2")
   })
 
   test_that("Giving an invalid prior sd throws correct error", {
-    clear(remDr, pages$state2.2$selectors$stdPriorInput)
-    sendKeys(remDr, pages$state2.2$selectors$stdPriorInput, "0")
+    clear(remDr, pages$state2.2$selectors$std_prior_input)
+    sendKeys(remDr, pages$state2.2$selectors$std_prior_input, "0")
     clickNext(remDr)
-    checkError(remDr, "Prior standard deviation must be positive", "incidenceStdPrior")
+    checkError(remDr, "Prior standard deviation must be positive", "incidence_std_prior")
     # Reset for upcoming tests
-    clear(remDr, pages$state2.2$selectors$stdPriorInput)
-    sendKeys(remDr, pages$state2.2$selectors$stdPriorInput, "5")
+    clear(remDr, pages$state2.2$selectors$std_prior_input)
+    sendKeys(remDr, pages$state2.2$selectors$std_prior_input, "5")
   })
 },
 error = function(e) {

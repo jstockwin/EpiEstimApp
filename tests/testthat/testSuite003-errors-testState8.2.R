@@ -25,19 +25,19 @@ tryCatch({
   test_that("pressing next without uploading a file throws correct error", {
     clickNext(remDr)
     Sys.sleep(1)
-    checkError(remDr, "Please upload a file", "SIData")
+    checkError(remDr, "Please upload a file", "si_data")
   })
 
   test_that("uploading a non-csv file throws correct error", {
-    if (getAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "value") == "") {
-      setAttribute(remDr, pages$state8.2$selectors$SIDataUploadInput, "style", "display: block;")
+    if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
+      setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
     }
     path <- getFilePath(remDr, "utils.R")
     #path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
-    sendKeys(remDr, pages$state8.2$selectors$SIDataUploadInput, path)
+    sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input, path)
     clickNext(remDr)
     Sys.sleep(1)
-    checkError(remDr, "The uploaded file must be a .csv file", "SIData")
+    checkError(remDr, "The uploaded file must be a .csv file", "si_data")
   })
 },
 error = function(e) {
