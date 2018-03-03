@@ -129,7 +129,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 4.1
                     div(id = "imported_data_error_box", class = "error_box",
                         shiny::fileInput("imported_data",
-                                         paste("Choose a data file with",
+                                         paste("Choose a data file consisting of",
                                                "numbers of imported cases to",
                                                "upload"),
                                          accept = c(
