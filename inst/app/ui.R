@@ -152,7 +152,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                                                   "data from patients",
                                                   "in known transmission chains?"),
                                    c("Distributional Estimate" = "FALSE",
-                                     "Individual Patient Data" = "TRUE"))
+                                     "Patient Data" = "TRUE"))
                     )
          )),
          shinyjs::hidden(div(id = "6.1",
