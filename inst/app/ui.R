@@ -146,11 +146,11 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 5.1
                     div(id = "si_patient_data_error_box", class = "error_box",
                         shiny::radioButtons("si_patient_data",
-                                            paste("Do you want to use serial",
-                                                  "interval data from",
-                                                  "individual patients, or use",
-                                                  "a distributional estimate",
-                                                  "of the serial interval?"),
+                                            paste("Do you want to use a",
+                                                  "distributional estimate of the",
+                                                  "serial interval, or use",
+                                                  "data from individual patients",
+                                                  "in known transmission chains?"),
                                    c("Distributional Estimate" = "FALSE",
                                      "Individual Patient Data" = "TRUE"))
                     )
