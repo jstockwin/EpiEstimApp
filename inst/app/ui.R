@@ -32,7 +32,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
          div(id = "titles",
              div(id = "incidence_title", h1("Incidence Data")),
              shinyjs::hidden(div(id = "si_title",
-                                 h1("Serial Interval (SI) _input")))
+                                 h1("Serial Interval (SI) input")))
           ),
          div(id = "1.1",
              div(id = "incidence_data_type_error_box", class = "error_box",
