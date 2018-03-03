@@ -170,13 +170,13 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 6.2
                     div(id = "si_est_type_error_box", class = "error_box",
                         shiny::radioButtons("si_est_type",
-                        paste("Which of the following serial interval",
-                              "distribution estimates would you like to use?"),
+                        paste("Which of the following types of serial interval",
+                              "distributions would you like to use?"),
       c(
         "Parametric with uncertainty (offset gamma)" = "uncertain",
         "Parametric without uncertainty (offset gamma)" = "parametric",
-        "Upload your own probability distribution" = "own",
-        "Use a distribution estimated from a previous outbreak (preloaded data)"
+        "Upload a probability distribution" = "own",
+        "Use a distribution estimated from a previous outbreak (data in-built in app)"
         = "preloaded"
         )
                       )
