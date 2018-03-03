@@ -14,13 +14,13 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
           <meta name='keywords' content='infectious,disease,epidemiology,transmissibility,serial,interval,generation,time,time,varying,reproduction,number,Robin,Thompson,Anne,Cori,Jake,Stockwin,Hackout3'>
           <meta name='author' content='Jake Stockwin'>
           <h1>EpiEstim App</h1>
-          <p>This web application generates an estimate of infectious disease transmissibility throughout an outbreak. The time-dependent reproduction number (<i>R</i>) is inferred from disease incidence time series and raw data or estimates of the serial interval. For more information about how to use this application, please see the <a href='https://github.com/jstockwin/EpiEstimApp/wiki'>wiki</a>. For the most part, we assume that users will want to upload their own data, however there are also some <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Preloaded-Datasets' target='_blank'>example datasets</a> built in, to illustrate how the application might be used.</p>
+          <p>This web application generates an estimate of infectious disease transmissibility throughout an outbreak. The time-dependent reproduction number (<i>R</i>) is inferred from disease incidence time series and patient data or estimates of the serial interval. For more information about how to use this application, please see the <a href='https://github.com/jstockwin/EpiEstimApp/wiki'>wiki</a>. For the most part, we assume that users will want to upload their own data, however there are also some <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Preloaded-Datasets' target='_blank'>example datasets</a> built in, to illustrate how the application might be used.</p>
           <p>For more information on uploading your own data and on the required format of the data, please
           <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Uploading-your-own-data' target='_blank'>click here</a>.</p>
           <p>The authors request users to cite the original publication when referring to this tool, any results generated from it, or the R software application on which this tool is based (EpiEstim 2):
 
 </p>
-          <p>Thompson RN, Stockwin JE, van Gaalen RD, Polonsky JA, et al. EpiEstim 2: An improved tool for estimating serial intervals and time-varying reproduction numbers during infection disease outbreaks. Submitted (2017).</p>
+          <p>Thompson RN, Stockwin JE, van Gaalen RD, Polonsky JA, et al. EpiEstim 2: An improved tool for estimating serial intervals and time-varying reproduction numbers during infection disease outbreaks. Submitted (2018).</p>
           "
          )
   ),
