@@ -25,7 +25,7 @@ tryCatch({
   test_that("SIDistr file upload buttons are displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state7.5$selectors$si_distr_data_upload_label))
     expect_equal(getText(remDr, pages$state7.5$selectors$si_distr_data_upload_label),
-                 "Choose serialIntervalData file to upload")
+                 "Choose serial interval data file to upload")
     expect_true(isDisplayed(remDr, pages$state7.5$selectors$si_distr_data_upload_browse))
 
     expect_true(isDisplayed(remDr, pages$state7.5$selectors$si_distr_header_button))

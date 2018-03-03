@@ -25,8 +25,11 @@ tryCatch({
   test_that("patient exposure data inputs are displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposure_data_label))
     expect_equal(getText(remDr, pages$state5.1$selectors$exposure_data_label),
-       paste("Do you want to use serial interval data from individual patients, or use a",
-             "distributional estimate of the serial interval?"))
+       paste("Do you want to use a",
+             "distributional estimate of the",
+             "serial interval, or use",
+             "data from individual patients",
+             "in known transmission chains?"))
     expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposure_data_no_label))
     expect_equal(getText(remDr, pages$state5.1$selectors$exposure_data_no_label), "Distributional Estimate")
     expect_true(isDisplayed(remDr, pages$state5.1$selectors$exposure_data_no_input))
