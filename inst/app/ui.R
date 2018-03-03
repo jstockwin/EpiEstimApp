@@ -184,7 +184,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
          )),
          shinyjs::hidden(div(id = "7.1",
                     # State 7.1
-                    p("Please note that these preloaded datasets are only to provide examples as to how the app might be used. As such, the full range of options are not provided here (e.g. the number of steps in the MCMC chain is fixed)."), #nolint (can't split html)
+                    p("Please note that these preloaded datasets are only to provide examples as to how the app might be used. As such, the full range of options is not provided here (e.g. the number of steps in the MCMC chain is fixed)."), #nolint (can't split html)
                     HTML("<p>If you would like to have the full range of options, please download the serial interval data for these datasets from <a href='https://github.com/jstockwin/EpiEstimApp/tree/master/inst/app/datasets/SerialIntervalData' target='_blank'>here</a>, then go back a step and select 'Own data' followed by 'Patient data'.</p>"), #nolint can't split html
                     div(id = "si_dataset_error_box", class = "error_box",
                         shiny::radioButtons("si_dataset", "Choose your dataset",
