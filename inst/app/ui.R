@@ -214,7 +214,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     ),
                     div(id = "n2_error_box", class = "error_box",
                         shiny::numericInput("n2", "n2", min = 2, value = 50),
-                      p("Choose the number of serial interval valies to be samples from each of the n1 estimated serial interval distributions in order to estimate R (n2)") #nolint (can't split html)
+                      p("Choose the number of serial interval values to be samples from each of the n1 estimated serial interval distributions in order to estimate R (n2)") #nolint (can't split html)
                     ),
                     tags$hr(),
                     tags$p("Choose values describing the serial interval distribution, and the uncertainty around these values"), #nolint (can't split html)
@@ -275,7 +275,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 7.5
                     div(id = "si_distr_data_error_box", class = "error_box",
                         shiny::fileInput("si_distr_data",
-                                  "Choose serialIntervalData file to upload",
+                                  "Choose serial interval data file to upload",
                                 accept = c(
                                   "text/csv",
                                   "text/comma-separated-values",
@@ -290,7 +290,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 7.6
                     div(id = "si_distr_dataset_error_box", class = "error_box",
                         shiny::radioButtons("si_distr_dataset",
-                                            "Choose your si_distr Dataset",
+                                            "Choose the dataset corresponding to the serial interval distribution you would like to use",
                                    c("H1N1Maryland1918", "H1N1Pennsylvania2009",
                                      "MeaslesGermany1861", "SARSHongKong2003",
                                      "SmallpoxKosovo1972"))
