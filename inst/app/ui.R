@@ -210,14 +210,14 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 7.3
                     div(id = "n1_error_box", class = "error_box",
                         shiny::numericInput("n1", "n1", min = 2, value = 50),
-                      p("Choose the number of serial interval distributions to be sampled (n1) according to the parameters below") #nolint (can't split html)
+                      p("Choose the number of serial interval distributions (n1) to be sampled (see parameters below)") #nolint (can't split html)
                     ),
                     div(id = "n2_error_box", class = "error_box",
                         shiny::numericInput("n2", "n2", min = 2, value = 50),
-                      p("Choose the number of serial interval values to be samples from each of the n1 estimated serial interval distributions in order to estimate R (n2)") #nolint (can't split html)
+                      p("Choose the number of serial interval values (n2) to be sampled from each of the n1 serial interval distributions in order to estimate R") #nolint (can't split html)
                     ),
                     tags$hr(),
-                    tags$p("Choose values describing the serial interval distribution, and the uncertainty around these values"), #nolint (can't split html)
+                    tags$p("Choose values describing the mean serial interval distribution, and the uncertainty around these values"), #nolint (can't split html)
                     div(id = "mean_si_error_box", class = "error_box",
                         shiny::numericInput("mean_si", "mean_si",
                                             value = 2, min = 1)
