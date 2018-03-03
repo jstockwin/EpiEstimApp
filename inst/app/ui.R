@@ -32,7 +32,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
          div(id = "titles",
              div(id = "incidence_title", h1("Incidence Data")),
              shinyjs::hidden(div(id = "si_title",
-                                 h1("Serial Interval (SI) input")))
+                                 h1("Serial Interval (SI) Input")))
           ),
          div(id = "1.1",
              div(id = "incidence_data_type_error_box", class = "error_box",
@@ -159,10 +159,9 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 6.1
                     div(id = "si_data_type_error_box", class = "error_box",
                         shiny::radioButtons("si_data_type",
-                                            paste("Would you like to use an",
-                                                  "external file containing",
-                                                  "the exposure data, or a",
-                                                  "pre-loaded dataset?"),
+                                            paste("Would you like to use an in-built example dataset
+                                                  containing exposure data, or upload",
+                                                  "your own dataset?"),
                                    c("Pre-loaded" = "preloaded",
                                      "Own data" = "own"))
                     )
