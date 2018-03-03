@@ -149,7 +149,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                                             paste("Do you want to use a",
                                                   "distributional estimate of the",
                                                   "serial interval, or use",
-                                                  "data from individual patients",
+                                                  "data from patients",
                                                   "in known transmission chains?"),
                                    c("Distributional Estimate" = "FALSE",
                                      "Individual Patient Data" = "TRUE"))
