@@ -30,7 +30,7 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state6.2$selectors$si_est_type))
     expect_true(isDisplayed(remDr, pages$state6.2$selectors$si_est_type_label))
     expect_equal(getText(remDr, pages$state6.2$selectors$si_est_type_label),
-                 "Which of the following serial interval distribution estimates would you like to use?")
+                 "Which of the following types of serial interval distributions would you like to use?")
 
     expect_true(isDisplayed(remDr, pages$state6.2$selector$si_est_type_option_1_label))
     expect_equal(getText(remDr, pages$state6.2$selector$si_est_type_option_1_label),
@@ -42,11 +42,11 @@ tryCatch({
 
     expect_true(isDisplayed(remDr, pages$state6.2$selector$si_est_type_option_3_label))
     expect_equal(getText(remDr, pages$state6.2$selector$si_est_type_option_3_label),
-                 "Upload your own probability distribution")
+                 "Upload a probability distribution")
 
     expect_true(isDisplayed(remDr, pages$state6.2$selector$si_est_type_option_4_label))
     expect_equal(getText(remDr, pages$state6.2$selector$si_est_type_option_4_label),
-                 "Use a distribution estimated from a previous outbreak (preloaded data)")
+                 "Use a distribution estimated from a previous outbreak (data in-built in app)")
   })
 
   test_that("relevant control buttons are displayed", {

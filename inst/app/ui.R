@@ -14,13 +14,13 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
           <meta name='keywords' content='infectious,disease,epidemiology,transmissibility,serial,interval,generation,time,time,varying,reproduction,number,Robin,Thompson,Anne,Cori,Jake,Stockwin,Hackout3'>
           <meta name='author' content='Jake Stockwin'>
           <h1>EpiEstim App</h1>
-          <p>This web application generates an estimate of infectious disease transmissibility throughout an outbreak. The time-dependent reproduction number (<i>R</i>) is inferred from disease incidence time series and raw data or estimates of the serial interval. For more information about how to use this application, please see the <a href='https://github.com/jstockwin/EpiEstimApp/wiki'>wiki</a>. For the most part, we assume that users will want to upload their own data, however there are also some <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Preloaded-Datasets' target='_blank'>example datasets</a> built in, to illustrate how the application might be used.</p>
+          <p>This web application generates an estimate of infectious disease transmissibility throughout an outbreak. The time-dependent reproduction number (<i>R</i>) is inferred from disease incidence time series and patient data or estimates of the serial interval. For more information about how to use this application, please see the <a href='https://github.com/jstockwin/EpiEstimApp/wiki'>wiki</a>. For the most part, we assume that users will want to upload their own data, however there are also some <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Preloaded-Datasets' target='_blank'>example datasets</a> built in, to illustrate how the application might be used.</p>
           <p>For more information on uploading your own data and on the required format of the data, please
           <a href='https://github.com/jstockwin/EpiEstimApp/wiki/Uploading-your-own-data' target='_blank'>click here</a>.</p>
           <p>The authors request users to cite the original publication when referring to this tool, any results generated from it, or the R software application on which this tool is based (EpiEstim 2):
 
 </p>
-          <p>Thompson RN, Stockwin JE, van Gaalen RD, Polonsky JA, et al. EpiEstim 2: An improved tool for estimating serial intervals and time-varying reproduction numbers during infection disease outbreaks. Submitted (2017).</p>
+          <p>Thompson RN, Stockwin JE, van Gaalen RD, Polonsky JA, et al. Improved inference of time-varying reproduction numbers during infectious disease outbreaks. Submitted (2018).</p>
           "
          )
   ),
@@ -32,7 +32,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
          div(id = "titles",
              div(id = "incidence_title", h1("Incidence Data")),
              shinyjs::hidden(div(id = "si_title",
-                                 h1("Serial Interval (SI) _input")))
+                                 h1("Serial Interval (SI) Input")))
           ),
          div(id = "1.1",
              div(id = "incidence_data_type_error_box", class = "error_box",
@@ -59,9 +59,9 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     shiny::checkboxInput("incidence_header", "Header", FALSE),
                     div(id = "uploaded_width_error_box", class = "error_box",
                         shiny::sliderInput("uploaded_width",
-                                           paste("Choose the width of the",
-                                                 "sliding time window for R",
-                                                 "estimation"),
+                                           paste("Choose the length of the",
+                                                 "sliding time window, W, over which R",
+                                                 "is estimated"),
                                            min = 1, max = 20, value = 7)
                     ),
                     div(id = "uploaded_mean_prior_error_box",
@@ -97,9 +97,9 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     ),
                     div(id = "incidence_width_error_box", class = "error_box",
                         shiny::sliderInput("incidence_width",
-                                           paste("Choose the width of the",
-                                                 "sliding time window for R",
-                                                 "estimation"),
+                                           paste("Choose the length of the",
+                                                 "sliding time window, W, over which R",
+                                                 "is estimated"),
                                            min = 1, max = 20, value = 7)
                     ),
                     div(id = "incidence_mean_prior_error_box",
@@ -129,7 +129,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 4.1
                     div(id = "imported_data_error_box", class = "error_box",
                         shiny::fileInput("imported_data",
-                                         paste("Choose a data file with",
+                                         paste("Choose a data file consisting of",
                                                "numbers of imported cases to",
                                                "upload"),
                                          accept = c(
@@ -146,23 +146,22 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 5.1
                     div(id = "si_patient_data_error_box", class = "error_box",
                         shiny::radioButtons("si_patient_data",
-                                            paste("Do you want to use serial",
-                                                  "interval data from",
-                                                  "individual patients, or use",
-                                                  "a distributional estimate",
-                                                  "of the serial interval?"),
+                                            paste("Do you want to use a",
+                                                  "distributional estimate of the",
+                                                  "serial interval, or use",
+                                                  "data from patients",
+                                                  "in known transmission chains?"),
                                    c("Distributional Estimate" = "FALSE",
-                                     "Individual Patient Data" = "TRUE"))
+                                     "Patient Data" = "TRUE"))
                     )
          )),
          shinyjs::hidden(div(id = "6.1",
                     # State 6.1
                     div(id = "si_data_type_error_box", class = "error_box",
                         shiny::radioButtons("si_data_type",
-                                            paste("Would you like to use an",
-                                                  "external file containing",
-                                                  "the exposure data, or a",
-                                                  "pre-loaded dataset?"),
+                                            paste("Would you like to use an in-built example dataset",
+                                                  "containing exposure data, or upload",
+                                                  "your own dataset?"),
                                    c("Pre-loaded" = "preloaded",
                                      "Own data" = "own"))
                     )
@@ -171,13 +170,13 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 6.2
                     div(id = "si_est_type_error_box", class = "error_box",
                         shiny::radioButtons("si_est_type",
-                        paste("Which of the following serial interval",
-                              "distribution estimates would you like to use?"),
+                        paste("Which of the following types of serial interval",
+                              "distributions would you like to use?"),
       c(
         "Parametric with uncertainty (offset gamma)" = "uncertain",
         "Parametric without uncertainty (offset gamma)" = "parametric",
-        "Upload your own probability distribution" = "own",
-        "Use a distribution estimated from a previous outbreak (preloaded data)"
+        "Upload a probability distribution" = "own",
+        "Use a distribution estimated from a previous outbreak (data in-built in app)"
         = "preloaded"
         )
                       )
@@ -185,8 +184,8 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
          )),
          shinyjs::hidden(div(id = "7.1",
                     # State 7.1
-                    p("Please note that these preloaded data are only to give an idea as to how the app works. As such, the full range of options are not provided here (e.g. the number of steps in the MCMC chain is fixed)."), #nolint (can't split html)
-                    HTML("<p>If you would like to have the full range of options, please download the serial interval data for your dataset from <a href='https://github.com/jstockwin/EpiEstimApp/tree/master/inst/app/datasets/SerialIntervalData' target='_blank'>here</a> then go back a step and select 'Own data' then '_raw exposure data'.</p>"), #nolint can't split html
+                    p("Please note that these preloaded datasets are only to provide examples as to how the app might be used. As such, the full range of options is not provided here (e.g. the number of steps in the MCMC chain is fixed)."), #nolint (can't split html)
+                    HTML("<p>If you would like to have the full range of options, please download the serial interval data for these datasets from <a href='https://github.com/jstockwin/EpiEstimApp/tree/master/inst/app/datasets/SerialIntervalData' target='_blank'>here</a>, then go back a step and select 'Own data' followed by 'Patient data'.</p>"), #nolint can't split html
                     div(id = "si_dataset_error_box", class = "error_box",
                         shiny::radioButtons("si_dataset", "Choose your dataset",
                                    c("RotavirusEcuador2011", "H1N1NewYork2009",
@@ -197,10 +196,11 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 7.2
                     div(id = "si_from_error_box", class = "error_box",
                         shiny::radioButtons("si_from",
-                                            paste("Do you have raw exposure",
-                                                  "data or a SI posterior",
+                                            paste("Do you have data from patients",
+                                                  "in known transmission chains",
+                                                  "or a SI posterior",
                                                   "sample to upload?"),
-                                            c("_raw exposure data" = "data",
+                                            c("Patient data" = "data",
                                               "SI posterior sample" = "sample"
                                               )
                                             )
@@ -210,14 +210,14 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 7.3
                     div(id = "n1_error_box", class = "error_box",
                         shiny::numericInput("n1", "n1", min = 2, value = 50),
-                      p("Choose the number of serial interval distributions to be sampled (n1) according to the parameters below") #nolint (can't split html)
+                      p("Choose the number of serial interval distributions (n1) to be sampled (see parameters below)") #nolint (can't split html)
                     ),
                     div(id = "n2_error_box", class = "error_box",
                         shiny::numericInput("n2", "n2", min = 2, value = 50),
-                      p("Choose the number of serial interval valies to be samples from each of the n1 estimated serial interval distributions in order to estimate R (n2)") #nolint (can't split html)
+                      p("Choose the number of serial interval values (n2) to be sampled from each of the n1 serial interval distributions in order to estimate R") #nolint (can't split html)
                     ),
                     tags$hr(),
-                    tags$p("Choose values describing the serial interval distribution, and the uncertainty around these values"), #nolint (can't split html)
+                    tags$p("Choose values describing the mean serial interval distribution, and the uncertainty around these values"), #nolint (can't split html)
                     div(id = "mean_si_error_box", class = "error_box",
                         shiny::numericInput("mean_si", "mean_si",
                                             value = 2, min = 1)
@@ -275,7 +275,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 7.5
                     div(id = "si_distr_data_error_box", class = "error_box",
                         shiny::fileInput("si_distr_data",
-                                  "Choose serialIntervalData file to upload",
+                                  "Choose a serial interval data file to upload",
                                 accept = c(
                                   "text/csv",
                                   "text/comma-separated-values",
@@ -290,7 +290,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 7.6
                     div(id = "si_distr_dataset_error_box", class = "error_box",
                         shiny::radioButtons("si_distr_dataset",
-                                            "Choose your si_distr Dataset",
+                                            "Choose the dataset corresponding to the serial interval distribution you would like to use",
                                    c("H1N1Maryland1918", "H1N1Pennsylvania2009",
                                      "MeaslesGermany1861", "SARSHongKong2003",
                                      "SmallpoxKosovo1972"))
@@ -300,7 +300,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 8.1
                     div(id = "si_dist_error_box", class = "error_box",
                         shiny::radioButtons("si_dist",
-                                     "Choose your serial interval distribution",
+                                     "Choose the serial interval distribution",
                                      c("Gamma" = "G",
                                        "Offset Gamma" = "off1G",
                                        "Weibull" = "W",
@@ -319,7 +319,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     div(id = "preloaded_seed_error_box", class = "error_box",
                         shiny::numericInput("preloaded_seed",
                                             paste("Set a seed to be used by",
-                                                  "EpiEstim. A random one will",
+                                                  "EpiEstim. A random seed will",
                                                   "be chosen if this is left",
                                                   "blank"),
                                             value = NULL)
@@ -329,7 +329,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 8.2
                     div(id = "si_data_error_box", class = "error_box",
                         shiny::fileInput("si_data",
-                                "Choose serialIntervalData file to upload",
+                                "Choose a serial interval data file to upload",
                                 accept = c(
                                   "text/csv",
                                   "text/comma-separated-values",
@@ -342,7 +342,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     div(id = "uploaded_si_seed_error_box", class = "error_box",
                         shiny::numericInput("uploaded_si_seed",
                                             paste("Set a seed to be used by",
-                                                  "EpiEstim. A random one will",
+                                                  "EpiEstim. A random seed will",
                                                   "be chosen if this is left",
                                                   "blank"),
                                             value = NULL)
@@ -352,7 +352,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 8.3
                     div(id = "si_sample_data_error_box", class = "error_box",
                         shiny::fileInput("si_sample_data",
-                                "Choose serialIntervalData file to upload",
+                                "Choose a serial interval data file to upload",
                                 accept = c(
                                   "text/csv",
                                   "text/comma-separated-values",
@@ -373,7 +373,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     div(id = "si_sample_seed_error_box", class = "error_box",
                         shiny::numericInput("si_sample_seed",
                                             paste("Set a seed to be used by",
-                                                  "EpiEstim. A random one will",
+                                                  "EpiEstim. A random seed will",
                                                   "be chosen if this is left",
                                                   "blank"),
                                             value = NULL)
@@ -383,7 +383,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 9.1
                     div(id = "si_dist_2_error_box", class = "error_box",
                         shiny::radioButtons("si_dist_2",
-                                   "Choose your serial interval distribution",
+                                   "Choose the serial interval distribution",
                                    c("Gamma" = "G",
                                      "Offset Gamma" = "off1G",
                                      "Weibull" = "W",
@@ -391,7 +391,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                                      "Log-Normal" = "L",
                                      "Offset Log-Normal" = "off1L"))
                     ),
-                    p("NOTE: MCMC will run burnin + n1*thin iterations. This is slow. Try to keep below 10,000 even for small datasets. For longer MCMC chains, please use the EpiEstim 2.0 R package directly, rather than our online interface."), #nolint (can't split html)
+                    p("NOTE: MCMC will run burnin + n1*thin iterations. This is slow. Try to keep this below 10,000 even for small datasets. For longer MCMC chains, please use the EpiEstim 2.0 R package directly, rather than this interface."), #nolint (can't split html)
                     div(id = "n12_error_box", class = "error_box",
                         shiny::numericInput("n12",
                                             paste("Choose the number of serial",
@@ -404,7 +404,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                         shiny::numericInput("burnin",
                                             paste("Choose the number of",
                                                   "iterations used as MCMC",
-                                                  "burn in"),
+                                                  "burn in (burnin)"),
                                             min = 0, value = 3000)
                     ),
                     div(id = "thin_error_box", class = "error_box",
@@ -432,11 +432,11 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                         shiny::numericInput("mcmc_seed",
                                             paste("Set a seed for the MCMC. If",
                                                   "no seed is chosen, a random",
-                                                  "value will be selected."),
+                                                  "value will be set."),
                                             value = NULL)
                     ),
                     tags$hr(),
-                    p("The following two parameters give the initial parameters to use in MCMC. For Gamma, Offset Gamma and Weibull distributions, param1 is the shape and param2 is the scale of the distribution. For Log-Normal, param1 and param2 are respectively the mean and standard deviation of the logarithm."), #nolint can't split html
+                    p("The following two parameters set the initial parameter estimates at the start of the MCMC chain (at the start of the burn in). For Gamma, Offset Gamma and Weibull distributions, param1 and param2 are the shape and scale parameters, respecitvely. For Log-Normal, param1 and param2 are the mean and standard deviation, respectively."), #nolint can't split html
                     div(id = "param1_error_box", class = "error_box",
                         shiny::numericInput("param1",
                                             "Choose the value of param1",

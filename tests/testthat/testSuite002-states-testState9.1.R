@@ -25,7 +25,7 @@ tryCatch({
   test_that("SI distribution selection input is displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_label))
     expect_equal(getText(remDr, pages$state9.1$selectors$distribution_label),
-                 "Choose your serial interval distribution")
+                 "Choose the serial interval distribution")
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$distribution_option_1_label))
     expect_equal(getText(remDr, pages$state9.1$selectors$distribution_option_1_label),
                  "Gamma")
@@ -67,7 +67,7 @@ tryCatch({
   test_that("burnin input is displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$burnin_label))
     expect_equal(getText(remDr, pages$state9.1$selectors$burnin_label),
-                 "Choose the number of iterations used as MCMC burn in")
+                 "Choose the number of iterations used as MCMC burn in (burnin)")
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$burnin_input))
   })
 
@@ -92,7 +92,7 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$seed_label))
     expect_equal(getText(remDr, pages$state9.1$selectors$seed_label),
                  paste("Set a seed for the MCMC. If no seed is chosen, a random",
-                       "value will be selected."))
+                       "value will be set."))
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$seed_input))
   })
 

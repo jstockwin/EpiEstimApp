@@ -29,7 +29,7 @@ tryCatch({
   test_that("imported file upload buttons are displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state4.1$selectors$imported_data_upload_label))
     expect_equal(getText(remDr, pages$state4.1$selectors$imported_data_upload_label),
-                 "Choose a data file with numbers of imported cases to upload")
+                 "Choose a data file consisting of numbers of imported cases to upload")
     expect_true(isDisplayed(remDr, pages$state4.1$selectors$imported_data_upload_browse))
 
     expect_true(isDisplayed(remDr, pages$state4.1$selectors$importedHeader_button))

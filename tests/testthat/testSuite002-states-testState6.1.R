@@ -30,8 +30,9 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state6.1$selectors$si_data_type))
     expect_true(isDisplayed(remDr, pages$state6.1$selectors$si_data_type_label))
     expect_equal(getText(remDr, pages$state6.1$selectors$si_data_type_label),
-                 paste("Would you like to use an external file containing",
-                       "the exposure data, or a pre-loaded dataset?"))
+    paste("Would you like to use an in-built example dataset",
+    "containing exposure data, or upload",
+    "your own dataset?"))
     expect_true(isDisplayed(remDr, pages$state6.1$selectors$si_data_type_preloaded_label))
     expect_equal(getText(remDr, pages$state6.1$selectors$si_data_type_preloaded_label), "Pre-loaded")
     expect_true(isDisplayed(remDr, pages$state6.1$selectors$si_data_type_preloaded_button))

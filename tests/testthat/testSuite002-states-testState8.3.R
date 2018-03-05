@@ -25,7 +25,7 @@ tryCatch({
   test_that("SISample file upload buttons are displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state8.3$selectors$si_sample_data_upload_label))
     expect_equal(getText(remDr, pages$state8.3$selectors$si_sample_data_upload_label),
-                 "Choose serialIntervalData file to upload")
+                 "Choose a serial interval data file to upload")
     expect_true(isDisplayed(remDr, pages$state8.3$selectors$si_sample_data_upload_browse))
 
     expect_true(isDisplayed(remDr, pages$state8.3$selectors$si_sample_header_button))
@@ -43,7 +43,7 @@ tryCatch({
   test_that("seed input is displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state8.3$selectors$seed_label))
     expect_equal(getText(remDr, pages$state8.3$selectors$seed_label),
-                 paste("Set a seed to be used by EpiEstim. A random one will",
+                 paste("Set a seed to be used by EpiEstim. A random seed will",
                        "be chosen if this is left blank"))
     expect_true(isDisplayed(remDr, pages$state8.3$selectors$seed_input))
   })

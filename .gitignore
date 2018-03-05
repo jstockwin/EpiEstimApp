@@ -7,4 +7,4 @@
 inst/app/mcmc-progress/*/*.txt
 *.swp
 *.log
-
+*.DS_Store
