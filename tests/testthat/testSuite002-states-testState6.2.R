@@ -30,7 +30,7 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state6.2$selectors$si_est_type))
     expect_true(isDisplayed(remDr, pages$state6.2$selectors$si_est_type_label))
     expect_equal(getText(remDr, pages$state6.2$selectors$si_est_type_label),
-                 "Which of the following serial interval distribution estimates would you like to use?")
+                 "Which of the following types of serial interval distributions would you like to use?")
 
     expect_true(isDisplayed(remDr, pages$state6.2$selector$si_est_type_option_1_label))
     expect_equal(getText(remDr, pages$state6.2$selector$si_est_type_option_1_label),
