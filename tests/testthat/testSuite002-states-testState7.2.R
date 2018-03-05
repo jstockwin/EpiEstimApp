@@ -30,9 +30,9 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state7.2$selectors$si_from))
     expect_true(isDisplayed(remDr, pages$state7.2$selectors$si_from_label))
     expect_equal(getText(remDr, pages$state7.2$selectors$si_from_label),
-                       "Do you have raw exposure data or a SI posterior sample to upload?")
+    "Do you have data from patients in known transmission chains or a SI posterior sample to upload?")
     expect_true(isDisplayed(remDr, pages$state7.2$selectors$si_from_raw_label))
-    expect_equal(getText(remDr, pages$state7.2$selectors$si_from_raw_label), "_raw exposure data")
+    expect_equal(getText(remDr, pages$state7.2$selectors$si_from_raw_label), "Patient data")
     expect_true(isDisplayed(remDr, pages$state7.2$selectors$si_from_raw_button))
     expect_true(isDisplayed(remDr, pages$state7.2$selectors$si_from_sample_label))
     expect_equal(getText(remDr, pages$state7.2$selectors$si_from_sample_label), "SI posterior sample")

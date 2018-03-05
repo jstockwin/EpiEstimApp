@@ -25,7 +25,7 @@ tryCatch({
   test_that("SI distribution selection input is displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state8.1$selectors$distribution_label))
     expect_equal(getText(remDr, pages$state8.1$selectors$distribution_label),
-                 "Choose your serial interval distribution")
+                 "Choose the serial interval distribution")
     expect_true(isDisplayed(remDr, pages$state8.1$selectors$distribution_option_1_label))
     expect_equal(getText(remDr, pages$state8.1$selectors$distribution_option_1_label),
                  "Gamma")
@@ -68,7 +68,7 @@ tryCatch({
   test_that("seed input is displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state8.1$selectors$seed_label))
     expect_equal(getText(remDr, pages$state8.1$selectors$seed_label),
-                 paste("Set a seed to be used by EpiEstim. A random one will",
+                 paste("Set a seed to be used by EpiEstim. A random seed will",
                        "be chosen if this is left blank"))
     expect_true(isDisplayed(remDr, pages$state8.1$selectors$seed_input))
   })

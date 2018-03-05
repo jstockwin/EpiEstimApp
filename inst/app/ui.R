@@ -159,8 +159,8 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 6.1
                     div(id = "si_data_type_error_box", class = "error_box",
                         shiny::radioButtons("si_data_type",
-                                            paste("Would you like to use an in-built example dataset
-                                                  containing exposure data, or upload",
+                                            paste("Would you like to use an in-built example dataset",
+                                                  "containing exposure data, or upload",
                                                   "your own dataset?"),
                                    c("Pre-loaded" = "preloaded",
                                      "Own data" = "own"))
@@ -275,7 +275,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 7.5
                     div(id = "si_distr_data_error_box", class = "error_box",
                         shiny::fileInput("si_distr_data",
-                                  "Choose serial interval data file to upload",
+                                  "Choose a serial interval data file to upload",
                                 accept = c(
                                   "text/csv",
                                   "text/comma-separated-values",
@@ -329,7 +329,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 8.2
                     div(id = "si_data_error_box", class = "error_box",
                         shiny::fileInput("si_data",
-                                "Choose serial interval data file to upload",
+                                "Choose a serial interval data file to upload",
                                 accept = c(
                                   "text/csv",
                                   "text/comma-separated-values",
@@ -352,7 +352,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     # State 8.3
                     div(id = "si_sample_data_error_box", class = "error_box",
                         shiny::fileInput("si_sample_data",
-                                "Choose serial interval data file to upload",
+                                "Choose a serial interval data file to upload",
                                 accept = c(
                                   "text/csv",
                                   "text/comma-separated-values",
