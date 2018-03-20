@@ -60,7 +60,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     div(id = "uploaded_width_error_box", class = "error_box",
                         shiny::sliderInput("uploaded_width",
                                            paste("Choose the length of the",
-                                                 "sliding time window, W, over which R",
+                                                 "sliding time window, τ, over which R",
                                                  "is estimated"),
                                            min = 1, max = 20, value = 7)
                     ),
@@ -98,7 +98,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                     div(id = "incidence_width_error_box", class = "error_box",
                         shiny::sliderInput("incidence_width",
                                            paste("Choose the length of the",
-                                                 "sliding time window, W, over which R",
+                                                 "sliding time window, τ, over which R",
                                                  "is estimated"),
                                            min = 1, max = 20, value = 7)
                     ),
@@ -455,7 +455,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
              shinyjs::hidden(actionButton("go", label = "Go")),
              textOutput("error")
          )
-         
+
   ),
   column(8, id = "plot",
          tabsetPanel(
@@ -478,6 +478,6 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
            )
          )
   )
-  
+
 )
 )
