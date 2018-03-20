@@ -65,7 +65,7 @@ tryCatch({
   test_that("width inputs are displaying correctly", {
     expect_true(isDisplayed(remDr, pages$state2.2$selectors$incidence_width_label))
     expect_equal(getText(remDr, pages$state2.2$selectors$incidence_width_label),
-                 "Choose the length of the sliding time window, W, over which R is estimated")
+                 "Choose the length of the sliding time window, τ, over which R is estimated")
   })
 
   test_that("mean prior input is displaying correctly", {
