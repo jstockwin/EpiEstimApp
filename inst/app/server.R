@@ -985,7 +985,7 @@ shiny::shinyServer(function(input, output, session) {
                      "contains only 0."),
                paste("method si_from_sample requires that si_sample must",
                      "contain only non negtaive values."),
-               psate("method si_from_sample requires the sum of each column",
+               paste("method si_from_sample requires the sum of each column",
                      "in si_sample to be 1.")
              )
              if (error$message ==
