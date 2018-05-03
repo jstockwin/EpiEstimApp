@@ -75,7 +75,7 @@ test_that("Test 1 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, method="si_from_sample", si_sample=sample,
+  epiEstimOut <- estimate_r(I, method="si_from_sample", si_sample=sample,
                            config=list(t_start=2:26, t_end=8:32, n2=100, seed=1)
   )
 
@@ -152,7 +152,7 @@ test_that("Test 2 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, method="si_from_sample", si_sample=sample,
+  epiEstimOut <- estimate_r(I, method="si_from_sample", si_sample=sample,
                            config=list(t_start=2:17, t_end=8:23, n2=100, seed=1)
   )
 
@@ -229,7 +229,7 @@ test_that("Test 3 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, method="si_from_sample",si_sample=sample,
+  epiEstimOut <- estimate_r(I, method="si_from_sample",si_sample=sample,
                            config=list(t_start=2:8, t_end=8:14, n2=100, seed=1)
   )
 
@@ -308,7 +308,7 @@ test_that("Test 4 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, method="si_from_sample", si_sample=sample,
+  epiEstimOut <- estimate_r(I, method="si_from_sample", si_sample=sample,
                            config=list(n2=100, seed=1, mean_prior=6,
                                        t_start=2:26, t_end=8:32)
   )
@@ -388,7 +388,7 @@ test_that("Test 5 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- EstimateR(I, method="si_from_sample", si_sample=sample,
+  epiEstimOut <- estimate_r(I, method="si_from_sample", si_sample=sample,
                            config=list(n2=100, seed=1, std_prior=6,
                                        t_start=2:26, t_end=8:32)
   )
