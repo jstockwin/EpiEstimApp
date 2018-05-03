@@ -20,7 +20,7 @@ for (file in list.files("datasets/SerialIntervalData")) {
   SIData <- EpiEstim:::process_si_data(SIData)
 
   for (dist in dists) {
-    init.pars <- init_MCMC_params(SIData, dist=dist)
+    init.pars <- init_mcmc_params(SIData, dist=dist)
 
     fit <- dic.fit.mcmc(SIData, dist=dist, init.pars = init.pars, seed=1)
 

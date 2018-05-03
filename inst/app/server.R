@@ -707,7 +707,7 @@ shiny::shinyServer(function(input, output, session) {
                if (!is.na(input$param1) && !is.na(input$param1)) {
                  config$mcmc_control$init.pars <<- c(input$param1, input$param2)
                } else {
-                 config$mcmc_control$init.pars <<- EpiEstim::init_MCMC_params(
+                 config$mcmc_control$init.pars <<- EpiEstim::init_mcmc_params(
                                                     si_data,
                                                     config$si_parametric_distr)
                }
