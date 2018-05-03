@@ -914,13 +914,13 @@ shiny::shinyServer(function(input, output, session) {
     switch(state,
            "2.1" = {
              if (error$message == 
-                 "I must contain only non negative integer values."
+                 "incid must contain only non negative integer values."
                  ) {
                throw_error(
                  "Incidence data must contain only non negative integer values."
                  , "incidence_data", FALSE)
              } else if (error$message == 
-                        paste("I must be a vector or a dataframe with either",
+                        paste("incid must be a vector or a dataframe with either",
                               "i) a column called 'I', or",
                               "ii) 2 columns called 'local' and 'imported'.")) {
                throw_error(paste("Incidence data must only contain one column,",

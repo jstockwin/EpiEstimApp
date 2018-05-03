@@ -59,12 +59,12 @@ error = function(e) {
 
 test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1NewYork2009.csv', sep='/'), header=FALSE)
-  I <- EpiEstim:::process_I(I)
+  incid <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1NewYork2009.csv', sep='/'), header=FALSE)
+  incid <- EpiEstim:::process_I(incid)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- estimate_r(I, si_sample=sample, method="si_from_sample",
+  epiEstimOut <- estimate_r(incid, si_sample=sample, method="si_from_sample",
                            config=list(t_start=2:8, t_end=8:14, n2=100, seed=1)
   )
 
@@ -125,12 +125,12 @@ error = function(e) {
 
 test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/RotavirusKiribati2013.csv', sep='/'), header=FALSE)
-  I <- EpiEstim:::process_I(I)
+  incid <- read.csv(paste(appDir, 'datasets/IncidenceData/RotavirusKiribati2013.csv', sep='/'), header=FALSE)
+  incid <- EpiEstim:::process_I(incid)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- estimate_r(I, si_sample=sample, method="si_from_sample",
+  epiEstimOut <- estimate_r(incid, si_sample=sample, method="si_from_sample",
                            config=list(t_start=2:17, t_end=8:23, n2=100, seed=1)
   )
 
@@ -192,12 +192,12 @@ error = function(e) {
 
 test_that("Test 3 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Maryland1918.csv', sep='/'), header=FALSE)
-  I <- EpiEstim:::process_I(I)
+  incid <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Maryland1918.csv', sep='/'), header=FALSE)
+  incid <- EpiEstim:::process_I(incid)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- estimate_r(I, si_sample=sample, method="si_from_sample",
+  epiEstimOut <- estimate_r(incid, si_sample=sample, method="si_from_sample",
                            config=list(t_start=2:86, t_end=8:92, n2=100, seed=1)
   )
 
@@ -259,12 +259,12 @@ error = function(e) {
 
 test_that("Test 4 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/MeaslesGermany1861.csv', sep='/'), header=FALSE)
-  I <- EpiEstim:::process_I(I)
+  incid <- read.csv(paste(appDir, 'datasets/IncidenceData/MeaslesGermany1861.csv', sep='/'), header=FALSE)
+  incid <- EpiEstim:::process_I(incid)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- estimate_r(I, si_sample=sample, method="si_from_sample",
+  epiEstimOut <- estimate_r(incid, si_sample=sample, method="si_from_sample",
                            config=list(t_start=2:42, t_end=8:48, n2=100, seed=1)
   )
 
@@ -326,12 +326,12 @@ error = function(e) {
 
 test_that("Test 5 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/SARSHongKong2003.csv', sep='/'), header=FALSE)
-  I <- EpiEstim:::process_I(I)
+  incid <- read.csv(paste(appDir, 'datasets/IncidenceData/SARSHongKong2003.csv', sep='/'), header=FALSE)
+  incid <- EpiEstim:::process_I(incid)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- estimate_r(I, si_sample=sample, method="si_from_sample",
+  epiEstimOut <- estimate_r(incid, si_sample=sample, method="si_from_sample",
                            config=list(t_start=2:101, t_end=8:107, n2=100, seed=1)
   )
 
@@ -393,12 +393,12 @@ error = function(e) {
 
 test_that("Test 6 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/SmallpoxKosovo1972.csv', sep='/'), header=FALSE)
-  I <- EpiEstim:::process_I(I)
+  incid <- read.csv(paste(appDir, 'datasets/IncidenceData/SmallpoxKosovo1972.csv', sep='/'), header=FALSE)
+  incid <- EpiEstim:::process_I(incid)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- estimate_r(I, si_sample=sample, method="si_from_sample",
+  epiEstimOut <- estimate_r(incid, si_sample=sample, method="si_from_sample",
                            config=list(t_start=2:51, t_end=8:57, n2=100, seed=1)
   )
 
@@ -461,12 +461,12 @@ error = function(e) {
 
 test_that("Test 8 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
-  I <- EpiEstim:::process_I(I)
+  incid <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
+  incid <- EpiEstim:::process_I(incid)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- estimate_r(I, si_sample=sample, method="si_from_sample",
+  epiEstimOut <- estimate_r(incid, si_sample=sample, method="si_from_sample",
                            config=list(t_start=2:26, t_end=8:32, n2=100, seed=1, mean_prior=6)
   )
 
@@ -529,12 +529,12 @@ error = function(e) {
 
 test_that("Test 9 output matches", {
   # Compare the output to EpiEstim's output
-  I <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
-  I <- EpiEstim:::process_I(I)
+  incid <- read.csv(paste(appDir, 'datasets/IncidenceData/H1N1Pennsylvania2009.csv', sep='/'), header=FALSE)
+  incid <- EpiEstim:::process_I(incid)
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- estimate_r(I, si_sample=sample, method="si_from_sample",
+  epiEstimOut <- estimate_r(incid, si_sample=sample, method="si_from_sample",
                            config=list(t_start=2:26, t_end=8:32, n2=100, seed=1, std_prior=6)
   )
 
