@@ -8,7 +8,7 @@ source("functions.R", local=TRUE)
 
 
 # ---------------------------------------------------------------------------#
-# Test 6 - Different init.pars                                               #
+# Test 6 - Different init_pars                                               #
 # ---------------------------------------------------------------------------#
 drivers <- getRemDrivers("Test Suite 4 (E2E) --> Endpoint 9.1 (Test 6)")
 rD <- drivers$rDr
@@ -81,7 +81,7 @@ test_that("Test 6 output matches", {
   epiEstimOut <- estimate_r(I, si_data=si_data, method="si_from_data",
                            config=list(t_start=2:26, t_end=8:32,
                            si_parametric_distr="G", n1=500,
-                           n2=100, seed=1, mcmc_control=list(burnin=3000, thin=10, seed=1, init.pars=c(2,1)))
+                           n2=100, seed=1, mcmc_control=list(burnin=3000, thin=10, seed=1, init_pars=c(2,1)))
   )
 
   compareOutputFromApp(appOut, epiEstimOut)

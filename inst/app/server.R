@@ -165,7 +165,7 @@ shiny::shinyServer(function(input, output, session) {
               samples <- coarseDataTools::dic.fit.mcmc(
                 dat = si_data,
                 dist = config$si_parametric_distr,
-                init.pars = config$mcmc_control$init.pars,
+                init_pars = config$mcmc_control$init_pars,
                 burnin = config$mcmc_control$burnin,
                 n.samples = config$n1 * config$mcmc_control$thin,
                 verbose = floor(total_samples_needed / 100),
@@ -705,9 +705,9 @@ shiny::shinyServer(function(input, output, session) {
                si_sample_from_data <<- async_data$si_sample_from_data
                convergence_check <<- async_data$convergence_check
                if (!is.na(input$param1) && !is.na(input$param1)) {
-                 config$mcmc_control$init.pars <<- c(input$param1, input$param2)
+                 config$mcmc_control$init_pars <<- c(input$param1, input$param2)
                } else {
-                 config$mcmc_control$init.pars <<- EpiEstim::init_mcmc_params(
+                 config$mcmc_control$init_pars <<- EpiEstim::init_mcmc_params(
                                                     si_data,
                                                     config$si_parametric_distr)
                }
