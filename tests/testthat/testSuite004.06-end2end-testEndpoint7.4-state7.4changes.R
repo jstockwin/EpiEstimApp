@@ -56,7 +56,7 @@ test_that("Test 1 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, method="parametric_si",
+  epiEstimOut <- estimate_r(I, method="parametric_si",
                            config=list(t_start=2:26, t_end=8:32, mean_si=2, std_si=1)
   )
 
@@ -118,7 +118,7 @@ test_that("Test 2 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, method="parametric_si",
+  epiEstimOut <- estimate_r(I, method="parametric_si",
                            config=list(t_start=2:26, t_end=8:32, mean_si=3, std_si=1)
   )
 
@@ -181,7 +181,7 @@ test_that("Test 3 output matches", {
   # Compare the output to EpiEstim's output
   I <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   I <- EpiEstim:::process_I(I)
-  epiEstimOut <- EstimateR(I, method="parametric_si",
+  epiEstimOut <- estimate_r(I, method="parametric_si",
                            config=list(t_start=2:26, t_end=8:32, mean_si=2, std_si=2)
   )
 
