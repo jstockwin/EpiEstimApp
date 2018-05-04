@@ -165,7 +165,7 @@ shiny::shinyServer(function(input, output, session) {
               samples <- coarseDataTools::dic.fit.mcmc(
                 dat = si_data,
                 dist = config$si_parametric_distr,
-                init_pars = config$mcmc_control$init_pars,
+                init.pars = config$mcmc_control$init_pars,
                 burnin = config$mcmc_control$burnin,
                 n.samples = config$n1 * config$mcmc_control$thin,
                 verbose = floor(total_samples_needed / 100),
