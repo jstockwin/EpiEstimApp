@@ -21,7 +21,6 @@ cache:
 - packages
 r:
 - release
-- devel
 r_github_packages:
   - johndharrison/binman
   - johndharrison/wdman
