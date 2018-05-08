@@ -22,7 +22,7 @@ for (file in list.files("datasets/SerialIntervalData")) {
   for (dist in dists) {
     init_pars <- init_mcmc_params(SIData, dist=dist)
 
-    fit <- dic.fit.mcmc(SIData, dist=dist, init_pars = init_pars, seed=1)
+    fit <- dic.fit.mcmc(SIData, dist=dist, init.pars = init_pars, seed=1)
 
     CDT <- coarse2estim(fit, dist=dist)
 
