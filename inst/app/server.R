@@ -46,7 +46,7 @@ shiny::shinyServer(function(input, output, session) {
     shiny::reactiveValues(epi_estim_output = NULL, mcmc_samples = NULL,
                    si_sample_from_data = NULL, convergence_check = NULL)
   async_data_being_loaded <- list()
-  # Initialise inputs for EpiEstim's EstimateR
+  # Initialise inputs for EpiEstim's estimate_r
   config <- list(
     n2 = 100,
     mcmc_control = list(
@@ -165,7 +165,7 @@ shiny::shinyServer(function(input, output, session) {
               samples <- coarseDataTools::dic.fit.mcmc(
                 dat = si_data,
                 dist = config$si_parametric_distr,
-                init.pars = config$mcmc_control$init.pars,
+                init.pars = config$mcmc_control$init_pars,
                 burnin = config$mcmc_control$burnin,
                 n.samples = config$n1 * config$mcmc_control$thin,
                 verbose = floor(total_samples_needed / 100),
@@ -207,7 +207,7 @@ shiny::shinyServer(function(input, output, session) {
               # Run si_from_sample not si_from_data using si_sample_from_data
               # (which is the result of us running MCMC)
               # The whole thing is equivalent to passing si_data to
-              # EstimateR(method="si_from_data"), but this way we
+              # estimate_r(method="si_from_data"), but this way we
               # get a progress bar.
               if (!convergence_check) {
                 # FYI: This works in browsers, but seems to stop everything
@@ -215,15 +215,15 @@ shiny::shinyServer(function(input, output, session) {
                 session$sendCustomMessage(type = "alert", #nolint
                     "Warning: The Gelan-Rubin algorithm suggests that MCMC may",
                     "not have converged within the number of iterations",
-                    "sepcified (burnin + n1*thin). EstimateR will be called",
+                    "sepcified (burnin + n1*thin). estimate_r will be called",
                     "anyway, but you should investigate this issue.")
               }
-              values$status <- "Running EstimateR..."
+              values$status <- "Running estimate_r..."
               start_async_data_load("epi_estim_output", future::future({
                 if (.Platform$OS.type == "unix") {
                   write(Sys.getpid(), file = pid_file)
                 }
-                ret <- EpiEstim::EstimateR(incidence_data,
+                ret <- EpiEstim::estimate_r(incidence_data,
                                            method = "si_from_sample",
                                            si_sample = si_sample_from_data,
                                            config = config)
@@ -238,7 +238,7 @@ shiny::shinyServer(function(input, output, session) {
               if (.Platform$OS.type == "unix") {
                 write(Sys.getpid(), file = pid_file)
               }
-              ret <- EpiEstim::EstimateR(incidence_data, method = method,
+              ret <- EpiEstim::estimate_r(incidence_data, method = method,
                                si_data = si_data, si_sample = si_sample,
                                config = config)
               if (.Platform$OS.type == "unix") {
@@ -705,9 +705,9 @@ shiny::shinyServer(function(input, output, session) {
                si_sample_from_data <<- async_data$si_sample_from_data
                convergence_check <<- async_data$convergence_check
                if (!is.na(input$param1) && !is.na(input$param1)) {
-                 config$mcmc_control$init.pars <<- c(input$param1, input$param2)
+                 config$mcmc_control$init_pars <<- c(input$param1, input$param2)
                } else {
-                 config$mcmc_control$init.pars <<- EpiEstim::init_MCMC_params(
+                 config$mcmc_control$init_pars <<- EpiEstim::init_mcmc_params(
                                                     si_data,
                                                     config$si_parametric_distr)
                }
@@ -914,13 +914,13 @@ shiny::shinyServer(function(input, output, session) {
     switch(state,
            "2.1" = {
              if (error$message == 
-                 "I must contain only non negative integer values."
+                 "incid must contain only non negative integer values."
                  ) {
                throw_error(
                  "Incidence data must contain only non negative integer values."
                  , "incidence_data", FALSE)
              } else if (error$message == 
-                        paste("I must be a vector or a dataframe with either",
+                        paste("incid must be a vector or a dataframe with either",
                               "i) a column called 'I', or",
                               "ii) 2 columns called 'local' and 'imported'.")) {
                throw_error(paste("Incidence data must only contain one column,",

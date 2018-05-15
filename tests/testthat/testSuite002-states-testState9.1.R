@@ -96,7 +96,7 @@ tryCatch({
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$seed_input))
   })
 
-  test_that("init.pars inputs are displayed correctly", {
+  test_that("init_pars inputs are displayed correctly", {
     expect_true(isDisplayed(remDr, pages$state9.1$selectors$param1_label))
     expect_equal(getText(remDr, pages$state9.1$selectors$param1_label),
                  "Choose the value of param1")
