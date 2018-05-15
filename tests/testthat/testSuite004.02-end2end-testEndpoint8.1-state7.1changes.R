@@ -64,7 +64,7 @@ test_that("Test 1 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/H1N1NewYork2009_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- estimate_r(incid, method="si_from_sample",  si_sample=sample,
+  epiEstimOut <- estimate_R(incid, method="si_from_sample",  si_sample=sample,
                            config=list(n2=100, seed=1,
                                        t_start=2:26, t_end=8:32)
   )
@@ -131,7 +131,7 @@ test_that("Test 2 output matches", {
   sample <- read.csv(paste(appDir, "datasets/SIPosteriorSamples/H1N1USA2009_SISamples_G.csv", sep="/"), header=FALSE)
   sample <- EpiEstim:::process_si_sample(sample)
 
-  epiEstimOut <- estimate_r(incid, method="si_from_sample",  si_sample=sample,
+  epiEstimOut <- estimate_R(incid, method="si_from_sample",  si_sample=sample,
                            config=list(n2=100, seed=1, t_start=2:26, t_end=8:32)
   )
 

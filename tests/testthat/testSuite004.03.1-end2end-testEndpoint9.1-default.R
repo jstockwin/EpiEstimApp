@@ -75,7 +75,7 @@ test_that("Test 1 output matches", {
   si_data <- read.csv(paste(appDir, "datasets/SerialIntervalData/RotavirusEcuador2011.csv", sep="/"), header=FALSE)
   si_data <- EpiEstim:::process_si_data(si_data)
 
-  epiEstimOut <- estimate_r(incid, si_data=si_data, method="si_from_data",
+  epiEstimOut <- estimate_R(incid, si_data=si_data, method="si_from_data",
                            config=list(t_start=2:26, t_end=8:32,
                            si_parametric_distr="G", n1=500,
                            n2=100, seed=1, mcmc_control=list(burnin=3000, thin=10, seed=1))

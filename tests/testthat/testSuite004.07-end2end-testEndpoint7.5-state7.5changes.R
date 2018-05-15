@@ -66,7 +66,7 @@ test_that("Test 1 output matches", {
   incid <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   incid <- EpiEstim:::process_I(incid)
   si_distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/H1N1Maryland1918.csv", sep="/"), header=FALSE))
-  epiEstimOut <- estimate_r(incid, method="non_parametric_si",
+  epiEstimOut <- estimate_R(incid, method="non_parametric_si",
                            confi=list(si_distr=si_distr, t_start=2:26, t_end=8:32)
   )
 
@@ -134,7 +134,7 @@ test_that("Test 2 output matches", {
   incid <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   incid <- EpiEstim:::process_I(incid)
   si_distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE))
-  epiEstimOut <- estimate_r(incid, method="non_parametric_si",
+  epiEstimOut <- estimate_R(incid, method="non_parametric_si",
                            config=list(si_distr=si_distr, t_start=2:26, t_end=8:32)
   )
 
@@ -202,7 +202,7 @@ test_that("Test 3 output matches", {
   incid <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   incid <- EpiEstim:::process_I(incid)
   si_distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/MeaslesGermany1861.csv", sep="/"), header=FALSE))
-  epiEstimOut <- estimate_r(incid, method="non_parametric_si",
+  epiEstimOut <- estimate_R(incid, method="non_parametric_si",
                            config=list(si_distr=si_distr, t_start=2:26, t_end=8:32)
   )
 
@@ -270,7 +270,7 @@ test_that("Test 4 output matches", {
   incid <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   incid <- EpiEstim:::process_I(incid)
   si_distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/SARSHongKong2003.csv", sep="/"), header=FALSE))
-  epiEstimOut <- estimate_r(incid, method="non_parametric_si",
+  epiEstimOut <- estimate_R(incid, method="non_parametric_si",
                            config=list(si_distr=si_distr, t_start=2:26, t_end=8:32)
   )
 
@@ -338,7 +338,7 @@ test_that("Test 5 output matches", {
   incid <- read.csv(paste(appDir, "datasets/IncidenceData/H1N1Pennsylvania2009.csv", sep="/"), header=FALSE)
   incid <- EpiEstim:::process_I(incid)
   si_distr <- as.numeric(read.csv(paste(appDir, "datasets/SerialIntervalDistributions/SmallpoxKosovo1972.csv", sep="/"), header=FALSE))
-  epiEstimOut <- estimate_r(incid, method="non_parametric_si",
+  epiEstimOut <- estimate_R(incid, method="non_parametric_si",
                            config=list(si_distr=si_distr, t_start=2:26, t_end=8:32)
   )
 
