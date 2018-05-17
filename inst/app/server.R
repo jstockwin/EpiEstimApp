@@ -261,7 +261,7 @@ shiny::shinyServer(function(input, output, session) {
 
   output$plot <- shiny::renderPlot({
     if (!is.null(async_data$epi_estim_output)) {
-      EpiEstim::plots(async_data$epi_estim_output)
+      plot(async_data$epi_estim_output)
       values$status <- "Ready"
       shinyjs::show("prev")
       shinyjs::hide("stop")
@@ -274,7 +274,7 @@ shiny::shinyServer(function(input, output, session) {
     content = function(file) {
       if (!is.null(async_data$epi_estim_output)){
         png(file)
-        print(EpiEstim::plots(async_data$epi_estim_output))
+        print(plot(async_data$epi_estim_output))
         dev.off()
       }
     }
