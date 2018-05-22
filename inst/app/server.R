@@ -53,8 +53,7 @@ shiny::shinyServer(function(input, output, session) {
       burnin = 3000
     ),
     mean_prior = 5,
-    std_prior = 5,
-    plot = FALSE
+    std_prior = 5
   )
   method <- NULL
   si_sample <- NULL
