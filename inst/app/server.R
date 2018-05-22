@@ -47,14 +47,14 @@ shiny::shinyServer(function(input, output, session) {
                    si_sample_from_data = NULL, convergence_check = NULL)
   async_data_being_loaded <- list()
   # Initialise inputs for EpiEstim's estimate_R
-  config <- list(
+  config <- make_config(list(
     n2 = 100,
-    mcmc_control = list(
+    mcmc_control = make_mcmc_control(
       burnin = 3000
     ),
     mean_prior = 5,
     std_prior = 5
-  )
+  ))
   method <- NULL
   si_sample <- NULL
   si_data <- NULL
