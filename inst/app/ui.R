@@ -20,7 +20,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
           <p>The authors request users to cite the original publication when referring to this tool, any results generated from it, or the R software application on which this tool is based (EpiEstim 2):
 
 </p>
-          <p>Thompson RN, Stockwin JE, van Gaalen RD, Polonsky JA, et al. Improved inference of time-varying reproduction numbers during infectious disease outbreaks. Submitted (2018).</p>
+          <p>Thompson RN, Stockwin JE, van Gaalen RD, Polonsky JA, et al. Improved inference of time-varying reproduction numbers during infectious disease outbreaks. Submitted (2019).</p>
           "
          )
   ),
@@ -436,7 +436,7 @@ shiny::shinyUI(shiny::bootstrapPage(theme = shinythemes::shinytheme("spacelab"),
                                             value = NULL)
                     ),
                     tags$hr(),
-                    p("The following two parameters set the initial parameter estimates at the start of the MCMC chain (at the start of the burn in). For Gamma, Offset Gamma and Weibull distributions, param1 and param2 are the shape and scale parameters, respecitvely. For Log-Normal, param1 and param2 are the mean and standard deviation, respectively."), #nolint can't split html
+                    p("The following two parameters set the initial parameter estimates at the start of the MCMC chain (at the start of the burn in). For Gamma, Offset Gamma and Weibull distributions, param1 and param2 are the shape and scale parameters, respectively. For Log-Normal, param1 and param2 are the mean and standard deviation, respectively."), #nolint can't split html
                     div(id = "param1_error_box", class = "error_box",
                         shiny::numericInput("param1",
                                             "Choose the value of param1",
