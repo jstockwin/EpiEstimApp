@@ -1,8 +1,8 @@
 language: r
+sudo: required
 env:
   global:
   - NOT_CRAN=true
-  - browser=chrome platform="Windows 10"
   matrix:
   - suite=001
   - suite=002
@@ -25,6 +25,11 @@ r_github_packages:
   - johndharrison/binman
   - johndharrison/wdman
 before_script:
+  - sudo ./scripts/install_geckodriver.sh
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+  - ./scripts/run_selenium &
   - |
     cd tests/testthat
     # Remove all test files not in current test suite
@@ -32,16 +37,13 @@ before_script:
     ls | grep -P "^testSuite(?!$suite)" | xargs -d"\n" rm
     ls
     cd ../../
-script:
-  - |
-    travis_retry R CMD build .
-    travis_retry travis_wait 60 R CMD check EpiEstimApp*tar.gz
 after_failure:
   - find *Rcheck -name '*.fail' -print -exec cat '{}' \;
   - find *Rcheck -name '*.log' -print -exec cat '{}' \;
+  - cat selenium_out.txt
 addons:
-  sauce_connect:
-    no_ssl_bump_domains: localhost
+  firefox:
+    latest
 notifications:
   email: false
   slack:

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+# Start selenium server
+echo "Starting selenium server..."
+SELENIUM_VERSION=3.9.1
+SELENIUM_FILE=selenium-server-standalone-$SELENIUM_VERSION.jar
+if [ ! -f "$SELENIUM_FILE" ]; then
+    wget http://selenium-release.storage.googleapis.com/3.9/$SELENIUM_FILE
+fi
+nohup java -jar $SELENIUM_FILE > selenium_out.txt 2>&1 &
