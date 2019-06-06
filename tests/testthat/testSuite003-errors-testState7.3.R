@@ -162,7 +162,7 @@ tryCatch({
     checkError(remDr, "min_std_si must be less than std_si", "min_std_si")
     # Reset
     clear(remDr, pages$state7.3$selectors$min_std_si_input)
-    sendKeys(remDr, pages$state7.3$selectors$min_std_si_input, "1")
+    sendKeys(remDr, pages$state7.3$selectors$min_std_si_input, "2")
   })
 
   test_that("Giving an invalid max_std_si throws correct error", {
