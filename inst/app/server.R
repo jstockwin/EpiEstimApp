@@ -656,7 +656,7 @@ shiny::shinyServer(function(input, output, session) {
                }
                # Throw a warning about MCMC locking up app if only 1 core
                if (future::availableCores() == 1) {
-                 alert(paste("WARNING:\n", "Your machine only has 1 core",
+                 shinyjs::alert(paste("WARNING:\n", "Your machine only has 1 core",
                              "available for EpiEstimApp to use. This means",
                              "that we cannot run MCMC in a separate process",
                              "which will cause the app to lock up while you",
@@ -752,7 +752,7 @@ shiny::shinyServer(function(input, output, session) {
                cores <- future::availableCores()
                current_mcmc <- length(list.files(path = mcmc_pid_folder))
                if (current_mcmc >= ceiling(cores / 2)) {
-                 alert(paste("ERROR: SERVER BUSY\n",
+                 shinyjs::alert(paste("ERROR: SERVER BUSY\n",
                       "Unfortunately the maximum number of MCMC processes are",
                       "already running on this server. This is probably",
                       "because other users are also running MCMC. Please try",
