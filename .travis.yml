@@ -11,6 +11,7 @@ env:
   - suite=003
   - suite=004.01.1
   - suite=004.01.2
+  - suite=004.01.3
   - suite=004.02
   - suite=004.03.1
   - suite=004.03.2
