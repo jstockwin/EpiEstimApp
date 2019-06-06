@@ -353,26 +353,20 @@ buildMatrix <- list(
 )
 
 getRemDrivers <- function(name) {
-  if (Sys.getenv("TRAVIS_JOB_NUMBER") == "") {
-        # rDr <- rsDriver(remoteServerAddr = "localhost", port = 4444L, verbose=FALSE,
-        #                 browser="chrome")
-        # remDr <- rDr$client
-        rDr <- NULL
-        remDr <- remoteDriver(remoteServerAddr="localhost", port=4444L, browser="chrome")
-  } else {
-        rDr <- NULL
-        remDr <- remoteDriver(
-            browserName = "firefox",
-            extraCapabilities = c(
-                list(
-                    "mox:firefoxOptions" = list(
-                        args = list ("--headless", "--start-maximised")
-                    ),
-                    "screen-resolution" = "1080x1920"
-                )
-            )
-        )
-  }
+  # TODO: rDr is now obsolete
+  rDr <- NULL
+  remDr <- remoteDriver(
+    remoteServerAddr="localhost",
+    port=4444L,
+    browser="firefox",
+    extraCapabilities = c(
+      list(
+          "mox:firefoxOptions" = list(
+              args = list ("--headless", "--start-maximised")
+          ),
+          "screen-resolution" = "1080x1920"
+      )
+  ))
   return(list(remDr = remDr, rDr = rDr))
 }
 
@@ -415,7 +409,8 @@ closeRemDrivers <- function(remDr, rDr) {
 
 getFilePath <- function(remDr, file) {
    # file should be a path relative to the apps root directory
-   # Returns full file path on most systems.
-   path <- paste(appDir, "/", file, sep="")
+   # Returns /data since this is where we mount inst/app inside the
+   # selenium docker container.
+   path <- paste("/data/", file, sep="")
    return(path)
 }

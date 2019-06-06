@@ -1,5 +1,7 @@
 language: r
 sudo: required
+services:
+  - docker
 env:
   global:
   - NOT_CRAN=true
@@ -26,11 +28,9 @@ r_github_packages:
   - johndharrison/binman
   - johndharrison/wdman
 before_script:
-  - sudo ./scripts/install_geckodriver.sh
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
-  - ./scripts/run_selenium &
+  - docker pull selenium/standalone-firefox:3.141.59-palladium
+  # Run selenium/firefox docker container. Pipe output to selenium_out.txt
+  - docker run -v $TRAVIS_BUILD_DIR/inst/app:/data --network=host -v /dev/shm:/dev/shm selenium/standalone-firefox:3.141.59-palladium > selenium_out.txt 2>&1 &
   - |
     cd tests/testthat
     # Remove all test files not in current test suite
@@ -42,9 +42,6 @@ after_failure:
   - find *Rcheck -name '*.fail' -print -exec cat '{}' \;
   - find *Rcheck -name '*.log' -print -exec cat '{}' \;
   - cat selenium_out.txt
-addons:
-  firefox:
-    latest
 notifications:
   email: false
   slack:
