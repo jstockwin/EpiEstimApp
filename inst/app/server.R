@@ -750,7 +750,8 @@ shiny::shinyServer(function(input, output, session) {
                # To deal with this, we will limit the number of cores used for
                # MCMC.
                cores <- future::availableCores()
-               current_mcmc <- length(list.files(path = mcmc_pid_folder))
+               current_mcmc <- length(
+                 list.files(path = mcmc_pid_folder, pattern="*pid.txt"))
                if (current_mcmc >= ceiling(cores / 2)) {
                  shinyjs::alert(paste("ERROR: SERVER BUSY\n",
                       "Unfortunately the maximum number of MCMC processes are",
