@@ -17,8 +17,7 @@ Imports:
     devtools,
     httr
 Remotes:
-    annecori/EpiEstim@new-version,
-    nickreich/coarseDataTools,
+    annecori/EpiEstim,
     ropensci/RSelenium
 Suggests:
     testthat,
