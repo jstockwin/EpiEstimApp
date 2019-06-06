@@ -34,14 +34,8 @@ before_script:
   - |
     cd tests/testthat
     # Remove all test files not in current test suite
-    ls
     ls | grep -P "^testSuite(?!$suite)" | xargs -d"\n" rm
-    ls
     cd ../../
-after_failure:
-  - find *Rcheck -name '*.fail' -print -exec cat '{}' \;
-  - find *Rcheck -name '*.log' -print -exec cat '{}' \;
-  - cat selenium_out.txt
 notifications:
   email: false
   slack:
