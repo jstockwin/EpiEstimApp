@@ -8,8 +8,8 @@ Description: This package adds a graphic interface (using R Shiny) around the
     EpiEstim package.
 BugReports: https://github.com/jstockwin/EpiEstimApp/issues
 Imports:
-    EpiEstim,
-    coarseDataTools,
+    EpiEstim (>= 2.1-0),
+    coarseDataTools (>= 0.6-4),
     shiny,
     shinyjs,
     shinythemes,
