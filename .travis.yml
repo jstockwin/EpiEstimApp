@@ -1,13 +1,17 @@
 language: r
+sudo: required
+services:
+  - docker
 env:
   global:
   - NOT_CRAN=true
-  - browser=chrome platform="Windows 10"
   matrix:
   - suite=001
   - suite=002
   - suite=003
-  - suite=004.01
+  - suite=004.01.1
+  - suite=004.01.2
+  # - suite=004.01.3
   - suite=004.02
   - suite=004.03.1
   - suite=004.03.2
@@ -25,23 +29,14 @@ r_github_packages:
   - johndharrison/binman
   - johndharrison/wdman
 before_script:
+  - docker pull selenium/standalone-firefox:3.141.59-palladium
+  # Run selenium/firefox docker container. Pipe output to selenium_out.txt
+  - docker run -v $TRAVIS_BUILD_DIR/inst/app:/data --network=host -v /dev/shm:/dev/shm selenium/standalone-firefox:3.141.59-palladium > selenium_out.txt 2>&1 &
   - |
     cd tests/testthat
     # Remove all test files not in current test suite
-    ls
     ls | grep -P "^testSuite(?!$suite)" | xargs -d"\n" rm
-    ls
     cd ../../
-script:
-  - |
-    travis_retry R CMD build .
-    travis_retry travis_wait 60 R CMD check EpiEstimApp*tar.gz
-after_failure:
-  - find *Rcheck -name '*.fail' -print -exec cat '{}' \;
-  - find *Rcheck -name '*.log' -print -exec cat '{}' \;
-addons:
-  sauce_connect:
-    no_ssl_bump_domains: localhost
 notifications:
   email: false
   slack:
