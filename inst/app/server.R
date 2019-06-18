@@ -15,7 +15,7 @@ all_states <- c("1.1", "2.1", "2.2", "3.1", "4.1", "5.1", "6.1", "6.2", "7.1",
 final_states <- c("7.3", "7.4", "7.5", "7.6", "8.1", "8.3", "9.1")
 
 # If the app has crashed we may be left with MCMC progress files, which would
-# throw off our counts of how many MCMC processes are running. 
+# throw off our counts of how many MCMC processes are running.
 # To be sure this doesn't happen, we will clear the repsective folders
 # when this happens.
 appDir <- system.file("app", package="EpiEstimApp")
@@ -46,16 +46,15 @@ shiny::shinyServer(function(input, output, session) {
     shiny::reactiveValues(epi_estim_output = NULL, mcmc_samples = NULL,
                    si_sample_from_data = NULL, convergence_check = NULL)
   async_data_being_loaded <- list()
-  # Initialise inputs for EpiEstim's estimate_r
-  config <- list(
+  # Initialise inputs for EpiEstim's estimate_R
+  config <- EpiEstim::make_config(list(
     n2 = 100,
-    mcmc_control = list(
+    mcmc_control = EpiEstim::make_mcmc_control(
       burnin = 3000
     ),
     mean_prior = 5,
-    std_prior = 5,
-    plot = FALSE
-  )
+    std_prior = 5
+  ))
   method <- NULL
   si_sample <- NULL
   si_data <- NULL
@@ -93,7 +92,7 @@ shiny::shinyServer(function(input, output, session) {
     values$error <- NULL
     session$sendCustomMessage(type = "reset_error_boxes", "") #nolint
   })
-  
+
   # Whenever the state changes, toggle which fields are/are not visible.
   shiny::observe({
     for (some_state in all_states) {
@@ -106,7 +105,7 @@ shiny::shinyServer(function(input, output, session) {
     # Disable/enable prev button as appropriate
     shinyjs::toggleState("prev", condition = !(values$state == "1.1"))
   })
-  
+
   # Keep the output text to values$status
   output$output <- shiny::renderText({values$status}) #nolint
   output$progress <- shiny::renderText({
@@ -118,8 +117,8 @@ shiny::shinyServer(function(input, output, session) {
       , sep = "")
     })
   output$error <- shiny::renderText({values$error}) #nolint
-  
-  
+
+
 
   # Logic for when "go" is clicked.
   shiny::observeEvent(input$go, {
@@ -127,11 +126,11 @@ shiny::shinyServer(function(input, output, session) {
     async_data$epi_estim_output <- NULL
     run()
     })
-  
+
   run <- function() {
     #TODO - can we make this async? Might be a bit more tricky...
     # WARNING: You probably want to avoid much logic here. Most of it should
-    # be in handle_state() which is reactive. 
+    # be in handle_state() which is reactive.
     # If Next is pressed twice without inputs changing, nothing will happen,
     # but if anything you put here WILL get done.
     tryCatch({
@@ -182,7 +181,7 @@ shiny::shinyServer(function(input, output, session) {
           if (method == "si_from_data") {
             # We have a full set of samples.
             mcmc_samples <- async_data$mcmc_samples
-            
+
             if (is.null(si_sample_from_data)) {
               values$status <- "Running coarse2estim"
               start_async_data_load("si_sample_from_data", future::future({
@@ -207,7 +206,7 @@ shiny::shinyServer(function(input, output, session) {
               # Run si_from_sample not si_from_data using si_sample_from_data
               # (which is the result of us running MCMC)
               # The whole thing is equivalent to passing si_data to
-              # estimate_r(method="si_from_data"), but this way we
+              # estimate_R(method="si_from_data"), but this way we
               # get a progress bar.
               if (!convergence_check) {
                 # FYI: This works in browsers, but seems to stop everything
@@ -215,15 +214,15 @@ shiny::shinyServer(function(input, output, session) {
                 session$sendCustomMessage(type = "alert", #nolint
                     "Warning: The Gelan-Rubin algorithm suggests that MCMC may",
                     "not have converged within the number of iterations",
-                    "sepcified (burnin + n1*thin). estimate_r will be called",
+                    "sepcified (burnin + n1*thin). estimate_R will be called",
                     "anyway, but you should investigate this issue.")
               }
-              values$status <- "Running estimate_r..."
+              values$status <- "Running estimate_R..."
               start_async_data_load("epi_estim_output", future::future({
                 if (.Platform$OS.type == "unix") {
                   write(Sys.getpid(), file = pid_file)
                 }
-                ret <- EpiEstim::estimate_r(incidence_data,
+                ret <- EpiEstim::estimate_R(incidence_data,
                                            method = "si_from_sample",
                                            si_sample = si_sample_from_data,
                                            config = config)
@@ -238,7 +237,7 @@ shiny::shinyServer(function(input, output, session) {
               if (.Platform$OS.type == "unix") {
                 write(Sys.getpid(), file = pid_file)
               }
-              ret <- EpiEstim::estimate_r(incidence_data, method = method,
+              ret <- EpiEstim::estimate_R(incidence_data, method = method,
                                si_data = si_data, si_sample = si_sample,
                                config = config)
               if (.Platform$OS.type == "unix") {
@@ -248,7 +247,7 @@ shiny::shinyServer(function(input, output, session) {
             }))
           }
         }
-        
+
       }
     },
     error = function (e) {
@@ -258,28 +257,28 @@ shiny::shinyServer(function(input, output, session) {
       handle_error(values$state, e)
     })
   }
-  
+
   output$plot <- shiny::renderPlot({
     if (!is.null(async_data$epi_estim_output)) {
-      EpiEstim::plots(async_data$epi_estim_output)
+      plot(async_data$epi_estim_output)
       values$status <- "Ready"
       shinyjs::show("prev")
       shinyjs::hide("stop")
       shinyjs::enable("go")
     }
   })
-  
+
   output$savePlot <- shiny::downloadHandler(
     filename = function() {"Plot.png"}, #nolint
     content = function(file) {
       if (!is.null(async_data$epi_estim_output)){
         png(file)
-        print(EpiEstim::plots(async_data$epi_estim_output))
+        print(plot(async_data$epi_estim_output))
         dev.off()
       }
     }
   )
-  
+
   output$incidence_data_output <- shiny::renderTable({
     if (!is.null(async_data$epi_estim_output)) {
         local <- round(async_data$epi_estim_output$I_local, 2)
@@ -291,7 +290,7 @@ shiny::shinyServer(function(input, output, session) {
         data.frame(local, imported)
     }
   })
-  
+
   output$save_incidence <- shiny::downloadHandler(
     filename = function() {"incidence_data.csv"}, #nolint
     content = function(file) {
@@ -303,7 +302,7 @@ shiny::shinyServer(function(input, output, session) {
       }
     }
   )
-  
+
   output$save_si <- shiny::downloadHandler(
     filename = function() {"SerialIntervalEstimates.csv"}, #nolint
     content = function(file) {
@@ -322,7 +321,7 @@ shiny::shinyServer(function(input, output, session) {
       round(async_data$epi_estim_output$R, 2)
     }
   })
-  
+
   output$serial_interval_output <- shiny::renderTable({
     if (!is.null(async_data$epi_estim_output)) {
       values$status <- "Ready"
@@ -332,7 +331,7 @@ shiny::shinyServer(function(input, output, session) {
       round(async_data$epi_estim_output$si_distr, 2)
     }
   })
-  
+
   output$save_r <- shiny::downloadHandler(
     filename = function() {"EstimatedR.csv"}, #nolint
     content = function(file) {
@@ -341,12 +340,12 @@ shiny::shinyServer(function(input, output, session) {
       }
     }
   )
-  
-  
+
+
   handle_state <- function() {
     # Run when next is clicked. Should handle all validation and error checks
     # for that state and should set all necessary variables.
-    # The state will change only if handle_state returns TRUE. 
+    # The state will change only if handle_state returns TRUE.
     state <- values$state
     if (state %in% final_states) {
       # Go (rather than next) was pressed.
@@ -412,7 +411,7 @@ shiny::shinyServer(function(input, output, session) {
 
                # Process Incidence data (using EpiEstim)
                incidence_data <<- EpiEstim:::process_I(incidence_data) #nolint
-               
+
                length <- dim(incidence_data)[1]
                w <- input$incidence_width
                if (w >= length) {
@@ -464,12 +463,12 @@ shiny::shinyServer(function(input, output, session) {
                }
                incidence_data$imported <<- imported_data[, 1]
                colnames(incidence_data) <<- c("local", "imported")
-               
+
                # Currently the "local" column will be the total number of cases
                # because of the way the app is asking for inputs. Correct this.
                incidence_data$local <<- incidence_data$local -
                  incidence_data$imported
-               
+
                # Process Incidence data (using EpiEstim)
                incidence_data <<- EpiEstim:::process_I(incidence_data)
                TRUE
@@ -657,7 +656,7 @@ shiny::shinyServer(function(input, output, session) {
                }
                # Throw a warning about MCMC locking up app if only 1 core
                if (future::availableCores() == 1) {
-                 alert(paste("WARNING:\n", "Your machine only has 1 core",
+                 shinyjs::alert(paste("WARNING:\n", "Your machine only has 1 core",
                              "available for EpiEstimApp to use. This means",
                              "that we cannot run MCMC in a separate process",
                              "which will cause the app to lock up while you",
@@ -751,9 +750,10 @@ shiny::shinyServer(function(input, output, session) {
                # To deal with this, we will limit the number of cores used for
                # MCMC.
                cores <- future::availableCores()
-               current_mcmc <- length(list.files(path = mcmc_pid_folder))
+               current_mcmc <- length(
+                 list.files(path = mcmc_pid_folder, pattern="*pid.txt"))
                if (current_mcmc >= ceiling(cores / 2)) {
-                 alert(paste("ERROR: SERVER BUSY\n",
+                 shinyjs::alert(paste("ERROR: SERVER BUSY\n",
                       "Unfortunately the maximum number of MCMC processes are",
                       "already running on this server. This is probably",
                       "because other users are also running MCMC. Please try",
@@ -818,7 +818,7 @@ shiny::shinyServer(function(input, output, session) {
                               "'%s' was not recognised."), current_state))
     )
   }
-  
+
   get_prev_state <- function (current_state) {
     switch(current_state,
            "2.1" = {"1.1"}, #nolint
@@ -848,7 +848,7 @@ shiny::shinyServer(function(input, output, session) {
                               "_input '%s' was not recognised."), current_state))
     )
   }
-  
+
   ### The following is to make everything as asyncronous as possible to prevent
   ### slow functions being blocking.
   start_async_data_load <- function(async_data_name, future_obj) {
@@ -856,7 +856,7 @@ shiny::shinyServer(function(input, output, session) {
     async_data_being_loaded[[async_data_name]] <<- future_obj
     check_async_data_being_loaded$resume()
   } #end start_async_data_load
-  
+
   check_async_data_being_loaded <- observe({
     shiny::invalidateLater(1000)
     for (async_data_name in names(async_data_being_loaded)) {
@@ -865,7 +865,7 @@ shiny::shinyServer(function(input, output, session) {
         tryCatch({
           async_data[[async_data_name]] <<- future::value(async_future_object)
           async_data_being_loaded[[async_data_name]] <<- NULL
-          
+
           # If we've resolved something but async_data$epi_estim_output is not
           # loaded then we've been incrementally running MCMC and are not done
           # yet. We want to re-start stuff, so call run() again
@@ -885,7 +885,7 @@ shiny::shinyServer(function(input, output, session) {
     if (length(async_data_being_loaded) == 0) {
       check_async_data_being_loaded$suspend()
     }
-    
+
     # If MCMC is being run, we should check on progress.
     if (method == "si_from_data") {
       prog <- get_mcmc_progress(progress_file) #nolint
@@ -897,7 +897,7 @@ shiny::shinyServer(function(input, output, session) {
     }
   }
   , suspended = TRUE) # check_async_data_being_loaded
-  
+
   handle_error <- function(state, error) {
     # Add stop(error) in dev for detailed stack trace etc
     if (error$message == "handled") {
@@ -913,13 +913,13 @@ shiny::shinyServer(function(input, output, session) {
     shinyjs::show("prev")
     switch(state,
            "2.1" = {
-             if (error$message == 
+             if (error$message ==
                  "incid must contain only non negative integer values."
                  ) {
                throw_error(
                  "Incidence data must contain only non negative integer values."
                  , "incidence_data", FALSE)
-             } else if (error$message == 
+             } else if (error$message ==
                         paste("incid must be a vector or a dataframe with either",
                               "i) a column called 'I', or",
                               "ii) 2 columns called 'local' and 'imported'.")) {
@@ -1002,7 +1002,7 @@ shiny::shinyServer(function(input, output, session) {
     )
     return()
   }
-  
+
   throw_error <- function(error_message, error_box_name = NULL, error=TRUE) {
     # Throws an error nicely. If you want to highlight a specific input in red,
     # give the id of that input (found in ui.R) as error_box_name. The
@@ -1024,7 +1024,7 @@ shiny::shinyServer(function(input, output, session) {
       stop("handled")
     }
   }
-  
+
   session$onSessionEnded(function() { #nolint
     check_async_data_being_loaded$suspend()
     if (file.exists(pid_file)) {
@@ -1037,7 +1037,7 @@ shiny::shinyServer(function(input, output, session) {
       file.remove(progress_file)
     }
   })
-  
+
   shiny::observeEvent(input$stop, {
     check_async_data_being_loaded$suspend()
     if (file.exists(pid_file)) {
@@ -1054,7 +1054,7 @@ shiny::shinyServer(function(input, output, session) {
     shinyjs::show("prev")
     values$status <- "Ready"
   })
-  
+
   observe({
     # This function removes the async_data$mcmc_samples whenever the
     # corresponding inputs change.
@@ -1069,7 +1069,7 @@ shiny::shinyServer(function(input, output, session) {
     input$n22
     input$burnin
     input$thin
-    
+
     async_data$mcmc_samples <<- NULL
     mcmc_samples <<- NULL
     async_data$si_sample_from_data <<- NULL
@@ -1077,6 +1077,6 @@ shiny::shinyServer(function(input, output, session) {
     async_data$convergence_check <<- NULL
     convergence_check <<- NULL
   })
-  
+
 }) # End shinyServer
 
