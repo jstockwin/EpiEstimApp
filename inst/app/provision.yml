@@ -1,0 +1,11 @@
+self: true
+packages:
+  - coarseDataTools
+  - EpiEstim
+  - future
+  - httr
+  - shiny
+  - shinyjs
+  - shinythemes
+  - tools
+  
