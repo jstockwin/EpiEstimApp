@@ -18,9 +18,11 @@ final_states <- c("7.3", "7.4", "7.5", "7.6", "8.1", "8.3", "9.1")
 # throw off our counts of how many MCMC processes are running.
 # To be sure this doesn't happen, we will clear the repsective folders
 # when this happens.
-appDir <- system.file("app", package="EpiEstimApp")
-mcmc_progress_folder <- paste(appDir, "mcmc-progress/progress/", sep="/")
-mcmc_pid_folder <- paste(appDir, "mcmc-progress/pid/", sep="/")
+logdir <- tempfile()
+mcmc_progress_folder <- paste(logdir, "mcmc-progress/progress/", sep="/")
+dir.create(mcmc_progress_folder, recursive = TRUE)
+mcmc_pid_folder <- paste(logdir, "mcmc-progress/pid/", sep="/")
+dir.create(mcmc_pid_folder, recursive = TRUE)
 
 if (length(list.files(path = mcmc_progress_folder, pattern = "*.txt")) > 0) {
   file.remove(paste(mcmc_progress_folder,
