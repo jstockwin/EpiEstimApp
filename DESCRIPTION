@@ -23,9 +23,9 @@ Remotes:
     annecori/EpiEstim,
     ropensci/RSelenium
 Suggests:
+    callr,
     testthat,
     RSelenium,
-    subprocess,
     compare
 License: GPL (>=2) | file LICENSE
 Encoding: UTF-8
