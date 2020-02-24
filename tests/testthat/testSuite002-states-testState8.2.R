@@ -50,7 +50,7 @@ tryCatch({
   })
 
   test_that("no errors are displaying", {
-    expect_true(isDisplayed(remDr, pages$common$selectors$error_message))
+    expect_false(isDisplayed(remDr, pages$common$selectors$error_message))
     expect_equal(getText(remDr, pages$common$selectors$error_message), "")
   })
 },
