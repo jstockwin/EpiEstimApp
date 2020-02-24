@@ -358,11 +358,11 @@ getRemDrivers <- function(name) {
   remDr <- remoteDriver(
     remoteServerAddr="localhost",
     port=4444L,
-    browser="firefox",
+    browser="chrome",
     extraCapabilities = c(
       list(
           "mox:firefoxOptions" = list(
-              args = list ("--headless", "--start-maximised")
+              args = list ("--headless", "--start-maximised", "--disable-dev-shm-usage")
           ),
           "screen-resolution" = "1080x1920"
       )

@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  shell:
+    build: .
+    command: R
+    volumes:
+      - .:/app
+    network_mode: host
+
+  tests:
+    build: .
+    command: R -e "devtools::check('/app')"
+    depends_on:
+      - chrome
+      - server
+    volumes:
+      - .:/app
+    network_mode: host
+
+  server:
+    build: .
+    expose:
+      - 3000
+    volumes:
+      - .:/app
+    network_mode: host
+
+  chrome:
+    image: selenium/standalone-chrome-debug:3.141.59-zirconium
+    ports:
+      - 5900:5900
+    volumes:
+      - ./inst/app:/data # Make data files available for uploading during tests
+    expose:
+      - 4444
+    network_mode: host
