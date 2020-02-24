@@ -1,10 +1,15 @@
+# EpiEstimApp 1.0.1
+
+## Bug fixes
+* Fix a bug (#190) where plot would not save correctly (#191, @jstockwin)
+
 # EpiEstimApp 1.0.0
 
 ## Misc
-* Update authors list to include @annecori and @zkamvar (https://github.com/jstockwin/EpiEstimApp/pull/185)
+* Update authors list to include @annecori and @zkamvar (#185)
 
 ## Bug fixes
-* Stop writing files to protected folders (https://github.com/jstockwin/EpiEstimApp/pull/184)
+* Stop writing files to protected folders (#184)
 
 # EpiEstimApp 0.1.0
 
