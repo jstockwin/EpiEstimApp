@@ -270,7 +270,7 @@ shiny::shinyServer(function(input, output, session) {
     }
   })
 
-  output$savePlot <- shiny::downloadHandler(
+  output$save_plot <- shiny::downloadHandler(
     filename = function() {"Plot.png"}, #nolint
     content = function(file) {
       if (!is.null(async_data$epi_estim_output)){

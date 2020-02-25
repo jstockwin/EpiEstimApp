@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 library(testthat)
 library(EpiEstimApp)
-library(subprocess)
+library(callr)
 library(devtools)
 library(httr)
 
@@ -15,8 +15,8 @@ R_binary <- function () {
 
 # Start the server
 cat("Starting app\n")
-handle <- spawn_process(R_binary(), c('--no-save'))
-process_write(handle, "EpiEstimApp::runEpiEstimApp(port=3000)\n")
+app_process = r_bg(function() {EpiEstimApp::runEpiEstimApp(port=3000)},
+                   stdout = "/tmp/out", stderr = "/tmp/err")
 cat("Waiting for app to start...\n")
 timeout <- 600
 t <- 0
@@ -40,12 +40,12 @@ tryCatch({
   error = function(e) {
     cat("An error occured.\n")
     cat("\n\n\nPrinting output from app's STDOUT:\n")
-    cat(process_read(handle, PIPE_STDOUT, timeout=1000), sep="\n")
+    readLines("/tmp/out")
     cat("\n\n\nPrinting output from app's STDERR:\n")
-    cat(process_read(handle, PIPE_STDERR), sep="\n")
+    readLines("/tmp/err")
     cat("Throwing error\n")
     stop(e)
   })
 cat("Closing App\n")
-process_kill(handle)
+app_process$kill()
 cat("Done running testthat\n")
