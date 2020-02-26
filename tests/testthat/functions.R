@@ -371,30 +371,7 @@ getRemDrivers <- function(name) {
 }
 
 openRemDriver <- function(remDr) {
-  # Sometimes the saucelabs job fails to start, just because it seems
-  # to be a bit dodgy. (A new saucelabs job starts for each test, and we
-  # have lots of tests, so even though it's unlikely to go wrong, it happens
-  # reasonably often.) To try and help this, we will retry the `remDr%$open
-  # command a few times if it fails the first time.
-  tries <- 5
-  t <- 0
-  done <- FALSE
-  wait <- 3
-  while (!done & t < tries) {
-    tryCatch({
-      remDr$open(silent=TRUE)
-      done <- TRUE
-    },
-    error = function(e) {
-      # Ignore error and try again
-      t <- t + 1
-      Sys.sleep(wait)
-    })
-  }
-  # One final try (will also ensure correct error is thrown)
-  if (!done) {
-    remDr$open(silent=TRUE)
-  }
+  remDr$open(silent=TRUE)
 }
 
 closeRemDrivers <- function(remDr, rDr) {
