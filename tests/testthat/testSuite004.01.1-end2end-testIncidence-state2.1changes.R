@@ -30,7 +30,7 @@ tryCatch({
     clickNext(remDr) # Move to state 2.1
     waitForStateDisplayed(remDr, "2.1")
     if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
@@ -107,7 +107,7 @@ tryCatch({
     clickNext(remDr) # Move to state 2.1
     waitForStateDisplayed(remDr, "2.1")
     if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
@@ -184,7 +184,7 @@ tryCatch({
     clickNext(remDr) # Move to state 2.1
     waitForStateDisplayed(remDr, "2.1")
     if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
@@ -261,7 +261,7 @@ tryCatch({
     clickNext(remDr) # Move to state 2.1
     waitForStateDisplayed(remDr, "2.1")
     if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
@@ -341,7 +341,7 @@ tryCatch({
     clickNext(remDr) # Move to state 2.1
     waitForStateDisplayed(remDr, "2.1")
     if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")

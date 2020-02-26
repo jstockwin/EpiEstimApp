@@ -42,7 +42,7 @@ tryCatch({
     clickNext(remDr) # Move to state 8.2
     waitForStateDisplayed(remDr, "8.2")
     if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
@@ -121,7 +121,7 @@ tryCatch({
     clickNext(remDr) # Move to state 8.2
     waitForStateDisplayed(remDr, "8.2")
     if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")

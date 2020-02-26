@@ -39,7 +39,7 @@ tryCatch({
     clickNext(remDr) # Move to state 7.5
     waitForStateDisplayed(remDr, "7.5")
     if (getAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "style", "display: block;")
@@ -107,7 +107,7 @@ tryCatch({
     clickNext(remDr) # Move to state 7.5
     waitForStateDisplayed(remDr, "7.5")
     if (getAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "style", "display: block;")
@@ -175,7 +175,7 @@ tryCatch({
     clickNext(remDr) # Move to state 7.5
     waitForStateDisplayed(remDr, "7.5")
     if (getAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "style", "display: block;")
@@ -243,7 +243,7 @@ tryCatch({
     clickNext(remDr) # Move to state 7.5
     waitForStateDisplayed(remDr, "7.5")
     if (getAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "style", "display: block;")
@@ -311,7 +311,7 @@ tryCatch({
     clickNext(remDr) # Move to state 7.5
     waitForStateDisplayed(remDr, "7.5")
     if (getAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "style", "display: block;")

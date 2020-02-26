@@ -24,7 +24,7 @@ tryCatch({
 
   test_that("Giving an invalid n2 throws correct error", {
     if (getAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
+      # Selenium gives an error about interacting with an element
       # which is not currently visible. Explicitly show the element
       # first to fix this?
       setAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "style", "display: block;")

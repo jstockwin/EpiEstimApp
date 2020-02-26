@@ -255,7 +255,7 @@ navigateToState <- function(remDr, state) {
            # We won't be able to move on unless we upload a
            # file...
            if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-             # SAUCELABS gives an error about interacting with an element
+             # Selenium gives an error about interacting with an element
              # which is not currently visible. Explicitly show the element
              # first to fix this?
              setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
@@ -333,7 +333,7 @@ navigateToState <- function(remDr, state) {
            # We won't be able to move on unless we upload a
            # file...
            if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
-             # SAUCELABS gives an error about interacting with an element
+             # Selenium gives an error about interacting with an element
              # which is not currently visible. Explicitly show the element
              # first to fix this?
              setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
