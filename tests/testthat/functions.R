@@ -254,15 +254,9 @@ navigateToState <- function(remDr, state) {
            navigateToState(remDr, "2.1")
            # We won't be able to move on unless we upload a
            # file...
-           if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-             # Selenium gives an error about interacting with an element
-             # which is not currently visible. Explicitly show the element
-             # first to fix this?
-             setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
-           }
            path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
-           sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input,
-                    path)
+           sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input, path)
+           waitForElemDisplayed(remDr, pages$state2.1$selectors$incidence_data_upload_complete)
            clickNext(remDr)
          },
          "4.1" = {
@@ -332,15 +326,9 @@ navigateToState <- function(remDr, state) {
            navigateToState(remDr, "8.2")
            # We won't be able to move on unless we upload a
            # file...
-           if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
-             # Selenium gives an error about interacting with an element
-             # which is not currently visible. Explicitly show the element
-             # first to fix this?
-             setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
-           }
            path <- getFilePath(remDr, "datasets/SerialIntervalData/H1N1NewYork2009.csv")
-           sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input,
-                    path)
+           sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input, path)
+           waitForElemDisplayed(remDr, pages$state8.2$selectors$si_data_upload_complete)
            clickNext(remDr)
          }
   )

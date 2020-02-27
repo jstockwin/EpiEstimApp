@@ -29,15 +29,9 @@ tryCatch({
     click(remDr, pages$state1.1$selectors$own_data_button)
     clickNext(remDr) # Move to state 2.1
     waitForStateDisplayed(remDr, "2.1")
-    if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-      # Selenium gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
-      sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
+    sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state2.1$selectors$incidence_data_upload_complete)
     clickNext(remDr) # Move to state 3.1
     waitForStateDisplayed(remDr, "3.1")
     click(remDr, pages$state3.1$selectors$imported_no_button)
@@ -106,15 +100,9 @@ tryCatch({
     click(remDr, pages$state1.1$selectors$own_data_button)
     clickNext(remDr) # Move to state 2.1
     waitForStateDisplayed(remDr, "2.1")
-    if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-      # Selenium gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/IncidenceData/RotavirusKiribati2013.csv") # <---
-      sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/IncidenceData/RotavirusKiribati2013.csv") # <---
+    sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state2.1$selectors$incidence_data_upload_complete)
     clickNext(remDr) # Move to state 3.1
     waitForStateDisplayed(remDr, "3.1")
     click(remDr, pages$state3.1$selectors$imported_no_button)
@@ -183,15 +171,9 @@ tryCatch({
     click(remDr, pages$state1.1$selectors$own_data_button)
     clickNext(remDr) # Move to state 2.1
     waitForStateDisplayed(remDr, "2.1")
-    if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-      # Selenium gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/IncidenceData/H1N1NewYork2009.csv") # <---
-      sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/IncidenceData/H1N1NewYork2009.csv") # <---
+    sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state2.1$selectors$incidence_data_upload_complete)
     clickNext(remDr) # Move to state 3.1
     waitForStateDisplayed(remDr, "3.1")
     click(remDr, pages$state3.1$selectors$imported_no_button)
@@ -260,15 +242,9 @@ tryCatch({
     click(remDr, pages$state1.1$selectors$own_data_button)
     clickNext(remDr) # Move to state 2.1
     waitForStateDisplayed(remDr, "2.1")
-    if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-      # Selenium gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
-      sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
+    sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state2.1$selectors$incidence_data_upload_complete)
     clear(remDr, pages$state2.1$selectors$mean_prior_input) # <---
     sendKeys(remDr, pages$state2.1$selectors$mean_prior_input, "6") # <---
     clickNext(remDr) # Move to state 3.1
@@ -340,15 +316,9 @@ tryCatch({
     click(remDr, pages$state1.1$selectors$own_data_button)
     clickNext(remDr) # Move to state 2.1
     waitForStateDisplayed(remDr, "2.1")
-    if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-      # Selenium gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
-      sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
+    sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state2.1$selectors$incidence_data_upload_complete)
     clear(remDr, pages$state2.1$selectors$std_prior_input) # <---
     sendKeys(remDr, pages$state2.1$selectors$std_prior_input, "6") # <---
     clickNext(remDr) # Move to state 3.1
