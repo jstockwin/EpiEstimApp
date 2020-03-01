@@ -254,15 +254,9 @@ navigateToState <- function(remDr, state) {
            navigateToState(remDr, "2.1")
            # We won't be able to move on unless we upload a
            # file...
-           if (getAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "value") == "") {
-             # SAUCELABS gives an error about interacting with an element
-             # which is not currently visible. Explicitly show the element
-             # first to fix this?
-             setAttribute(remDr, pages$state2.1$selectors$incidence_data_upload_input, "style", "display: block;")
-           }
            path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
-           sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input,
-                    path)
+           sendKeys(remDr, pages$state2.1$selectors$incidence_data_upload_input, path)
+           waitForElemDisplayed(remDr, pages$state2.1$selectors$incidence_data_upload_complete)
            clickNext(remDr)
          },
          "4.1" = {
@@ -332,15 +326,9 @@ navigateToState <- function(remDr, state) {
            navigateToState(remDr, "8.2")
            # We won't be able to move on unless we upload a
            # file...
-           if (getAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "value") == "") {
-             # SAUCELABS gives an error about interacting with an element
-             # which is not currently visible. Explicitly show the element
-             # first to fix this?
-             setAttribute(remDr, pages$state8.2$selectors$si_data_upload_input, "style", "display: block;")
-           }
            path <- getFilePath(remDr, "datasets/SerialIntervalData/H1N1NewYork2009.csv")
-           sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input,
-                    path)
+           sendKeys(remDr, pages$state8.2$selectors$si_data_upload_input, path)
+           waitForElemDisplayed(remDr, pages$state8.2$selectors$si_data_upload_complete)
            clickNext(remDr)
          }
   )
@@ -358,11 +346,11 @@ getRemDrivers <- function(name) {
   remDr <- remoteDriver(
     remoteServerAddr="localhost",
     port=4444L,
-    browser="firefox",
+    browser="chrome",
     extraCapabilities = c(
       list(
           "mox:firefoxOptions" = list(
-              args = list ("--headless", "--start-maximised")
+              args = list ("--headless", "--start-maximised", "--disable-dev-shm-usage")
           ),
           "screen-resolution" = "1080x1920"
       )
@@ -371,30 +359,7 @@ getRemDrivers <- function(name) {
 }
 
 openRemDriver <- function(remDr) {
-  # Sometimes the saucelabs job fails to start, just because it seems
-  # to be a bit dodgy. (A new saucelabs job starts for each test, and we
-  # have lots of tests, so even though it's unlikely to go wrong, it happens
-  # reasonably often.) To try and help this, we will retry the `remDr%$open
-  # command a few times if it fails the first time.
-  tries <- 5
-  t <- 0
-  done <- FALSE
-  wait <- 3
-  while (!done & t < tries) {
-    tryCatch({
-      remDr$open(silent=TRUE)
-      done <- TRUE
-    },
-    error = function(e) {
-      # Ignore error and try again
-      t <- t + 1
-      Sys.sleep(wait)
-    })
-  }
-  # One final try (will also ensure correct error is thrown)
-  if (!done) {
-    remDr$open(silent=TRUE)
-  }
+  remDr$open(silent=TRUE)
 }
 
 closeRemDrivers <- function(remDr, rDr) {

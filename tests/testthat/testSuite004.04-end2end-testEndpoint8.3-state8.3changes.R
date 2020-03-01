@@ -41,15 +41,9 @@ tryCatch({
     click(remDr, pages$state7.2$selectors$si_from_sample_button)
     clickNext(remDr) # Move to state 8.3
     waitForStateDisplayed(remDr, "8.3")
-    if (getAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv")
-      sendKeys(remDr, pages$state8.3$selectors$si_sample_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_G.csv")
+    sendKeys(remDr, pages$state8.3$selectors$si_sample_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state8.3$selectors$si_sample_data_upload_complete)
     sendKeys(remDr, pages$state8.3$selectors$seed_input, "1")
     clickGo(remDr)
     Sys.sleep(1)
@@ -114,15 +108,9 @@ tryCatch({
     click(remDr, pages$state7.2$selectors$si_from_sample_button)
     clickNext(remDr) # Move to state 8.3
     waitForStateDisplayed(remDr, "8.3")
-    if (getAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_W.csv")
-      sendKeys(remDr, pages$state8.3$selectors$si_sample_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/SIPosteriorSamples/RotavirusEcuador2011_SISamples_W.csv")
+    sendKeys(remDr, pages$state8.3$selectors$si_sample_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state8.3$selectors$si_sample_data_upload_complete)
     sendKeys(remDr, pages$state8.3$selectors$seed_input, "1")
     clickGo(remDr)
     Sys.sleep(1)
@@ -189,15 +177,9 @@ tryCatch({
     click(remDr, pages$state7.2$selectors$si_from_sample_button)
     clickNext(remDr) # Move to state 8.3
     waitForStateDisplayed(remDr, "8.3")
-    if (getAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state8.3$selectors$si_sample_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SIPosteriorSamples/H1N1NewYork2009_SISamples_G.csv")
-      sendKeys(remDr, pages$state8.3$selectors$si_sample_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/SIPosteriorSamples/H1N1NewYork2009_SISamples_G.csv")
+    sendKeys(remDr, pages$state8.3$selectors$si_sample_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state8.3$selectors$si_sample_data_upload_complete)
     sendKeys(remDr, pages$state8.3$selectors$seed_input, "1")
     clickGo(remDr)
     Sys.sleep(1)

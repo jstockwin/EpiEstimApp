@@ -38,15 +38,9 @@ tryCatch({
     click(remDr, pages$state6.2$selectors$si_est_type_option_3_button)
     clickNext(remDr) # Move to state 7.5
     waitForStateDisplayed(remDr, "7.5")
-    if (getAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/H1N1Maryland1918.csv")
-      sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/H1N1Maryland1918.csv")
+    sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state7.5$selectors$si_distr_data_upload_complete)
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -106,15 +100,9 @@ tryCatch({
     click(remDr, pages$state6.2$selectors$si_est_type_option_3_button)
     clickNext(remDr) # Move to state 7.5
     waitForStateDisplayed(remDr, "7.5")
-    if (getAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/H1N1Pennsylvania2009.csv")
-      sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/H1N1Pennsylvania2009.csv")
+    sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state7.5$selectors$si_distr_data_upload_complete)
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -174,15 +162,9 @@ tryCatch({
     click(remDr, pages$state6.2$selectors$si_est_type_option_3_button)
     clickNext(remDr) # Move to state 7.5
     waitForStateDisplayed(remDr, "7.5")
-    if (getAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/MeaslesGermany1861.csv")
-      sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/MeaslesGermany1861.csv")
+    sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state7.5$selectors$si_distr_data_upload_complete)
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -242,15 +224,9 @@ tryCatch({
     click(remDr, pages$state6.2$selectors$si_est_type_option_3_button)
     clickNext(remDr) # Move to state 7.5
     waitForStateDisplayed(remDr, "7.5")
-    if (getAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/SARSHongKong2003.csv")
-      sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/SARSHongKong2003.csv")
+    sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state7.5$selectors$si_distr_data_upload_complete)
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)
@@ -310,15 +286,9 @@ tryCatch({
     click(remDr, pages$state6.2$selectors$si_est_type_option_3_button)
     clickNext(remDr) # Move to state 7.5
     waitForStateDisplayed(remDr, "7.5")
-    if (getAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "value") == "") {
-      # SAUCELABS gives an error about interacting with an element
-      # which is not currently visible. Explicitly show the element
-      # first to fix this?
-      setAttribute(remDr, pages$state7.5$selectors$si_distr_data_upload_input, "style", "display: block;")
-      path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/SmallpoxKosovo1972.csv")
-      sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input,
-               path)
-    }
+    path <- getFilePath(remDr, "datasets/SerialIntervalDistributions/SmallpoxKosovo1972.csv")
+    sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state7.5$selectors$si_distr_data_upload_complete)
     clickGo(remDr)
     Sys.sleep(1)
     waitForAppReady(remDr)

@@ -43,6 +43,7 @@ pages <- list(
             incidence_data_upload_label="//div[@id='incidence_data_error_box']/div/label",
             incidenceDataUpload_browse="//div[@id='incidence_data_error_box']//span",
             incidence_data_upload_input="//input[@id='incidence_data']",
+            incidence_data_upload_complete="//div[@id='incidence_data_progress']//div[@class='progress-bar' and contains(text(), 'Upload complete')]",
             incidence_data_upload_text="//div[@id='incidence_data_error_box']//input[@type='text']",
             incidence_header_button="//input[@id='incidence_header']",
             uploaded_width_label="//label[@for='uploaded_width']",
@@ -93,6 +94,7 @@ pages <- list(
             imported_data_upload_label="//div[@id='imported_data_error_box']/div/label",
             imported_data_upload_browse="//div[@id='imported_data_error_box']//span",
             imported_data_upload_input="//input[@id='imported_data']",
+            imported_data_upload_complete="//div[@id='imported_data_progress']//div[@class='progress-bar' and contains(text(), 'Upload complete')]",
             imported_data_upload_text="//div[@id='imported_data_error_box']//input[@type='text']",
             importedHeader_button="//input[@id='imported_header']"
         )
@@ -190,6 +192,7 @@ pages <- list(
             si_distr_data_upload_label="//div[@id='si_distr_data_error_box']/div/label",
             si_distr_data_upload_browse="//div[@id='si_distr_data_error_box']//span",
             si_distr_data_upload_input="//input[@id='si_distr_data']",
+            si_distr_data_upload_complete="//div[@id='si_distr_data_progress']//div[@class='progress-bar' and contains(text(), 'Upload complete')]",
             si_distr_data_upload_text="//div[@id='si_distr_data_error_box']//input[@type='text']",
             si_distr_header_button="//input[@id='si_distr_header']"
         )
@@ -235,6 +238,7 @@ pages <- list(
             si_data_upload_label="//div[@id='si_data_error_box']/div/label",
             si_data_upload_browse="//div[@id='si_data_error_box']//span",
             si_data_upload_input="//input[@id='si_data']",
+            si_data_upload_complete="//div[@id='si_data_progress']//div[@class='progress-bar' and contains(text(), 'Upload complete')]",
             si_data_upload_text="//div[@id='si_data_error_box']//input[@type='text']",
             si_header_button="//input[@id='si_header']",
             seed_label="//label[@for='uploaded_si_seed']",
@@ -246,6 +250,7 @@ pages <- list(
             si_sample_data_upload_label="//div[@id='si_sample_data_error_box']/div/label",
             si_sample_data_upload_browse="//div[@id='si_sample_data_error_box']//span",
             si_sample_data_upload_input="//input[@id='si_sample_data']",
+            si_sample_data_upload_complete="//div[@id='si_sample_data_progress']//div[@class='progress-bar' and contains(text(), 'Upload complete')]",
             si_sample_data_upload_text="//div[@id='si_sample_data_error_box']//input[@type='text']",
             si_sample_header_button="//input[@id='si_sample_header']",
             n2_label="//label[@for='n23']",

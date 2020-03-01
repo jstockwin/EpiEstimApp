@@ -1,0 +1,25 @@
+name: Continuous Integration Tests
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the tests container
+        run: docker-compose build tests
+      - name: Build the server container
+        run: docker-compose build server
+      - name: Pull the chrome container
+        run: docker-compose pull chrome
+      - name: Run the tests container
+        run: docker-compose run --rm tests
+
+      - name: Show docker ps output
+        if: failure()
+        run: docker ps -a
+      - name: Show server logs
+        if: failure()
+        run: docker logs epiestimapp_server_1
+      - name: Show chrome logs
+        if: failure()
+        run: docker logs epiestimapp_chrome_1

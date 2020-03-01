@@ -35,6 +35,7 @@ tryCatch({
     path <- getFilePath(remDr, "utils.R")
     #path <- getFilePath(remDr, "datasets/IncidenceData/H1N1Pennsylvania2009.csv")
     sendKeys(remDr, pages$state7.5$selectors$si_distr_data_upload_input, path)
+    waitForElemDisplayed(remDr, pages$state7.5$selectors$si_distr_data_upload_complete)
     clickGo(remDr)
     Sys.sleep(1)
     checkError(remDr, "The uploaded file must be a .csv file", "si_distr_data")
