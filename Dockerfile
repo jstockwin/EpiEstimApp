@@ -2,7 +2,7 @@ FROM r-base:3.6.2
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --allow-downgrades \
-    libcurl4=7.67.0-2 \
+    libcurl4 \
     libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
