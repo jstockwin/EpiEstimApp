@@ -1,4 +1,4 @@
-# EpiEstimApp 1.0.1
+# EpiEstimApp 1.0.2
 
 ## Misc
 * Bump EpiEstim dependency, which has fixed some bugs
