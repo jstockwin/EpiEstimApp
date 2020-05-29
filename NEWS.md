@@ -1,5 +1,10 @@
 # EpiEstimApp 1.0.1
 
+## Misc
+* Bump EpiEstim dependency, which has fixed some bugs
+
+# EpiEstimApp 1.0.1
+
 ## Bug fixes
 * Fix a bug (#190) where plot would not save correctly (#191, @jstockwin)
 
