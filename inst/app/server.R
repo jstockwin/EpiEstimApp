@@ -1,4 +1,4 @@
-future::plan(future::multiprocess)
+future::plan(future::multisession)
 
 
 # Source necessary files
